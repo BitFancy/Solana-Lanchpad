@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import { FaBars } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 
 import Image from "next/image";
-import { ConnectWallet } from '@thirdweb-dev/react';
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
@@ -14,9 +14,8 @@ export default function Header() {
   };
   return (
     <div>
-        
-        <div className="flex items-center justify-between bg-current">
-          <div className='flex items-center'>
+      <div className="flex items-center justify-between bg-current">
+        <div className="flex items-center">
           <FaBars
             onClick={handleNav}
             className="lg:hidden cursor-pointer text-2xl text-gray-500 dark:text-white"
@@ -36,11 +35,16 @@ export default function Header() {
               MarketPlace
             </div>
           </Link>
-          </div>
-          <div >
-                      <ConnectWallet className="bg-gradient-to-r from-indigo-500 via-purple-500 to-gray-500 ..." />
-                    </div>
         </div>
+        <div className="flex text-white gap-40 ">
+          <div>Launch</div>
+          <div>Dashboard</div>
+          <div>Manage</div>
+        </div>
+        <div>
+          <ConnectWallet className="bg-gradient-to-r from-indigo-500 via-purple-500 to-gray-500 ..." />
+        </div>
+      </div>
     </div>
-  )
+  );
 }
