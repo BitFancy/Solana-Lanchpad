@@ -1,26 +1,28 @@
-import Layout from "@/Components/Layout";
 import React from "react";
+import { InputText } from 'primereact/inputtext';
 
 export default function UpdateMarketPlace() {
   return (
-    <Layout title="Step one" description="Used to deploy contract">
+    // <Layout title="Step one" description="Used to deploy contract">
       <div>
-        <div className="border-b-2 border-indigo-500 ... p-5 font-bold">
+        <div className="card p-5 font-bold">
           Step 1 : Update Parameters{" "}
         </div>
-        <div className="flex p-2 justify-around">
+        <div className="card">
+        <div className="flex p-2 justify-content-around">
           <div>Enter new marketplace fee</div>
           <div>Enter payout address</div>
         </div>
-        <div className="flex p-2 justify-around">
+        <div className="flex p-2 justify-content-around">
           <div>
-            <input className="p-2" type="number"></input>
+            <InputText className="p-2" type="number"/>
           </div>
           <div>
-            <input className="p-2" type="text"></input>
+            <InputText className="p-2" type="text"/>
           </div>
         </div>
+        </div>
       </div>
-    </Layout>
+    // </Layout>
   );
 }

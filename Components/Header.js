@@ -2,7 +2,7 @@ import React from "react";
 import { FaBars } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
-
+import DarkTheme from './DarkTheme'
 import Image from "next/image";
 import { ConnectWallet } from "@thirdweb-dev/react";
 
@@ -39,7 +39,24 @@ export default function Header() {
         <div className="flex text-white gap-40 ">
           <div>Launch</div>
           <div>Dashboard</div>
+          <Link className="text-gray-500 dark:text-white" href="/dashboard">
+                {/* <NavLink
+                  className={router.pathname == "/dashboard" ? "active" : ""}
+                >
+                  Dashboard
+                </NavLink> */}
+              </Link>
           <div>Manage</div>
+          <Link className="text-gray-500 dark:text-white" href="/dashboard">
+                {/* <NavLink
+                  className={router.pathname == "/dashboard" ? "active" : ""}
+                >
+                  Manage
+                </NavLink> */}
+              </Link>
+        </div>
+        <div>
+          <DarkTheme/>
         </div>
         <div>
           <ConnectWallet className="bg-gradient-to-r from-indigo-500 via-purple-500 to-gray-500 ..." />

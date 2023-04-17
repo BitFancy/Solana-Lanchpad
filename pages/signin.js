@@ -1,14 +1,15 @@
 import React from 'react'
-import Layout from "../Components/Layout";
 
 import { SocialIcon } from 'react-social-icons';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 export default function SignIn() {
   return (
-    <Layout
-    title="Sign In"
-    description="Used to Sign in"
-  >
+//     <Layout
+//     title="Sign In"
+//     description="Used to Sign in"
+//   >
     <div>
       <div className='text-center'>
       <div className='text-center mt-10 '>
@@ -25,18 +26,20 @@ export default function SignIn() {
         <div className='border-b-2 border-indigo-500 ... p-5'>
           <div>Email</div>
           <div className='mt-3'>
-            <input className='rounded-full p-3.5 w-5/12' placeholder='Email'></input>
+            <InputText className='rounded-full p-3.5 w-5/12' placeholder='Email'/>
           </div>
           <div className='mt-5'>
-           <button className='bg-blue-500 rounded-full text-white p-2.5 w-5/12'>continue With Email</button>
+           <Button label="continue With Email" severity="Primary" rounded />
+
           </div>
         </div>
         <div className='mt-5'>EXTERNAL WALLET</div>
         <div className='mt-3'>
-          <button className='bg-blue-500 rounded-full text-white p-2.5 w-5/12'>Connect with wallet</button>
+          <Button label="Connect with wallet" severity="Primary" rounded />
+
         </div>
         </div>
     </div>
-    </Layout>
+    // {/* </Layout> */}
   )
 }

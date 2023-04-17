@@ -1,11 +1,10 @@
-import Layout from "@/Components/Layout";
 import React from "react";
 import { Badge } from "primereact/badge";
 import { Divider } from 'primereact/divider';
 
 export default function LiveOffLine() {
   return (
-    <Layout title="Step one" description="Used to deploy contract">
+    // <Layout title="Step one" description="Used to deploy contract">
       <div>
         <div className="card">
           <div className="flex font-bold justify-around mt-10  ">
@@ -13,7 +12,7 @@ export default function LiveOffLine() {
             <div>Status</div>
           </div>
           <Divider />
-          <div className="flex justify-around mt-5">
+          <div className="flex justify-content-around mt-5">
             <div> 1. Demo</div>
             <div className="flex gap-2">
               <div>
@@ -25,7 +24,7 @@ export default function LiveOffLine() {
           </div>
           <Divider />
 
-            <div className="flex justify-around mt-5">
+            <div className="flex justify-content-around mt-5">
             <div>2. Demo</div>
             <div className="flex gap-2">
               <div>
@@ -37,6 +36,6 @@ export default function LiveOffLine() {
           </div>
         </div>
       </div>
-    </Layout>
+    // {/* </Layout> */}
   );
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { NavLink } from "reactstrap";
 import Image from "next/image";
+import { SocialIcon } from "react-social-icons";
 
 const Footer = () => {
   let date = new Date();
@@ -115,33 +116,10 @@ const Footer = () => {
               </div>
 
               <div className="flex gap-x-4 items-center mt-5">
-                <Link
-                  href="https://t.me/MyriadFlow"
-                  target="_blank"
-                  className="hover:text-sky-700 text-gray-500 dark:text-white border-solid border-2 border-indigo-600 ... p-1"
-                >
-                  <div className="hover:text-sky-500">
-                    <TelegramIcon />
-                  </div>
-                </Link>
-                <Link
-                  href="https://twitter.com/0xMyriadFlow"
-                  target="_blank"
-                  className="hover:text-sky-700 text-gray-500 dark:text-white border-solid border-2 border-indigo-600 ... p-1"
-                >
-                  <div className="hover:text-sky-500">
-                    <TwitterIcon />
-                  </div>
-                </Link>
-                <Link
-                  href="https://discord.gg/38jktRtuY7"
-                  target="_blank"
-                  className="hover:text-sky-700 text-gray-500 dark:text-white border-solid border-2 border-indigo-600 ... p-1"
-                >
-                  <div className="hover:text-sky-500">
-                    <SiDiscord size={22} />
-                  </div>
-                </Link>
+                  <div><SocialIcon url="https://t.me/MyriadFlow" network="telegram" /></div>
+                <div><SocialIcon url="https://twitter.com/0xMyriadFlow" network="twitter" /></div>
+                <div><SocialIcon url="https://discord.gg/38jktRtuY7" network="discord" /></div>
+
               </div>
             </div>
           </div>

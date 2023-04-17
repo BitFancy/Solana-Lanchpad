@@ -1,14 +1,13 @@
-import Layout from '@/Components/Layout'
 import { Button } from 'primereact/button'
 import React from 'react'
 
 export default function SuccessNote() {
   
     return (
-        <Layout
-        title="Success note of the storefront deployment"
-        description="Used to show the congratulations message"
-      >
+    //     <Layout
+    //     title="Success note of the storefront deployment"
+    //     description="Used to show the congratulations message"
+    //   >
 <div>
     <div className='text-center'>
     <div className='flex justify-center mt-10 gap-10'>
@@ -32,6 +31,6 @@ Settled!</div>
 </div>
     </div>
 
-        </Layout>
+        // </Layout>
   )
 }
