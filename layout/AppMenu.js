@@ -24,10 +24,18 @@ const AppMenu = () => {
                 { label: 'Step One', icon: 'pi pi-fw pi-id-card', to: '/step1' },
                 { label: 'Step Two', icon: 'pi pi-fw pi-id-card', to: '/step2' },
                 { label: 'Update marketPlace', icon: 'pi pi-fw pi-id-card', to: '/updatemarketplace' },
+                { label: 'NFTs Launch', icon: 'pi pi-fw pi-id-card', to: '/nftLaunch' },
+                { label: 'Overview', icon: 'pi pi-fw pi-id-card', to: '/overview' },
+                { label: 'Sign In', icon: 'pi pi-fw pi-id-card', to: '/signin' },
+                { label: 'Logout', icon: 'pi pi-fw pi-id-card', to: '/logout' },
 
 
 
-                { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
+
+
+
+
+                // { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
 
                 // { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
                 // { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/uikit/floatlabel' },

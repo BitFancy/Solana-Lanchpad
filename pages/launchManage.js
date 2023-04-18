@@ -4,7 +4,6 @@ import React from "react";
 
 export default function LunchManage() {
   return (
-    // <Layout title="launchpad Manage page" description="Used to manage the collection">
     <div>
       <div>
         <div className="font-bold ml-5 mt-10">Manage your collection</div>
@@ -57,6 +56,5 @@ export default function LunchManage() {
           
       </div>
       </div>
-    // {/* </Layout> */}
   )
 }
