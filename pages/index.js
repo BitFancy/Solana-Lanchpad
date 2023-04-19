@@ -30,95 +30,95 @@ const lineData = {
 };
 
 const Dashboard = () => {
-    const [products, setProducts] = useState(null);
-    const menu1 = useRef(null);
-    const menu2 = useRef(null);
-    const [lineOptions, setLineOptions] = useState(null);
-    const { layoutConfig } = useContext(LayoutContext);
+    // const [products, setProducts] = useState(null);
+    // const menu1 = useRef(null);
+    // const menu2 = useRef(null);
+    // const [lineOptions, setLineOptions] = useState(null);
+    // const { layoutConfig } = useContext(LayoutContext);
 
-    const applyLightTheme = () => {
-        const lineOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#495057'
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#495057'
-                    },
-                    grid: {
-                        color: '#ebedef'
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: '#495057'
-                    },
-                    grid: {
-                        color: '#ebedef'
-                    }
-                }
-            }
-        };
+    // const applyLightTheme = () => {
+    //     const lineOptions = {
+    //         plugins: {
+    //             legend: {
+    //                 labels: {
+    //                     color: '#495057'
+    //                 }
+    //             }
+    //         },
+    //         scales: {
+    //             x: {
+    //                 ticks: {
+    //                     color: '#495057'
+    //                 },
+    //                 grid: {
+    //                     color: '#ebedef'
+    //                 }
+    //             },
+    //             y: {
+    //                 ticks: {
+    //                     color: '#495057'
+    //                 },
+    //                 grid: {
+    //                     color: '#ebedef'
+    //                 }
+    //             }
+    //         }
+    //     };
 
-        setLineOptions(lineOptions);
-    };
+    //     setLineOptions(lineOptions);
+    // };
 
-    const applyDarkTheme = () => {
-        const lineOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#ebedef'
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#ebedef'
-                    },
-                    grid: {
-                        color: 'rgba(160, 167, 181, .3)'
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: '#ebedef'
-                    },
-                    grid: {
-                        color: 'rgba(160, 167, 181, .3)'
-                    }
-                }
-            }
-        };
+    // const applyDarkTheme = () => {
+    //     const lineOptions = {
+    //         plugins: {
+    //             legend: {
+    //                 labels: {
+    //                     color: '#ebedef'
+    //                 }
+    //             }
+    //         },
+    //         scales: {
+    //             x: {
+    //                 ticks: {
+    //                     color: '#ebedef'
+    //                 },
+    //                 grid: {
+    //                     color: 'rgba(160, 167, 181, .3)'
+    //                 }
+    //             },
+    //             y: {
+    //                 ticks: {
+    //                     color: '#ebedef'
+    //                 },
+    //                 grid: {
+    //                     color: 'rgba(160, 167, 181, .3)'
+    //                 }
+    //             }
+    //         }
+    //     };
 
-        setLineOptions(lineOptions);
-    };
+    //     setLineOptions(lineOptions);
+    // };
 
-    useEffect(() => {
-        ProductService.getProductsSmall().then((data) => setProducts(data));
-    }, []);
+    // useEffect(() => {
+    //     ProductService.getProductsSmall().then((data) => setProducts(data));
+    // }, []);
 
-    useEffect(() => {
-        if (layoutConfig.colorScheme === 'light') {
-            applyLightTheme();
-        } else {
-            applyDarkTheme();
-        }
-    }, [layoutConfig.colorScheme]);
+    // useEffect(() => {
+    //     if (layoutConfig.colorScheme === 'light') {
+    //         applyLightTheme();
+    //     } else {
+    //         applyDarkTheme();
+    //     }
+    // }, [layoutConfig.colorScheme]);
 
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    };
+    // const formatCurrency = (value) => {
+    //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    // };
 
     return (
         <div className="grid">
-            <div className="col-12 lg:col-6 xl:col-3">
+            {/* <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
@@ -374,7 +374,8 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <div>Dashboard</div>
         </div>
     );
 };
