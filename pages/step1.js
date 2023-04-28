@@ -29,7 +29,7 @@ export default function Step1() {
         });
     });
     msgs.current.show([
-        { sticky: true, severity: 'success', detail: 'Your contract has been  successfully deployed', closable: false },
+        { sticky: true, severity: 'success', detail: 'Your contract has been  successfully deployed', closable: true },
        
     ]);
   };
