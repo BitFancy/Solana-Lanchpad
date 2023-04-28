@@ -1,8 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState,useEffect ,useRef} from "react";
-import marketplaceAbi from "../artifacts/contracts/Marketplace.sol/Marketplace.json";
-import marketbytecode from "../artifacts/bytecode/marketbytecode.json";
+import React, { useState ,useRef} from "react";
+import marketplaceAbi from "../artifacts/contracts/FLOWMARKETPLACE/FlowMarketplace.sol/FlowMarketplace.json";
 import { Messages } from 'primereact/messages';
 
 import Web3 from "web3";
@@ -12,7 +11,6 @@ export default function Step1() {
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
-//   const [msgs, setMesg] = useState("");
 
   var web3 = new Web3(Web3.givenProvider);
   const marketPlaceContract = () => {
@@ -20,10 +18,11 @@ export default function Step1() {
     web3.eth.getAccounts().then((accounts) => {
       marketplaceContarct
         .deploy({
-          data: marketbytecode,
-          arguments: [_platformFee],
+          data: marketplaceAbi.bytecode,
+          arguments: [_platformFee,contractName,process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS],
+
         })
-        .send({ from: accounts[0], gas: 4700000 })
+        .send({ from: accounts[0], gas: 259773 })
         .on("receipt", (receipt) => {
           console.log("Contract Address:", receipt.contractAddress);
           setMarketplaceContarctA(receipt.contractAddress);
