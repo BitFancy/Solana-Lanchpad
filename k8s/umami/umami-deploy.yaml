@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+spec:
+  selector:
+    matchLabels:
+      app: umami
+  template:
+    metadata:
+      labels:
+        app: umami
+    spec:
+      containers:
+        - name: umami
+          image: ghcr.io/mikecao/umami:postgresql-latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: "DATABASE_URL"
+              value: "postgresql://umami:umami@postgres-svc:5432/umami"
+            - name: "DATABASE_TYPE"
+              value: "postgresql"
+            - name: "HASH_SALT"
+              value: "web3isbestandweshouldlearnit"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: umami-service
+spec:
+  type: NodePort
+  selector:
+    app: umami
+  ports:
+    - port: 3000
+      targetPort: 3000

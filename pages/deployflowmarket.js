@@ -4,7 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import marketplaceAbi from '../artifacts/contracts/flow-accesscontrol/FlowAccessControl.sol/FlowAccessControl.json';
 import Web3 from "web3";
 
-export default function deployflowmarket() {
+export default function Deployflowmarket() {
     const [visible, setVisible] = useState(false);
     const msgs = useRef(null);
 

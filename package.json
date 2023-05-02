@@ -8,7 +8,9 @@
     "start": "next start",
     "export": "next build && next export",
     "lint": "next lint",
-    "format": "prettier --write \"**/**/*.{js,ts,tsx}\""
+    "format": "prettier --write \"**/**/*.{js,ts,tsx}\"",
+    "postbuild": "next-sitemap --config awesome.config.js"
+    
   },
   "dependencies": {
     "@3rdweb/hooks": "^1.9.2",
