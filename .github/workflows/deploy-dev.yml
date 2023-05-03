@@ -31,14 +31,10 @@ jobs:
       - name: NextJS Build 
         run: |
           npm ci
-          if [ "$GITHUB_REF_NAME" = main ]; then echo $DEV_ENV_FILE | base64 --decode > .env; fi
-          if [ "$GITHUB_REF_NAME" = staging ]; then echo $STAGING_ENV_FILE | base64 --decode > .env; fi
-          if [ "$GITHUB_REF_NAME" = prod ]; then echo $PROD_ENV_FILE | base64 --decode > .env; fi
+          echo "Running Installing Dependencies"
           npm run build
         env:
-          DEV_ENV_FILE: ${{secrets.DEV_ENV_FILE}}
-          STAGING_ENV_FILE: ${{secrets.STAGING_ENV_FILE}}
-          PROD_ENV_FILE: ${{secrets.PROD_ENV_FILE}}
+           CI:true
       
       - name: Upload Next build          # Upload the artifact
         uses: actions/upload-artifact@v2
@@ -56,41 +52,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
       - name: Download next build       # Download the above uploaded artifact
         uses: actions/download-artifact@v2
         with:
           name: build
-        
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_TOKEN }}
+       
+deploy:
+   name: Deployment
+   runs-on: ubuntu-latest
+      needs: [next-build,ghcr-push]
+      steps: 
+      -name: Install Dependencies
+       run: |
+         echo "Deployment in progress...."
+
       
-      - name: Build and Push Docker Image
-        run: |
-          export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
-          export TAG=$([[ $CURRENT_BRANCH == "main" ]] && echo $CURRENT_BRANCH || echo "latest")
-          export GITHUB_REF_IMAGE=ghcr.io/myriadflow/storefront-webapp:$GITHUB_SHA
-          export GITHUB_BRANCH_IMAGE=ghcr.io/myriadflow/storefront-webapp:$TAG
-          docker build -t $GITHUB_REF_IMAGE -t $GITHUB_BRANCH_IMAGE .
-          echo "Pushing Image to GitHub Container Registry"
-          docker push $GITHUB_REF_IMAGE
-          docker push $GITHUB_BRANCH_IMAGE
-      
-      - name: Deploy on Dev server 
-        uses: appleboy/ssh-action@v0.1.7
-        with:         
-          host: ${{ secrets.DEV_REMOTE_SERVER_ADDRESS }}
-          username: ${{ secrets.DEV_SERVER_USERNAME }}
-          key:  ${{ secrets.DEV_REMOTE_SERVER_KEY }}
-          port: ${{ secrets.DEV_SSH_PORT }}
-          script: |
-            pwd
-            cd ~
-            podman pull ghcr.io/myriadflow/storefront-webapp:main
-            podman stop storefront-webapp
-            podman rm storefront-webapp
-            podman run --name="storefront-webapp" -p 9082:3000 -d ghcr.io/myriadflow/storefront-webapp:main
