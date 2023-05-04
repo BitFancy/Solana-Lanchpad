@@ -1,26 +1,7 @@
-name: "[DEV] Build, Push and Deploy to Dev Server"
-
-on:
-  push:
-    branches: [main]
-
+name: Test
+on: push
 jobs:
-  next-build:
-    name: Buid Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code Checkout
-        uses: actions/checkout@v3       
-      - name: NextJS Build 
-        run: |
-          npm ci
-          echo "Running Installing Dependencies"
-          npm run build
-        env:
-           CI:true
-
   test:
-    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,16 +9,3 @@ jobs:
         run: npm ci
       - name: test
         run: npm run test
-       
-deploy:
-   name: Deployment
-   runs-on: ubuntu-latest
-      needs: [next-build,test]
-      steps: 
-      -name: Install Dependencies
-       run: |
-         echo "Deployment in progress...."
-
-      
-
-
