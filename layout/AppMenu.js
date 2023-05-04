@@ -21,7 +21,7 @@ const AppMenu = () => {
                 { label: 'Step5 Theme', icon: 'pi pi-fw pi-id-card', to: '/step5theme' },
                 { label: 'Launchpad', icon: 'pi pi-fw pi-id-card', to: '/launchpad' },
                 { label: 'Live Offline', icon: 'pi pi-fw pi-id-card', to: '/liveOffline' },
-                { label: 'Deploy Flow Marketplace', icon: 'pi pi-fw pi-id-card', to: '/deployflowmarket' },
+                { label: 'Deploy Flow Access Control', icon: 'pi pi-fw pi-id-card', to: '/deployflowaccessControl' },
 
                 { label: 'Step One', icon: 'pi pi-fw pi-id-card', to: '/step1' },
                 { label: 'Step Two', icon: 'pi pi-fw pi-id-card', to: '/step2' },

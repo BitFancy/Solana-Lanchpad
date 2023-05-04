@@ -20,14 +20,8 @@ export default function Dashboard() {
           <div className="font-bold p-5" style={{borderRight:"1px solid"}}>
             <div className="mt-5">Edition</div>
             <div className="mt-5">Collection</div>
-            <div className="mt-5">AIREX</div>
-            <div className="mt-5">Subscription NFTs</div>
-            <div className="mt-5">Phygital NFTs</div>
             <div className="mt-5">Roles</div>
             <div className="mt-5">Marketplace</div>
-            <div className="mt-5">Gateway</div>
-            <div className="mt-5">Frontend</div>
-            <div className="mt-5">Metaverse</div>
           </div>
           <div className="w-full ml-5">
              <div>

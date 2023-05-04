@@ -39,48 +39,6 @@ export default function Lunchpad() {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-content-around mt-16 card">
-          
-          <div className="bg-black text-black p-7 text-center card" style={{marginBottom:"0px"}}>
-            <div className="font-bold">AIREX</div>
-
-            <div className="mt-5"> Dynamic NFTs that provide </div>
-            <div >dynamic features, changes</div>
-            <div >in a dNFT smart contract </div>
-            <div>are based on conditions.</div>
-            <div className="mt-5">
-              <Button label="Launch AIREX" severity="Primary"  rounded/>
-
-            </div>
-          </div>
-          <div className="bg-black text-black p-7 text-center card" style={{marginBottom:"0px"}}>
-            <div className="font-bold">subscription NFTs</div>
-            <div className="mt-5 text-sm">An Opportunity to access</div>
-            <div >digital assets and </div>
-            <div >ownership to exclusive </div>
-            <div >content or services. </div>
-
-            <div className="mt-5">
-            
-              <Button label="Launch subscription NFTs" severity="Primary" rounded/>
-
-            </div>
-          </div>
-          <div className="bg-black text-black p-7 text-center card">
-            <div className="font-bold">Phygital NFTs</div>
-            <div className="mt-5">Experience both the</div>
-            <div >Phygital and digital worlds </div>
-            <div >with myriadflow</div>
-
-            <div className="mt-5">
-              
-              <Button label="Launch Phygital NFTs" severity="Primary" rounded/>
-
-            </div>
-          </div>
-        </div>
       </div>
-    // {/* </Layout> */}
   );
 }

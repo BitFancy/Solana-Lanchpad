@@ -28,7 +28,7 @@ export default function Deployflowmarket() {
   return (
     <div>
         <div className="text-center">
-        <Button label="Deploy Contract"  icon="pi pi-external-link" onClick={flowAccessMarletContarct} />
+        <Button label="Deploy Flow Access Control"  icon="pi pi-external-link" onClick={flowAccessMarletContarct} />
 
         </div>
 <Dialog  visible={visible} style={{ width: '50vw',textAlign:"center" }} onHide={() => setVisible(false)}>
