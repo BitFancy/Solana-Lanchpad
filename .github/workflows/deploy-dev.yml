@@ -10,24 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3       # Checkout the code
-
-      - uses: actions/setup-node@v2     # Install Node.js in the Runner, and allow us to run npm commands
-        with:
-          node-version: '16'
-      
-      - uses: actions/cache@v2          # Caches the node_modules folder across builds, and makes the Runner use the cache as long as package-lock.json doesn’t change.
-        with:
-        # Next.js stores its cache in the .next/cache directory. This will persist the cache across builds for faster application rebuilds. 
-         path: |
-           ${{ github.workspace }}/node_modules
-           ${{ github.workspace }}/.next/cache
-         # Generate a new cache whenever packages or source files change.
-         key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js') }}
-         # If source files changed but packages didn't, rebuild from a prior cache. 
-         restore-keys: |
-           ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-          
+        uses: actions/checkout@v3       
       - name: NextJS Build 
         run: |
           npm ci
@@ -35,37 +18,26 @@ jobs:
           npm run build
         env:
            CI:true
-      
-      - name: Upload Next build          # Upload the artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: |
-            .next
-            public
-            .env
-          retention-days: 1         # artifact retention duration, can be upto 30 days
-  ghcr-push:
-    name:
-    needs: next-build               # Job depends on next-build(above) job
+
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Download next build       # Download the above uploaded artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-        with:
-          registry: ghcr.io
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: test
+        run: npm run test
        
 deploy:
    name: Deployment
    runs-on: ubuntu-latest
-      needs: [next-build,ghcr-push]
+      needs: [next-build,test]
       steps: 
       -name: Install Dependencies
        run: |
          echo "Deployment in progress...."
 
       
+
+
