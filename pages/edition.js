@@ -2,41 +2,42 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState,useEffect, useRef } from "react";
 import Web3 from "web3";
-import creatifyAbi from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
+import edition from "../artifacts/contracts/FLOWEDITION/FlowEdition.sol/FlowEdition.json"
 import { Messages } from "primereact/messages";
-import { FileUpload } from 'primereact/fileupload';
 import { withRouter } from "next/router";
 
 const Edition=(props)=> {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
-  const [collectionContractA, setCollectionContractA] = useState("");
-  const [_platformFee, setPlatformfee] = useState();
+  const [editionContarctA, setEditionContarctA] = useState("");
+  const [flowcontarctAddress, setFlowcontractAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   var web3 = new Web3(Web3.givenProvider);
-  
   const collectionContarct = () => {
     const contractName = "nft";
     const contractSymbol = "NFT";
-    const creatifyContarct = new web3.eth.Contract(creatifyAbi.abi);
+    const editionContarct = new web3.eth.Contract(edition.abi);
     web3.eth.getAccounts().then((accounts) => {
-      creatifyContarct
+      editionContarct
         .deploy({
-          data: creatifyAbi.bytecode,
-          arguments: [contractName, contractSymbol, marketplaceContarctA],
+          data: edition.bytecode,
+          arguments: [contractName, contractSymbol, marketplaceContarctA,flowcontarctAddress],
         })
         .send({ from: accounts[0], gas: 10002 })
         .on("receipt", (receipt) => {
-          console.log("Contract Address collection:", receipt.contractAddress);
-          setCollectionContractA(receipt.contractAddress);
+          console.log(" Edition Contract Address:", receipt.contractAddress);
+          setEditionContarctA(receipt.contractAddress);
+          msgs.current.show([
+            {
+              sticky: true,
+              severity: "success",
+              detail: "Your Edition  contract has been  successfully deployed",
+              closable: true,
+            },
+          ]);
         });
     });
-  };
-  const handleInputFee = (e) => {
-    if (e.target.value <= 100) {
-      setPlatformfee(e.target.value);
-    }
   };
   const handleInputName = (e) => {
     setContractName(e.target.value);
@@ -44,6 +45,11 @@ const Edition=(props)=> {
   const handleInputSymbol = (e) => {
     setcontractSymbol(e.target.value);
   };
+
+  useEffect(() => {
+    setFlowcontractAddress(props.router.query.contractAddress)
+  }, [props.router.query.contractAddress])
+  
   useEffect(() => {
     setMarketplaceContarctA(props.router.query.contractAddress)
   }, [props.router.query.contractAddress])
@@ -82,10 +88,14 @@ const Edition=(props)=> {
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">Choose img</div>
+            <div className="mt-3 text-left">Flowcontract Address</div>
             <div className="mt-2">
-            <FileUpload name="demo[]" url={'/api/upload'}  accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
-
+              <InputText
+                value={flowcontarctAddress}
+                className="p-2 w-full"
+                type="text"
+                disabled
+              />
             </div>
           </div>
           <div className="text-center mt-5">
