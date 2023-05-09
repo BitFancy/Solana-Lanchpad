@@ -2,107 +2,98 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import Web3 from "web3";
-import marketplaceAbi from "../artifacts/contracts/FLOWMARKETPLACE/FlowMarketplace.sol/FlowMarketplace.json";
-import creatifyAbi from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
+import collection from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
 import { Messages } from "primereact/messages";
 import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';
+import { NFTStorage } from "nft.storage";
 
-// Contract Address: 0x96D6CAd0B0E9890225702f9dc202fB95618eA4E7
+const YOUR_API_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
+const client = new NFTStorage({ token: YOUR_API_KEY });
+
 const Step2=(props)=> {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
+  const [flowcontarctAddress, setFlowcontractAddress] = useState("");
   const [collectionContractA, setCollectionContractA] = useState("");
-  const [_platformFee, setPlatformfee] = useState();
-  const [contractName, setContractName] = useState("");
-  const [contractSymbol, setcontractSymbol] = useState("");
   const [uploadImage, setuploadImage] = useState("");
+  async function uploadBlobGetHash(file) {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+    }
+  }
+  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
-  var web3 = new Web3(Web3.givenProvider);
-  const marketPlaceFlowContract = () => {
-    const marketplaceContarct = new web3.eth.Contract(marketplaceAbi.abi);
-    web3.eth.getAccounts().then((accounts) => {
-      marketplaceContarct
-        .deploy({
-          data: marketplaceAbi.bytecode,
-          arguments: [
-            _platformFee,
-            contractName,
-            process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
-          ],
-        })
-        .send({ from: accounts[0], gas: 2580052 })
-        .on("receipt", (receipt) => {
-          console.log(
-            "Contract Address flow markelplace:",
-            receipt.contractAddress
-          );
-          setMarketplaceContarctA(receipt.contractAddress);
-        });
+  async function onChangeThumbnail(e) {
+    const file = e.files[0];
+    console.log("Uploaded file...",file);
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
     });
-  };
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+     setuploadImage(metaHashURI)
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+    }
+  }
+  
+  var web3 = new Web3(Web3.givenProvider);
   const collectionContarct = () => {
-    const contractName = "nft";
-    const contractSymbol = "NFT";
-    const creatifyContarct = new web3.eth.Contract(creatifyAbi.abi);
+    const collectionContarct = new web3.eth.Contract(collection.abi);
     web3.eth.getAccounts().then((accounts) => {
-      creatifyContarct
+      collectionContarct
         .deploy({
-          data: creatifyAbi.bytecode,
-          arguments: [contractName, contractSymbol, marketplaceContarctA],
+          data: collection.bytecode,
+          arguments: [uploadImage,marketplaceContarctA,flowcontarctAddress ],
         })
         .send({ from: accounts[0], gas: 10002 })
         .on("receipt", (receipt) => {
-          console.log("Contract Address collection:", receipt.contractAddress);
+          console.log(" collection Contract Address:", receipt.contractAddress);
+
           setCollectionContractA(receipt.contractAddress);
+          msgs.current.show([
+            {
+              sticky: true,
+              severity: "success",
+              detail: "Your contract has been  successfully deployed",
+              closable: true,
+            },
+          ]);
         });
     });
   };
-  const handleInputFee = (e) => {
-    if (e.target.value <= 100) {
-      setPlatformfee(e.target.value);
-    }
-  };
-  const handleInputName = (e) => {
-    setContractName(e.target.value);
-  };
-  const handleInputSymbol = (e) => {
-    setcontractSymbol(e.target.value);
-  };
+
 useEffect(() => {
   setMarketplaceContarctA(props.router.query.contractAddress)
 }, [props.router.query.contractAddress])
 
-  console.log("Address in step 2", props.router.query.contractAddress);
+useEffect(() => {
+  setFlowcontractAddress(props.router.query.contractAddressFlowAccess)
+}, [props.router.query.contractAddressFlowAccess])
+
+  console.log("Address in step 2", props.router.query.contractAddress, props.router.query.contractAddressFlowAccess);
   return (
     <div>
       <div className="card p-5 font-bold">
-        Step 2 : Deploy Edition/Collection/AIREX/Subscription Nfts/Phygital NFTs{" "}
+        Deploy Collection
       </div>
       <div className="flex justify-content-center gap-5">
       
         <div className="card" style={{ width: "50%" }}>
           <div className="text-center mt-5">
-            <div className="mt-3 text-left">Enter Collection name</div>
-            <div className="mt-3">
-              <InputText 
-                value={contractName}
-                onChange={handleInputName}
-                className="p-2 w-full"
-                type="text"
-              />
+
+          <div className="mt-3 text-left">Choose Uri</div>
+               <div className="mt-5">
+            <FileUpload type="file" onSelect={(event)=>{onChangeThumbnail(event)}} uploadHandler={(e)=>console.log("File upload handler",e.files)} value={uploadImage}   accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
             </div>
-            <div className="mt-3 text-left">Enter Collection Symbol</div>
-            <div className="mt-2">
-              <InputText
-                value={contractSymbol}
-                onChange={handleInputSymbol}
-                className="p-2 w-full"
-                type="text"
-              />
-            </div>
-            <div className="mt-3 text-left">Enter Marketplace address</div>
+            <div className="mt-3 text-left">Marketplace Address</div>
             <div className="mt-2">
               <InputText
                 value={marketplaceContarctA}
@@ -111,10 +102,16 @@ useEffect(() => {
                 disabled
               />
             </div>
-            <div className="mt-5">
-            <FileUpload name="demo[]" url={'/api/upload'}  accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
-
+            <div className="mt-3 text-left">Flowcontract Address</div>
+            <div className="mt-2">
+              <InputText
+                value={flowcontarctAddress}
+                className="p-2 w-full"
+                type="text"
+                disabled
+              />
             </div>
+         
           </div>
           <div className="text-center mt-5">
             <Button
