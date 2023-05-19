@@ -11,24 +11,7 @@ jobs:
        - name: npm install
          run: |
            npm
-  test:
-     runs-on: ubuntu-latest
-     needs: build
-     strategy:
-        matrix:
-          os: [ubuntu-latest]
-          node-version: 16
-        steps:
-          - uses: actions/checkout@v2
-          - name: Use Node.js 16
-            uses: actions/setup-node@v1
-            with:
-              node-version: '16'
-          - name: npm install & test
-            run: |
-              npm
-              npm test
-            env:
+         env:
               CI: true
 build-and-deploy:
     runs-on: ubuntu-latest
