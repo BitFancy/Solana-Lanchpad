@@ -6,28 +6,32 @@ name: Node.js CI
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: 16
+
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout
+    - name: Use Node.js 16
       uses: actions/setup-node@v1
+      with:
+        node-version: 16
       
 
     - name: Installing my packages
       run: npm ci
 
-    - name: NextJS Build 
-        run: |
-          npm ci
-          echo "Running Installing Dependencies"
-          npm run build
-        env:
-           CI:true
-           
+    - name: Build my App  
+      run: npm run build
+    
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
