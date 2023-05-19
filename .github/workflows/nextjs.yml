@@ -14,7 +14,7 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@v3       # Checkout the code
 
-      - uses: actions/setup-node@v2     # Install Node.js in the Runner, and allow us to run npm commands
+      - uses: actions/setup-node@v3     # Install Node.js in the Runner, and allow us to run npm commands
         with:
           node-version: '16'
           cache: "npm"
