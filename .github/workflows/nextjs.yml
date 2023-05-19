@@ -11,12 +11,5 @@ jobs:
    run: npm install
    -name: Build project assets
    run: npm run build
-   - name: Deploy on Dev server 
-        uses: appleboy/ssh-action@v0.1.7
-        with:         
-          host: ${{ secrets.DEV_REMOTE_SERVER_ADDRESS }}
-          username: ${{ secrets.DEV_SERVER_USERNAME }}
-          key:  ${{ secrets.DEV_REMOTE_SERVER_KEY }}
-          port: ${{ secrets.DEV_SSH_PORT }}
-
+  
       
