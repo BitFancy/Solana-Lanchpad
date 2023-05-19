@@ -10,15 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: 16
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16
-        uses: actions/setup-node@v2
+      - name: Code Checkout
+        uses: actions/checkout@v3       # Checkout the code
+
+      - uses: actions/setup-node@v2     # Install Node.js in the Runner, and allow us to run npm commands
         with:
           node-version: '16'
           cache: "npm"
