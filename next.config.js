@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output:"standalone",
+  output:"export",
+  images:{
+    loader:'akamai',
+    path:"",
+  },
   assetPrefix: './'
 
 }
