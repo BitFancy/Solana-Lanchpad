@@ -33,7 +33,6 @@
     "@web3modal/react": "^2.0.0-beta.10",
     "chart.js": "4.2.1",
     "ethers": "^5.7.2",
-    "export": "^0.1.337",
     "next": "13.2.3",
     "nft.storage": "^7.0.3",
     "primeflex": "3.3.0",
