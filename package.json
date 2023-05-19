@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@3rdweb/hooks": "^1.9.2",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
