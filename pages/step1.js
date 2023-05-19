@@ -1,20 +1,21 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import marketplaceAbi from "../artifacts/contracts/FLOWMARKETPLACE/FlowMarketplace.sol/FlowMarketplace.json";
 import { Messages } from "primereact/messages";
+import { withRouter } from "next/router";
 
 import Web3 from "web3";
 import Router from "next/router";
-export default function Step1() {
+const Step1=(props)=> {
   const msgs = useRef(null);
-
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
+  const [flowContarctA, setFlowContarctA] = useState("");
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
 
   var web3 = new Web3(Web3.givenProvider);
-  const marketPlaceContract = () => {
+  const marketPlaceContract = (props) => {
   //   msgs.current.show([
   //     {
   //       sticky: true,
@@ -40,9 +41,9 @@ export default function Step1() {
             process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
           ],
         })
-        .send({ from: accounts[0], gas: 259773 })
+        .send({ from: accounts[0], gas: '7492052' })
         .on("receipt", (receipt) => {
-          console.log("Contract Address:", receipt.contractAddress);
+          console.log("Props???????:", props);
           setMarketplaceContarctA(receipt.contractAddress);
           msgs.current.show([
             {
@@ -55,12 +56,16 @@ export default function Step1() {
          setTimeout(()=>{
           Router.push({
             pathname: "/step2",
-            query: { contractAddress: receipt.contractAddress },
+            query: { contractAddress: receipt.contractAddress, contractAddressFlowAccess: flowContarctA },
           });
         },2000)
         });
     });
   };
+
+  useEffect(() => {
+    setFlowContarctA(props.router.query.contractAddressFlowAccess)
+  }, [props.router.query.contractAddressFlowAccess])
 
   const handleInputFee = (e) => {
     if (e.target.value <= 100) {
@@ -70,6 +75,8 @@ export default function Step1() {
   const handleInputName = (e) => {
     setContractName(e.target.value);
   };
+
+  console.log("props.router.query.contractAddressFlowAccess",props.router.query.contractAddressFlowAccess);
   return (
     <div>
       <div className="card p-5 font-bold">
@@ -115,3 +122,4 @@ export default function Step1() {
     </div>
   );
 }
+export default withRouter(Step1)

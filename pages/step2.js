@@ -3,7 +3,6 @@ import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import Web3 from "web3";
 import collection from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
-import { Messages } from "primereact/messages";
 import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';

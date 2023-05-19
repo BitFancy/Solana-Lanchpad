@@ -3,6 +3,8 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import marketplaceAbi from "../artifacts/contracts/flow-accesscontrol/FlowAccessControl.sol/FlowAccessControl.json";
 import Web3 from "web3";
+import Router from "next/router";
+import { useEffect } from "react";
 
 export default function Deployflowmarket() {
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
@@ -18,28 +20,30 @@ export default function Deployflowmarket() {
         .deploy({
           data: marketplaceAbi.bytecode,
         })
-        .send({ from: accounts[0], gas: 259773 })
+        .send({ from: accounts[0], gas: '7492052'})
         .on("receipt", (receipt) => {
           setMarketplaceContarctA(receipt.contractAddress);
           console.log("Contract Address:", receipt.contractAddress);
-          msgs.current.show([
-            {
-              sticky: true,
-              severity: "success",
-              detail: "Your flow access control contact has been  successfully deployed",
-              closable: true,
-            },
-          ]);
+          setVisible(true);
+
           setTimeout(() => {
             Router.push({
-              pathname: "/step2",
-              query: { contractAddress: receipt.contractAddress },
+              pathname: "/step1",
+              query: { contractAddressFlowAccess: receipt.contractAddress },
             });
           }, 2000);
         });
-      setVisible(true);
     });
   };
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     Router.push({
+  //       pathname: "/step1",
+  //       query: { contractAddressFlowAccess: "Hello address"},
+  //     });
+  //   }, 2000);
+  // },[])
+  
   return (
     <div>
       <div className="text-center">

@@ -1,8 +1,55 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import flowAccessControlJson from "../artifacts/contracts/flow-accesscontrol/FlowAccessControl.sol/FlowAccessControl.json";
+import etherContract from "../utils/web3Modal";
+import { useSelector } from "react-redux";
+import { selectUser } from "../slices/userSlice";
 
 export default function LunchManage() {
+  const walletAddr = useSelector(selectUser);
+  var wallet = walletAddr ? walletAddr[0] : "";   
+  const [grantRole, setGrantRole] = useState(true);
+  const [revokeRole, setRevokeRole] = useState(true);
+
+  useEffect(() => {
+    const asyncFn = async () => {
+      const token = localStorage.getItem("platform_token");
+      if (token) {
+      }
+      const flowAccessControlContract = await etherContract(
+            process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
+        flowAccessControlJson.abi
+      );
+      setGrantRole(
+        await flowAccessControlContract.grantRole(
+          await flowAccessControlContract.FLOW_ADMIN_ROLE(),
+          wallet
+        )
+      );
+    };
+    asyncFn();
+  }, [grantRole]);
+
+  useEffect(() => {
+    const asyncFn = async () => {
+      const token = localStorage.getItem("platform_token");
+      if (token) {
+      }
+      const flowAccessControlContract = await etherContract(
+            process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
+        flowAccessControlJson.abi
+      );
+      setRevokeRole(
+        await flowAccessControlContract.revokeRole(
+          await flowAccessControlContract.FLOW_ADMIN_ROLE(),
+          wallet
+        )
+      );
+    };
+    asyncFn();
+  }, [revokeRole]);
+
   return (
     <div>
       <div>
@@ -25,9 +72,7 @@ export default function LunchManage() {
                 <InputText  type="text" placeholder="Account (address)" style={{width:"100%"}}/>
             </div>
             <div className="mt-5 text-center">
-                <Button label="Assign" severity="Primary" rounded />
-
-
+                <Button  label="Assign" severity="Primary" rounded />
             </div>
           </div>
           <div className=" p-5 card" style={{width:"40%"}}>

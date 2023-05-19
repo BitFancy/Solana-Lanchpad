@@ -8,6 +8,7 @@ import { Divider } from 'primereact/divider';
 import AppConfig from '../../layout/AppConfig';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import { classNames } from 'primereact/utils';
+import Image from 'next/image';
 
 const LandingPage = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -23,7 +24,7 @@ const LandingPage = () => {
             <div id="home" className="landing-wrapper overflow-hidden">
                 <div className="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static">
                     <Link href="/" className="flex align-items-center">
-                        <img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Marketplace Logo" height="50" className="mr-0 lg:mr-2" />
+                        <Image src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="Marketplace Logo" height="50" className="mr-0 lg:mr-2" />
                         <span className="text-900 font-medium text-2xl line-height-3 mr-8">Marketplace</span>
                     </Link>
                     <StyleClass nodeRef={menuRef} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick="true">
@@ -76,7 +77,7 @@ const LandingPage = () => {
                         <Button label="Get Started" rounded className="text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
                     </div>
                     <div className="flex justify-content-center md:justify-content-end">
-                        <img src="/demo/images/landing/screen-1.png" alt="Hero Image" className="w-9 md:w-auto" />
+                        <Image src="/demo/images/landing/screen-1.png" alt="Hero Image" className="w-9 md:w-auto" />
                     </div>
                 </div>
 
@@ -269,7 +270,7 @@ const LandingPage = () => {
                                     “Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
                                     laborum.”
                                 </p>
-                                <img src="/demo/images/landing/peak-logo.svg" className="mt-4" alt="Company logo" />
+                                <Image src="/demo/images/landing/peak-logo.svg" className="mt-4" alt="Company logo" />
                             </div>
                         </div>
                     </div>
@@ -283,7 +284,7 @@ const LandingPage = () => {
 
                     <div className="grid mt-8 pb-2 md:pb-8">
                         <div className="flex justify-content-center col-12 lg:col-6 bg-purple-100 p-0 flex-order-1 lg:flex-order-0" style={{ borderRadius: '8px' }}>
-                            <img src="/demo/images/landing/mockup.svg" className="w-11" alt="mockup mobile" />
+                            <Image src="/demo/images/landing/mockup.svg" className="w-11" alt="mockup mobile" />
                         </div>
 
                         <div className="col-12 lg:col-6 my-auto flex flex-column lg:align-items-end text-center lg:text-right">
@@ -309,7 +310,7 @@ const LandingPage = () => {
                         </div>
 
                         <div className="flex justify-content-end flex-order-1 sm:flex-order-2 col-12 lg:col-6 bg-yellow-100 p-0" style={{ borderRadius: '8px' }}>
-                            <img src="/demo/images/landing/mockup-desktop.svg" className="w-11" alt="mockup" />
+                            <Image src="/demo/images/landing/mockup-desktop.svg" className="w-11" alt="mockup" />
                         </div>
                     </div>
                 </div>
@@ -324,7 +325,7 @@ const LandingPage = () => {
                         <div className="col-12 lg:col-4 p-0 md:p-3">
                             <div className="p-3 flex flex-column border-200 pricing-card cursor-pointer border-2 hover:border-primary transition-duration-300 transition-all">
                                 <h3 className="text-900 text-center my-5">Free</h3>
-                                <img src="/demo/images/landing/free.svg" className="w-10 h-10 mx-auto" alt="free" />
+                                <Image src="/demo/images/landing/free.svg" className="w-10 h-10 mx-auto" alt="free" />
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$0</span>
                                     <span className="text-600">per month</span>
@@ -355,7 +356,7 @@ const LandingPage = () => {
                         <div className="col-12 lg:col-4 p-0 md:p-3 mt-4 md:mt-0">
                             <div className="p-3 flex flex-column border-200 pricing-card cursor-pointer border-2 hover:border-primary transition-duration-300 transition-all">
                                 <h3 className="text-900 text-center my-5">Startup</h3>
-                                <img src="/demo/images/landing/startup.svg" className="w-10 h-10 mx-auto" alt="startup" />
+                                <Image src="/demo/images/landing/startup.svg" className="w-10 h-10 mx-auto" alt="startup" />
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$1</span>
                                     <span className="text-600">per month</span>
@@ -386,7 +387,7 @@ const LandingPage = () => {
                         <div className="col-12 lg:col-4 p-0 md:p-3 mt-4 md:mt-0">
                             <div className="p-3 flex flex-column border-200 pricing-card cursor-pointer border-2 hover:border-primary transition-duration-300 transition-all">
                                 <h3 className="text-900 text-center my-5">Enterprise</h3>
-                                <img src="/demo/images/landing/enterprise.svg" className="w-10 h-10 mx-auto" alt="enterprise" />
+                                <Image src="/demo/images/landing/enterprise.svg" className="w-10 h-10 mx-auto" alt="enterprise" />
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$999</span>
                                     <span className="text-600">per month</span>
@@ -420,7 +421,7 @@ const LandingPage = () => {
                     <div className="grid justify-content-between">
                         <div className="col-12 md:col-2" style={{ marginTop: '-1.5rem' }}>
                             <Link href="/" className="flex flex-wrap align-items-center justify-content-center md:justify-content-start md:mb-0 mb-3 cursor-pointer">
-                                <img src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="footer sections" width="50" height="50" className="mr-2" />
+                                <Image src={`/layout/images/${layoutConfig.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}.svg`} alt="footer sections" width="50" height="50" className="mr-2" />
                                 <span className="font-medium text-3xl text-900">Marketplace</span>
                             </Link>
                         </div>
@@ -448,7 +449,7 @@ const LandingPage = () => {
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">Discord</a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">
                                         Events
-                                        <img src="/demo/images/landing/new-badge.svg" className="ml-2" />
+                                        <Image src="/demo/images/landing/new-badge.svg" className="ml-2" />
                                     </a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">FAQ</a>
                                     <a className="line-height-3 text-xl block cursor-pointer text-700">Blog</a>

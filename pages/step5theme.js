@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 export default function Step5theme() {
@@ -17,16 +18,16 @@ export default function Step5theme() {
     </div>
     <div className='flex justify-content-around mt-5 gap-5'>
 <div>
-    <img  src="/musium.png"></img>
+    <Image  src="/musium.png"/>
 </div>
 <div>
-    <img src="/garden.png"></img>
+    <Image src="/garden.png"/>
 </div>
 <div>
-    <img src="/showroom.png"></img>
+    <Image src="/showroom.png"/>
 </div>
 <div>
-    <img src="/live.png"></img>
+    <Image src="/live.png"/>
 </div>
     </div>
 </div>
