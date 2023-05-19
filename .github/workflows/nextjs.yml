@@ -20,11 +20,14 @@ jobs:
     - name: Installing my packages
       run: npm ci
 
-    - name: Build my App  
-      run: npm run build
-    
-      env:
+    - name: NextJS Build 
+        run: |
+          npm ci
+          echo "Running Installing Dependencies"
+          npm run build
+        env:
            CI:true
+           
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
