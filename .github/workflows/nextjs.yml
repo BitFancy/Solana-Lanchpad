@@ -1,19 +1,33 @@
-name: Build Next js web application
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-on: 
+name: Node.js CI
+
+on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build:
-    name: Build project
+
     runs-on: ubuntu-latest
-    stpes:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install npm dependencies
-        run: npm install
-      - name: Build project assets
-        run: npm run build
-  
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/setup-node@v1
       
+
+    - name: Installing my packages
+      run: npm ci
+
+    - name: Build my App  
+      run: npm run build
+    
+      env:
+           CI:true
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.5.9
+      with:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: out # The folder the action should deploy.
