@@ -12,12 +12,10 @@ jobs:
 
     steps:
       - name: Get files
-        uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
-          node-version: '16'
-
+          node-version: '12.x'
       - name: Install packages
         run: npm ci
       - name: Build project
