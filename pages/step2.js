@@ -7,7 +7,7 @@ import { Messages } from "primereact/messages";
 import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';
-import { NFTStorage } from "nft.storage";
+import  NFTStorage  from "nft.storage";
 
 const YOUR_API_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
