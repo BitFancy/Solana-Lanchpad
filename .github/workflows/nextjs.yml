@@ -1,30 +1,50 @@
-name: Node.js CI
-
+name: build
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+    branches: 
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Code Checkout
-        uses: actions/checkout@v3       # Checkout the code
-
-      - uses: actions/setup-node@v3     # Install Node.js in the Runner, and allow us to run npm commands
+       - uses: actions/checkout@v2
+       - name: npm install
+         run: |
+           npm
+  test:
+     runs-on: ubuntu-latest
+     needs: build
+     strategy:
+        matrix:
+          os: [ubuntu-latest]
+          node-version: 16
+        steps:
+          - uses: actions/checkout@v2
+          - name: Use Node.js 16
+            uses: actions/setup-node@v1
+            with:
+              node-version: '16'
+          - name: npm install & test
+            run: |
+              npm
+              npm test
+            env:
+              CI: true
+build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build . --file Dockerfile --tag nextjs-blog --label "runnumber=${GITHUB_RUN_ID}"
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push image
+- name: Deploy Container to Digitalocean
+        uses: appleboy/ssh-action@main
         with:
-          node-version: '16'
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build
-      - run: npm run export
-      - run: touch ./out/.nojekyll
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: out # The folder the action should deploy.
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          
+          
