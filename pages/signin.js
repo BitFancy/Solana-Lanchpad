@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 
 import { SocialIcon } from 'react-social-icons';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { GoogleLogin } from 'react-google-login';
-import TwitterLogin from "react-twitter-login";
+// import { GoogleLogin } from 'react-google-login';
+// import TwitterLogin from "react-twitter-login";
 import WalletConnect from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
@@ -87,9 +87,9 @@ export default function SignIn() {
     }
   }, [provider]);
 
-  const responseGoogle = (response) => {
-    console.log(response);
-  }
+  // const responseGoogle = (response) => {
+  //   console.log(response);
+  // }
   // const responseFacebook = (response) => {
   //   console.log(response);
   // }
@@ -121,11 +121,10 @@ export default function SignIn() {
     fields="name,email,picture"
     callback={responseFacebook} /> */}
 {/* <div><SocialIcon network="twitter" url="https://tweeter.com" /></div> */}
-<TwitterLogin
+{/* <TwitterLogin
       authCallback={authHandler}
-      // consumerKey={CONSUMER_KEY}
-      // consumerSecret={CONSUMER_SECRET}
-    />
+     
+    /> */}
 <div><SocialIcon url="https://discord.com" /></div>
 
         </div>
@@ -135,12 +134,12 @@ export default function SignIn() {
             <InputText id="email" type="email" style={{width:"50%"}} className='rounded-full p-3.5 w-5/12' placeholder='Email'/>
           </div>
           <div className='mt-5'>
-          <GoogleLogin
+          {/* <GoogleLogin
     clientId="772086324452-lu65slr4drogjeeilglhf7f7l15tk1pl.apps.googleusercontent.com"
     buttonText="Continue with Email"
     onSuccess={responseGoogle}
     cookiePolicy={'single_host_origin'}
-  />
+  /> */}
           </div>
         </div>
         <div className='mt-5'>EXTERNAL WALLET</div>

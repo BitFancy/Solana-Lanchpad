@@ -29,13 +29,11 @@
     "primereact": "9.2.2",
     "react": "^18.2",
     "react-dom": "^18.2",
-    "react-google-login": "^5.2.2",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
     "react-social-icons": "^5.15.0",
     "react-transition-group": "^4.4.5",
-    "react-twitter-login": "^1.5.0",
     "reactstrap": "^9.1.9",
     "web3": "^1.9.0",
     "web3modal": "^1.9.10"
