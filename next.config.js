@@ -3,7 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   basePath: "",
   staticPageGenerationTimeout:  100,
- output:"standalone"
+ output:"standalone",
+ images:{
+  loader:'akamai',
+  path:"",
+ },
+ basePath:'/launchpad',
+ assetPrefix:'/launchpad',
+
 
 }
 
