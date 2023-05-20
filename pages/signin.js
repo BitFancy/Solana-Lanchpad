@@ -5,7 +5,6 @@ import { SocialIcon } from 'react-social-icons';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
 import TwitterLogin from "react-twitter-login";
 import WalletConnect from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
@@ -91,9 +90,9 @@ export default function SignIn() {
   const responseGoogle = (response) => {
     console.log(response);
   }
-  const responseFacebook = (response) => {
-    console.log(response);
-  }
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // }
   const authHandler = (err, data) => {
     console.log(err, data);
   };
@@ -116,11 +115,11 @@ export default function SignIn() {
     cookiePolicy={'single_host_origin'}
   /> */}
 {/* <div><SocialIcon url="https://facebook.com" /></div> */}
-<FacebookLogin
+{/* <FacebookLogin
     appId="1088597931155576"
     autoLoad={true}
     fields="name,email,picture"
-    callback={responseFacebook} />
+    callback={responseFacebook} /> */}
 {/* <div><SocialIcon network="twitter" url="https://tweeter.com" /></div> */}
 <TwitterLogin
       authCallback={authHandler}
