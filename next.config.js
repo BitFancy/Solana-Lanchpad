@@ -6,7 +6,7 @@ const nextConfig = {
  output:"standalone",
  images:{
   loader:'akamai',
-  path:"",
+  path:"/launchpad",
  },
  assetPrefix: '/launchpad',
 
