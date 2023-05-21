@@ -15,7 +15,7 @@ const AppFooter = () => {
 
     return (
         <div className="layout-footer">
-            <Image src={`/${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Logo" height="30" width="30" className="mr-2" />
+            <Image src={`./${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Logo" height="30" width="30" className="mr-2" />
             <div className="body-back">
       <div className="bg-white dark:bg-gray-900 border-t border-solid mt-10">
         <div className="max-w-6xl m-auto text-gray-800 flex flex-wrap justify-center  text-gray-500 dark:text-white"></div>

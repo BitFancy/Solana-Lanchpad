@@ -29,7 +29,7 @@ const Footer = () => {
               <Link href="/">
                 <div className="transition-all cursor-pointer">
                   <span className="dark:block hidden">
-                    <Image alt="dark" src="/.dark.svg" width="60" height="60" />
+                    <Image alt="dark" src="./dark.svg" width="60" height="60" />
                   </span>
                   <span className="dark:hidden ">
                     <Image
