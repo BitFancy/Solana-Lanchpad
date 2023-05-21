@@ -22,13 +22,13 @@
     "@web3modal/ethereum": "^2.0.0-beta.10",
     "chart.js": "4.2.1",
     "ethers": "^5.7.2",
-    "next": "^13",
+    "next": "^13.4.3",
     "nft.storage": "^7.0.3",
     "primeflex": "3.3.0",
     "primeicons": "^6.0.1",
     "primereact": "9.2.2",
-    "react": "^18.2",
-    "react-dom": "^18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/node": "18.15.11",
     "eslint": "8.35.0",
-    "eslint-config-next": "^13",
+    "eslint-config-next": "^13.4.3",
     "prettier": "2.8.4",
     "sass": "^1.58.3"
   }

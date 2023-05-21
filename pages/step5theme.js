@@ -18,16 +18,16 @@ export default function Step5theme() {
     </div>
     <div className='flex justify-content-around mt-5 gap-5'>
 <div>
-    <Image  src="/musium.png"/>
+    <img  src="./musium.png"/>
 </div>
 <div>
-    <Image src="/garden.png"/>
+    <img src="./garden.png"/>
 </div>
 <div>
-    <Image src="/showroom.png"/>
+    <img src="./showroom.png"/>
 </div>
 <div>
-    <Image src="/live.png"/>
+    <img src="./live.png"/>
 </div>
     </div>
 </div>

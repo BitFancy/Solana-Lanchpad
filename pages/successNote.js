@@ -14,7 +14,7 @@ export default function SuccessNote() {
     <div className='flex justify-center mt-10 gap-10'>
         <div className='font-bold text-3xl'>Congratulations</div>
         <div>
-            <Image className='congra-img' src="/congra.png"/>
+            <img className='congra-img' src="./congra.png"/>
         </div>
 
     </div>

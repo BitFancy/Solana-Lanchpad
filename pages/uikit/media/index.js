@@ -56,7 +56,7 @@ const MediaDemo = () => {
         return (
             <div className="border-1 surface-border border-round m-1 text-center py-5">
                 <div className="mb-3">
-                    <Image src={`/demo/images/product/${product.image}`} alt={product.name} className="w-6 shadow-2" />
+                    <img src={`./demo/images/product/${product.image}`} alt={product.name} className="w-6 shadow-2" />
                 </div>
                 <div>
                     <h4 className="p-mb-1">{product.name}</h4>
@@ -72,8 +72,8 @@ const MediaDemo = () => {
         );
     };
 
-    const galleriaItemTemplate = (item) => <Image src={`/${item.itemImageSrc}`} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
-    const galleriaThumbnailTemplate = (item) => <Image src={`/${item.thumbnailImageSrc}`} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
+    const galleriaItemTemplate = (item) => <img src={`./${item.itemImageSrc}`} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
+    const galleriaThumbnailTemplate = (item) => <img src={`./${item.thumbnailImageSrc}`} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
 
     return (
         <div className="grid p-fluid">
@@ -95,7 +95,7 @@ const MediaDemo = () => {
                 <div className="card">
                     <h5>Image</h5>
                     <div className="flex justify-content-center">
-                        <Image src={`/demo/images/galleria/galleria11.jpg`} alt="galleria" width={250} preview />
+                        <img src={`./demo/images/galleria/galleria11.jpg`} alt="galleria" width={250} preview />
                     </div>
                 </div>
             </div>

@@ -23,10 +23,10 @@ export default function Header() {
           <Link href="/">
             <div className="pt-2 transition-all cursor-pointer">
               <span className="dark:block hidden">
-                <Image alt="dark" src="/dark.svg" width="60" height="60" />
+                <Image alt="dark" src="./dark.svg" width="60" height="60" />
               </span>
               <span className="dark:hidden ">
-                <Image alt="light" src="/light.svg" width="60" height="60" />
+                <Image alt="light" src="./light.svg" width="60" height="60" />
               </span>
             </div>
           </Link>

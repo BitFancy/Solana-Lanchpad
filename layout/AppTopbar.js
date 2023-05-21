@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
 import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import { LayoutContext } from './context/layoutcontext';
@@ -20,7 +19,7 @@ const AppTopbar = forwardRef((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/dashboardl" className="layout-topbar-logo">
-                <Image src={`/${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
+                <Image src={`./${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="60" height="60" widt={'true'} alt="logo" />
                 <span>Marketplace</span>
             </Link>
 
