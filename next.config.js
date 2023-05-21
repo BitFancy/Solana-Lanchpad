@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: "/launchpad",
+  basePath: '/MyriadFlow/launchpad',
   staticPageGenerationTimeout:  100,
  output:"standalone",
  images:{
   loader:'akamai',
   path:"",
  },
- assetPrefix:'/launchpad',
+ assetPrefix: '/MyriadFlow/launchpad',
 
 
 }
