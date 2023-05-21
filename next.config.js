@@ -8,10 +8,5 @@ const nextConfig = {
   loader:'akamai',
   path:"",
  },
- assetPrefix: '/launchpad',
-
-
 }
-
-
 module.exports = nextConfig
