@@ -49,8 +49,8 @@ const Collection=(props)=> {
   }, [props.router.query.contractAddress])
   
   return (
-    <div>
-      <div className="card p-5 font-bold text-center">
+    <div style={{marginTop:"85px"}}>
+      <div className="card p-5 font-bold text-align-center">
         Deploy Collection
       </div>
       <div className="flex justify-content-center gap-5">

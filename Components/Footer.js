@@ -1,7 +1,4 @@
 import React from "react";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import { SiDiscord } from "react-icons/si";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NavLink } from "reactstrap";

@@ -1,6 +1,7 @@
 // import Layout from "@/Components/Layout";
 import React from "react";
 import { Button } from "primereact/button";
+import Link from "next/link";
 
 export default function Lunchpad() {
   return (
@@ -20,9 +21,9 @@ export default function Lunchpad() {
             <div >storefront unique, inviting, and</div>
             <div >memorable for customers</div>
             <div className="mt-5">
-             
-              <Button label="Launch Edition" severity="Primary" rounded />
-
+             <Link href="/deployflowaccessControl">
+              <Button label="Launch Edition"  severity="Primary" rounded />
+              </Link>
             </div>
           </div>
           <div className="bg-black text-black p-7 text-center card">

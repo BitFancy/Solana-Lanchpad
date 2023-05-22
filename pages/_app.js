@@ -8,16 +8,22 @@ import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
 import { Provider } from "react-redux";
 import store from "../store";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 export default function MyApp({ Component, pageProps }) {
+  const desiredChainId = 80001;
+
   if (Component.getLayout) {
     return (
+      <ThirdwebProvider desiredChainId={desiredChainId}>
       <LayoutProvider>
         {Component.getLayout(<Component {...pageProps} />)}
       </LayoutProvider>
+      </ThirdwebProvider>
     );
   } else {
     return (
+      <ThirdwebProvider desiredChainId={desiredChainId}>
       <LayoutProvider>
         <Layout>
           <Provider store={store}>
@@ -25,6 +31,7 @@ export default function MyApp({ Component, pageProps }) {
           </Provider>
         </Layout>
       </LayoutProvider>
+      </ThirdwebProvider>
     );
   }
 }

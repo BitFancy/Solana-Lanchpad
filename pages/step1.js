@@ -78,7 +78,7 @@ const Step1=(props)=> {
 
   console.log("props.router.query.contractAddressFlowAccess",props.router.query.contractAddressFlowAccess);
   return (
-    <div>
+    <div style={{marginTop:"60px"}}>
       <div className="card p-5 font-bold">
         Step 1 : Setup Roles & marketplace
       </div>

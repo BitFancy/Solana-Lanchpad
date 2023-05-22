@@ -79,8 +79,8 @@ useEffect(() => {
 
   console.log("Address in step 2", props.router.query.contractAddress, props.router.query.contractAddressFlowAccess);
   return (
-    <div>
-      <div className="card p-5 font-bold">
+    <div style={{marginTop:"85px"}}>
+      <div className="card p-5 font-bold justify-content-center flex">
         Deploy Collection
       </div>
       <div className="flex justify-content-center gap-5">

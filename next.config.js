@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   basePath: '/launchpad',
+
   staticPageGenerationTimeout:  100,
  output:"standalone",
  images:{
