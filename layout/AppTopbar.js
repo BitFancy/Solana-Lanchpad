@@ -21,36 +21,36 @@ const AppTopbar = forwardRef((props, ref) => {
         <div className="layout-topbar">
             <Link href="/dashboardl" className="layout-topbar-logo">
                 <Image src={`./${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="60" height="60" widt={'true'} alt="logo" />
-                <span style={{fontSize:"30px"}}>Marketplace</span>
+                <span style={{fontSize:"30px",color:"white"}}>Launchpad</span>
             </Link>
 
-            <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
+            {/* <button ref={menubuttonRef} type="button" className="p-link  layout-topbar-button" onClick={onMenuToggle}>
                 <i className="pi pi-bars" />
-            </button>
+            </button> */}
 
-            <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
+            {/* <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
                 <i className="pi pi-ellipsis-v" />
-            </button>
+            </button> */}
 
 
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
                 <button type="button" className="p-link ">
                    
-                    <span className='text-black' style={{fontWeight:"bold",fontSize:"16px"}}>Launch</span>
+                    <span className='text-black' style={{fontWeight:"bold",fontSize:"16px",color:"white"}}>Launch</span>
                 </button>
                 <button type="button" className="p-link ">
-                    <span style={{fontWeight:"bold",fontSize:"16px"}}>Dashboard</span>
+                    <span style={{fontWeight:"bold",fontSize:"16px",color:"white"}}>Dashboard</span>
                 </button>
               
-                    <button type="button" className="p-link ">
+                    {/* <button type="button" className="p-link ">
                         <span style={{fontWeight:"bold",fontSize:"16px"}}>Manage</span>
                     </button>
               
                
                     <button type="button" className="p-link ">
                         <span style={{fontWeight:"bold",fontSize:"16px"}}>Create</span>
-                    </button>
+                    </button> */}
             
                 <div>
                 <ConnectWallet className="bg-gradient-to-r from-indigo-500 via-purple-500 to-gray-500 ..." />
