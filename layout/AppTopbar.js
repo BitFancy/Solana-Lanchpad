@@ -3,7 +3,7 @@ import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import { LayoutContext } from './context/layoutcontext';
 import Image from 'next/image';
-import { ConnectWallet } from '@thirdweb-dev/react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const AppTopbar = forwardRef((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
@@ -23,17 +23,6 @@ const AppTopbar = forwardRef((props, ref) => {
                 <Image src={`./${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="60" height="60" widt={'true'} alt="logo" />
                 <span style={{fontSize:"30px",color:"white"}}>Launchpad</span>
             </Link>
-
-            {/* <button ref={menubuttonRef} type="button" className="p-link  layout-topbar-button" onClick={onMenuToggle}>
-                <i className="pi pi-bars" />
-            </button> */}
-
-            {/* <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
-                <i className="pi pi-ellipsis-v" />
-            </button> */}
-
-
-
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
                 <button type="button" className="p-link ">
                    
@@ -43,18 +32,10 @@ const AppTopbar = forwardRef((props, ref) => {
                     <span style={{fontWeight:"bold",fontSize:"16px",color:"white"}}>Dashboard</span>
                 </button>
               
-                    {/* <button type="button" className="p-link ">
-                        <span style={{fontWeight:"bold",fontSize:"16px"}}>Manage</span>
-                    </button>
-              
-               
-                    <button type="button" className="p-link ">
-                        <span style={{fontWeight:"bold",fontSize:"16px"}}>Create</span>
-                    </button> */}
+                  
             
                 <div>
-                <ConnectWallet className="bg-gradient-to-r from-indigo-500 via-purple-500 to-gray-500 ..." />
-
+                                    <ConnectButton/>
                 </div>
             </div>
         </div>
