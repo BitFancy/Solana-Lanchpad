@@ -66,6 +66,7 @@ const wagmiConfig = createConfig({
 });
 
 export default function MyApp({ Component, pageProps }) {
+  console.log(Component.getLayout);
   if (Component.getLayout) {
     return (
       <WagmiConfig config={wagmiConfig}>

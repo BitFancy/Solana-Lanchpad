@@ -5,9 +5,10 @@ import { Button } from "primereact/button";
 import WalletConnect from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
+import AppConfig from "../layout/AppConfig";
 import Router from 'next/router'
 
-export default function Auth() {
+const Auth=()=> {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [provider, setProvider] = useState();
@@ -125,76 +126,54 @@ export default function Auth() {
     <div className="row justify-content-center flex">
       <div className="col-6 form-widget text-center mt-5">
         <h1 className="header">Sign In</h1>
-        <p className="description">
-          Sign in via magic link with your email below
-        </p>
-        <div>
+        <div>CONTINUE WITH</div>
+        <div className="gap-5 flex mt-5 justify-content-center align-items-center">
+         
+      <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
+        <img src="google.png" onClick={signInWithGoogle} style={{width:"20px"}}></img>
+      </div>
+        
+        
+        
+        <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
+      
+        <img src="facebook.png" onClick={signInWithFacebook} style={{width:"20px"}}></img>
+
+        
+        </div>
+        <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
+        <img src="tweeter.png" onClick={signInWithFacebook} style={{width:"20px"}}></img>
+
+        </div>
+        <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
+        <img src="discord.png" onClick={signInWithDiscord} style={{width:"20px"}}></img>
+
+        </div>
+        </div>
+        <div style={{borderBottom:"1px solid",padding:"30px"}}></div>
+      <div className="mt-5">EMAIL</div>
+        <div >
           <InputText
-            className="inputField w-full"
+            className="inputField w-full mt-5" style={{borderRadius:"22px"}}
             type="email"
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mt-5">
+        <div className="mt-5" >
           <Button
             onClick={(e) => {
               e.preventDefault();
               handleLogin(email);
             }}
-            className="button block m-auto"
-            disabled={loading}
+            className="button block m-auto w-full"
+            disabled={loading} style={{borderRadius:"22px"}}
           >
-            <span>{loading ? "Loading" : "Send magic link"}</span>
+            <span>{loading ? "Loading" : "Continue with Email"}</span>
           </Button>
         </div>
-        <div className="gap-5 flex mt-5 justify-content-center ">
-          <div>
-        <Button>
-          <i
-            onClick={signInWithGoogle}
-            className="pi pi-google"
-            style={{ fontSize: "2rem" }}
-          >
-            {" "}
-          </i>
-        </Button>
-        </div>
-        <div>
-        <Button>
-          <i
-            onClick={signInWithFacebook}
-            className="pi pi-facebook"
-            style={{ fontSize: "2rem" }}
-          >
-           
-          </i>
-        </Button>
-        </div>
-        <div>
-        <Button>
-          <i
-            onClick={signInWithDiscord}
-            className="pi pi-discord"
-            style={{ fontSize: "2rem" }}
-          >
-          
-          </i>
-        </Button>
-        </div>
-        <div >
-        <Button>
-          <i
-            onClick={signout}
-            className="pi pi-sign-out"
-            style={{ fontSize: "2rem" }}
-          >
-            {" "}
-          </i>
-        </Button>
-        </div>
-        </div>
+      <div style={{borderBottom:"1px solid",padding:"30px"}}></div>
         <div className='mt-5'>EXTERNAL WALLET</div>
         
         
@@ -215,3 +194,14 @@ export default function Auth() {
     </div>
   );
 }
+
+Auth.getLayout = function getLayout(page) {
+  return (
+      <React.Fragment>
+          {page}
+          <AppConfig simple />
+      </React.Fragment>
+  );
+};
+
+export default Auth;

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabaseClient'
-import Auth from '../Components/Auth';
 import Account from '../Components/Account';
+import Auth from './auth';
+import Router from 'next/router'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -37,6 +38,11 @@ export default function Home() {
       subscription?.unsubscribe()
     }
   }, [])
+  useEffect(() => {
+    if(!session){
+      Router.push('/auth')
+    }
+  }, []); 
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
