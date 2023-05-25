@@ -7,7 +7,7 @@ import { withRouter } from "next/router";
 
 import Web3 from "web3";
 import Router from "next/router";
-const Step1=(props)=> {
+const Step1 = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [flowContarctA, setFlowContarctA] = useState("");
@@ -16,20 +16,20 @@ const Step1=(props)=> {
 
   var web3 = new Web3(Web3.givenProvider);
   const marketPlaceContract = (props) => {
-  //   msgs.current.show([
-  //     {
-  //       sticky: true,
-  //       severity: "success",
-  //       detail: "Your contract has been  successfully deployed",
-  //       closable: true,
-  //     },
-  //   ]);
-  //  setTimeout(()=>{
-  //   Router.push({
-  //     pathname: "/step2",
-  //     query: { contractAddress: "jasdfiuhe4j59w9u98wquron2k4jr98we9fnsiof98shf9b" },
-  //   });
-  //  },2000)
+    //   msgs.current.show([
+    //     {
+    //       sticky: true,
+    //       severity: "success",
+    //       detail: "Your contract has been  successfully deployed",
+    //       closable: true,
+    //     },
+    //   ]);
+    //  setTimeout(()=>{
+    //   Router.push({
+    //     pathname: "/step2",
+    //     query: { contractAddress: "jasdfiuhe4j59w9u98wquron2k4jr98we9fnsiof98shf9b" },
+    //   });
+    //  },2000)
     const marketplaceContarct = new web3.eth.Contract(marketplaceAbi.abi);
     web3.eth.getAccounts().then((accounts) => {
       marketplaceContarct
@@ -41,7 +41,7 @@ const Step1=(props)=> {
             process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
           ],
         })
-        .send({ from: accounts[0], gas: '7492052' })
+        .send({ from: accounts[0], gas: "7492052" })
         .on("receipt", (receipt) => {
           console.log("Props???????:", props);
           setMarketplaceContarctA(receipt.contractAddress);
@@ -53,19 +53,22 @@ const Step1=(props)=> {
               closable: true,
             },
           ]);
-         setTimeout(()=>{
-          Router.push({
-            pathname: "/step2",
-            query: { contractAddress: receipt.contractAddress, contractAddressFlowAccess: flowContarctA },
-          });
-        },2000)
+          setTimeout(() => {
+            Router.push({
+              pathname: "/step2",
+              query: {
+                contractAddress: receipt.contractAddress,
+                contractAddressFlowAccess: flowContarctA,
+              },
+            });
+          }, 2000);
         });
     });
   };
 
   useEffect(() => {
-    setFlowContarctA(props.router.query.contractAddressFlowAccess)
-  }, [props.router.query.contractAddressFlowAccess])
+    setFlowContarctA(props.router.query.contractAddressFlowAccess);
+  }, [props.router.query.contractAddressFlowAccess]);
 
   const handleInputFee = (e) => {
     if (e.target.value <= 100) {
@@ -76,16 +79,19 @@ const Step1=(props)=> {
     setContractName(e.target.value);
   };
 
-  console.log("props.router.query.contractAddressFlowAccess",props.router.query.contractAddressFlowAccess);
+  console.log(
+    "props.router.query.contractAddressFlowAccess",
+    props.router.query.contractAddressFlowAccess
+  );
   return (
-    <div style={{marginTop:"60px"}}>
-      <div className="card p-5 font-bold">
+    <div style={{ marginTop: "60px" }}>
+      <div className="font-bold p-3 mb-5" style={{ borderBottom: "2px solid" }}>
         Step 1 : Setup Roles & marketplace
       </div>
-      <div className="card m-auto" style={{ width: "50%" }}>
-       
-          <div>
-          <div>Enter marketplace Name</div>
+      <div className="card">
+        <div className="flex justify-content-between gap-5">
+          <div style={{ width: "50%" }}>
+            <div>Enter marketplace Name</div>
 
             <InputText
               type="text"
@@ -93,33 +99,36 @@ const Step1=(props)=> {
               value={contractName}
               onChange={handleInputName}
               id="contractName"
-              className="p-2 w-full mt-3"
-              style={{ width: "100%" }}
+              className="p-2 w-full mt-3 input-back"
+              placeholder="Enter Marketplace Name"
             />
           </div>
-          <div>
-          <div className="mt-5">Enter marketplace fee</div>
+          <div style={{ width: "50%" }}>
+            <div>Enter marketplace fee</div>
             <InputText
               type="number"
               name="_platformFee"
               value={_platformFee}
               onChange={handleInputFee}
-              className="p-2 w-full mt-3"
+              className="p-2 w-full mt-3 input-back "
+              placeholder="Enter Marketplace fee"
             />
           </div>
-      
+        </div>
 
-        <div className="text-center mt-5">
+        <div className="text-center">
           <Button
             label="deploy contract"
             onClick={marketPlaceContract}
             severity="Primary"
+            className=" mt-7"
+            style={{ width: "30%" }}
             rounded
           />
         </div>
-        {msgs && <Messages ref={msgs} />}
+        {msgs && <Messages className="success-msg" ref={msgs} />}
       </div>
     </div>
   );
-}
-export default withRouter(Step1)
+};
+export default withRouter(Step1);

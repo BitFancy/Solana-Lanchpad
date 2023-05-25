@@ -20,7 +20,7 @@ export default function Deployflowmarket() {
         .deploy({
           data: marketplaceAbi.bytecode,
         })
-        .send({ from: accounts[0], gas: '7492052'})
+        .send({ from: accounts[0], gas: "7492052" })
         .on("receipt", (receipt) => {
           setMarketplaceContarctA(receipt.contractAddress);
           console.log("Contract Address:", receipt.contractAddress);
@@ -43,7 +43,7 @@ export default function Deployflowmarket() {
   //     });
   //   }, 2000);
   // },[])
-  
+
   return (
     <div>
       <div className="text-center">
@@ -51,7 +51,7 @@ export default function Deployflowmarket() {
           label="Deploy Flow Access Control"
           icon="pi pi-external-link"
           onClick={flowAccessMarletContarct}
-          style={{marginTop:"115px"}}
+          style={{ marginTop: "115px" }}
         />
       </div>
       <Dialog
@@ -59,7 +59,7 @@ export default function Deployflowmarket() {
         style={{ width: "50vw", textAlign: "center" }}
         onHide={() => setVisible(false)}
       >
-        <div className="m-0 bg-blue-600 text-white p-5 text-lg">
+        <div className="m-0 bg-blue-600 text-white p-5 text-lg success-msg">
           <div>Well done !</div>
           <div>you are now the admin, Flow access control</div>
           <div>has been successfully deployed</div>

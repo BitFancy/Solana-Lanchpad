@@ -1,13 +1,13 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Web3 from "web3";
 import creatifyAbi from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
 import { Messages } from "primereact/messages";
-import { FileUpload } from 'primereact/fileupload';
+import { FileUpload } from "primereact/fileupload";
 import { withRouter } from "next/router";
 
-const Collection=(props)=> {
+const Collection = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [collectionContractA, setCollectionContractA] = useState("");
@@ -45,14 +45,12 @@ const Collection=(props)=> {
   };
 
   useEffect(() => {
-    setMarketplaceContarctA(props.router.query.contractAddress)
-  }, [props.router.query.contractAddress])
-  
+    setMarketplaceContarctA(props.router.query.contractAddress);
+  }, [props.router.query.contractAddress]);
+
   return (
-    <div style={{marginTop:"85px"}}>
-      <div className="card p-5 font-bold text-align-center">
-        Deploy Collection
-      </div>
+    <div style={{ marginTop: "85px" }}>
+      <div className="p-5 font-bold text-align-center">Deploy Collection</div>
       <div className="flex justify-content-center gap-5">
         <div className="card" style={{ width: "50%" }}>
           <div className="text-center mt-5">
@@ -61,7 +59,7 @@ const Collection=(props)=> {
               <InputText
                 value={contractName}
                 onChange={handleInputName}
-                className="p-2 w-full"
+                className="p-2 w-full input-back"
                 type="text"
               />
             </div>
@@ -70,7 +68,7 @@ const Collection=(props)=> {
               <InputText
                 value={contractSymbol}
                 onChange={handleInputSymbol}
-                className="p-2 w-full"
+                className="p-2 w-full input-back"
                 type="text"
               />
             </div>
@@ -78,14 +76,21 @@ const Collection=(props)=> {
             <div className="mt-2">
               <InputText
                 value={marketplaceContarctA}
-                className="p-2 w-full"
+                className="p-2 w-full input-back"
                 type="text"
               />
             </div>
             <div className="mt-3 text-left">Choose img</div>
             <div className="mt-2">
-            <FileUpload name="demo[]" url={'/api/upload'}  accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
-
+              <FileUpload
+                name="demo[]"
+                url={"/api/upload"}
+                accept="image/*"
+                maxFileSize={1000000}
+                emptyTemplate={
+                  <p className="m-0">Drag and drop files to here to upload.</p>
+                }
+              />
             </div>
           </div>
           <div className="text-center mt-5">
@@ -93,7 +98,7 @@ const Collection=(props)=> {
               onClick={collectionContarct}
               label="Deploy Collection"
               severity="Primary"
-              icon="pi pi-external-link" 
+              icon="pi pi-external-link"
               rounded
             />
           </div>
@@ -101,5 +106,5 @@ const Collection=(props)=> {
       </div>
     </div>
   );
-}
-export default withRouter(Collection)
+};
+export default withRouter(Collection);
