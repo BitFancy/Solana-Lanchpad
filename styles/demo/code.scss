@@ -30,9 +30,37 @@ pre.app-code {
     height: 300px;
     color: white;
 }
-
+.dashboardl-top-back{
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
+    padding: 80px 10px 80px 10px;
+    margin-top: -28px;
+    margin-left: -56px;
+    margin-right: -28px;
+}
+.right-collection-box{
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.dash-img-size{
+    width: 300px;
+    height: 300px;
+}
+.overflow-dashboard-left{
+    height: 550px;
+}
+.border-bottom-das{
+    border-bottom: 1px solid;
+    padding: 10px;
+}
+.input-market-search{
+    width: 500px;
+    border-radius: 25px;
+}
 .sucessnote-back {
     background: linear-gradient(181.75deg, rgba(83, 71, 231, 0.8) 9.97%, rgba(83, 71, 231, 0) 97.19%), #FFFFFF;
+}
+.edition-note{
+    font-size: 15px;
 }
 
 .skip-button {
