@@ -41,9 +41,26 @@ pre.app-code {
     margin-left: 100px;
     margin-right: 100px;
 }
+.manage-colloection-back{
+    background:linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
+    padding: 70px 0px 55px 0px;
+    margin: -28px -28px 10px -56px;
+    text-align: center;
+    font-size: 27px;
+    color: white;
+}
+.card-role{
+    background: rgba(83, 71, 231, 0.4);
+}
 .dash-img-size{
     width: 300px;
     height: 300px;
+}
+.gap-right{
+    gap: 100px;
+}
+.overflow-manage-left{
+    height: 535px;
 }
 .overflow-dashboard-left{
     height: 550px;

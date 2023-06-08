@@ -9,13 +9,13 @@ export default function NftLaunch() {
           <div className="font-bold text-2xl">Create As</div>
           <div className="flex gap-3 mt-5">
             <div>
-              <img src="edition.png"></img>
+              <img src="edition.png" alt="edition"></img>
             </div>
             <div className="edition-note">Edition</div>
           </div>
           <div className="flex gap-3 mt-5">
             <div>
-              <img src="collection.png"></img>
+              <img src="collection.png" alt="collection"></img>
             </div>
             <div className="edition-note">Collection</div>
           </div>
@@ -25,6 +25,7 @@ export default function NftLaunch() {
             <img
               src="garden.png"
               style={{ width: "200px", height: "185px" }}
+              alt="garden"
             ></img>
           </div>
           <div>

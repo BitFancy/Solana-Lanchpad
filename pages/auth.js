@@ -130,23 +130,23 @@ const Auth=()=> {
         <div className="gap-5 flex mt-5 justify-content-center align-items-center">
          
       <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
-        <img src="google.png" onClick={signInWithGoogle} style={{width:"20px"}}></img>
+        <img src="google.png" onClick={signInWithGoogle} style={{width:"20px"}} alt="google"></img>
       </div>
         
         
         
         <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
       
-        <img src="facebook.png" onClick={signInWithFacebook} style={{width:"20px"}}></img>
+        <img src="facebook.png" alt="facebook" onClick={signInWithFacebook} style={{width:"20px"}}></img>
 
         
         </div>
         <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
-        <img src="tweeter.png" onClick={signInWithFacebook} style={{width:"20px"}}></img>
+        <img src="tweeter.png" alt="tweeter" onClick={signInWithFacebook} style={{width:"20px"}}></img>
 
         </div>
         <div style={{borderRadius:"50%",padding:"10px",background:"black"}}>
-        <img src="discord.png" onClick={signInWithDiscord} style={{width:"20px"}}></img>
+        <img src="discord.png" alt="discord" onClick={signInWithDiscord} style={{width:"20px"}}></img>
 
         </div>
         </div>
