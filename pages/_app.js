@@ -6,90 +6,36 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 import { Provider } from "react-redux";
-import {
-  RainbowKitProvider,
-  getDefaultWallets,
-  connectorsForWallets,
-} from '@rainbow-me/rainbowkit';
-import {
-  argentWallet,
-  trustWallet,
-  ledgerWallet,
-} from '@rainbow-me/rainbowkit/wallets';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, goerli } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
-
 import store from "../store";
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
-  ],
-  [publicProvider()]
-);
-
-const projectId = 'YOUR_PROJECT_ID';
-
-const { wallets } = getDefaultWallets({
-  appName: 'RainbowKit demo',
-  projectId,
-  chains,
-});
-
-const demoAppInfo = {
-  appName: 'Rainbowkit Demo',
-};
-
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      argentWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
-    ],
-  },
-]);
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-});
-
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 export default function MyApp({ Component, pageProps }) {
-  console.log(Component.getLayout);
+  const desiredChainId = 80001;
   if (Component.getLayout) {
     return (
-      <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
-      <LayoutProvider>
+      <ThirdwebProvider desiredChainId={desiredChainId}>
+       <LayoutProvider>
+      <Provider store={store}>
         {Component.getLayout(<Component {...pageProps} />)}
+        </Provider>
       </LayoutProvider>
-=      </RainbowKitProvider>
-      </WagmiConfig>
+      </ThirdwebProvider>
     );
   } else {
-    return (
-      <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+  return (
+
+    <Provider store={store}>
+
+      <ThirdwebProvider desiredChainId={desiredChainId}>
       <LayoutProvider>
         <Layout>
-          <Provider store={store}>
             <Component {...pageProps} />
-          </Provider>
         </Layout>
-      </LayoutProvider>
-      </RainbowKitProvider>
-      </WagmiConfig>
-    );
-  }
-}
+        </LayoutProvider>
+      </ThirdwebProvider>
+
+       </Provider>
+
+  );
+  }}
