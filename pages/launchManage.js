@@ -5,6 +5,7 @@ import flowAccessControlJson from "../artifacts/contracts/flow-accesscontrol/Flo
 import etherContract from "../utils/web3Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
+import Layout from "../Components/Layout";
 
 export default function LunchManage() {
   const walletAddr = useSelector(selectUser);
@@ -51,6 +52,10 @@ export default function LunchManage() {
   }, [revokeRole]);
 
   return (  
+    <Layout
+    title="Launch Manage Page"
+    description="This is use to show information of the launch manage page"
+  >
     <div>
       <div>
         <div className="font-bold mt-10 manage-colloection-back">Manage your collection</div>
@@ -108,5 +113,6 @@ export default function LunchManage() {
           
       </div>
       </div>
+      </Layout>
   )
 }

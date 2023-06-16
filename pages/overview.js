@@ -1,7 +1,6 @@
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
+import Layout from "../Components/Layout";
 
 export default function LunchManage() {
     const [chartData, setChartData] = useState({});
@@ -33,6 +32,10 @@ export default function LunchManage() {
     }, []);
 
   return (
+    <Layout
+    title="Overview"
+    description="This is use to show information of the overview launchpad"
+  >
     <div>
       <div>
         <div className="font-bold ml-5 mt-10">Manage your collection</div>
@@ -55,5 +58,6 @@ export default function LunchManage() {
           
       </div>
       </div>
+      </Layout>
   )
 }

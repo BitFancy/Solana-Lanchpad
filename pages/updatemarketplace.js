@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { PrimeIcons } from "primereact/api";
+import Layout from "../Components/Layout";
 
 class UpdateMarketPlace extends React.Component {
   state = {
@@ -28,6 +29,8 @@ class UpdateMarketPlace extends React.Component {
   };
   render() {
     return (
+      <Layout title="Update Marketplace" description="Used to show updated luanchpad information">
+
       <div>
         <div className=" p-5 font-bold " style={{ borderBottom: "2px solid" }}>
           Step 1 : Update Parameters{" "}
@@ -74,6 +77,7 @@ class UpdateMarketPlace extends React.Component {
           />
         </div>
       </div>
+      </Layout>
     );
   }
 }

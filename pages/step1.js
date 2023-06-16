@@ -7,6 +7,7 @@ import { withRouter } from "next/router";
 
 import Web3 from "web3";
 import Router from "next/router";
+import Layout from "../Components/Layout";
 const Step1 = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
@@ -84,6 +85,8 @@ const Step1 = (props) => {
     props.router.query.contractAddressFlowAccess
   );
   return (
+    <Layout title="Step 1" description="Step one of the launchpad">
+
     <div style={{ marginTop: "60px" }}>
       <div className="font-bold p-3 mb-5" style={{ borderBottom: "2px solid" }}>
         Step 1 : Setup Roles & marketplace
@@ -129,6 +132,7 @@ const Step1 = (props) => {
         {msgs && <Messages className="success-msg" ref={msgs} />}
       </div>
     </div>
+    </Layout>
   );
 };
 export default withRouter(Step1);

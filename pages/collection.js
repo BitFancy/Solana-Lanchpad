@@ -6,6 +6,7 @@ import creatifyAbi from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.so
 import { Messages } from "primereact/messages";
 import { FileUpload } from "primereact/fileupload";
 import { withRouter } from "next/router";
+import Layout from "../Components/Layout";
 
 const Collection = (props) => {
   const msgs = useRef(null);
@@ -49,6 +50,10 @@ const Collection = (props) => {
   }, [props.router.query.contractAddress]);
 
   return (
+    <Layout
+    title="Collection"
+    description="This is use to show deployed collection information"
+  >
     <div style={{ marginTop: "85px" }}>
       <div className="p-5 font-bold text-align-center">Deploy Collection</div>
       <div className="flex justify-content-center gap-5">
@@ -105,6 +110,7 @@ const Collection = (props) => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 export default withRouter(Collection);

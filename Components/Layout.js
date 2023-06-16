@@ -1,5 +1,3 @@
-import Header from "./Header";
-import Footer from "./Footer";
 import Head from "next/head";
 
 const Layout = ({ children, title ,description}) => {
@@ -24,9 +22,7 @@ const Layout = ({ children, title ,description}) => {
         <meta name="description" content={description}/>
 
       </Head>
-      <Header />
       {children}
-      <Footer />
     </>
   );
 };

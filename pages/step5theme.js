@@ -1,13 +1,14 @@
 import Image from 'next/image'
 import React from 'react'
+import Layout from '../Components/Layout'
 
 export default function Step5theme() {
   
     return (
-    //     <Layout
-    //     title="Step five"
-    //     description="Used to select theme of the metavers"
-    //   >
+        <Layout
+        title="Theme page"
+        description="Used to select theme of the metavers"
+      >
 <div>
     <div className=' p-5 font-bold'>Step 5 : Choose a metaverse theme  </div>
     <div className='flex justify-content-around mt-5 font-bold'>
@@ -31,6 +32,7 @@ export default function Step5theme() {
 </div>
     </div>
 </div>
+</Layout>
 
   )
 }

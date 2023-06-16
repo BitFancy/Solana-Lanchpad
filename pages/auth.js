@@ -7,6 +7,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import AppConfig from "../layout/AppConfig";
 import Router from 'next/router'
+import Layout from "../Components/Layout";
 
 const Auth=()=> {
   const [loading, setLoading] = useState(false);
@@ -123,6 +124,8 @@ const Auth=()=> {
     }
   }, [provider]);
   return (
+    <Layout title="Auth Page" description="Used to Authentication of the user">
+
     <div className="row justify-content-center flex">
       <div className="col-6 form-widget text-center mt-5">
         <h1 className="header">Sign In</h1>
@@ -192,6 +195,7 @@ const Auth=()=> {
        
       </div>
     </div>
+    </Layout>
   );
 }
 

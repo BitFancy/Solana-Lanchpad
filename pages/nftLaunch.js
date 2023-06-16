@@ -1,8 +1,13 @@
 import { Button } from "primereact/button";
 import React from "react";
+import Layout from "../Components/Layout";
 
 export default function NftLaunch() {
   return (
+    <Layout
+    title="Launch NFt"
+    description="This is use to show information of the launch NFT"
+  >
     <div>
       <div className="flex justify-content-center" style={{ height: "340px" }}>
         <div className="bg-blue-600 text-white p-5">
@@ -48,5 +53,6 @@ export default function NftLaunch() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }

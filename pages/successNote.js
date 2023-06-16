@@ -1,7 +1,10 @@
 import { Button } from 'primereact/button'
 import React from 'react'
+import Layout from '../Components/Layout'
 export default function SuccessNote() {
     return (
+        <Layout title="Success Note" description="Used to show success contarct information">
+
 <div>
     <div className='text-center sucessnote-back'>
     <div className='flex justify-content-center  gap-5'>
@@ -24,6 +27,6 @@ Settled!</div>
 
 </div>
     </div>
-
+</Layout>
   )
 }

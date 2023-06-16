@@ -5,6 +5,7 @@ import marketplaceAbi from "../artifacts/contracts/flow-accesscontrol/FlowAccess
 import Web3 from "web3";
 import Router from "next/router";
 import { useEffect } from "react";
+import Layout from "../Components/Layout";
 
 export default function Deployflowmarket() {
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
@@ -45,6 +46,10 @@ export default function Deployflowmarket() {
   // },[])
 
   return (
+    <Layout
+    title="Deploy Flow Access Control Contract"
+    description="This is use to show information of the flow access control contract"
+  >
     <div>
       <div className="text-center">
         <Button
@@ -66,5 +71,6 @@ export default function Deployflowmarket() {
         </div>
       </Dialog>
     </div>
+    </Layout>
   );
 }

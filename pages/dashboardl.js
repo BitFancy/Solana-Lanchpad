@@ -1,9 +1,14 @@
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import Layout from "../Components/Layout";
 
 export default function Dashboard() {
   return (
+    <Layout
+    title="Launchpad Dashboard"
+    description="This is use to show launchpad Information"
+  >
     <div>
       <div className="text-center mt-10 border-b-2 border-indigo-500 ... dashboardl-top-back">
         <div className="p-input-icon-left">
@@ -71,5 +76,6 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }

@@ -9,6 +9,7 @@ import { Button } from 'primereact/button';
 import WalletConnect from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
+import Layout from "../Components/Layout";
 
 export default function SignIn() {
   const [provider, setProvider] = useState();
@@ -98,6 +99,7 @@ export default function SignIn() {
   };
 
   return (
+    <Layout title="Sign In" description="Used to Sign in information of the User">
 
     <div>
       <div className='text-center'>
@@ -159,5 +161,6 @@ export default function SignIn() {
         </div>
         </div>
     </div>
+    </Layout>
   )
 }

@@ -1,10 +1,10 @@
-// import Layout from "@/Components/Layout";
 import React from "react";
 import { Button } from "primereact/button";
 import Link from "next/link";
+import Layout from "../Components/Layout";
 export default function Lunchpad() {
   return (
-    // <Layout title="Step one" description="Used to deploy contract">
+    <Layout title="Launchpad" description="Used to show launchpad information">
     <div className="launchpad-back">
       <div
         className="text-center font-bold mt-16 text-3xl text-white"
@@ -97,5 +97,6 @@ export default function Lunchpad() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }

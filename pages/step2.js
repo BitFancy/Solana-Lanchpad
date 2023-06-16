@@ -7,6 +7,7 @@ import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';
 import { NFTStorage } from "nft.storage";
+import Layout from "../Components/Layout";
 
 const YOUR_API_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -79,6 +80,8 @@ useEffect(() => {
 
   console.log("Address in step 2", props.router.query.contractAddress, props.router.query.contractAddressFlowAccess);
   return (
+    <Layout title="Step 2" description="Step 2 of the launchpad">
+
     <div style={{marginTop:"85px"}}>
       <div className="card p-5 font-bold justify-content-center flex">
         Deploy Collection
@@ -124,6 +127,7 @@ useEffect(() => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 

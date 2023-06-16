@@ -5,6 +5,7 @@ import Web3 from "web3";
 import edition from "../artifacts/contracts/FLOWEDITION/FlowEdition.sol/FlowEdition.json"
 import { Messages } from "primereact/messages";
 import { withRouter } from "next/router";
+import Layout from "../Components/Layout";
 
 const Edition=(props)=> {
   const msgs = useRef(null);
@@ -55,6 +56,10 @@ const Edition=(props)=> {
   }, [props.router.query.contractAddress])
   
   return (
+    <Layout
+    title="Deploy Edition"
+    description="This is use to show information of the deploy edition contract"
+  >
     <div>
       <div className="card p-5 font-bold text-center">
         Deploy Edition
@@ -110,6 +115,7 @@ const Edition=(props)=> {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 export default withRouter(Edition)

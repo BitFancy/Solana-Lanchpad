@@ -1,13 +1,14 @@
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import Layout from "../Components/Layout";
 
 export default function LuanchNFTs() {
   return (
-    // <Layout
-    //   title="Launchpad NFTs"
-    //   description="Used to show launchpad NFTs"
-    // >
+    <Layout
+      title="Launchpad NFTs"
+      description="Used to show launchpad NFTs"
+    >
       <div>
         <div className="text-center mt-5 card p-5">
         <span className="p-input-icon-left">
@@ -42,6 +43,6 @@ export default function LuanchNFTs() {
           </div>
         </div>
       </div>
-    // {/* </Layout> */}
+     </Layout>
   );
 }
