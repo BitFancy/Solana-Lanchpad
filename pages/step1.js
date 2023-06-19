@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef, useEffect } from "react";
-import marketplaceAbi from "../artifacts/contracts/FLOWMARKETPLACE/FlowMarketplace.sol/FlowMarketplace.json";
+import tradhubAbi from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import { Messages } from "primereact/messages";
 import { withRouter } from "next/router";
 
@@ -31,11 +31,11 @@ const Step1 = (props) => {
     //     query: { contractAddress: "jasdfiuhe4j59w9u98wquron2k4jr98we9fnsiof98shf9b" },
     //   });
     //  },2000)
-    const marketplaceContarct = new web3.eth.Contract(marketplaceAbi.abi);
+    const marketplaceContarct = new web3.eth.Contract(tradhubAbi.abi);
     web3.eth.getAccounts().then((accounts) => {
       marketplaceContarct
         .deploy({
-          data: marketplaceAbi.bytecode,
+          data: tradhubAbi.bytecode,
           arguments: [
             _platformFee,
             contractName,

@@ -2,13 +2,13 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect, useRef } from "react";
 import Web3 from "web3";
-import creatifyAbi from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
+import fusionSeriesAbi from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
 import { Messages } from "primereact/messages";
 import { FileUpload } from "primereact/fileupload";
 import { withRouter } from "next/router";
 import Layout from "../Components/Layout";
 
-const Collection = (props) => {
+const FusionSeries = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [collectionContractA, setCollectionContractA] = useState("");
@@ -19,16 +19,16 @@ const Collection = (props) => {
   const collectionContarct = () => {
     const contractName = "nft";
     const contractSymbol = "NFT";
-    const creatifyContarct = new web3.eth.Contract(creatifyAbi.abi);
+    const creatifyContarct = new web3.eth.Contract(fusionSeriesAbi.abi);
     web3.eth.getAccounts().then((accounts) => {
       creatifyContarct
         .deploy({
-          data: creatifyAbi.bytecode,
+          data: fusionSeriesAbi.bytecode,
           arguments: [contractName, contractSymbol, marketplaceContarctA],
         })
         .send({ from: accounts[0], gas: 10002 })
         .on("receipt", (receipt) => {
-          console.log("Contract Address collection:", receipt.contractAddress);
+          console.log("Contract Address FusionSeries:", receipt.contractAddress);
           setCollectionContractA(receipt.contractAddress);
         });
     });
@@ -51,15 +51,15 @@ const Collection = (props) => {
 
   return (
     <Layout
-    title="Collection"
-    description="This is use to show deployed collection information"
+    title="FusionSeries"
+    description="This is use to show deployed FusionSeries information"
   >
     <div style={{ marginTop: "85px" }}>
-      <div className="p-5 font-bold text-align-center">Deploy Collection</div>
+      <div className="p-5 font-bold text-align-center">Deploy FusionSeries</div>
       <div className="flex justify-content-center gap-5">
         <div className="card" style={{ width: "50%" }}>
           <div className="text-center mt-5">
-            <div className="text-left">Enter Collection name</div>
+            <div className="text-left">Enter FusionSeries name</div>
             <div className="mt-3">
               <InputText
                 value={contractName}
@@ -68,7 +68,7 @@ const Collection = (props) => {
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">Enter Collection Symbol</div>
+            <div className="mt-3 text-left">Enter FusionSeries Symbol</div>
             <div className="mt-2">
               <InputText
                 value={contractSymbol}
@@ -101,7 +101,7 @@ const Collection = (props) => {
           <div className="text-center mt-5">
             <Button
               onClick={collectionContarct}
-              label="Deploy Collection"
+              label="Deploy FusionSeries"
               severity="Primary"
               icon="pi pi-external-link"
               rounded
@@ -113,4 +113,4 @@ const Collection = (props) => {
     </Layout>
   );
 };
-export default withRouter(Collection);
+export default withRouter(FusionSeries);

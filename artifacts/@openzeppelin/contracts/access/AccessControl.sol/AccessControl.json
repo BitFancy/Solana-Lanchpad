@@ -120,7 +120,7 @@
         {
           "internalType": "address",
           "name": "account",
-          "type": "address" 
+          "type": "address"
         }
       ],
       "name": "grantRole",

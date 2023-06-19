@@ -38,11 +38,11 @@ export default function LunchManage() {
   >
     <div>
       <div>
-        <div className="font-bold ml-5 mt-10">Manage your collection</div>
+        <div className="font-bold ml-5 mt-10">Manage your FusionSeries</div>
         <div className="flex justify-content-around">
         <div className="font-bold p-5" style={{borderRight:"1px solid"}}>
-            <div className="mt-5 cursor-pointer">Edition</div>
-            <div className="mt-5 cursor-pointer">Collection</div>
+            <div className="mt-5 cursor-pointer">SignatureSeries</div>
+            <div className="mt-5 cursor-pointer">FusionSeries</div>
             <div className="mt-5 cursor-pointer">Roles</div>
             <div className="mt-5 cursor-pointer">Marketplace</div>
           </div>

@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect } from "react";
-import flowAccessControlJson from "../artifacts/contracts/flow-accesscontrol/FlowAccessControl.sol/FlowAccessControl.json";
+import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
 import etherContract from "../utils/web3Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
@@ -20,7 +20,7 @@ export default function LunchManage() {
       }
       const flowAccessControlContract = await etherContract(
             process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
-        flowAccessControlJson.abi
+            accessMasterAbi.abi
       );
       setGrantRole(
         await flowAccessControlContract.grantRole(
@@ -39,7 +39,7 @@ export default function LunchManage() {
       }
       const flowAccessControlContract = await etherContract(
             process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
-        flowAccessControlJson.abi
+            accessMasterAbi.abi
       );
       setRevokeRole(
         await flowAccessControlContract.revokeRole(
@@ -58,13 +58,13 @@ export default function LunchManage() {
   >
     <div>
       <div>
-        <div className="font-bold mt-10 manage-colloection-back">Manage your collection</div>
+        <div className="font-bold mt-10 manage-colloection-back">Manage your FusionSeries</div>
         <div className="flex gap-right mt-5">
         <div className="font-bold p-5 overflow-y-auto ... overflow-manage-left">
-          <div className="mt-5">Edition</div>
-          <div className="mt-5">Collection</div>
+          <div className="mt-5">SignatureSeries</div>
+          <div className="mt-5">FusionSeries</div>
           <div className="mt-5">AIREX</div>
-          <div className="mt-5">Subscription NFTs</div>
+          <div className="mt-5">EternumPass</div>
           <div className="mt-5">Phygital NFTs</div>
           <div className="border-bottom-das"></div>
           <div className="mt-5">Roles</div>
@@ -107,7 +107,7 @@ export default function LunchManage() {
           
         </div>
         <div className="mt-5 text-center">
-                <Button label="Deploy  another Collection" severity="Primary" rounded />
+                <Button label="Deploy  another FusionSeries" severity="Primary" rounded />
 
             </div>
           

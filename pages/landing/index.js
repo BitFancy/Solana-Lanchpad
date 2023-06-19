@@ -18,7 +18,6 @@ const LandingPage = () => {
     const toggleMenuItemClick = () => {
         setIsHidden((prevState) => !prevState);
     };
-
     return (
         <div className="surface-0 flex justify-content-center">
             <div id="home" className="landing-wrapper overflow-hidden">

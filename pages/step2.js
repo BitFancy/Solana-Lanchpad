@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import Web3 from "web3";
-import collection from "../artifacts/contracts/FLOWCOLLECTION/FlowCollection.sol/FlowCollection.json";
+import fusionSeriesAbi from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
 import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';
@@ -46,16 +46,16 @@ const Step2=(props)=> {
   
   var web3 = new Web3(Web3.givenProvider);
   const collectionContarct = () => {
-    const collectionContarct = new web3.eth.Contract(collection.abi);
+    const collectionContarct = new web3.eth.Contract(fusionSeriesAbi.abi);
     web3.eth.getAccounts().then((accounts) => {
       collectionContarct
         .deploy({
-          data: collection.bytecode,
+          data: fusionSeriesAbi.bytecode,
           arguments: [uploadImage,marketplaceContarctA,flowcontarctAddress ],
         })
         .send({ from: accounts[0], gas: 10002 })
         .on("receipt", (receipt) => {
-          console.log(" collection Contract Address:", receipt.contractAddress);
+          console.log(" FusionSeries Contract Address:", receipt.contractAddress);
 
           setCollectionContractA(receipt.contractAddress);
           msgs.current.show([
@@ -84,7 +84,7 @@ useEffect(() => {
 
     <div style={{marginTop:"85px"}}>
       <div className="card p-5 font-bold justify-content-center flex">
-        Deploy Collection
+        Deploy FusionSeries
       </div>
       <div className="flex justify-content-center gap-5">
       
@@ -118,7 +118,7 @@ useEffect(() => {
           <div className="text-center mt-5">
             <Button
               onClick={collectionContarct}
-              label="Deploy Collection"
+              label="Deploy FusionSeries"
               severity="Primary"
               rounded
               disabled={!marketplaceContarctA}

@@ -19,8 +19,8 @@ export default function LuanchNFTs() {
         <hr></hr>
         <div className="flex justify-content-between mt-5">
           <div className="font-bold p-5" style={{borderRight:"1px solid"}}>
-            <div className="mt-5 cursor-pointer">Edition</div>
-            <div className="mt-5 cursor-pointer">Collection</div>
+            <div className="mt-5 cursor-pointer">SignatureSeries</div>
+            <div className="mt-5 cursor-pointer">FusionSeries</div>
             <div className="mt-5 cursor-pointer">Roles</div>
             <div className="mt-5 cursor-pointer">Marketplace</div>
           </div>

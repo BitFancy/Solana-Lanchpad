@@ -22,10 +22,10 @@ export default function Dashboard() {
       <hr></hr>
       <div className="flex justify-content-between mt-10">
         <div className="font-bold p-5 overflow-y-auto ... overflow-dashboard-left">
-          <div className="mt-5">Edition</div>
-          <div className="mt-5">Collection</div>
+          <div className="mt-5">SignatureSeries</div>
+          <div className="mt-5">FusionSeries</div>
           <div className="mt-5">AIREX</div>
-          <div className="mt-5">Subscription NFTs</div>
+          <div className="mt-5">EternumPass</div>
           <div className="mt-5">Phygital NFTs</div>
           <div className="border-bottom-das"></div>
           <div className="mt-5">Roles</div>

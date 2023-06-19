@@ -16,13 +16,13 @@ export default function NftLaunch() {
             <div>
               <img src="edition.png" alt="edition"></img>
             </div>
-            <div className="edition-note">Edition</div>
+            <div className="edition-note">SignatureSeries</div>
           </div>
           <div className="flex gap-3 mt-5">
             <div>
-              <img src="collection.png" alt="collection"></img>
+              <img src="collection.png" alt="FusionSeries"></img>
             </div>
-            <div className="edition-note">Collection</div>
+            <div className="edition-note">FusionSeries</div>
           </div>
         </div>
         <div className="bg-blue-100 p-5">
@@ -36,9 +36,9 @@ export default function NftLaunch() {
           <div>
             <div className="flex mt-5 gap-5">
               <div>
-                <div className="font-bold text-2xl">Launch Edition</div>
+                <div className="font-bold text-2xl">Launch SignatureSeries</div>
                 <div>Deploy your own ERC-721 contract &</div>
-                <div>launch edition of assets</div>
+                <div>launch SignatureSeries of assets</div>
               </div>
               <div>
                 <Button

@@ -21,7 +21,7 @@ export default function Lunchpad() {
           className=" text-white p-7 text-center card"
           style={{ marginBottom: "0px",background:"black" }}
         >
-          <div className="font-bold">Edition</div>
+          <div className="font-bold">SignatureSeries</div>
 
           <div className="mt-5 text-sm">
             {" "}
@@ -31,17 +31,17 @@ export default function Lunchpad() {
           <div>memorable for customers</div>
           <div className="mt-5">
             <Link href="/deployflowaccessControl">
-              <Button label="Launch Edition"  rounded style={{background:"white",color:"black"}}/>
+              <Button label="Launch SignatureSeries"  rounded style={{background:"white",color:"black"}}/>
             </Link>
           </div>
         </div>
         <div className=" text-white p-7 text-center card" style={{background:"black"}}>
-          <div className="font-bold">Collection</div>
-          <div className="mt-5 text-sm">Watch your collections and saves </div>
+          <div className="font-bold">FusionSeries</div>
+          <div className="mt-5 text-sm">Watch your FusionSeries and saves </div>
           <div>time buying one of them</div>
 
           <div className="mt-5">
-            <Button label="Launch Collection" style={{background:"white",color:"black"}} rounded />
+            <Button label="Launch FusionSeries" style={{background:"white",color:"black"}} rounded />
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function Lunchpad() {
           className="text-white p-7 text-center card "
           style={{ marginBottom: "0px",background:"black" }}
         >
-          <div className="font-bold">subscription NFTs</div>
+          <div className="font-bold">EternumPass</div>
           <div className="mt-5 text-sm"> An Opportunity to access</div>
           <div>digital assets and </div>
           <div>ownership to exclusive </div>
@@ -74,7 +74,7 @@ export default function Lunchpad() {
           <div className="mt-5">
             <Link href="/deployflowaccessControl">
               <Button
-                label="Launch subscription NFTs"
+                label="Launch EternumPass"
                 style={{background:"white",color:"black"}}
                 rounded
               />

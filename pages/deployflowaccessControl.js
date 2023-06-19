@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import marketplaceAbi from "../artifacts/contracts/flow-accesscontrol/FlowAccessControl.sol/FlowAccessControl.json";
+import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
 import Web3 from "web3";
 import Router from "next/router";
 import { useEffect } from "react";
@@ -15,11 +15,11 @@ export default function Deployflowmarket() {
   var web3 = new Web3(Web3.givenProvider);
 
   const flowAccessMarletContarct = () => {
-    const marketplaceContarct = new web3.eth.Contract(marketplaceAbi.abi);
+    const marketplaceContarct = new web3.eth.Contract(accessMasterAbi.abi);
     web3.eth.getAccounts().then((accounts) => {
       marketplaceContarct
         .deploy({
-          data: marketplaceAbi.bytecode,
+          data: accessMasterAbi.bytecode,
         })
         .send({ from: accounts[0], gas: "7492052" })
         .on("receipt", (receipt) => {
