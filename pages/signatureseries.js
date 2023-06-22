@@ -30,6 +30,7 @@ const SignatureSeries = (props) => {
     } catch (e) {
       console.log(e);
     }
+  }
     const handleInputName = (e) => {
       setContractName(e.target.value);
     };
@@ -110,5 +111,5 @@ const SignatureSeries = (props) => {
       </Layout>
     );
   };
-};
+
 export default withRouter(SignatureSeries);
