@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import Layout from "../Components/Layout";
-export default function Lunchpad() {
+export default function Launchpad() {
   return (
     <Layout title="Launchpad" description="Used to show launchpad information">
     <div className="launchpad-back">

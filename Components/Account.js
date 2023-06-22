@@ -1,66 +1,75 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabaseClient'
+import { useState, useEffect } from "react";
+import { supabase } from "../utils/supabaseClient";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { useRouter } from "next/router";
 
 export default function Account({ session }) {
-  const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState(null)
-  const [website, setWebsite] = useState(null)
-  const [avatar_url, setAvatarUrl] = useState(null)
+  const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState(null);
+  const [website, setWebsite] = useState(null);
+  const [avatar_url, setAvatarUrl] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    getProfile()
-  }, [session])
+    if (localStorage.getItem("authToken")) {
+      console.log("redirecting to launchpad.....................!!!");
+      router.push("/launchpad");
+    }
+  }, []);
+
+  useEffect(() => {
+    getProfile();
+  }, [session]);
 
   async function getCurrentUser() {
     const {
       data: { session },
       error,
-    } = await supabase.auth.getSession()
+    } = await supabase.auth.getSession();
 
     if (error) {
-      throw error
+      throw error;
     }
 
     if (!session?.user) {
-      throw new Error('User not logged in')
+      throw new Error("User not logged in");
     }
 
-    return session.user
+    return session.user;
   }
 
   async function getProfile() {
     try {
-      setLoading(true)
-      const user = await getCurrentUser()
+      setLoading(true);
+      const user = await getCurrentUser();
 
       let { data, error, status } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select(`username, website, avatar_url`)
-        .eq('id', user.id)
-        .single()
+        .eq("id", user.id)
+        .single();
 
       if (error && status !== 406) {
-        throw error
+        throw error;
       }
 
       if (data) {
-        setUsername(data.username)
-        setWebsite(data.website)
-        setAvatarUrl(data.avatar_url)
+        setUsername(data.username);
+        setWebsite(data.website);
+        setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function updateProfile({ username, website, avatar_url }) {
     try {
-      setLoading(true)
-      const user = await getCurrentUser()
+      setLoading(true);
+      const user = await getCurrentUser();
 
       const updates = {
         id: user.id,
@@ -68,20 +77,24 @@ export default function Account({ session }) {
         website,
         avatar_url,
         updated_at: new Date(),
-      }
+      };
 
-      let { error } = await supabase.from('profiles').upsert(updates)
+      let { error } = await supabase.from("profiles").upsert(updates);
 
       if (error) {
-        throw error
+        throw error;
       }
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
-
+  console.log("In account page");
+  if (!session) {
+    router.push("/launchpad");
+    return null;
+  }
   return (
     <div className="form-widget">
       <div>
@@ -93,7 +106,7 @@ export default function Account({ session }) {
         <InputText
           id="username"
           type="text"
-          value={username || ''}
+          value={username || ""}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
@@ -102,7 +115,7 @@ export default function Account({ session }) {
         <InputText
           id="website"
           type="website"
-          value={website || ''}
+          value={website || ""}
           onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
@@ -113,7 +126,7 @@ export default function Account({ session }) {
           onClick={() => updateProfile({ username, website, avatar_url })}
           disabled={loading}
         >
-          {loading ? 'Loading ...' : 'Update'}
+          {loading ? "Loading ..." : "Update"}
         </Button>
       </div>
 
@@ -126,5 +139,5 @@ export default function Account({ session }) {
         </button>
       </div>
     </div>
-  )
+  );
 }

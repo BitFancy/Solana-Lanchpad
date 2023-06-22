@@ -1,43 +1,40 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect, useRef } from "react";
-import Web3 from "web3";
-import fusionSeriesAbi from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
-import { Messages } from "primereact/messages";
 import { FileUpload } from "primereact/fileupload";
 import { withRouter } from "next/router";
 import Layout from "../Components/Layout";
+import axios from "axios";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_LAUNCH;
+
 
 const FusionSeries = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
-  const [collectionContractA, setCollectionContractA] = useState("");
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
-  var web3 = new Web3(Web3.givenProvider);
-  const collectionContarct = () => {
-    const contractName = "nft";
-    const contractSymbol = "NFT";
-    const creatifyContarct = new web3.eth.Contract(fusionSeriesAbi.abi);
-    web3.eth.getAccounts().then((accounts) => {
-      creatifyContarct
-        .deploy({
-          data: fusionSeriesAbi.bytecode,
-          arguments: [contractName, contractSymbol, marketplaceContarctA],
-        })
-        .send({ from: accounts[0], gas: 10002 })
-        .on("receipt", (receipt) => {
-          console.log("Contract Address FusionSeries:", receipt.contractAddress);
-          setCollectionContractA(receipt.contractAddress);
-        });
-    });
-  };
-  const handleInputFee = (e) => {
-    if (e.target.value <= 100) {
-      setPlatformfee(e.target.value);
-    }
-  };
+  const [supabaseToken, setsupabaseToken] = useState();
+const fusionSerisData=async()=>{
+ const token= localStorage.getItem('authToken')
+  localStorage.getItem('')
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+    let tokenData;
+  try {
+    tokenData = await axios.post(`${BASE_URL_LAUNCH}/FusionSeries`,config,  { contractName:"FusionSeries"})
+    setsupabaseToken(tokenData)
+    console.log("fusion series data",tokenData)  
+  } catch (e) {
+    console.log(e);
+  }
+  
+
+}
   const handleInputName = (e) => {
     setContractName(e.target.value);
   };
@@ -100,7 +97,7 @@ const FusionSeries = (props) => {
           </div>
           <div className="text-center mt-5">
             <Button
-              onClick={collectionContarct}
+              onClick={fusionSerisData}
               label="Deploy FusionSeries"
               severity="Primary"
               icon="pi pi-external-link"

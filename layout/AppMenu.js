@@ -21,7 +21,7 @@ const AppMenu = () => {
 
                 { label: 'Step One', icon: 'pi pi-fw pi-id-card', to: '/step1' },
                 { label: 'Step Two', icon: 'pi pi-fw pi-id-card', to: '/step2' },
-                { label: 'Deploy FusionSeries', icon: 'pi pi-fw pi-id-card', to: '/fusionseries' },
+                { label: 'Deploy FusionSeries', icon: 'pi pi-fw pi-id-card', to: '/fusionSeries' },
                 { label: 'Deploy SignatureSeries', icon: 'pi pi-fw pi-id-card', to: '/signatureseries' },
 
                 { label: 'Update marketPlace', icon: 'pi pi-fw pi-id-card', to: '/updatemarketplace' },
