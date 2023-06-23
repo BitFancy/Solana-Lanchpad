@@ -4,13 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "next/router";
 import Layout from "../Components/Layout";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_LAUNCH;
-
-const SignatureSeries = (props) => {
+const TradHub = (props) => {
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [flowcontarctAddress, setFlowcontractAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
-  const signatureSeriesdata = async () => {
+  const tradeHubData = async () => {
     const token = localStorage.getItem("authToken");
     localStorage.getItem("");
     const config = {
@@ -22,12 +21,12 @@ const SignatureSeries = (props) => {
     let tokenData;
     try {
       tokenData = await axios.post(
-        `${BASE_URL_LAUNCH}/SignatureSeries`,
+        `${BASE_URL_LAUNCH}/TradeHub`,
         config,
-        { contractName: "SignatureSeries" }
+        { contractName: "TradeHub" }
       );
       setsupabaseToken(tokenData);
-      console.log("signature  series data", tokenData);
+      console.log("TradeHub  contarct data", tokenData);
     } catch (e) {
       console.log(e);
     }
@@ -49,17 +48,17 @@ const SignatureSeries = (props) => {
 
     return (
       <Layout
-        title="Deploy SignatureSeries"
-        description="This is use to show information of the deploy signatureSeries contract"
+        title="Deploy TradeHub"
+        description="This is use to show information of the deploy TradeHub contract"
       >
         <div>
           <div className="card p-5 font-bold text-center">
-            Deploy SignatureSeries
+            Deploy TradeHub
           </div>
           <div className="flex justify-content-center gap-5">
             <div className="card" style={{ width: "50%" }}>
               <div className="text-center mt-5">
-                <div className="text-left">Enter SignatureSeries name</div>
+                <div className="text-left">Enter TradeHub name</div>
                 <div className="mt-3">
                   <InputText
                     value={contractName}
@@ -69,7 +68,7 @@ const SignatureSeries = (props) => {
                   />
                 </div>
                 <div className="mt-3 text-left">
-                  Enter SignatureSeries Symbol
+                  Enter TradeHub Symbol
                 </div>
                 <div className="mt-2">
                   <InputText
@@ -99,8 +98,8 @@ const SignatureSeries = (props) => {
               </div>
               <div className="text-center mt-5">
                 <Button
-                  onClick={signatureSeriesdata}
-                  label="Deploy SignatureSeries"
+                  onClick={tradeHubData}
+                  label="Deploy TradeHub"
                   severity="Primary"
                   icon="pi pi-external-link"
                   rounded
@@ -113,4 +112,4 @@ const SignatureSeries = (props) => {
     );
   };
 
-export default withRouter(SignatureSeries);
+export default withRouter(TradHub);

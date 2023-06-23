@@ -6,8 +6,6 @@ import { withRouter } from "next/router";
 import Layout from "../Components/Layout";
 import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_LAUNCH;
-
-
 const FusionSeries = (props) => {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");

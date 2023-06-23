@@ -6,45 +6,31 @@ import Web3 from "web3";
 import Router from "next/router";
 import { useEffect } from "react";
 import Layout from "../Components/Layout";
-
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_LAUNCH;
 export default function Deployflowmarket() {
-  const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [visible, setVisible] = useState(false);
   const msgs = useRef(null);
-
   var web3 = new Web3(Web3.givenProvider);
-
-  const flowAccessMarletContarct = () => {
-    const marketplaceContarct = new web3.eth.Contract(accessMasterAbi.abi);
-    web3.eth.getAccounts().then((accounts) => {
-      marketplaceContarct
-        .deploy({
-          data: accessMasterAbi.bytecode,
-        })
-        .send({ from: accounts[0], gas: "7492052" })
-        .on("receipt", (receipt) => {
-          setMarketplaceContarctA(receipt.contractAddress);
-          console.log("Contract Address:", receipt.contractAddress);
-          setVisible(true);
-
-          setTimeout(() => {
-            Router.push({
-              pathname: "/step1",
-              query: { contractAddressFlowAccess: receipt.contractAddress },
-            });
-          }, 2000);
-        });
-    });
-  };
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     Router.push({
-  //       pathname: "/step1",
-  //       query: { contractAddressFlowAccess: "Hello address"},
-  //     });
-  //   }, 2000);
-  // },[])
-
+  const flowAccessControllData=async()=>{
+    const token= localStorage.getItem('authToken')
+     localStorage.getItem('')
+     const config = {
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+       },
+     }
+       let tokenData;
+     try {
+       tokenData = await axios.post(`${BASE_URL_LAUNCH}/FlowAccessControl`,config,  { contractName:"FlowAccessControl"})
+       setsupabaseToken(tokenData)
+       console.log("FlowAccessControl  data",tokenData)  
+     } catch (e) {
+       console.log(e);
+     }
+     
+   
+   }
   return (
     <Layout
     title="Deploy Flow Access Control Contract"
@@ -55,7 +41,7 @@ export default function Deployflowmarket() {
         <Button
           label="Deploy Flow Access Control"
           icon="pi pi-external-link"
-          onClick={flowAccessMarletContarct}
+          onClick={flowAccessControllData}
           style={{ marginTop: "115px" }}
         />
       </div>
