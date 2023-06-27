@@ -1,8 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
-import Web3 from "web3";
-import fusionSeriesAbi from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
 import { withRouter } from "next/router";
 import { useEffect } from "react";
 import { FileUpload } from 'primereact/fileupload';
@@ -11,13 +9,12 @@ import Layout from "../Components/Layout";
 
 const YOUR_API_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-
 const Step2=(props)=> {
   const msgs = useRef(null);
   const [marketplaceContarctA, setMarketplaceContarctA] = useState("");
   const [flowcontarctAddress, setFlowcontractAddress] = useState("");
-  const [collectionContractA, setCollectionContractA] = useState("");
   const [uploadImage, setuploadImage] = useState("");
+  const [supabaseToken, setsupabaseToken] = useState();
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -43,32 +40,44 @@ const Step2=(props)=> {
       console.log("Error uploading file: ", error);
     }
   }
-  
-  var web3 = new Web3(Web3.givenProvider);
-  const collectionContarct = () => {
-    const collectionContarct = new web3.eth.Contract(fusionSeriesAbi.abi);
-    web3.eth.getAccounts().then((accounts) => {
-      collectionContarct
-        .deploy({
-          data: fusionSeriesAbi.bytecode,
-          arguments: [uploadImage,marketplaceContarctA,flowcontarctAddress ],
-        })
-        .send({ from: accounts[0], gas: 10002 })
-        .on("receipt", (receipt) => {
-          console.log(" FusionSeries Contract Address:", receipt.contractAddress);
+   
 
-          setCollectionContractA(receipt.contractAddress);
-          msgs.current.show([
-            {
-              sticky: true,
-              severity: "success",
-              detail: "Your contract has been  successfully deployed",
-              closable: true,
-            },
-          ]);
+  const fusionseriesContarctData=async(props)=>{
+    const token= localStorage.getItem('authToken')
+     localStorage.getItem('')
+     const config = {
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+       },
+     }
+       let tokenData;
+     try {
+       tokenData = await axios.post(`${BASE_URL_LAUNCH}/FusionSeries`,config,  { contractName:"FusionSeries"})
+       setsupabaseToken(tokenData)
+       console.log("FusionSeries ContarctData  data",tokenData)  
+       msgs.current.show([
+        {
+          sticky: true,
+          severity: "success",
+          detail: "Your FusionSeries contract has been  successfully deployed",
+          closable: true,
+        },
+      ]);
+      setTimeout(() => {
+        Router.push({
+          query: {
+            contractAddress: receipt.contractAddress,
+            contractAddressFlowAccess: flowContarctA,
+          },
         });
-    });
-  };
+      }, 2000);
+     } catch (e) {
+       console.log(e);
+     }
+     
+   
+   }
 
 useEffect(() => {
   setMarketplaceContarctA(props.router.query.contractAddress)
@@ -117,7 +126,7 @@ useEffect(() => {
           </div>
           <div className="text-center mt-5">
             <Button
-              onClick={collectionContarct}
+              onClick={fusionseriesContarctData}
               label="Deploy FusionSeries"
               severity="Primary"
               rounded

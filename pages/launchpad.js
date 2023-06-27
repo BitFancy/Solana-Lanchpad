@@ -30,7 +30,7 @@ export default function Launchpad() {
           <div>storefront unique, inviting, and</div>
           <div>memorable for customers</div>
           <div className="mt-5">
-            <Link href="/deployflowaccessControl">
+            <Link href="/signatureseries">
               <Button label="Launch SignatureSeries"  rounded style={{background:"white",color:"black"}}/>
             </Link>
           </div>
@@ -41,7 +41,9 @@ export default function Launchpad() {
           <div>time buying one of them</div>
 
           <div className="mt-5">
+          <Link href="/fusionSeries">
             <Button label="Launch FusionSeries" style={{background:"white",color:"black"}} rounded />
+            </Link>
           </div>
         </div>
       </div>
@@ -72,7 +74,7 @@ export default function Launchpad() {
           <div>ownership to exclusive </div>
           <div>content or services.</div>
           <div className="mt-5">
-            <Link href="/deployflowaccessControl">
+            <Link href="/eternumPass">
               <Button
                 label="Launch EternumPass"
                 style={{background:"white",color:"black"}}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
-import Account from "../Components/Account";
 import Auth from "./auth";
 import Router from "next/router";
 import { useDispatch } from "react-redux";

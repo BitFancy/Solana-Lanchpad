@@ -68,7 +68,7 @@ export default function LunchManage() {
           <div className="mt-5">Phygital NFTs</div>
           <div className="border-bottom-das"></div>
           <div className="mt-5">Roles</div>
-          <div className="mt-5">Marketplace</div>
+          <div className="mt-5">TradeHub</div>
           <div className="mt-5">Gateway</div>
           <div className="mt-5">Frontend</div>
           <div className="mt-5">Metaverse</div>

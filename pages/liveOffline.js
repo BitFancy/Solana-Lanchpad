@@ -9,7 +9,7 @@ export default function LiveOffLine() {
       <div>
         <div className="card">
           <div className="flex font-bold justify-around mt-10  ">
-            <div>Marketplace Name</div>
+            <div>TradeHub Name</div>
             <div>Status</div>
           </div>
           <Divider />

@@ -1,7 +1,6 @@
 import React from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const NotFoundPage = () => {
     return (

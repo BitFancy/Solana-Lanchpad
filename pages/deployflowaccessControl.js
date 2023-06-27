@@ -1,16 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
-import Web3 from "web3";
-import Router from "next/router";
-import { useEffect } from "react";
 import Layout from "../Components/Layout";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_LAUNCH;
 export default function Deployflowmarket() {
   const [visible, setVisible] = useState(false);
-  const msgs = useRef(null);
-  var web3 = new Web3(Web3.givenProvider);
   const flowAccessControllData=async()=>{
     const token= localStorage.getItem('authToken')
      localStorage.getItem('')

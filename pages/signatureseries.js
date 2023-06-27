@@ -10,6 +10,8 @@ const SignatureSeries = (props) => {
   const [flowcontarctAddress, setFlowcontractAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
+  const [supabaseToken, setsupabaseToken] = useState();
+
   const signatureSeriesdata = async () => {
     const token = localStorage.getItem("authToken");
     localStorage.getItem("");

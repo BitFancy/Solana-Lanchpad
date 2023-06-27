@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { PrimeIcons } from "primereact/api";
 import Layout from "../Components/Layout";
 
 class UpdateMarketPlace extends React.Component {
@@ -29,7 +28,7 @@ class UpdateMarketPlace extends React.Component {
   };
   render() {
     return (
-      <Layout title="Update Marketplace" description="Used to show updated luanchpad information">
+      <Layout title="Update Tradhub" description="Used to show updated luanchpad information">
 
       <div>
         <div className=" p-5 font-bold " style={{ borderBottom: "2px solid" }}>
@@ -39,7 +38,7 @@ class UpdateMarketPlace extends React.Component {
           <div id="addr0" key={idx} className="card mt-5">
             <div className="flex p-2 justify-content-between">
               <div style={{ width: "40%" }}>
-                <div className="text-left">Enter new marketplace fee</div>
+                <div className="text-left">Enter new TradeHub fee</div>
 
                 <InputText
                   value={this.state.rows[idx].name}

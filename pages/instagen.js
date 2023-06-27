@@ -10,28 +10,44 @@ const Instagen = (props) => {
   const [flowcontarctAddress, setFlowcontractAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
-  const instagenData = async () => {
-    const token = localStorage.getItem("authToken");
-    localStorage.getItem("");
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    let tokenData;
-    try {
-      tokenData = await axios.post(
-        `${BASE_URL_LAUNCH}/InstaGen`,
-        config,
-        { contractName: "InstaGen" }
-      );
-      setsupabaseToken(tokenData);
-      console.log("InstaGen  contarct data", tokenData);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  const [supabaseToken, setsupabaseToken] = useState();
+
+  const instaGenContarctData=async(props)=>{
+    const token= localStorage.getItem('authToken')
+     localStorage.getItem('')
+     const config = {
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+       },
+     }
+       let tokenData;
+     try {
+       tokenData = await axios.post(`${BASE_URL_LAUNCH}/InstaGen`,config,  { contractName:"InstaGen"})
+       setsupabaseToken(tokenData)
+       console.log("InstaGen ContarctData  data",tokenData)  
+       msgs.current.show([
+        {
+          sticky: true,
+          severity: "success",
+          detail: "Your InstaGen contract has been  successfully deployed",
+          closable: true,
+        },
+      ]);
+      setTimeout(() => {
+        Router.push({
+          query: {
+            contractAddress: receipt.contractAddress,
+            contractAddressFlowAccess: flowContarctA,
+          },
+        });
+      }, 2000);
+     } catch (e) {
+       console.log(e);
+     }
+     
+   
+   }
     const handleInputName = (e) => {
       setContractName(e.target.value);
     };
@@ -79,7 +95,7 @@ const Instagen = (props) => {
                     type="text"
                   />
                 </div>
-                <div className="mt-3 text-left">Marketplace address</div>
+                <div className="mt-3 text-left">TradeHub address</div>
                 <div className="mt-2">
                   <InputText
                     value={marketplaceContarctA}
@@ -87,7 +103,7 @@ const Instagen = (props) => {
                     type="text"
                   />
                 </div>
-                <div className="mt-3 text-left">Flowcontract Address</div>
+                <div className="mt-3 text-left">Flow Access Control Address</div>
                 <div className="mt-2">
                   <InputText
                     value={flowcontarctAddress}
@@ -99,7 +115,7 @@ const Instagen = (props) => {
               </div>
               <div className="text-center mt-5">
                 <Button
-                  onClick={instagenData}
+                  onClick={instaGenContarctData}
                   label="Deploy InstaGen"
                   severity="Primary"
                   icon="pi pi-external-link"

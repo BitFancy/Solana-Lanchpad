@@ -15,7 +15,7 @@ export default function Dashboard() {
           <i className="pi pi-search" />
           <InputText
             className="input-market-search"
-            placeholder="Search by marketplace name"
+            placeholder="Search by Tradhub name"
           />
         </div>
       </div>
@@ -29,7 +29,7 @@ export default function Dashboard() {
           <div className="mt-5">Phygital NFTs</div>
           <div className="border-bottom-das"></div>
           <div className="mt-5">Roles</div>
-          <div className="mt-5">Marketplace</div>
+          <div className="mt-5">TradeHub</div>
           <div className="mt-5">Gateway</div>
           <div className="mt-5">Frontend</div>
           <div className="mt-5">Metaverse</div>
@@ -48,13 +48,13 @@ export default function Dashboard() {
               <div className="text-center">
                 <img className="dash-img-size" src="garden.png"></img>
               </div>
-              <div>Marketplace Name:</div>
+              <div>TradeHub Name:</div>
             </div>
             <div className="card" style={{ flex: "1" }}>
               <div className="text-center">
                 <img className="dash-img-size" src="garden.png"></img>
               </div>
-              <div>Marketplace Name:</div>{" "}
+              <div>TradeHub Name:</div>{" "}
             </div>
           </div>
           <div className="mt-5">
@@ -63,13 +63,13 @@ export default function Dashboard() {
                 <div className="text-center">
                   <img className="dash-img-size" src="garden.png"></img>
                 </div>
-                <div>Marketplace Name:</div>{" "}
+                <div>TradeHub Name:</div>{" "}
               </div>
               <div className="card" style={{ flex: "1" }}>
                 <div className="text-center">
                   <img className="dash-img-size" src="garden.png"></img>
                 </div>
-                <div>Marketplace Name:</div>{" "}
+                <div>TradeHub Name:</div>{" "}
               </div>
             </div>
           </div>
