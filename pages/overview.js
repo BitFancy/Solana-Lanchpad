@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
 import Layout from "../Components/Layout";
 
-export default function LunchManage() {
+export default function Overview() {
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
     useEffect(() => {

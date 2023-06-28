@@ -6,94 +6,12 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 // import { GoogleLogin } from 'react-google-login';
 // import TwitterLogin from "react-twitter-login";
-import WalletConnect from "@walletconnect/web3-provider";
-import { ethers } from "ethers";
-import Web3Modal from "web3modal";
 import Layout from "../Components/Layout";
 
 export default function SignIn() {
-  const [provider, setProvider] = useState();
   const [account, setAccount] = useState();
-  const [error, setError] = useState("");
 
-  const providerOptions={walletconnect: {
-    package: WalletConnect, 
-    options: {
-      infuraId: process.env.INFURA_KEY 
-    }
-  }}
-  let web3Modal
-  if(typeof window!== "undefined"){
-    web3Modal=new Web3Modal({
-      network:'mainnet',
-      cacheProvider:true,
-      providerOptions
-    })
-  }
-  const connectWallet = async () => {
-    try {
-      const provider = await web3Modal.connect();
-      const library = new ethers.providers.Web3Provider(provider);
-      const accounts = await library.listAccounts();
-      setProvider(provider);
-      if (accounts){
-        setAccount(accounts[0]);
-        console.log("navigation to dashboard")
-          Router.push('/dashboardl')
-      } 
-    } 
-  catch (error) {
-      setError(error);
-    }
-
-  };
-
-  const refreshState = () => {
-    setAccount(undefined);
-  };
-
-  const disconnect = async () => {
-    await web3Modal.clearCachedProvider();
-    refreshState();
-
-  };
-
-  useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      connectWallet();
-
-    }
-  }, []); 
-
-  useEffect(() => {
-    if (provider?.on) {
-      const handleAccountsChanged = (accounts) => {
-        console.log("accountsChanged", accounts);
-        if (accounts) setAccount(accounts[0]);
-      };
-      const handleDisconnect = () => {
-        console.log("disconnect", error);
-        disconnect();
-      };
-
-      provider.on("accountsChanged", handleAccountsChanged);
-      provider.on("disconnect", handleDisconnect);
-
-      return () => {
-        if (provider.removeListener) {
-          provider.removeListener("accountsChanged", handleAccountsChanged);
-          provider.removeListener("disconnect", handleDisconnect);
-        }
-      };
-    }
-  }, [provider]);
-
-  // const responseGoogle = (response) => {
-  //   console.log(response);
-  // }
-  // const responseFacebook = (response) => {
-  //   console.log(response);
-  // }
+  
   const authHandler = (err, data) => {
     console.log(err, data);
   };

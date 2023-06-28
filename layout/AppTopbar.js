@@ -4,22 +4,13 @@ import React, {
   forwardRef,
   useContext,
   useImperativeHandle,
-  useRef,
-  useState,
+  useRef
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
-import { ConnectWallet, useAddress, useContract } from "@thirdweb-dev/react";
-import { useSelector } from "react-redux";
-import { selectUser } from "../slices/userSlice";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const AppTopbar = forwardRef((props, ref) => {
-  const [error, setError] = useState("");
-  const address = useAddress();
-  const { contract } = useContract(address);
-  const user = useSelector(selectUser);
-  const walletAddress = user ? user[0] : "";
-
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
     useContext(LayoutContext);
   const menubuttonRef = useRef(null);
@@ -70,10 +61,8 @@ const AppTopbar = forwardRef((props, ref) => {
             Dashboard
           </span>
         </button>
-       
-
-        <div> 
-          <ConnectWallet />
+        <div>
+          <ConnectButton/>
         </div>
       </div>
     </div>

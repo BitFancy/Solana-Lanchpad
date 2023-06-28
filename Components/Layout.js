@@ -1,7 +1,8 @@
 import Head from "next/head";
+import AppTopbar from "../layout/AppTopbar";
+import AppFooter from "../layout/AppFooter";
 
 const Layout = ({ children, title ,description}) => {
-  
   return (
     <>
      <Head>
@@ -22,7 +23,9 @@ const Layout = ({ children, title ,description}) => {
         <meta name="description" content={description}/>
 
       </Head>
+      <AppTopbar />
       {children}
+      <AppFooter />
     </>
   );
 };

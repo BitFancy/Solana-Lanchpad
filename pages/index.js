@@ -3,26 +3,14 @@ import { supabase } from "../utils/supabaseClient";
 import Auth from "./auth";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
-import { connectwallethandler } from "./api/setConnection";
 import Launchpad from "./launchpad";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const [errorMessage, SeterrorMessage] = useState(null);
-  const [defaultAccount, SetdefaultAccount] = useState();
-  const [UserBalance, SetUserBalance] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
   const [authToken, setAuthToken] = useState("");
   const [session, setSession] = useState(null);
-  useEffect(() => {
-    connectwallethandler(
-      SeterrorMessage,
-      SetdefaultAccount,
-      SetUserBalance,
-      dispatch
-    );
-  }, []);
 
   useEffect(() => {
     let mounted = true;
