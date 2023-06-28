@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect } from "react";
 import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
-import etherContract from "../utils/web3Modal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import Layout from "../Components/Layout";
@@ -13,43 +12,43 @@ export default function LunchManage() {
   const [grantRole, setGrantRole] = useState(true);
   const [revokeRole, setRevokeRole] = useState(true);
 
-  useEffect(() => {
-    const asyncFn = async () => {
-      const token = localStorage.getItem("platform_token");
-      if (token) {
-      }
-      const flowAccessControlContract = await etherContract(
-            process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
-            accessMasterAbi.abi
-      );
-      setGrantRole(
-        await flowAccessControlContract.grantRole(
-          await flowAccessControlContract.FLOW_ADMIN_ROLE(),
-          wallet
-        )
-      );
-    };
-    asyncFn();
-  }, [grantRole]);
+  // useEffect(() => {
+  //   const asyncFn = async () => {
+  //     const token = localStorage.getItem("platform_token");
+  //     if (token) {
+  //     }
+  //     const flowAccessControlContract = await etherContract(
+  //           process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
+  //           accessMasterAbi.abi
+  //     );
+  //     setGrantRole(
+  //       await flowAccessControlContract.grantRole(
+  //         await flowAccessControlContract.FLOW_ADMIN_ROLE(),
+  //         wallet
+  //       )
+  //     );
+  //   };
+  //   asyncFn();
+  // }, [grantRole]);
 
-  useEffect(() => {
-    const asyncFn = async () => {
-      const token = localStorage.getItem("platform_token");
-      if (token) {
-      }
-      const flowAccessControlContract = await etherContract(
-            process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
-            accessMasterAbi.abi
-      );
-      setRevokeRole(
-        await flowAccessControlContract.revokeRole(
-          await flowAccessControlContract.FLOW_ADMIN_ROLE(),
-          wallet
-        )
-      );
-    };
-    asyncFn();
-  }, [revokeRole]);
+  // useEffect(() => {
+  //   const asyncFn = async () => {
+  //     const token = localStorage.getItem("platform_token");
+  //     if (token) {
+  //     }
+  //     const flowAccessControlContract = await etherContract(
+  //           process.NEXT_PUBLIC_MARKETPLACE_ADDRESS,
+  //           accessMasterAbi.abi
+  //     );
+  //     setRevokeRole(
+  //       await flowAccessControlContract.revokeRole(
+  //         await flowAccessControlContract.FLOW_ADMIN_ROLE(),
+  //         wallet
+  //       )
+  //     );
+  //   };
+  //   asyncFn();
+  // }, [revokeRole]);
 
   return (  
     <Layout
