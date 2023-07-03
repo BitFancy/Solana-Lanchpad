@@ -1,6 +1,7 @@
 import AppConfig from "../layout/AppConfig";
 import Layout from "../Components/Layout";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import React from "react";
 const Auth=()=> {
    return (
     <Layout title="Auth Page" description="Used to Authentication of the user">
