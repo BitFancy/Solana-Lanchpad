@@ -2,6 +2,7 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
+import Link from "next/link";
 
 export default function Dashboard() {
   return (
@@ -39,7 +40,9 @@ export default function Dashboard() {
             <div className="flex justify-content-between">
               <div className="font-bold">No. of items </div>
               <div>
+                <Link href='/launchManage'>
                 <Button label="Manage" severity="Primary" rounded />
+                </Link>
               </div>
             </div>
           </div>

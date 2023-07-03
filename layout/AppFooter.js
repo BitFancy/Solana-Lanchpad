@@ -93,7 +93,7 @@ const AppFooter = () => {
           <div className="flex gap-3 items-center mt-5">
             <div className="mt-2">
               <SocialIcon
-                url="https://t.me/MyriadFlow"
+                url="https://t.me/myriadFlow"
                 style={{ width: "25px", height: "25px" ,border:"1px solid"}}
                 network="telegram"
               />

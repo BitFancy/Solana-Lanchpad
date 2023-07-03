@@ -33,9 +33,23 @@ pre.app-code {
 .dashboardl-top-back{
     background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
     padding: 80px 10px 80px 10px;
-    margin-top: -28px;
-    margin-left: -56px;
-    margin-right: -28px;
+    margin-top: 70px;
+    margin-left: 0px;
+    margin-right: -50px;
+}
+.overview-top-back{
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
+    padding: 80px 10px 80px 10px;
+    margin-top: 70px;
+    margin-left: 0px;
+    margin-right: -50px;
+}
+.overview-card{
+    position: absolute;
+    width: 90%;
+    top: 166px;
+    left: 70px;
+
 }
 .right-collection-box{
     margin-left: 100px;
@@ -44,7 +58,7 @@ pre.app-code {
 .manage-colloection-back{
     background:linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
     padding: 70px 0px 55px 0px;
-    margin: -28px -28px 10px -56px;
+    margin: 70px 0px 10px -57px;
     text-align: center;
     font-size: 27px;
     color: white;

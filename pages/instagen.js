@@ -68,10 +68,9 @@ const Instagen = (props) => {
         title="Deploy InstaGen"
         description="This is use to show information of the deploy InstaGen contract"
       >
-        <div>
-          <div className="card p-5 font-bold text-center">
-            Deploy InstaGen
-          </div>
+        <div style={{ marginTop: "85px" }}>
+        <div className="p-5 font-bold text-align-center">Deploy InstaGen</div>
+
           <div className="flex justify-content-center gap-5">
             <div className="card" style={{ width: "50%" }}>
               <div className="text-center mt-5">
@@ -80,7 +79,7 @@ const Instagen = (props) => {
                   <InputText
                     value={contractName}
                     onChange={handleInputName}
-                    className="p-2 w-full"
+                    className="p-2 w-full input-back"
                     type="text"
                   />
                 </div>
@@ -91,7 +90,7 @@ const Instagen = (props) => {
                   <InputText
                     value={contractSymbol}
                     onChange={handleInputSymbol}
-                    className="p-2 w-full"
+                    className="p-2 w-full input-back"
                     type="text"
                   />
                 </div>
@@ -99,7 +98,7 @@ const Instagen = (props) => {
                 <div className="mt-2">
                   <InputText
                     value={marketplaceContarctA}
-                    className="p-2 w-full"
+                    className="p-2 w-full input-back"
                     type="text"
                   />
                 </div>
@@ -107,7 +106,7 @@ const Instagen = (props) => {
                 <div className="mt-2">
                   <InputText
                     value={flowcontarctAddress}
-                    className="p-2 w-full"
+                    className="p-2 w-full input-back"
                     type="text"
                     disabled
                   />

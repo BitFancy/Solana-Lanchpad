@@ -34,11 +34,11 @@ const AppTopbar = forwardRef((props, ref) => {
             layoutConfig.colorScheme !== "light" ? "white" : "dark"
           }.svg`}
           width="60"
-          height="60"
+          height="60" 
           widt={"true"}
           alt="logo"
         />
-        <span style={{ fontSize: "30px", color: "white" }}>Launchpad</span>
+        <span style={{ fontSize: "30px", color: "white" }}>Myriadflow</span>
       </Link>
       <div
         ref={topbarmenuRef}
@@ -46,21 +46,22 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <button type="button" className="p-link ">
+        <Link href='/launchpad'>
+      
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
-            Launch
+            Launch 
           </span>
-        </button>
-        <button type="button" className="p-link ">
+        </Link>
+          <Link href="/dashboardl">
           <span
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Dashboard
           </span>
-        </button>
+          </Link>
         <div>
           <ConnectButton/>
         </div>

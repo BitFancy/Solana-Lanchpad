@@ -13,7 +13,7 @@ export default function Account({ session }) {
 
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
-      console.log("redirecting to launchpad.....................!!!");
+      console.log("redirecting to myriadflow.....................!!!");
       router.push("/launchpad");
     }
   }, []);
