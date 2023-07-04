@@ -9,6 +9,7 @@ import React, {
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import AppConfig from "./AppConfig";
 
 const AppTopbar = forwardRef((props, ref) => {
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
@@ -64,6 +65,9 @@ const AppTopbar = forwardRef((props, ref) => {
           </Link>
         <div>
           <ConnectButton/>
+        </div>
+        <div >
+          <AppConfig/>
         </div>
       </div>
     </div>

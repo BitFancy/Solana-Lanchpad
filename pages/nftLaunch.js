@@ -9,7 +9,7 @@ export default function NftLaunch() {
     description="This is use to show information of the launch NFT"
   >
     <div>
-      <div className="flex justify-content-center" style={{ height: "340px" }}>
+      <div className="flex justify-content-center" style={{ height: "340px",marginTop:'130px' }}>
         <div className="bg-blue-600 text-white p-5">
           <div className="font-bold text-2xl">Create As</div>
           <div className="flex gap-3 mt-5">
@@ -24,6 +24,9 @@ export default function NftLaunch() {
             </div>
             <div className="edition-note">FusionSeries</div>
           </div>
+          <div className="mt-3 ml-5">DynamicRealms</div>
+          <div className="mt-3 ml-5">EternumPass</div>
+          <div className="mt-3 ml-5">Phygital NFTs</div>
         </div>
         <div className="bg-blue-100 p-5">
           <div className="text-center">

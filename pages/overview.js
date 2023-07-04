@@ -8,7 +8,6 @@ export default function Overview() {
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
         const data = {
-            labels: ['A', 'B'],
             datasets: [
                 {
                     data: [300, 100],
@@ -36,21 +35,30 @@ export default function Overview() {
     title="Overview"
     description="This is use to show information of the overview launchpad"
   >
+      <div className="text-center mt-10 border-b-2 border-indigo-500 ... overview-donut-top-back">
+       
+      </div>
     <div>
       <div>
-        <div className="font-bold ml-5 mt-10">Manage your FusionSeries</div>
-        <div className="flex justify-content-around">
-        <div className="font-bold p-5" style={{borderRight:"1px solid"}}>
-            <div className="mt-5 cursor-pointer">SignatureSeries</div>
-            <div className="mt-5 cursor-pointer">FusionSeries</div>
-            <div className="mt-5 cursor-pointer">Roles</div>
-            <div className="mt-5 cursor-pointer">Marketplace</div>
-          </div>
-       <div>
+        <div className="flex justify-content-between">
+        <div className="font-bold p-5 overflow-y-auto ... overflow-manage-left">
+          <div className="mt-5">SignatureSeries</div>
+          <div className="mt-5">FusionSeries</div>
+          <div className="mt-5">AIREX</div>
+          <div className="mt-5">EternumPass</div>
+          <div className="mt-5">Phygital NFTs</div>
+          <div className="border-bottom-das"></div>
+          <div className="mt-5">Roles</div>
+          <div className="mt-5">TradeHub</div>
+          <div className="mt-5">Gateway</div>
+          <div className="mt-5">Frontend</div>
+          <div className="mt-5">Metaverse</div>
+        </div>
+       <div style={{margin:'0 auto'}}>
         <div className="flex ">
-       <Chart type="doughnut" data={chartData} options={chartOptions}  />
-       <Chart type="doughnut" data={chartData} options={chartOptions}  />
-       <Chart type="doughnut" data={chartData} options={chartOptions} />
+       <Chart style={{height:"100px",width:'100px'}} type="doughnut" data={chartData} options={chartOptions}  />
+       <Chart style={{height:"100px",width:'100px'}} type="doughnut" data={chartData} options={chartOptions}  />
+       <Chart style={{height:"100px",width:'100px'}} type="doughnut" data={chartData} options={chartOptions} />
        </div>
        </div>
         </div>

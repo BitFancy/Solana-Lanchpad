@@ -72,7 +72,7 @@ const fusionSerisData=async()=>{
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">Marketplace address</div>
+            <div className="mt-3 text-left">TradeHub address</div>
             <div className="mt-2">
               <InputText
                 value={marketplaceContarctA}

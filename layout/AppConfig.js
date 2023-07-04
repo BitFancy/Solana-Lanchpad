@@ -136,7 +136,6 @@ const AppConfig = (props) => {
                 <div className="grid">
                     <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('bootstrap4-light-blue', 'light')}>
-                            <img src="./layout/images/themes/bootstrap4-light-blue.svg"  alt="Bootstrap Light Blue" />
                         </button>
                     </div>
                     <div className="col-3">
