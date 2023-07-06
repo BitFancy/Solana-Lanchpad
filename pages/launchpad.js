@@ -24,7 +24,7 @@ export default function Launchpad() {
               <div>kind digital masterpieces. Immerse yourself in</div>
               <div>the world of unique, non-fungible tokens, each </div>
               <div>possessing a distinct, unreplicable signature of </div>
-              <div>authenticity."</div>
+              <div>authenticity</div>
             </div>
             <div className="mt-5">
               <Button label="Launch" rounded />
@@ -45,13 +45,13 @@ export default function Launchpad() {
           <div className="signature-series-head">FusionSeries</div>
           <div className="mt-5 text-3xl">
             <div>Explore FusionSeries, a unique NFT collection </div>
-            <div>leveraging ERC-1155's power, creating </div>
+            <div>leveraging ERC-1155 power, creating </div>
             <div>a seamless blend of unique and</div>
             <div>interchangeable digital assets. Experience </div>
             <div>pthe future of digital art, with bundled </div>
             <div>collections and rich metadata that</div>
             <div>add unprecedented depth and</div>
-            <div>flexibility to your NFT experience."</div>
+            <div>flexibility to your NFT experience</div>
           </div>
 
           <div className="mt-5">
@@ -69,8 +69,8 @@ export default function Launchpad() {
               <div>offering unique, indivisible, and limited-</div>
               <div>edition digital assets. Each piece stands as a </div>
               <div>testament to rarity and uniqueness, </div>
-              <div>enhancing the value and exclusivity of your."</div>
-              <div>digital art portfolio."</div>
+              <div>enhancing the value and exclusivity of your</div>
+              <div>digital art portfolio</div>
             </div>
             <div className="mt-5">
               <Button label="Launch" rounded />
