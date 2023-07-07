@@ -16,8 +16,13 @@ pre.app-code {
 
 .launchpad-back {
     background-image: url("/Rectangle.png");
+    height: 1000px;
+    background-repeat: no-repeat;
 }
-
+.signature-series-head{
+    font-size: 40px;
+    font-weight: bold;
+}
 .input-back {
     background: rgba(83, 71, 231, 0.5);
     border-radius: 10px;
