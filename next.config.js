@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: '/launchpad',
+  // basePath: '/launchpad',
 
   staticPageGenerationTimeout:  100,
  output:"standalone",
