@@ -7,7 +7,7 @@ import {
     useAccount, useEnsName,
   } from 'wagmi'
 import Layout from "../Components/Layout";
-export default function buyNft() {
+export default function BuyNft() {
     const [isLoadingTx, setLoadingTx] = useState(false);
     const [error, setError] = useState(null);
     const [isMinted, setMinted] = useState(false);
