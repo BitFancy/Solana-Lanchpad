@@ -311,7 +311,7 @@ const handleLogin = () => {
       title="Launchpad Profile Page"
       description="Use to show metamask Profile details of the users"
     >
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       {visible ? (
         <>
         
