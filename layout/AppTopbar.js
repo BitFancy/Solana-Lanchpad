@@ -47,6 +47,15 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
+         <Link href='/buyNft'>
+      
+      <span
+        className="text-black"
+        style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+      >
+        Buy Nft 
+      </span>
+    </Link>
         <Link href='/launchpad'>
       
           <span
