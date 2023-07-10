@@ -72,6 +72,13 @@ const AppTopbar = forwardRef((props, ref) => {
             Dashboard
           </span>
           </Link>
+          <Link href="/profile">
+          <span
+            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+          >
+            Profile
+          </span>
+          </Link>
         <div>
           <ConnectButton/>
         </div>
