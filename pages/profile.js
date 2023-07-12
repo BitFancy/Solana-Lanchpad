@@ -5,41 +5,60 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
-import { FaUserCircle } from "react-icons/fa";
 import { convertUtf8ToHex } from "@walletconnect/utils";
-// import StoreFront from "../artifacts/contracts/StoreFront.sol/StoreFront.json";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 import axios from "axios";
-// import { removePrefix } from "../utils/ipfsUtil";
-// import Loader from "../Components/Loader";
-// import etherContract from "../utils/web3Modal";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+
+import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+
+const getUserDataFromLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    const userData = localStorage.getItem('twitteruserData');
+    return userData ? JSON.parse(userData) : null;
+  }
+  return null;
+};
+
+const firebaseConfig = {
+    // Your firebase configuration
+    apiKey: "AIzaSyCeQfKoaEcGFELRUcXqgR2IR2s3zi50V_w",
+    authDomain: "twitter-authenticate.firebaseapp.com",
+    projectId: "twitter-authenticate",
+    storageBucket: "twitter-authenticate.appspot.com",
+    messagingSenderId: "658832560426",
+    appId: "1:658832560426:web:3fa1875fda4e1fcae88e53",
+    measurementId: "G-HJZSL2KY9Y"
+};
+
+const app = initializeApp(firebaseConfig);
         
 const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const storeFrontAddress = process.env.NEXT_PUBLIC_FLOW_MARKETPLACE_ADDRESS;
+
+
 function Profile() {
+
+
   const profile = {
     name: "",
     country: "",
     profilePictureUrl: "",
-    instagram_id: "",
-    facebook_id: "",
-    twitter_id: "",
-    discord_id: "",
-    telegram_id: "",
   };
+
+
   const walletAddr = useSelector(selectUser);
   var wallet = walletAddr ? walletAddr[0] : "";
   const [hasRole, setHasRole] = useState(true);
   const [visible, setVisible] = useState(false);
   const [profileData, setProfileData] = useState({ ...profile });
   const [updateProfile, setupdateProfile] = useState({ ...profile });
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [twitt, settwitt] = useState(null);
 
   async function uploadImage(e) {
     e.preventDefault();
@@ -72,11 +91,6 @@ function Profile() {
           name: "Alka Rashinkar",
           country: "India",
           profilePictureUrl: "https://unsplash.it/500",
-          instagram_id: "CnjIQSEss-5/",
-          facebook_id: "sasdsfhkkS",
-          telegram_id: "sasdcbfvdj",
-          twitter_id: "asxadcsfc",
-          discord_id: "xnsacdbcv",
         });
 
         const config = {
@@ -210,11 +224,6 @@ function Profile() {
               name,
               country,
               profilePictureUrl,
-              telegram_id,
-              facebook_id,
-              twitter_id,
-              discord_id,
-              instagram_id,
             },
           },
         } = res;
@@ -224,22 +233,12 @@ function Profile() {
           name,
           country,
           profilePictureUrl,
-          instagram_id,
-          telegram_id,
-          facebook_id,
-          twitter_id,
-          discord_id,
         });
         setupdateProfile({
           ...profileData,
           name,
           country,
           profilePictureUrl,
-          instagram_id,
-          telegram_id,
-          facebook_id,
-          twitter_id,
-          discord_id,
         });
         setLoading(true);
       })
@@ -251,37 +250,8 @@ function Profile() {
       });
   };
 
-//   const connectweb = async () => {
-//     const storeFrontContract = await etherContract(storeFrontAddress, StoreFront.abi)
-//     setHasRole(
-//       await storeFrontContract.hasRole(await storeFrontContract.STOREFRONT_CREATOR_ROLE(), wallet)
-//     );
-//     const roleid = await storeFrontContract.STOREFRONT_CREATOR_ROLE();
-//     localStorage.setItem("platform_roleid", roleid);
-//   };
-//   const onUpdateProfile = (e) => {
-//     const { name, value } = e.target;
-//     setupdateProfile({ ...updateProfile, [name]: value });
-//   };
 
-//   useEffect(() => {
-//     const asyncFn = async () => {
-//       const token = localStorage.getItem("platform_token");
-//       connectweb();
-//       if (!token) {
-//         authorize();
-//       } else {
-//         getProfile();
-//       }
-
-//       const storeFrontContract = await etherContract(storeFrontAddress, StoreFront.abi)
-//       setHasRole(
-//         await storeFrontContract.hasRole(await storeFrontContract.STOREFRONT_CREATOR_ROLE(), wallet)
-//       );
-//     };
-//     asyncFn();
-//   }, [hasRole]);
-
+// -------------------       discord auth        ------------------------------------------//
 
 const handleLogin = () => {
   // Replace with your Discord application's client ID and redirect URI
@@ -295,17 +265,43 @@ const handleLogin = () => {
 };
 
 
+// -------------------       twitter auth        ------------------------------------------//
+
+const saveUserDataToLocalStorage = (user) => {
+  localStorage.setItem('twitteruserData', JSON.stringify(user));
+};
+
+useEffect(() => {
+  const userData = getUserDataFromLocalStorage();
+  settwitt(userData);
+}, []);
+
+const signInWithTwitter = () => {
+  const auth = getAuth();
+  const provider = new TwitterAuthProvider();
+
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log(user);
+      settwitt(user);
+      saveUserDataToLocalStorage(user); // Save the user data to localStorage
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+// -------------------       twitter auth        ------------------------------------------//
+
 
   const {
     name,
     country,
     profilePictureUrl,
-    instagram_id,
-    facebook_id,
-    telegram_id,
-    twitter_id,
-    discord_id,
   } = profileData;
+
+
   return (
     <Layout
       title="Launchpad Profile Page"
@@ -364,7 +360,18 @@ className="md:w-20rem">
 <Card title="Twitter Account"
 footer={
     <div className="flex flex-wrap justify-content-start gap-2">
-<Button label="Connect" icon="pi pi-check" />
+
+{
+  twitt?(
+    <>
+    <Button label="Connected" icon="pi pi-check" />
+    </>
+  ): (
+    <>
+    <Button onClick={signInWithTwitter} label="Connect" icon="pi pi-check" />
+    </>
+  )
+}
 <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
 </div>
 } 
@@ -430,43 +437,7 @@ className="md:w-20rem">
                 <div className="text-gray-500 dark:text-white">{country}</div>
               </div>
             </div>
-            {/* <div className="flex text-2xl">
-              <div className="pb-4 text-gray-500 dark:text-white">
-                Instagram :
-              </div>
-              <div className="ml-5 text-gray-500 dark:text-white">
-                {instagram_id}
-              </div>
-            </div>
-            <div className="flex text-2xl">
-              <div className="pb-4 text-gray-500 dark:text-white">Discord:</div>
-              <div className="ml-5 text-gray-500 dark:text-white">
-                {discord_id}
-              </div>
-            </div>
-            <div className="flex text-2xl">
-              <div className="pb-4 text-gray-500 dark:text-white">
-                Facebook:
-              </div>
-              <div className="ml-5 text-gray-500 dark:text-white">
-                {facebook_id}
-              </div>
-            </div>
-            <div className="flex text-2xl">
-              <div className="pb-4 text-gray-500 dark:text-white">Twitter:</div>
-              <div className="ml-5 text-gray-500 dark:text-white">
-                {twitter_id}
-              </div>
-            </div>
-
-            <div className="flex text-2xl">
-              <div className="pb-4 text-gray-500 dark:text-white">
-                Telegram:
-              </div>
-              <div className="ml-5 text-gray-500 dark:text-white">
-                {telegram_id}
-              </div>
-            </div> */}
+  
             <div className="flex flex-wrap mt-5 gap-4">
               <div>
               <Button label="Edit profile" rounded />
@@ -475,6 +446,30 @@ className="md:w-20rem">
               <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
              </div>
         </div>  
+
+        {twitt ? (
+        <>
+        <p className="flex p-5 justify-content-around">Twitter</p>
+        <div className="flex justify-content-around">   
+        <div>
+          <img style={{ height: "150px", borderRadius:'50%' }} src={twitt.photoURL}></img>
+        </div>
+          <div className="flex text-2xl">
+          <div className="ml-5 text-gray-500 dark:text-white">
+          <p>Display Name: {twitt.displayName}</p>
+          <p>User ID: 
+            {/* {twitt.reloadUserInfo.providerUserInfo[0].screenName} */}
+          </p>
+      <p>Name: {twitt.providerData[0].displayName}</p>
+      <p>Email id: {twitt.providerData[0].email}</p>
+      <p>Phone number: {twitt.providerData[0].phonenumber}</p>
+      </div> 
+          </div>
+        
+        </div>
+        </>
+        ): null }
+
           </div>
         </div>
       </div>

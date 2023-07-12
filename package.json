@@ -26,6 +26,7 @@
     "axios": "^1.4.0",
     "chart.js": "4.2.1",
     "ethers": "^5.7.2",
+    "firebase": "^10.0.0",
     "next": "^13.4.3",
     "nft.storage": "^7.0.3",
     "primeflex": "3.3.0",
