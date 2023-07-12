@@ -73,15 +73,39 @@ export default function BuyNft() {
           <img style={{height:'200px'}} src="./showroom.png"></img>
         </div>
         <div className="p-5 subscribe-modal">
-          <div>$99</div>
-          <div>per month</div>
+          <div className="font-bold text-3xl">Free</div>
+         
           <hr></hr>
           <div>
+               
             <ul>
+              <li>2% platform fee total sales</li>
+              <li>unlimited deployments</li>
+              <li> 5+ contracts support</li>
+              <li>customizable frontend </li>
+              <li>metaverse support</li>
+              <li>priority support</li>
+              <li>community support</li>
+            </ul>
+          </div>
+          <div>
+            <Button onClick={mint} label="Buy Subscription"></Button>
+          </div>
+        </div>
+        <div className="p-5 subscribe-modal">
+          <div className="font-bold">$99</div>
+          <div className="font-bold">per month</div>
+          <hr></hr>
+          <div>
+               
+            <ul>
+              <li>0% platform fee</li>
               <li>unlimited deployments</li>
               <li>5+ contracts support</li>
-              <li>customizable frontend</li>
-              <li>metaverse support </li>
+              <li>customizable frontend </li>
+              <li>metaverse support</li>
+              <li> Priority support</li>
+              <li>community support</li>
             </ul>
           </div>
           <div>

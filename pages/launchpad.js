@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
+import Link from "next/link";
 export default function Launchpad() {
   return (
     <Layout title="Launchpad" description="Used to show launchpad information">
@@ -14,8 +15,56 @@ export default function Launchpad() {
         </div>
 
        </div>
-      <div className="flex p-5 justify-content-around mt-5">
+       <div className="flex p-5 justify-content-around mt-5">
         <div>
+          <div>
+            <div className="signature-series-head">Access Master</div>
+            <div className="mt-5 text-3xl">
+              <div>Dive into SignatureSeries, an exclusive NFT </div>
+              <div>collection built on ERC-721, featuring one-of-a-</div>
+              <div>kind digital masterpieces. Immerse yourself in</div>
+              <div>the world of unique, non-fungible tokens, each </div>
+              <div>possessing a distinct, unreplicable signature of </div>
+              <div>authenticity</div>
+            </div>
+            <div className="mt-5">
+              <Link  href='/deployflowaccessControl' >
+              <Button  label="Launch Access Master" rounded />
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img style={{ height: "300px" }} src="signatureseries.png"></img>
+        </div>
+      </div>
+      <div className="flex p-5 justify-content-around mt-5">
+      <div>
+          <img style={{ height: "300px" }} src="signatureseries.png"></img>
+        </div>
+        <div>
+           
+           
+            <div className="signature-series-head">TradeHub</div>
+            <div className="mt-5 text-3xl">
+              <div>Dive into SignatureSeries, an exclusive NFT </div>
+              <div>collection built on ERC-721, featuring one-of-a-</div>
+              <div>kind digital masterpieces. Immerse yourself in</div>
+              <div>the world of unique, non-fungible tokens, each </div>
+              <div>possessing a distinct, unreplicable signature of </div>
+              <div>authenticity</div>
+            </div>
+            <div className="mt-5">
+              <Link  href='/step1' >
+              <Button  label="Launch Tradhub" rounded />
+              </Link>
+            </div>
+         
+        </div>
+       
+      </div>
+      <div className="flex p-5 justify-content-around mt-5">
+       
           <div>
             <div className="signature-series-head">SignatureSeries</div>
             <div className="mt-5 text-3xl">
@@ -26,15 +75,19 @@ export default function Launchpad() {
               <div>possessing a distinct, unreplicable signature of </div>
               <div>authenticity</div>
             </div>
-            <div className="mt-5">
-              <Button label="Launch" rounded />
             </div>
-          </div>
-        </div>
+            <div className="mt-5">
+              <Link  href='/signatureseries' >
+              <Button  label="Launch" rounded />
+              </Link>
+            </div>
+         
+        
         <div>
           <img style={{ height: "300px" }} src="signatureseries.png"></img>
         </div>
       </div>
+
       <div className="flex p-5 justify-content-around">
         <div>
           <div>
@@ -55,7 +108,9 @@ export default function Launchpad() {
           </div>
 
           <div className="mt-5">
+            <Link href='/fusionSeries'>
             <Button label="Launch" rounded />
+            </Link>
           </div>
         </div>
       </div>
@@ -73,7 +128,9 @@ export default function Launchpad() {
               <div>digital art portfolio</div>
             </div>
             <div className="mt-5">
-              <Button label="Launch" rounded />
+              <Link href='/instagen'>
+              <Button label="Launch Instagen" rounded />
+              </Link>
             </div>
           </div>
         </div>
@@ -110,7 +167,9 @@ export default function Launchpad() {
                 <div>or services.</div>
               </div>
               <div className="mt-5">
-                <Button label="Launch" rounded />
+                <Link href='/eternumPass'>
+                <Button label="Launch EternumPass" rounded />
+                </Link>
               </div>
             </div>
           </div>
