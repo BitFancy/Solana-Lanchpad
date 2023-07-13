@@ -15,18 +15,14 @@ const Step1 = () => {
   const [supabaseToken, setsupabaseToken] = useState();
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
-    const data = {
-      contractName: "TradeHub",
-      constructorParams: {
-        param1: 30,
-        param2: "NFT BAZAAR",
-        param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-      },
-    };
     axios
       .post(
-        `${BASE_URL_LAUNCH}/api/v1.0/launchpad/TradeHub`,
-        { data, network: "hardhat" },
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+        { contractName: "TradeHub",constructorParams: {
+          param1: 30,
+          param2: "NFT BAZAAR",
+          param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+        }, network: "hardhat" },
         {
           headers: {
             Authorization: `Bearer ${token}`,

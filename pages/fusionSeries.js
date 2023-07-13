@@ -17,17 +17,15 @@ const FusionSeries = (props) => {
 
 const fusionSerisData = () => {
   const token = localStorage.getItem("authToken");
-     const data={
-          "contractName": "FusionSeries",
-          "constructorParams": {
-            "param1":  "www.xyz.com",
-        "param2" : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        "param3" : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
-      }
-  }
   axios
     .post(
-      `${BASE_URL_LAUNCH}/api/v1.0/launchpad/FusionSeries`, {data, "network": "hardhat"},
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`, {contractName : "FusionSeries",
+      constructorParams:{
+          param1:  "www.xyz.com",
+          param2 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+          param3 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
+      },
+      network : "hardhat"},
       {
         headers: {
           Authorization: `Bearer ${token}`,

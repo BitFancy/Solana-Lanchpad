@@ -24,25 +24,22 @@ const EternumPass = () => {
   const msgs = useRef(null);
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
-    const data = {
-      contractName: "EternumPass",
-      constructorParams: {
-        param1: "NFT_MELA",
-        param2: "NFM",
-        param3: "www.xyz.com",
-        param4: "100000000000000000",
-        param5: "30",
-        param6: "10000000000000",
-        param7: "500",
-        param8: true,
-        param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-      },
-    };
     axios
       .post(
-        `${BASE_URL_LAUNCH}/api/v1.0/launchpad/EternumPass`,
-        { data, network: "hardhat" },
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+        {  contractName: "EternumPass",
+        constructorParams: {
+          param1: "NFT_MELA",
+          param2: "NFM",
+          param3: "www.xyz.com",
+          param4: "100000000000000000",
+          param5: "30",
+          param6: "10000000000000",
+          param7: "500",
+          param8: true,
+          param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+          param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+        }, network: "hardhat" },
         {
           headers: {
             Authorization: `Bearer ${token}`,

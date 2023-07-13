@@ -21,25 +21,22 @@ const Instagen = (props) => {
   const msgs = useRef(null);
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
-    const data = {
-      contractName: "InstaGen",
-      constructorParams: {
-        param1: "NFT MELA",
-        param2: "NM",
-        param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-        param5: "1000000000000000000",
-        param6: "100000000000000000",
-        param7: 0,
-        param8: 2000,
-        param9: 300,
-        param10: "www.abc.com",
-      },
-    };
     axios
       .post(
-        `${BASE_URL_LAUNCH}/api/v1.0/launchpad/InstaGen`,
-        { data, network: "hardhat" },
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+        {   contractName : "InstaGen",
+        constructorParams:{
+            param1: "NFT MELA",
+            param2 : "NM",
+            param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC" ,
+            param5 :"1000000000000000000",
+            param6 : "100000000000000000",
+            param7 : 0,
+            param8 : 2000,
+            param9 : 300,
+            param10: "www.abc.com"
+        },network: "hardhat" },
         {
           headers: {
             Authorization: `Bearer ${token}`,

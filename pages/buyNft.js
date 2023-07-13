@@ -8,6 +8,7 @@ import {
   } from 'wagmi'
 import Layout from "../Components/Layout";
 export default function BuyNft() {
+  const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
     const [isLoadingTx, setLoadingTx] = useState(false);
     const [error, setError] = useState(null);
     const [isMinted, setMinted] = useState(false);
@@ -20,7 +21,7 @@ export default function BuyNft() {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
             address,
-          subscriptionAbi,
+            flowSubscriptionAddress,
           signer
         );
     
@@ -73,7 +74,7 @@ export default function BuyNft() {
           <img style={{height:'200px'}} src="./showroom.png"></img>
         </div>
         <div className="p-5 subscribe-modal">
-          <div className="font-bold text-3xl">Free</div>
+          <div className="font-bold text-3xl">Basic</div>
          
           <hr></hr>
           <div>

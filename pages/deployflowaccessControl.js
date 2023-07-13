@@ -10,18 +10,11 @@ export default function Deployflowmarket() {
   const [supabaseToken, setsupabaseToken] = useState();
   const flowAccessControllData=async()=>{
     const token= localStorage.getItem('authToken');
-    const data={
-      "contractName": "AccessMaster",
-      "contractName": "AccessMaster",
-              "constructorParams": {
-                  "param1": 30,
-                  "param2": "NFT BAZAAR",
-                  "param3": "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
-          }
-  }
 axios
 .post(
-  `${BASE_URL_LAUNCH}/api/v1.0/launchpad/AccessMaster`, {data, "network": "hardhat"},
+  `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`, {contractName: "AccessMaster",
+  constructorParams: {
+}, network: "hardhat"},
   {
     headers: {
       Authorization: `Bearer ${token}`,
