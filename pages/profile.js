@@ -12,6 +12,7 @@ import axios from "axios";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import Link from "next/link";
 
 import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
@@ -25,18 +26,18 @@ const getUserDataFromLocalStorage = () => {
 };
 
 const firebaseConfig = {
-    // Your firebase configuration
-    apiKey: "AIzaSyCeQfKoaEcGFELRUcXqgR2IR2s3zi50V_w",
-    authDomain: "twitter-authenticate.firebaseapp.com",
-    projectId: "twitter-authenticate",
-    storageBucket: "twitter-authenticate.appspot.com",
-    messagingSenderId: "658832560426",
-    appId: "1:658832560426:web:3fa1875fda4e1fcae88e53",
-    measurementId: "G-HJZSL2KY9Y"
+  // Your firebase configuration
+  apiKey: "AIzaSyCeQfKoaEcGFELRUcXqgR2IR2s3zi50V_w",
+  authDomain: "twitter-authenticate.firebaseapp.com",
+  projectId: "twitter-authenticate",
+  storageBucket: "twitter-authenticate.appspot.com",
+  messagingSenderId: "658832560426",
+  appId: "1:658832560426:web:3fa1875fda4e1fcae88e53",
+  measurementId: "G-HJZSL2KY9Y"
 };
 
 const app = initializeApp(firebaseConfig);
-        
+
 const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -227,7 +228,7 @@ function Profile() {
             },
           },
         } = res;
-       
+
         setProfileData({
           ...profileData,
           name,
@@ -251,48 +252,70 @@ function Profile() {
   };
 
 
-// -------------------       discord auth        ------------------------------------------//
+  //----------------------------insta auth -----------------------------------------//
 
-const handleLogin = () => {
-  // Replace with your Discord application's client ID and redirect URI
-  const clientId = '1127173732104929332';
-  const redirectUri = 'http://localhost:3000/api/discord-redirect'; // Replace with your redirect URI
+  const handleInstagramAuth = () => {
+    const redirectUri = 'https://launchpad.myriadflow.com/instagram-auth-success/';
 
-  // Generate the Discord authorization URL
-  const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify`;
+    const clientId = 593016509511308;
+    const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
 
-  window.location.href = authorizationUrl;
-};
+    window.location.href = authUrl;
+  };
 
 
-// -------------------       twitter auth        ------------------------------------------//
+  // -------------------       discord auth        ------------------------------------------//
 
-const saveUserDataToLocalStorage = (user) => {
-  localStorage.setItem('twitteruserData', JSON.stringify(user));
-};
+  const handleLogin = () => {
+    // Replace with your Discord application's client ID and redirect URI
+    const clientId = '1127173732104929332';
+    const redirectUri = 'http://localhost:3000/api/discord-redirect'; // Replace with your redirect URI
 
-useEffect(() => {
-  const userData = getUserDataFromLocalStorage();
-  settwitt(userData);
-}, []);
+    // Generate the Discord authorization URL
+    const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify`;
 
-const signInWithTwitter = () => {
-  const auth = getAuth();
-  const provider = new TwitterAuthProvider();
+    window.location.href = authorizationUrl;
+  };
 
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      console.log(user);
-      settwitt(user);
-      saveUserDataToLocalStorage(user); // Save the user data to localStorage
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
 
-// -------------------       twitter auth        ------------------------------------------//
+  // -------------------       twitter auth        ------------------------------------------//
+
+  const saveUserDataToLocalStorage = (user) => {
+    localStorage.setItem('twitteruserData', JSON.stringify(user));
+  };
+
+  useEffect(() => {
+    const userData = getUserDataFromLocalStorage();
+    settwitt(userData);
+  }, []);
+
+  const signInWithTwitter = () => {
+    const auth = getAuth();
+    const provider = new TwitterAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+
+        const savedatalocally = {};
+        {
+          for (const key in user) {
+            if (key == 'reloadUserInfo' || key == 'providerData')
+              savedatalocally[key] = user[key];
+          }
+        }
+
+        console.log(savedatalocally);
+        settwitt(savedatalocally);
+        saveUserDataToLocalStorage(savedatalocally); // Save the user data to localStorage
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // -------------------       twitter auth        ------------------------------------------//
 
 
   const {
@@ -310,174 +333,173 @@ const signInWithTwitter = () => {
       {/* {loading && <Loader />} */}
       {visible ? (
         <>
-        
-        <Dialog header="Connect to your social media accounts" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-        <div className="flex flex-wrap justify-content-center gap-2">
 
-<div className="card flex justify-content-center">
-<Card title="Instagram Account"
-footer={
-    <div className="flex flex-wrap justify-content-start gap-2">
-<Button label="Connect" icon="pi pi-check" />
-<Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
-</div>
-} 
-header={<img alt="Card" src="insta.png" />} 
+          <Dialog header="Connect to your social media accounts" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+            <div className="flex flex-wrap justify-content-center gap-2">
 
-className="md:w-20rem">
-</Card>
-</div>
+              <div className="card flex justify-content-center">
+                <Card title="Instagram Account"
+                  footer={
+                    <div className="flex flex-wrap justify-content-start gap-2">
+          <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
+                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                    </div>
+                  }
+                  header={<img alt="Card" src="insta.png" />}
 
-<div className="card flex justify-content-center">
-<Card title="Discord Account"
-footer={
-    <div className="flex flex-wrap justify-content-start gap-2">
-<Button onClick={handleLogin} label="Connect" icon="pi pi-check" />
-<Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
-</div>
-} 
-header={<img alt="Card" src="Discord.jpg" />} 
+                  className="md:w-20rem">
+                </Card>
+              </div>
 
-className="md:w-20rem">
-</Card>
-</div>
+              <div className="card flex justify-content-center">
+                <Card title="Discord Account"
+                  footer={
+                    <div className="flex flex-wrap justify-content-start gap-2">
+                      <Button onClick={handleLogin} label="Connect" icon="pi pi-check" />
+                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                    </div>
+                  }
+                  header={<img alt="Card" src="Discord.jpg" />}
 
-<div className="card flex justify-content-center">
-<Card title="Facebook Account"
-footer={
-    <div className="flex flex-wrap justify-content-start gap-2">
-<Button label="Connect" icon="pi pi-check" />
-<Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
-</div>
-} 
-header={<img alt="Card" src="Facebook.jpg" />} 
+                  className="md:w-20rem">
+                </Card>
+              </div>
 
-className="md:w-20rem">
-</Card>
-</div>
+              <div className="card flex justify-content-center">
+                <Card title="Facebook Account"
+                  footer={
+                    <div className="flex flex-wrap justify-content-start gap-2">
+                      <Button label="Connect" icon="pi pi-check" />
+                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                    </div>
+                  }
+                  header={<img alt="Card" src="Facebook.jpg" />}
 
-<div className="card flex justify-content-center">
-<Card title="Twitter Account"
-footer={
-    <div className="flex flex-wrap justify-content-start gap-2">
+                  className="md:w-20rem">
+                </Card>
+              </div>
 
-{
-  twitt?(
-    <>
-    <Button label="Connected" icon="pi pi-check" />
-    </>
-  ): (
-    <>
-    <Button onClick={signInWithTwitter} label="Connect" icon="pi pi-check" />
-    </>
-  )
-}
-<Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
-</div>
-} 
-header={<img alt="Card" src="twitter.png" />} 
+              <div className="card flex justify-content-center">
+                <Card title="Twitter Account"
+                  footer={
+                    <div className="flex flex-wrap justify-content-start gap-2">
 
-className="md:w-20rem">
-</Card>
-</div>
+                      {
+                        twitt ? (
+                          <>
+                            <Button label="Connected" icon="pi pi-check" />
+                          </>
+                        ) : (
+                          <>
+                            <Button onClick={signInWithTwitter} label="Connect" icon="pi pi-check" />
+                          </>
+                        )
+                      }
+                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                    </div>
+                  }
+                  header={<img alt="Card" src="twitter.png" />}
 
-<div className="card flex justify-content-center">
-<Card title="Telegram Account"
-footer={
-    <div className="flex flex-wrap justify-content-start gap-2">
-<Button label="Connect" icon="pi pi-check" />
-<Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
-</div>
-} 
-header={<img alt="Card" src="telegram.webp" />}  
-className="md:w-20rem">
-</Card>
-</div>
-</div>
-            </Dialog>
-          
+                  className="md:w-20rem">
+                </Card>
+              </div>
+
+              <div className="card flex justify-content-center">
+                <Card title="Telegram Account"
+                  footer={
+                    <div className="flex flex-wrap justify-content-start gap-2">
+                      <Button label="Connect" icon="pi pi-check" />
+                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                    </div>
+                  }
+                  header={<img alt="Card" src="telegram.webp" />}
+                  className="md:w-20rem">
+                </Card>
+              </div>
+            </div>
+          </Dialog>
+
         </>
       ) : null}
-      
-          
-<div className="pt-5">        
-      <div className="flex p-5 justify-content-around mt-5">
-        <div>
+
+
+      <div className="pt-5">
+        <div className="flex p-5 justify-content-around mt-5">
           <div>
-            <div className="mt-5 text-3xl">
-            <div className="font-bold text-gray-500 dark:text-white">
-              USER DETAILS
-            </div>
             <div>
-              <div className="flex mt-3">
-                {" "}
-                <div className="pb-4 text-2xl text-gray-500 dark:text-white">
-                  Wallet Details:
+              <div className="mt-5 text-3xl">
+                <div className="font-bold text-gray-500 dark:text-white">
+                  USER DETAILS
                 </div>
-                <div className="ml-5 text-gray-500 dark:text-white">{user}</div>
-              </div>
-            </div>
-            <div>
-              <div className=" pb-4 text-2xl text-gray-500 dark:text-white">
-                Roles :{" "}
-                <span className=" text-gray-500 dark:text-white">
-                   {hasRole && " Creator"}{" "}
-                </span>{" "}
-              </div>
-            </div>
-            <div className="pb-4 text-2xl">
-              <div className="flex">
-                <div className="text-gray-500 dark:text-white">Name :</div>
-                <div className="text-gray-500 dark:text-white">{name}</div>
-              </div>
-            </div>
-            <div className="text-2xl text-gray-500 dark:text-white">
-              <div className="flex">
-                <div className="text-gray-500 dark:text-white">Country :</div>
-                <div className="text-gray-500 dark:text-white">{country}</div>
-              </div>
-            </div>
-  
-            <div className="flex flex-wrap mt-5 gap-4">
-              <div>
-              <Button label="Edit profile" rounded />
-              </div>
-              <div>
-              <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
-             </div>
-        </div>  
+                <div>
+                  <div className="flex mt-3">
+                    {" "}
+                    <div className="pb-4 text-2xl text-gray-500 dark:text-white">
+                      Wallet Details:
+                    </div>
+                    <div className="ml-5 text-gray-500 dark:text-white">{user}</div>
+                  </div>
+                </div>
+                <div>
+                  <div className=" pb-4 text-2xl text-gray-500 dark:text-white">
+                    Roles :{" "}
+                    <span className=" text-gray-500 dark:text-white">
+                      {hasRole && " Creator"}{" "}
+                    </span>{" "}
+                  </div>
+                </div>
+                <div className="pb-4 text-2xl">
+                  <div className="flex">
+                    <div className="text-gray-500 dark:text-white">Name :</div>
+                    <div className="text-gray-500 dark:text-white">{name}</div>
+                  </div>
+                </div>
+                <div className="text-2xl text-gray-500 dark:text-white">
+                  <div className="flex">
+                    <div className="text-gray-500 dark:text-white">Country :</div>
+                    <div className="text-gray-500 dark:text-white">{country}</div>
+                  </div>
+                </div>
 
-        {twitt ? (
-        <>
-        <p className="flex p-5 justify-content-around">Twitter</p>
-        <div className="flex justify-content-around">   
-        <div>
-          <img style={{ height: "150px", borderRadius:'50%' }} src={twitt.photoURL}></img>
-        </div>
-          <div className="flex text-2xl">
-          <div className="ml-5 text-gray-500 dark:text-white">
-          <p>Display Name: {twitt.displayName}</p>
-          <p>User ID: 
-            {/* {twitt.reloadUserInfo.providerUserInfo[0].screenName} */}
-          </p>
-      <p>Name: {twitt.providerData[0].displayName}</p>
-      <p>Email id: {twitt.providerData[0].email}</p>
-      <p>Phone number: {twitt.providerData[0].phonenumber}</p>
-      </div> 
+                <div className="flex flex-wrap mt-5 gap-4">
+                  <div>
+                    <Button label="Edit profile" rounded />
+                  </div>
+                  <div>
+                    <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
+                  </div>
+                </div>
+
+                {twitt ? (
+                  <>
+                    <p className="flex p-5 justify-content-around">Twitter</p>
+                    <div className="flex justify-content-around">
+                      <div>
+                        <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.reloadUserInfo.providerUserInfo[0].photoUrl}></img>
+                      </div>
+                      <div className="flex text-2xl">
+                        <div className="ml-5 text-gray-500 dark:text-white">
+                          {/* <p>Display Name: {twitt.reloadUserInfo.displayName}</p> */}
+                          <p>User ID : {twitt.reloadUserInfo.providerUserInfo[0].screenName}
+                          </p>
+                          <p>Name: {twitt.providerData[0].displayName}</p>
+                          <p>Email id: {twitt.providerData[0].email}</p>
+                          <p>Phone number: {twitt.providerData[0].phonenumber}</p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </>
+                ) : null}
+
+              </div>
+            </div>
           </div>
-        
-        </div>
-        </>
-        ): null }
-
+          <div>
+            <img style={{ height: "300px" }} src="signatureseries.png"></img>
           </div>
         </div>
       </div>
-      <div>
-          <img style={{ height: "300px" }} src="signatureseries.png"></img>
-        </div>
-    </div>
-          </div>      
     </Layout>
   );
 }
