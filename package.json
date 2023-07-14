@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/cache": "^11.10.5",
     "@emotion/server": "^11.10.0",
+    "@mui/material": "^5.14.0",
     "@next/font": "13.0.7",
     "@rainbow-me/rainbowkit": "^0.4.2",
     "@reduxjs/toolkit": "^1.9.5",
@@ -27,6 +28,7 @@
     "chart.js": "4.2.1",
     "ethers": "^5.7.2",
     "firebase": "^10.0.0",
+    "multiselect-react-dropdown": "^2.0.25",
     "next": "^13.4.3",
     "nft.storage": "^7.0.3",
     "primeflex": "3.3.0",

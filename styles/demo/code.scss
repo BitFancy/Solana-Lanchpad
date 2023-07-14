@@ -13,10 +13,18 @@ pre.app-code {
         font-family: monaco, Consolas, monospace;
     }
 }
+.buy-back-image{
+    background-image: url("/blue.png");
+    height: 500px;
+}
+.assets-input-back{
+    background: rgba(83, 71, 231, 0.50);
+}
 .subscribe-modal{
     text-align: center;
     padding: 10px;
-    background: white;
+    background-color: #5347E7;
+    color: white;
 }
 
 .launchpad-back {

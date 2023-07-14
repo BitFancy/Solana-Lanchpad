@@ -21,7 +21,7 @@ export default function BuyNft() {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
             address,
-            flowSubscriptionAddress,
+            subscriptionAbi,
           signer
         );
     
@@ -65,7 +65,7 @@ export default function BuyNft() {
     
   return (
     <Layout title="Launchpad" description="Used to Subscribe the NFTs">
-    <div style={{marginTop:'100px'}}>
+    <div className="buy-back-image" style={{marginTop:'100px'}}>
       <div className="font-bold text-3xl p-5">Buy NFT</div>
       <hr></hr>
       <Messages  ref={msgs} />
@@ -90,12 +90,12 @@ export default function BuyNft() {
             </ul>
           </div>
           <div>
-            <Button onClick={mint} label="Buy Subscription"></Button>
+            <Button  onClick={mint} severity="info" label="Buy Subscription"></Button>
           </div>
         </div>
         <div className="p-5 subscribe-modal">
-          <div className="font-bold">$99</div>
-          <div className="font-bold">per month</div>
+          <div className="font-bold">Pro</div>
+          <div className="font-bold">$99/month</div>
           <hr></hr>
           <div>
                
@@ -110,7 +110,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div>
-            <Button onClick={mint} label="Buy Subscription"></Button>
+            <Button onClick={mint} severity="info" label="Buy Subscription"></Button>
           </div>
         </div>
       </div>

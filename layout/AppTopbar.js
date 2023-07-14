@@ -56,6 +56,15 @@ const AppTopbar = forwardRef((props, ref) => {
         Buy Nft 
       </span>
     </Link>
+    <Link href='/assets'>
+      
+      <span
+        className="text-black"
+        style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+      >
+        Create
+      </span>
+    </Link>
         <Link href='/launchpad'>
       
           <span

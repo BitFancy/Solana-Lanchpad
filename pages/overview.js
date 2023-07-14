@@ -41,18 +41,32 @@ export default function Overview() {
     <div>
       <div>
         <div className="flex justify-content-between">
-        <div className="font-bold p-5 overflow-y-auto ... overflow-manage-left">
-          <div className="mt-5">SignatureSeries</div>
-          <div className="mt-5">FusionSeries</div>
-          <div className="mt-5">AIREX</div>
-          <div className="mt-5">EternumPass</div>
-          <div className="mt-5">Phygital NFTs</div>
+        <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
+          <div className="font-bold">
+          overview
+          </div>
+          <div className="ml-3 mt-3">
+          <div>Analytics</div>
+          <div className="mt-3">Subscription</div>
+          </div>
+         
+          <div className="font-bold mt-5">Contracts</div>
+         <div className="ml-3">
+         <div className="mt-3">SignatureSeries</div>
+          <div className="mt-3">FusionSeries</div>
+          <div className="mt-3">DynamicRealms</div>
+          <div className="mt-3">EternumPass</div>
+          <div className="mt-3">Instagen</div>
+         </div>
           <div className="border-bottom-das"></div>
-          <div className="mt-5">Roles</div>
-          <div className="mt-5">TradeHub</div>
-          <div className="mt-5">Gateway</div>
-          <div className="mt-5">Frontend</div>
-          <div className="mt-5">Metaverse</div>
+          <div className="font-bold mt-5">Settings</div>
+         <div className="ml-3">
+         <div className="mt-3">Roles</div>
+          <div className="mt-3">TradeHub</div>
+          <div className="mt-3">Gateway</div>
+          <div className="mt-3">Frontend</div>
+          <div className="mt-3">Metaverse</div>
+         </div>
         </div>
        <div style={{margin:'0 auto'}}>
         <div className="flex ">
