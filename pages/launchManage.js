@@ -11,7 +11,12 @@ export default function LunchManage() {
   var wallet = walletAddr ? walletAddr[0] : "";   
   const [grantRole, setGrantRole] = useState(true);
   const [revokeRole, setRevokeRole] = useState(true);
+  const [active, setActive] = useState("");
 
+  const handleClick = (event) => {
+    setActive(event.target.id);
+
+  };
   // useEffect(() => {
   //   const asyncFn = async () => {
   //     const token = localStorage.getItem("platform_token");
@@ -59,32 +64,125 @@ export default function LunchManage() {
       <div>
         <div className="font-bold mt-10 manage-colloection-back">Manage your FusionSeries</div>
         <div className="flex gap-right mt-5">
-        <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
-          <div className="font-bold">
-          overview
-          </div>
-          <div className="ml-3 mt-3">
-          <div>Analytics</div>
-          <div className="mt-3">Subscription</div>
-          </div>
-         
-          <div className="font-bold mt-5">Contracts</div>
-         <div className="ml-3">
-         <div className="mt-3">SignatureSeries</div>
-          <div className="mt-3">FusionSeries</div>
-          <div className="mt-3">DynamicRealms</div>
-          <div className="mt-3">EternumPass</div>
-          <div className="mt-3">Instagen</div>
-         </div>
-          <div className="border-bottom-das"></div>
-          <div className="font-bold mt-5">Settings</div>
-         <div className="ml-3">
-         <div className="mt-3">Roles</div>
-          <div className="mt-3">TradeHub</div>
-          <div className="mt-3">Gateway</div>
-          <div className="mt-3">Frontend</div>
-          <div className="mt-3">Metaverse</div>
-         </div>
+        <div className=" overflow-y-auto ... overflow-dashboard-left" style={{padding:'55px'}}>
+        <div className="font-bold">overview</div>
+              <div className="ml-3 mt-3">
+                <div
+                  key={1}
+                  className={active === "1" ? "active" : undefined}
+                  id={"1"}
+                  onClick={handleClick}
+                >
+                  Analytics
+                </div>
+                <div
+                  key={1}
+                  className={active === "2" ? "active" : undefined}
+                  id={"2"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Subscription
+                </div>
+              </div>
+
+              <div className="font-bold mt-5">Contracts</div>
+              <div className="ml-3">
+                <div
+                  key={3}
+                  className={active === "3" ? "active" : undefined}
+                  id={"3"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  SignatureSeries
+                </div>
+                <div
+                  key={4}
+                  className={active === "4" ? "active" : undefined}
+                  id={"4"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  FusionSeries
+                </div>
+                <div
+                  key={5}
+                  className={active === "5" ? "active" : undefined}
+                  id={"5"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  DynamicRealms
+                </div>
+                <div
+                  key={6}
+                  className={active === "6" ? "active" : undefined}
+                  id={"6"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  EternumPass
+                </div>
+                <div
+                  key={7}
+                  className={active === "7" ? "active" : undefined}
+                  id={"7"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Instagen
+                </div>
+              </div>
+              <div className="border-bottom-das"></div>
+              <div className="font-bold mt-5">Settings</div>
+              <div className="ml-3">
+                <div
+                  key={8}
+                  className={active === "8" ? "active" : undefined}
+                  id={"8"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Roles
+                </div>
+                <div
+                  key={9}
+                  className={active === "9" ? "active" : undefined}
+                  id={"9"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  TradeHub
+                </div>
+                <div
+                  key={10}
+                  className={active === "10" ? "active" : undefined}
+                  id={"10"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Gateway
+                </div>
+                <div
+                  key={11}
+                  className={active === "11" ? "active" : undefined}
+                  id={"11"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Frontend
+                </div>
+                <div
+                  key={12}
+                  className={active === "12" ? "active" : undefined}
+                  id={"12"}
+                  onClick={handleClick}
+                  style={{ marginTop: "20px" }}
+                >
+                  Metaverse
+                </div>
+                </div>
         </div>
         <div style={{width:"100%"}}>
           <div className=" p-5 card card-role">

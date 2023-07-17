@@ -16,13 +16,14 @@ export default function BuyNft() {
     const msgs = useRef(null);
     const { address} = useAccount()
     const { data: ensName } = useEnsName({ address })
+    
     const mint = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            address,
+            flowSubscriptionAddress,
             subscriptionAbi,
-          signer
+            signer
         );
     
         function clearError() {
@@ -33,9 +34,10 @@ export default function BuyNft() {
           clearError();
           setLoadingTx(true);
           const tx = await contract.subscribe({
-            value: ethers.utils.parseEther("0.05"),
+            value: ethers.utils.parseEther("0.01"),
           });
           tx.wait().then((transaction) => {
+            console.log('transaction',transaction)
             if (transaction.status === 1) {
               msgs.current.show([
                 {

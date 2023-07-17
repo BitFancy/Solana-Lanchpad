@@ -77,6 +77,15 @@ pre.app-code {
     left: 70px;
 
 }
+.active{
+    background-color:blue;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 120px;
+    cursor: pointer;
+    }
 .right-collection-box{
     margin-left: 100px;
     margin-right: 100px;
@@ -104,6 +113,9 @@ pre.app-code {
 }
 .overflow-dashboard-left{
     height: 550px;
+}
+.overflow{
+    overflow: scroll;
 }
 .border-bottom-das{
     border-bottom: 1px solid;
