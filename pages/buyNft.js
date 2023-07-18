@@ -7,6 +7,9 @@ import {
     useAccount, useEnsName,
   } from 'wagmi'
 import Layout from "../Components/Layout";
+import axios from "axios";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
 export default function BuyNft() {
   const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
     const [isLoadingTx, setLoadingTx] = useState(false);
@@ -65,6 +68,43 @@ export default function BuyNft() {
         }
       };
     
+      const buySubscription=async ()=>{
+        const token = localStorage.getItem("authToken");
+        axios
+          .post(
+            `${BASE_URL_LAUNCH}api/v1.0/subscription/`, { name:"John",
+            owner:"asd3rfsdaf2334r23",
+            plan:"basic",
+            cost:99,
+            currency:"USD",
+            createdBy:"Admin",
+            updatedBy:"Admin"},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                
+              },
+             
+            },
+           
+          )
+          .then(async (response) => {
+            console.log("response of the basic plan subscription data", response);
+            // setpostsubscription(response.data.contractAddress)
+            msgs.current.show([
+              {
+                sticky: true,
+                severity: "success",
+                detail: "Subscription succesfully created",
+                closable: true,
+              },
+            ]);
+          })
+      
+          .catch((error) => {
+            console.log("err", error);
+          });
+      }
   return (
     <Layout title="Launchpad" description="Used to Subscribe the NFTs">
     <div className="buy-back-image" style={{marginTop:'100px'}}>
@@ -92,7 +132,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div>
-            <Button  onClick={mint} severity="info" label="Buy Subscription"></Button>
+            <Button  onClick={buySubscription} severity="info" label="Buy Subscription"></Button>
           </div>
         </div>
         <div className="p-5 subscribe-modal">

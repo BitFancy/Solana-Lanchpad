@@ -5,6 +5,8 @@ import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.so
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import Layout from "../Components/Layout";
+import axios from "axios";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function LunchManage() {
   const walletAddr = useSelector(selectUser);
@@ -12,11 +14,20 @@ export default function LunchManage() {
   const [grantRole, setGrantRole] = useState(true);
   const [revokeRole, setRevokeRole] = useState(true);
   const [active, setActive] = useState("");
+  const [contractsData, setContractsData] = useState([]);
+  const [activeMenu, setActiveMenu] = useState("");
 
   const handleClick = (event) => {
     setActive(event.target.id);
+    setActiveMenu(activeContract);
+
 
   };
+
+  useEffect(() => {
+    getAllContarctData();
+  }, []);
+
   // useEffect(() => {
   //   const asyncFn = async () => {
   //     const token = localStorage.getItem("platform_token");
@@ -55,6 +66,24 @@ export default function LunchManage() {
   //   asyncFn();
   // }, [revokeRole]);
 
+  const getAllContarctData = () => {
+    const token = localStorage.getItem("authToken");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+          setContractsData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log("Error in Fetching contracts..!", error);
+      });
+  };
+
   return (  
     <Layout
     title="Launch Manage Page"
@@ -88,52 +117,24 @@ export default function LunchManage() {
 
               <div className="font-bold mt-5">Contracts</div>
               <div className="ml-3">
-                <div
-                  key={3}
-                  className={active === "3" ? "active" : undefined}
-                  id={"3"}
-                  onClick={handleClick}
-                  style={{ marginTop: "20px" }}
-                >
-                  SignatureSeries
-                </div>
-                <div
-                  key={4}
-                  className={active === "4" ? "active" : undefined}
-                  id={"4"}
-                  onClick={handleClick}
-                  style={{ marginTop: "20px" }}
-                >
-                  FusionSeries
-                </div>
-                <div
-                  key={5}
-                  className={active === "5" ? "active" : undefined}
-                  id={"5"}
-                  onClick={handleClick}
-                  style={{ marginTop: "20px" }}
-                >
-                  DynamicRealms
-                </div>
-                <div
-                  key={6}
-                  className={active === "6" ? "active" : undefined}
-                  id={"6"}
-                  onClick={handleClick}
-                  style={{ marginTop: "20px" }}
-                >
-                  EternumPass
-                </div>
-                <div
-                  key={7}
-                  className={active === "7" ? "active" : undefined}
-                  id={"7"}
-                  onClick={handleClick}
-                  style={{ marginTop: "20px" }}
-                >
-                  Instagen
-                </div>
-              </div>
+              {contractsData.map((contract) => {
+                return (
+                  <div
+                    key={contract.contractName}
+                    className={
+                      activeMenu.contractName === contract.contractName
+                        ? "active"
+                        : undefined
+                    }
+                    id={"3"}
+                    onClick={() => handleClick(contract)}
+                    style={{ marginTop: "20px", cursor: "pointer" }}
+                  >
+                    {contract.contractName}
+                  </div>
+                );
+              })}
+            </div>
               <div className="border-bottom-das"></div>
               <div className="font-bold mt-5">Settings</div>
               <div className="ml-3">
