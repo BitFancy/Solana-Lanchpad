@@ -41,7 +41,7 @@ export default function GetAllEternumPass() {
         <div className="flex gap-5">
           {contractData.map((contract) => {
             return (
-              <div className="flex  mt-5">
+              <div   key={1} className="flex  mt-5">
                 {contract.contractName === "EternumPass" && (
                   <div
                     className="card"
