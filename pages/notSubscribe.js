@@ -33,7 +33,7 @@ export default function NotSubscribe() {
             />
           </svg>
         </div>
-        <div className="font-bold mt-3">You Haven't Subscribed Yet,</div>
+        <div className="font-bold mt-3">You Have not Subscribed Yet</div>
         <div className="font-bold">Take the Next Step</div>
         <Link href="/buySubscription">
           <div className="mt-5">
