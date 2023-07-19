@@ -5,7 +5,7 @@ import axios from "axios";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
-export default function getAllEternumPass() {
+export default function GetAllEternumPass() {
   const [contractData, setContarctData] = useState([]);
   useEffect(() => {
     getAllContarctData();

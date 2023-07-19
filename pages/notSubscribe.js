@@ -3,7 +3,7 @@ import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import Link from "next/link";
 
-export default function notSubscribe() {
+export default function NotSubscribe() {
   const [loading, setLoading] = useState(false);
   const load = () => {
     setLoading(true);
