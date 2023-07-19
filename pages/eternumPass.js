@@ -93,12 +93,12 @@ const EternumPass = () => {
       description="This is use to show information of the deploy InstaGen contract"
     >
       <div style={{ marginTop: "85px" }}>
-        <div className="p-5 font-bold text-align-center">Deploy InstaGen</div>
+        <div className="p-5 font-bold text-align-center" style={{ borderBottom: "2px solid" }}>Deploy EternumPass</div>
 
-        <div className="flex justify-content-center gap-5">
+        <div className="flex justify-content-center gap-5 mt-5">
           <div className="card" style={{ width: "50%" }}>
             <div className="text-center mt-5">
-              <div className="text-left">Enter EternumPass name</div>
+              <div className="text-left">Enter EternumPass Name</div>
               <div className="mt-3">
                 <InputText
                   value={contractName}
@@ -146,7 +146,7 @@ const EternumPass = () => {
                 />
               </div>
               <div className="mt-3 text-left">
-                Enter Subscription Price Per month
+                Enter Subscription Price Per Month
               </div>
               <div className="mt-2">
                 <InputText

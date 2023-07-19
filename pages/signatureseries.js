@@ -68,19 +68,19 @@ const SignatureSeries = (props) => {
       title="Deploy SignatureSeries"
       description="This is use to show information of the deploy signatureSeries contract"
     >
-      <div>
-        <div className="card p-5 font-bold text-center">
+      <div style={{marginTop:'100px'}}>
+        <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
           Deploy SignatureSeries
         </div>
         <div className="flex justify-content-center gap-5">
           <div className="card" style={{ width: "50%" }}>
             <div className="text-center mt-5">
-              <div className="text-left">Enter SignatureSeries name</div>
+              <div className="text-left">Enter SignatureSeries Name</div>
               <div className="mt-3">
                 <InputText
                   value={contractName}
                   onChange={handleInputName}
-                  className="p-2 w-full"
+                  className="p-2 w-full input-back"
                   type="text"
                 />
               </div>
@@ -89,7 +89,7 @@ const SignatureSeries = (props) => {
                 <InputText
                   value={contractSymbol}
                   onChange={handleInputSymbol}
-                  className="p-2 w-full"
+                  className="p-2 w-full input-back"
                   type="text"
                 />
               </div>
@@ -97,7 +97,7 @@ const SignatureSeries = (props) => {
               <div className="mt-2">
                 <InputText
                   value={tradhubContarctAddress}
-                  className="p-2 w-full"
+                  className="p-2 w-full input-back"
                   type="text"
                 />
               </div>

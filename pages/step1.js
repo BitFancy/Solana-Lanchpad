@@ -9,6 +9,14 @@ import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const Step1 = () => {
+  const [loading, setLoading] = useState(false);
+  const load = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+        setLoading(false);
+    }, 2000);
+};
   const msgs = useRef(null);
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
@@ -30,6 +38,7 @@ const Step1 = () => {
         }
       )
       .then(async (response) => {
+        load();
         console.log("response data", response);
         setsupabaseToken(response.data.contractAddress);
         msgs.current.show([
@@ -64,7 +73,7 @@ const Step1 = () => {
   };
   return (
     <Layout title="Step 1" description="Step one of the launchpad">
-      <div style={{ marginTop: "60px" }}>
+      <div style={{ marginTop: "100px" }}>
         <div
           className="font-bold p-3 mb-5"
           style={{ borderBottom: "2px solid" }}
@@ -87,7 +96,7 @@ const Step1 = () => {
               />
             </div>
             <div style={{ width: "50%" }}>
-              <div>Enter TradeHub fee</div>
+              <div>Enter TradeHub Fee</div>
               <InputText
                 type="number"
                 name="_platformFee"
@@ -107,6 +116,7 @@ const Step1 = () => {
               className=" mt-7"
               style={{ width: "30%" }}
               rounded
+              loading={loading} 
             />
           </div>
           <Messages ref={msgs} />

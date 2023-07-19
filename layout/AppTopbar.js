@@ -3,23 +3,33 @@ import { classNames } from "primereact/utils";
 import React, {
   forwardRef,
   useContext,
+  useEffect,
   useImperativeHandle,
-  useRef
+  useRef,
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import AppConfig from "./AppConfig";
+import Router from "next/router";
+import { useAccount, useDisconnect, useEnsName } from "wagmi";
 
 const AppTopbar = forwardRef((props, ref) => {
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  const { data: ensName } = useEnsName({ address });
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
     useContext(LayoutContext);
   const menubuttonRef = useRef(null);
   const topbarmenuRef = useRef(null);
   const topbarmenubuttonRef = useRef(null);
 
-
-  
+  useEffect(() => {
+    if (!isConnected) {
+      Router.push("/notSubscribe");
+    }
+  }, []);
   useImperativeHandle(ref, () => ({
     menubutton: menubuttonRef.current,
     topbarmenu: topbarmenuRef.current,
@@ -27,7 +37,6 @@ const AppTopbar = forwardRef((props, ref) => {
   }));
 
   return (
-    
     <div className="layout-topbar">
       <Link href="/dashboardl" className="layout-topbar-logo">
         <Image
@@ -35,7 +44,7 @@ const AppTopbar = forwardRef((props, ref) => {
             layoutConfig.colorScheme !== "light" ? "white" : "dark"
           }.svg`}
           width="60"
-          height="60" 
+          height="60"
           widt={"true"}
           alt="logo"
         />
@@ -47,52 +56,42 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-         <Link href='/buyNft'>
-      
-      <span
-        className="text-black"
-        style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-      >
-        Buy Nft 
-      </span>
-    </Link>
-    <Link href='/assets'>
-      
-      <span
-        className="text-black"
-        style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-      >
-        Create
-      </span>
-    </Link>
-        <Link href='/launchpad'>
-      
+        <Link href="/launchpad">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
-            Launch 
+            Launch
           </span>
         </Link>
-          <Link href="/dashboardl">
+        <Link href="/subscriptionDashboard">
           <span
+            className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Dashboard
           </span>
-          </Link>
-          <Link href="/profile">
+        </Link>
+        <Link href="/accessMasterRole">
           <span
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
-            Profile
+            Manage
           </span>
-          </Link>
+        </Link>
+        <Link href="/assets">
+          <span
+            className="text-black"
+            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+          >
+            Create
+          </span>
+        </Link>
         <div>
-          <ConnectButton/>
+          <ConnectButton />
         </div>
-        <div >
-          <AppConfig/>
+        <div>
+          <AppConfig />
         </div>
       </div>
     </div>

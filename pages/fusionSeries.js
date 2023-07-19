@@ -69,11 +69,12 @@ const fusionSerisData = () => {
     description="This is use to show deployed FusionSeries information"
   >
     <div style={{ marginTop: "85px" }}>
-      <div className="p-5 font-bold text-align-center">Deploy FusionSeries</div>
+      <div className="p-5 font-bold text-align-center"style={{ borderBottom: "2px solid" }}
+>Deploy FusionSeries</div>
       <div className="flex justify-content-center gap-5">
-        <div className="card" style={{ width: "50%" }}>
+        <div className="card mt-5" style={{ width: "50%" }}>
           <div className="text-center mt-5">
-            <div className="text-left">Enter FusionSeries name</div>
+            <div className="text-left">Enter FusionSeries Name</div>
             <div className="mt-3">
               <InputText
                 value={contractName}
@@ -99,7 +100,7 @@ const fusionSerisData = () => {
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">Choose img</div>
+            <div className="mt-3 text-left">Choose Img</div>
             <div className="mt-2">
               <FileUpload
                 name="demo[]"
@@ -107,7 +108,7 @@ const fusionSerisData = () => {
                 accept="image/*"
                 maxFileSize={1000000}
                 emptyTemplate={
-                  <p className="m-0">Drag and drop files to here to upload.</p>
+                  <p className="m-0">Drag And Drop Files To Here To Upload.</p>
                 }
               />
             </div>

@@ -1,8 +1,16 @@
 import { Button } from "primereact/button";
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../Components/Layout";
 
 export default function NftLaunch() {
+  const [loading, setLoading] = useState(false);
+  const load = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+        setLoading(false);
+    }, 2000);
+};
   return (
     <Layout
     title="Launch NFt"
@@ -49,6 +57,7 @@ export default function NftLaunch() {
                   severity="Primary"
                   rounded
                   style={{ width: "150px" }}
+                  loading={loading} onClick={load} 
                 />
               </div>
             </div>

@@ -1,14 +1,13 @@
 .layout-config-button {
     display: block;
     position: fixed;
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
-    background: var(--primary-color);
+    width: 2rem;
+    height: 2rem;
+   
     color: var(--primary-color-text);
     text-align: center;
     top: 6%;
-    right: 8px;
+    right: 9px;
     margin-top: -1.5rem;
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
