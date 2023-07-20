@@ -56,7 +56,7 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link href="/launchpad">
+        <Link href="/launchSignatureseries">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
 import { Button } from "primereact/button";
+import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function GetAllSubscription() {
@@ -29,20 +30,22 @@ export default function GetAllSubscription() {
   };
   return (
     <Layout>
-      <div style={{ marginTop: "100px" }}>
-        <div className="font-bold text-3xl text-black text-center">
-          Subscription Details
-        </div>
-
-        <div className="flex">
+      <div style={{ marginTop: "65px" }}>
+        
+        <MarketplaceProfileDetails/>
+        <hr></hr>
+        <div className="flex justify-content-between buy-back-image">
           <div>
             <Sidemenu />
           </div>
 
-          <div className=" mt-5 align-items-center subscription-back-part p-5 ">
+          <div className="w-full p-5 " style={{margin:'0 auto',}}>
+          <div className="font-bold text-3xl text-black text-center">
+        All  Subscription Details
+        </div>
             {subscriptionData.map((subscription) => {
               return (
-                <div   key={1} className="flex justify-content-between gap-5 mt-5">
+                <div   key={1} className="flex justify-content-between subscription-back-part-get-all gap-5 mt-5 p-5">
                   <div className="flex gap-5">
                     <div>
                       <img

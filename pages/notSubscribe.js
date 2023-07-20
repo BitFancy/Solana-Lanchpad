@@ -15,7 +15,7 @@ export default function NotSubscribe() {
   return (
     <Layout>
       <div className="no-subscribe buy-back-image">
-        <div>
+        <div className="mt-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="95"

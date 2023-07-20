@@ -6,7 +6,7 @@ export default function SubscriptionDashboard() {
   return (
    <Layout>
      <div style={{marginTop:'100px'}}>
-     <div className="font-bold text-3xl p-5">Buy Subscription</div>
+     <div className="font-bold text-3xl p-5 text-center">Buy Subscription Details</div>
       <hr></hr>
      <div className="flex justify-content-between mt-5 align-items-center subscription-back-part p-5">
                   <div className="flex gap-5">

@@ -2,6 +2,7 @@ import Layout from "../Components/Layout";
 import React, { useEffect, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
+import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
@@ -30,14 +31,15 @@ export default function GetAllFusionseries() {
   };
   return (
     <Layout>
-      <div style={{ marginTop: "100px" }}>
-        <div className="font-bold text-3xl text-black text-center">
+      <MarketplaceProfileDetails/>
+        <div className="font-bold mt-5 text-3xl text-black text-center">
           FusionSeries Details
         </div>
-        <div className="flex">
-          <div>
-            <Sidemenu />
-          </div>
+        <hr></hr>
+        <div className="flex justify-content-between buy-back-image">
+        <div >
+          <Sidemenu />
+        </div>
           <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
             {contractData.map((contract) => {
               return (
@@ -45,7 +47,7 @@ export default function GetAllFusionseries() {
                   {contract.contractName === "FusionSeries" && (
                     <div
                       className="card col-12 lg:col-6 xl:col-3 gap-5"
-                      style={{ marginBottom: "0px", width: "100%" }}
+                      style={{ marginBottom: "0px", width: "100%",height:'300px' }}
                     >
                       <div className="text-center">
                         <img
@@ -60,12 +62,7 @@ export default function GetAllFusionseries() {
                           <>{contract.contractName}</>
                         </span>
                       </div>
-                      <div>
-                        Contarct Address:{" "}
-                        <span style={{ color: "blue" }}>
-                        <>{contract.contractAddress}</>
-                        </span>
-                      </div>
+                    
                     </div>
                   )}
                 </div>
@@ -73,7 +70,7 @@ export default function GetAllFusionseries() {
             })}
           </div>
         </div>
-      </div>
+
     </Layout>
   );
 }

@@ -9,6 +9,7 @@ export default function Sidemenu() {
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
       <div className="font-bold">overview</div>
       <div className="ml-3 mt-3">
+        <Link href='/overview'>
         <div
           key={1}
           className={active === "1" ? "active" : undefined}
@@ -17,6 +18,7 @@ export default function Sidemenu() {
         >
           Analytics
         </div>
+        </Link>
         <Link href='/getAllSubscription'>
         <div
           key={1}
