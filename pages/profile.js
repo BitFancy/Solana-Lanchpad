@@ -19,25 +19,24 @@ import { initializeApp } from 'firebase/app';
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
 
-const TWITTER_CLIENT_ID = "QXFsUzJwelJTVDd1TnpVR0VCNzE6MTpjaQ" // give your twitter client id here
 
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
+
 // twitter oauth Url constructor
-function getTwitterOauthUrl() {
-  const rootUrl = "https://twitter.com/i/oauth2/authorize";
-  const options = {
-    response_type: "code",
-    client_id: TWITTER_CLIENT_ID,
-    redirect_uri: "http://www.localhost:3000/api/oauth/twitter", // client url cannot be http://localhost:3000/ or http://127.0.0.1:3000/
-    scope: ["users.read", "follows.read"].join(" "), // add/remove scopes as needed
-    state: "state",
-    code_challenge: codeChallenge,
-    code_challenge_method: "plain",
-  };
-  const qs = new URLSearchParams(options).toString();
-  return `${rootUrl}?${qs}`;
+const getTwitterOauthUrl = async () => {
+   
+  try{
+  const response = await fetch("/api/oauth/twitter"); // Send a request to the server-side API route
+  const data = await response.json();
+  const { oauth_token } = data;
+  // Redirect the user to the Twitter authorization URL
+  window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${oauth_token}`;
+} catch (error) {
+  console.error('Failed to initiate Twitter OAuth:', error);
+  // Handle error, show error message, etc.
+}
 }
 
 const getUserDataFromLocalStorage = () => {
@@ -370,7 +369,7 @@ function Profile() {
                 <Card title="Twitter Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      <a href={getTwitterOauthUrl()} label="Connect" icon="pi pi-check">Connect</a>
+                      
                       {
                         twitt ? (
                           <>
@@ -378,7 +377,7 @@ function Profile() {
                           </>
                         ) : (
                           <>
-                             {/* <a href={getTwitterOauthUrl()} label="Connect" icon="pi pi-check">Connect</a> */}
+                            <Button onClick={getTwitterOauthUrl} label="Connect" icon="pi pi-check"/>
                           </>
                         )
                       }
