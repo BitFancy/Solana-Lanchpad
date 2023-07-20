@@ -1,19 +1,5 @@
 import React, { useEffect , useState} from 'react';
 import { useRouter } from 'next/router';
-import OAuth from 'oauth-1.0a';
-import crypto from 'crypto';
-
-const consumer_key = 'f2HoWwaWN1fbzJbrpdGupEJcc';
-const consumer_secret = '2FbIz2Io0bF5QHL9W8s9NguulrS9waUGGnkpdnjIJMBkOZrgvN';
-
-const oauth = OAuth({
-  consumer: {
-    key: consumer_key,
-    secret: consumer_secret
-  },
-  signature_method: 'HMAC-SHA1',
-  hash_function: (baseString, key) => crypto.createHmac('sha1', key).update(baseString).digest('base64')
-});
 
 const TwitterCallbackPage = () => {
   const router = useRouter();
@@ -22,8 +8,6 @@ const TwitterCallbackPage = () => {
   const saveUserDataToLocalStorage = (user) => {
     localStorage.setItem('twitteruserData', JSON.stringify(user));
   };
-
-
 
   useEffect(() => {
     // Get the query parameters from the URL
@@ -53,7 +37,6 @@ const TwitterCallbackPage = () => {
           return data;
         }
 
-        console.log('Access tokens exchanged successfully!', data);
       } catch (error) {
         console.error('Failed to exchange tokens:', error);
       }

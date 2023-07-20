@@ -1,14 +1,10 @@
-// pages/api/twitterCallback.js
-
-import axios from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
 import OAuth from 'oauth-1.0a';
 import crypto from 'crypto';
 import qs from 'qs';
 
 // Replace these with your actual Twitter API credentials
-const consumerKey = 'f2HoWwaWN1fbzJbrpdGupEJcc';
-const consumerSecret = '2FbIz2Io0bF5QHL9W8s9NguulrS9waUGGnkpdnjIJMBkOZrgvN';
+const consumerKey = process.env.MYRIADFLOW_TWITTER_API_KEY;
+const consumerSecret = process.env.MYRIADFLOW_TWITTER_API_SECRET_KEY;
 
 const oauth = OAuth({
   consumer: {

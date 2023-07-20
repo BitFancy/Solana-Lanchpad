@@ -1,19 +1,14 @@
-import axios from 'axios';
-import { generateCodeVerifier, generateCodeChallenge } from '../../../utils/pkceUtils';
 import OAuth from 'oauth-1.0a';
 import crypto from 'crypto';
 import qs from 'qs';
 import got from 'got';
 
-const codeVerifier = generateCodeVerifier();
+// const REDIRECT_URI = 'http://www.localhost:3000/twitterCallback'; // Replace with your redirect URI
+const REDIRECT_URI = 'https://launchpad.myriadflow.com/twitterCallback';
 
-const TWITTER_CLIENT_ID = 'f2HoWwaWN1fbzJbrpdGupEJcc';
-const TWITTER_CLIENT_SECRET = '2FbIz2Io0bF5QHL9W8s9NguulrS9waUGGnkpdnjIJMBkOZrgvN';
-const REDIRECT_URI = 'http://www.localhost:3000/twitterCallback'; // Replace with your redirect URI
-const CODE_VERIFIER = codeVerifier; // Replace with your code verifier
+const consumer_key = process.env.MYRIADFLOW_TWITTER_API_KEY;
+const consumer_secret = process.env.MYRIADFLOW_TWITTER_API_SECRET_KEY;
 
-const consumer_key = 'f2HoWwaWN1fbzJbrpdGupEJcc';
-const consumer_secret = '2FbIz2Io0bF5QHL9W8s9NguulrS9waUGGnkpdnjIJMBkOZrgvN';
 const requestTokenURL = 'https://api.twitter.com/oauth/request_token';
 const endpointURL = `https://api.twitter.com/2/users/me?{params}`;
 
