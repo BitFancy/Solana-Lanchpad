@@ -5,7 +5,6 @@ const accessMaterAddress = process.env.NEXT_PUBLIC_FLOW_ACCESS_Master_ADDRESS;
 import { useAccount, useEnsName } from "wagmi";
 import { Button } from 'primereact/button';
 import Layout from '../Components/Layout';
-import Link from 'next/link';
 import Sidemenu from './sidemenu';
 
 export default function AccessMasterRole() {

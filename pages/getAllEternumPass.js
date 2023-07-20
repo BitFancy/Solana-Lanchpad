@@ -57,7 +57,9 @@ export default function GetAllEternumPass() {
                       </span>
                     </div>
                     <div>
-                      Contarct Address: <span style={{ color: "blue" }}></span>
+                      Contarct Address: <span style={{ color: "blue" }}>
+                      <>{contract.contractAddress}</>
+                      </span>
                     </div>
                   </div>
                 )}

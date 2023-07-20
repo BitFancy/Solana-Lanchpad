@@ -92,12 +92,12 @@ const Instagen = (props) => {
       description="This is use to show information of the deploy InstaGen contract"
     >
       <div style={{ marginTop: "85px" }}>
-        <div className="p-5 font-bold text-align-center">Deploy InstaGen</div>
+        <div className="p-5 font-bold text-align-center" style={{ borderBottom: "2px solid" }}>Deploy InstaGen</div>
 
         <div className="flex justify-content-center gap-5">
-          <div className="card" style={{ width: "50%" }}>
+          <div className="card mt-5" style={{ width: "50%" }}>
             <div className="text-center mt-5">
-              <div className="text-left">Enter InstaGen name</div>
+              <div className="text-left">Enter InstaGen Name</div>
               <div className="mt-3">
                 <InputText
                   value={contractName}
@@ -124,7 +124,7 @@ const Instagen = (props) => {
                   className="p-2 w-full input-back"
                 />
               </div>
-              <div className="mt-3 text-left">Enter pre SalePrice</div>
+              <div className="mt-3 text-left">Enter Pre SalePrice</div>
               <div className="mt-2">
                 <InputText
                   value={saleprePrice}

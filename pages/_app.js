@@ -16,13 +16,17 @@ import { WagmiConfig, configureChains ,createClient} from 'wagmi';
 import { publicProvider } from "wagmi/providers/public";
 import Layout from "../Components/Layout"; 
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { mainnet, polygon, optimism, arbitrum, goerli } from 'wagmi/chains';
+import {  polygonMumbai } from 'wagmi/chains';
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 export default function MyApp({ Component, pageProps }) {
   
   const { chains, provider } = configureChains(
-    [mainnet, polygon, optimism, arbitrum],
-    [alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_MUMBAI_RPC_URL }), publicProvider()]
+    [  polygonMumbai],
+    [alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_MUMBAI_RPC_URL }), publicProvider()],
+    jsonRpcProvider({
+      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+    }),
   );
   
   const { connectors } = getDefaultWallets({
