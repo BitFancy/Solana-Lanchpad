@@ -14,8 +14,30 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Link from "next/link";
 
-import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, TwitterAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
+
+import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
+
+
+const codeVerifier = generateCodeVerifier();
+const codeChallenge = generateCodeChallenge(codeVerifier);
+
+
+// twitter oauth Url constructor
+const getTwitterOauthUrl = async () => {
+   
+  try{
+  const response = await fetch("/api/oauth/twitter"); // Send a request to the server-side API route
+  const data = await response.json();
+  const { oauth_token } = data;
+  // Redirect the user to the Twitter authorization URL
+  window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${oauth_token}`;
+} catch (error) {
+  console.error('Failed to initiate Twitter OAuth:', error);
+  // Handle error, show error message, etc.
+}
+}
 
 const getUserDataFromLocalStorage = () => {
   if (typeof window !== 'undefined') {
@@ -25,24 +47,16 @@ const getUserDataFromLocalStorage = () => {
   return null;
 };
 
-const firebaseConfig = {
-  // Your firebase configuration
-  apiKey: "AIzaSyCeQfKoaEcGFELRUcXqgR2IR2s3zi50V_w",
-  authDomain: "twitter-authenticate.firebaseapp.com",
-  projectId: "twitter-authenticate",
-  storageBucket: "twitter-authenticate.appspot.com",
-  messagingSenderId: "658832560426",
-  appId: "1:658832560426:web:3fa1875fda4e1fcae88e53",
-  measurementId: "G-HJZSL2KY9Y"
-};
-
-const app = initializeApp(firebaseConfig);
-
 const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 
 function Profile() {
+
+  useEffect(() => {
+    const userData = getUserDataFromLocalStorage();
+    settwitt(userData);
+  }, []);
 
 
   const profile = {
@@ -60,6 +74,7 @@ function Profile() {
   const [updateProfile, setupdateProfile] = useState({ ...profile });
   const router = useRouter();
   const [twitt, settwitt] = useState(null);
+  const [fb, setfb] = useState(null);
 
   async function uploadImage(e) {
     e.preventDefault();
@@ -272,50 +287,11 @@ function Profile() {
     const redirectUri = 'http://localhost:3000/api/discord-redirect'; // Replace with your redirect URI
 
     // Generate the Discord authorization URL
-    const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify`;
+    const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
 
     window.location.href = authorizationUrl;
   };
 
-
-  // -------------------       twitter auth        ------------------------------------------//
-
-  const saveUserDataToLocalStorage = (user) => {
-    localStorage.setItem('twitteruserData', JSON.stringify(user));
-  };
-
-  useEffect(() => {
-    const userData = getUserDataFromLocalStorage();
-    settwitt(userData);
-  }, []);
-
-  const signInWithTwitter = () => {
-    const auth = getAuth();
-    const provider = new TwitterAuthProvider();
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-
-        const savedatalocally = {};
-        {
-          for (const key in user) {
-            if (key == 'reloadUserInfo' || key == 'providerData')
-              savedatalocally[key] = user[key];
-          }
-        }
-
-        console.log(savedatalocally);
-        settwitt(savedatalocally);
-        saveUserDataToLocalStorage(savedatalocally); // Save the user data to localStorage
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  // -------------------       twitter auth        ------------------------------------------//
 
 
   const {
@@ -341,7 +317,7 @@ function Profile() {
                 <Card title="Instagram Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-          <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
+                      <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
                       <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
                     </div>
                   }
@@ -369,7 +345,17 @@ function Profile() {
                 <Card title="Facebook Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      <Button label="Connect" icon="pi pi-check" />
+                      {
+                        fb ? (
+                          <>
+                            <Button label="Connected" icon="pi pi-check" />
+                          </>
+                        ) : (
+                          <>
+                            <Button label="Connect" icon="pi pi-check" />
+                          </>
+                        )
+                      }
                       <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
                     </div>
                   }
@@ -383,7 +369,7 @@ function Profile() {
                 <Card title="Twitter Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-
+                      
                       {
                         twitt ? (
                           <>
@@ -391,7 +377,7 @@ function Profile() {
                           </>
                         ) : (
                           <>
-                            <Button onClick={signInWithTwitter} label="Connect" icon="pi pi-check" />
+                            <Button onClick={getTwitterOauthUrl} label="Connect" icon="pi pi-check"/>
                           </>
                         )
                       }
@@ -472,19 +458,42 @@ function Profile() {
 
                 {twitt ? (
                   <>
-                    <p className="flex p-5 justify-content-around">Twitter</p>
+                    <p className="flex p-5 justify-content-around">Twitter account connected</p>
                     <div className="flex justify-content-around">
                       <div>
-                        <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.reloadUserInfo.providerUserInfo[0].photoUrl}></img>
+                        {/* <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.reloadUserInfo.providerUserInfo[0].photoUrl}></img> */}
                       </div>
                       <div className="flex text-2xl">
                         <div className="ml-5 text-gray-500 dark:text-white">
-                          {/* <p>Display Name: {twitt.reloadUserInfo.displayName}</p> */}
-                          <p>User ID : {twitt.reloadUserInfo.providerUserInfo[0].screenName}
+                          <Link href={`https://twitter.com/${twitt.screen_name}`} target="_blank">
+                            Go to Twitter profile
+                          </Link>
+                          <p>User ID : {twitt.screen_name}
                           </p>
-                          <p>Name: {twitt.providerData[0].displayName}</p>
-                          <p>Email id: {twitt.providerData[0].email}</p>
-                          <p>Phone number: {twitt.providerData[0].phonenumber}</p>
+                          {/* <p>Screen Name: {twitt.screen_name}</p> */}
+                          {/* <p>Joined on: {new Date(parseInt(twitt.metadata.createdAt)).toDateString()}</p> */}
+                        </div>
+                      </div>
+
+                    </div>
+                  </>
+                ) : null}
+
+
+                {fb ? (
+                  <>
+                    <p className="flex p-5 justify-content-around">Facebook</p>
+                    <div className="flex justify-content-around">
+                      <div>
+                        <img style={{ height: "150px", borderRadius: '50%' }} src={fb.reloadUserInfo.photoUrl}></img>
+                      </div>
+                      <div className="flex text-2xl">
+                        <div className="ml-5 text-gray-500 dark:text-white">
+                          <Link href={`https://www.facebook.com/profile.php?id=${fb}`} target="_blank">
+                            Go to Facebook profile
+                          </Link>
+                          <p>Screen Name: {fb.providerData[0].displayName}</p>
+                          <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p>
                         </div>
                       </div>
 

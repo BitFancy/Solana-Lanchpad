@@ -31,6 +31,7 @@
     "multiselect-react-dropdown": "^2.0.25",
     "next": "^13.4.3",
     "nft.storage": "^7.0.3",
+    "oauth-1.0a": "^2.2.6",
     "primeflex": "3.3.0",
     "primeicons": "^6.0.1",
     "primereact": "9.2.2",
