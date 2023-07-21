@@ -37,7 +37,7 @@ export default function NotSubscribe() {
         <div className="font-bold">Take the Next Step</div>
         <Link href="/buySubscription">
           <div className="mt-5">
-            <Button loading={loading} onClick={load} label="Buy NFTs"></Button>
+            <Button loading={loading} onClick={load} label="Buy Subscriptions"></Button>
           </div>
         </Link>
       </div>

@@ -55,11 +55,11 @@ export default function LaunchSignatureseries() {
       });
   };
   return (
-    <Layout>
-      <div style={{ height: "340px", marginTop: "130px" }}>
+    <Layout >
+      <div className="buy-back-image">
         <Messages ref={msgs} />
 
-        <div className="flex justify-content-center">
+        <div className="flex justify-content-center  " style={{marginTop:'100px'}}>
           <div>
             <LaunchContarctSidebar />
           </div>

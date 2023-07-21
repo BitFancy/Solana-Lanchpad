@@ -12,11 +12,10 @@ import Router from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function BuyNft() {
+  const [loading, setLoading] = useState(false);
+  
   const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
-    const [isLoadingTx, setLoadingTx] = useState(false);
     const [error, setError] = useState(null);
-    const [isMinted, setMinted] = useState(false);
-    const [isOwned, setIsOwned] = useState(false);
     const msgs = useRef(null);
     const { address} = useAccount()
     const { data: ensName } = useEnsName({ address })
@@ -36,12 +35,12 @@ export default function BuyNft() {
     
         try {
           clearError();
-          setLoadingTx(true);
+          setLoading(true);
           const tx = await contract.subscribe({
             value: ethers.utils.parseEther("0.00"),
           });
           setTimeout(() => {
-            setLoadingTx(false);
+            setLoading(false);
           }, 2000);
         
           tx.wait().then((transaction) => {
@@ -56,16 +55,13 @@ export default function BuyNft() {
                 },
               ]);
               setTimeout(() => {
-              setLoadingTx(false);
+              setLoading(false);
             }, 2000);
-              setMinted(true);
               Router.push('/subscriptionDashboard')
-              if (!isOwned) {
-                setIsOwned(true);
-              }
+             
             } else {
               setTimeout(() => {
-                setLoadingTx(false);
+                setLoading(false);
               }, 2000);             
                setError("Transaction failed or rejected by the user");
             }
@@ -73,7 +69,7 @@ export default function BuyNft() {
         } catch (error) {
           console.log(error);
           setTimeout(() => {
-            setLoadingTx(false);
+            setLoading(false);
           }, 2000);          
           setError("Transaction failed or rejected by the user");
         }
@@ -81,8 +77,8 @@ export default function BuyNft() {
     
       const buySubscription=async ()=>{
         const token = localStorage.getItem("authToken");
-        setLoadingTx(true);
-        axios
+        setLoading(true);       
+         axios
           .post(
             `${BASE_URL_LAUNCH}api/v1.0/subscription`, { name:"John",
             owner:"asd3rfsdaf2334r23",
@@ -98,27 +94,22 @@ export default function BuyNft() {
               },
              
             },
-           
           )
-         
           .then(async (response) => {
             setTimeout(() => {
-              setLoadingTx(false);
+              setLoading(false);
             }, 2000);
             msgs.current.show([
-
               {
                 sticky: true,
                 severity: "success",
-                detail: "Basic Plan Subscription Created Succesfully ",
+                detail: "Your Basic plan subscription has been successfully created",
                 closable: true,
               },
             ]);
+            Router.push('/addSubscription')
           })
-          setTimeout(() => {
-            setLoadingTx(false);
-          }, 2000);
-       Router.push('/subscriptionDashboard')
+         
           .catch((error) => {
             console.log("err", error);
           });
@@ -151,7 +142,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button  onClick={buySubscription} isLoadingTx={isLoadingTx} style={{background:'white',color:'black'}} severity="info" label="Buy Basic Subscription"></Button>
+            <Button  onClick={buySubscription} loading={loading} style={{background:'white',color:'black'}} severity="info" label="Buy Basic Subscription"></Button>
           </div>
         </div>
         <div className="p-5 subscribe-modal">
@@ -170,7 +161,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button onClick={mint} isLoadingTx={isLoadingTx} severity="info" style={{background:'white',color:'black'}} label="Buy Pro Subscription"></Button>
+            <Button onClick={mint}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Subscription"></Button>
           </div>
         </div>
       </div>

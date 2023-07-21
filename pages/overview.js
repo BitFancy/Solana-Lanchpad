@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Chart } from "primereact/chart";
 import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
+import { Messages } from "primereact/messages";
+import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 export default function Overview() {
+  const msgs = useRef(null);
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
   useEffect(() => {
@@ -29,15 +32,14 @@ export default function Overview() {
     setChartData(data);
     setChartOptions(options);
   }, []);
-  return (
+  return ( 
     <Layout
       title="Overview"
       description="This is use to show information of the overview launchpad"
     >
-      <div className="text-center mt-10 border-b-2 border-indigo-500 ... overview-donut-top-back"></div>
-      <div>
-        <div>
-          <div className="flex p-5">
+        <Messages ref={msgs} />
+        <MarketplaceProfileDetails/>
+          <div className="flex p-5 buy-back-image">
             <Sidemenu/>
             <div style={{ margin: "0 auto" }}>
               <div className="flex ">
@@ -62,8 +64,8 @@ export default function Overview() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        
+      
     </Layout>
   );
 }
