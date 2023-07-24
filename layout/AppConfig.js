@@ -221,7 +221,7 @@ const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h5>PrimeOne Design - 2022</h5>
+                <h5>PrimeOne Design</h5>
                 <div className="grid">
                     <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('lara-light-indigo', 'light')}>
@@ -265,7 +265,7 @@ const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h5>PrimeOne Design - 2021</h5>
+                <h5>PrimeOne Design</h5>
                 <div className="grid">
                     <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-blue', 'light')}>

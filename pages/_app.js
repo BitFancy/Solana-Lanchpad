@@ -7,15 +7,16 @@ import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Provider } from "react-redux";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+
 import store from "../store";
 import {
   RainbowKitProvider,
   getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
 import { WagmiConfig, configureChains ,createClient} from 'wagmi';
-import { publicProvider } from "wagmi/providers/public";
 import Layout from "../Components/Layout"; 
-import { alchemyProvider } from "wagmi/providers/alchemy";
 import {  polygonMumbai } from 'wagmi/chains';
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
@@ -25,10 +26,9 @@ export default function MyApp({ Component, pageProps }) {
     [  polygonMumbai],
     [alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_MUMBAI_RPC_URL }), publicProvider()],
     jsonRpcProvider({
-      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+      rpcUrl:"https://rpc-mumbai.maticvigil.com/"
     }),
   );
-  
   const { connectors } = getDefaultWallets({
     appName: "My RainbowKit App",
     chains

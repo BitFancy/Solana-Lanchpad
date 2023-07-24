@@ -57,7 +57,7 @@ export default function GetAllEternumPass() {
                         ></img>
                       </div>
                       <div>
-                        Contarct Name :{" "}
+                        Contract Name :{" "}
                         <span style={{ color: "blue" }}>
                           <>{contract.contractName}</>
                         </span>

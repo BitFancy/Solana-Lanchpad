@@ -60,7 +60,7 @@ export default function GetAllSignatureseries() {
                         ></img>
                       </div>
                       <div>
-                        Contarct Name :{" "}
+                        Contract Name :{" "}
                         <span style={{ color: "blue" }}>
                           <>{contract.contractName}</>
                         </span>

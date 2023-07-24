@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { withRouter } from "next/router";
 import Layout from "../Components/Layout";
 import { Messages } from "primereact/messages";
