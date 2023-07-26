@@ -1,34 +1,25 @@
-import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import {  useState } from "react";
 import { useRouter } from "next/router";
-// import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
+import Modal from "@mui/material";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
-import '../node_modules/primeicons/primeicons.css';
-import '../node_modules/primereact/resources/themes/lara-dark-indigo/theme.css';
-import '../node_modules/primereact/resources/primereact.css';
 import { InputNumber } from 'primereact/inputnumber';
-import Web3Modal from "web3modal";
-
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
 import Tradhub from '../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json';
-import FusionSeries from '../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json';
-import AccessMaster from '../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json';
-import BuyAsset from "../Components/buyAssetModal";
+import SignatureSeries from '../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json';
+import { BuyAsset }from "../Components/buyAssetModal";
 import { Alert, Snackbar, Typography } from "@mui/material";
-import Layout from "../Components/Layout";
+import { Layout } from "../Components/Layout";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import { NFTStorage } from "nft.storage";
 import Image from "next/image";
-import etherContract from "../utils/web3Modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { Button } from "primereact/button";
+import { useContract, useSigner } from "wagmi";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -43,10 +34,10 @@ const style = {
   pb: 3,
 };
 const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
-const fusionseriesAddress =process.env.NEXT_PUBLIC_FUSIONSERIES_ADDRESS;
-const accessmasterAddress =process.env.NEXT_PUBLIC_ACCESS_MASTER_ADDRESS;
-
+const signatureSeriesAddress =process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
 export default function CreateItem() {
+  const { data: signerData } = useSigner();
+
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
@@ -132,8 +123,7 @@ export default function CreateItem() {
       console.log("Error uploading vedio: ", error);
     }
   }
-
-  function createMarket(e) { //store
+  function createMarket(e) { 
     e.preventDefault();
     e.stopPropagation();
     const { name, description, price, alternettext,auctionTime } = formInput;
@@ -160,10 +150,8 @@ export default function CreateItem() {
       setOpen(true);
       return;
     }
-
     setmodelmsg("Transaction 1 in  progress");
     setmodel(true);
-
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     console.log("Asset Data before create", data);
      console.log("auction time",assetData,data,assetData.auctionTime)
@@ -173,7 +161,6 @@ export default function CreateItem() {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
         console.log("doc ipfs", ipfsHash, url);
-
         await createItem(ipfsHash, url);
       });
     } catch (error) {
@@ -182,80 +169,61 @@ export default function CreateItem() {
     }
   }
 
+  const signatureSeriesContract = useContract({
+    addressOrName: signatureSeriesAddress,
+    contractInterface: SignatureSeries.abi,
+    signerOrProvider: signerData,
+  });
+  const tradhubContract = useContract({
+    addressOrName: tradhubAddress,
+    contractInterface: Tradhub.abi,
+    signerOrProvider: signerData,
+  });
   async function createItem(ipfsHash, url) {
-    const options = new WalletConnectProvider({
-      rpc: {
-        137: 'https://rpc-mumbai.maticvigil.com/v1/f336dfba703440ee198bf937d5c065b8fe04891c',
-      },
-      rpcUrl:'https://rpc-mumbai.maticvigil.com/v1/f336dfba703440ee198bf937d5c065b8fe04891c',
-      infuraId: process.env.INFURA_KEY,
-
-    });
-    const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider, 
-        options: options,
-      },
-    };
-    /* next, create the item */
-    const web3Modal = new Web3Modal({
-      cacheProvider: true,
-      providerOptions,
-      network: "testnet",
-      version: "mumbai",
-    });
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-
-    /* next, create the item */
-    let contract = new ethers.Contract(
-      fusionseriesAddress,
-      FusionSeries.abi,
-      signer
-    );
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner()
+    // let contract = new ethers.Contract(
+    //   signatureSeriesAddress,
+    //   SignatureSeries.abi,
+    //   signer
+    // );
     console.log("ipfs://" + ipfsHash);    try {
     console.log('assets crete ',url, formInput.royalties*100)
-      let transaction = await contract.createAsset(url, formInput.royalties*100);//500 - royalites dynamic
+      let transaction = await signatureSeriesContract.createAsset(url, formInput.royalties*100,{gasLimit:'2099999'});//500 - royalites dynamic
       let tx = await transaction.wait();
       console.log("transaction", transaction);
       setmodelmsg("Transaction 1 Complete");
       let event = tx.events[0];
       let value = event.args[2];
       let tokenId = value.toNumber();
-      const price = ethers.utils.parseUnits(formInput.price, "ether");
+      //  let tokenId = 5;
+      const price = 1;
       const forAuction = false, endTime=0;
-      
-      await listItem(transaction, contract, tokenId, price, forAuction, signer, endTime);//Putting item to sale
+       
+      await listItem(tokenId, price, forAuction, signer, endTime);//Putting item to sale
     } catch (e) {
       console.log(e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
-    /* then list the item for sale on the tradhub */
-    router.push("/explore");
+    /* then list the item for sale on the marketplace */
+    // router.push("/explore");
 
   }
-  const listItem = async (transaction, contract, tokenId, price, forAuction, signer,endTime) => {
+  const listItem = async (tokenId, price, forAuction, signer,endTime) => {
     try {
       setmodelmsg("Transaction 2 in progress");
-      contract = new ethers.Contract(
-        tradhubAddress,
-        Tradhub.abi,
-        signer
-      );
-      transaction = await contract.listItem(
-        tradhubAddress,
-        tokenId,
-        price,
-        forAuction,
-        endTime
-        //putting for sale/auction
-         //number time in minutes always
+      // const  contract = new ethers.Contract(
+      //   tradhubAddress,
+      //   Tradhub.abi,
+      //   signer
+      // );
+    const transaction = await tradhubContract.listItem(
+        signatureSeriesAddress,tokenId, price, 1,forAuction, endTime ,{gasLimit:'2099999'}
       );
 
-      await transaction.wait();
-      console.log("transaction completed");
+      // await transaction.wait();
+      console.log("transaction completed",transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
       console.log(e);
@@ -317,20 +285,20 @@ export default function CreateItem() {
 
   const [hasRole, setHasRole] = useState(false);
 
-  useEffect(() => {
-    const asyncFn = async () => {
-      const contract = await etherContract(accessmasterAddress,AccessMaster.abi)
-      const hasCreatorRole = await contract.hasRole(await contract.FLOW_CREATOR_ROLE(), wallet)
-      setHasRole(hasCreatorRole)
-      console.log("hasCreatorRole",hasCreatorRole);
-        if (hasCreatorRole) {
-          router.push('/assets')
-      } else {
-        router.push('/authWallet')
-      }
-    };
-    asyncFn();
-  }, []);
+  // useEffect(() => {
+  //   const asyncFn = async () => {
+  //     const contract = await etherContract(accessmasterAddress,AccessMaster.abi)
+  //     const hasCreatorRole = await contract.hasRole(await contract.FLOW_CREATOR_ROLE(), wallet)
+  //     setHasRole(hasCreatorRole)
+  //     console.log("hasCreatorRole",hasCreatorRole);
+  //       if (hasCreatorRole) {
+  //         router.push('/assets')
+  //     } else {
+  //       router.push('/authWallet')
+  //     }
+  //   };
+  //   asyncFn();
+  // }, []);
 
   const [options1, setOptions] = useState([
     "Image",
@@ -357,7 +325,7 @@ export default function CreateItem() {
 
   return (
     <Layout title="Assets"description="This is used to create NFTs">
-      <div className="body-back">
+      <div className="body-back buy-back-image">
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -534,7 +502,7 @@ export default function CreateItem() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
-                    <Box sx={style} className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6]" >
+                    <div sx={style} className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6]" >
                       <Typography
                         id="modal-modal-title"
                         variant="h6"
@@ -603,8 +571,8 @@ export default function CreateItem() {
                                     disabled={attributes.length === 1}
                                     onClick={() =>
                                       handleRemoveFields(inputField.id)
-                                    }
-                                    className="text-left mt-5 p-2.5 rounded-lg  bg-slate-300 text-gray-500 dark:text-white flex justify-content-center"
+                                    }dark
+                                    className="text-left mt-5 p-2.5 rounded-lg  bg-slate-300  flex justify-content-center"
                                   >
                                     <FaMinusSquare className="text-red-600" />
                                   </button>
@@ -612,7 +580,7 @@ export default function CreateItem() {
 
                                 <div>
                                   <button
-                                    className="text-left mt-5 p-2.5 rounded-lg  bg-slate-300 text-gray-500 dark:text-white flex justify-content-center"
+                                    className="text-left mt-5 p-2.5 rounded-lg  bg-slate-300  flex justify-content-center"
                                     onClick={handleAddFields}
                                   >
                                     <FaPlusSquare className="text-green-600" />
@@ -628,7 +596,8 @@ export default function CreateItem() {
                           Save
                         </Button>
                       </div>
-                    </Box>
+                    {/* </Box> */}
+                    </div>
                   </Modal>
                 </div>
                 <div className="flex mt-5" >
@@ -738,7 +707,7 @@ export default function CreateItem() {
                       updateFormInput({
                         ...formInput,
                         auctionTime: e.target.value,
-                      })} mode="decimal" showButtons min={0} max={100} />
+                      })} mode="decimal"  min={0} max={100} />
                 </div>
               )}
 

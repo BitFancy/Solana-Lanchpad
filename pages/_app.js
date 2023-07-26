@@ -15,10 +15,10 @@ import {
   RainbowKitProvider,
   getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, configureChains ,createClient} from 'wagmi';
-import Layout from "../Components/Layout"; 
+// import { WagmiConfig, configureChains ,createClient} from 'wagmi';
 import {  polygonMumbai } from 'wagmi/chains';
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { WagmiConfig, configureChains, createClient } from "wagmi";
 
 export default function MyApp({ Component, pageProps }) {
   
