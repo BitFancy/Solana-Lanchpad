@@ -3,8 +3,8 @@ import crypto from 'crypto';
 import qs from 'qs';
 
 // Replace these with your actual Twitter API credentials
-const consumerKey = process.env.MYRIADFLOW_TWITTER_API_KEY;
-const consumerSecret = process.env.MYRIADFLOW_TWITTER_API_SECRET_KEY;
+const consumerKey = process.env.NEXT_PUBLIC_MYRIADFLOW_TWITTER_API_KEY;
+const consumerSecret = process.env.NEXT_PUBLIC_MYRIADFLOW_TWITTER_API_SECRET_KEY;
 
 const oauth = OAuth({
   consumer: {
