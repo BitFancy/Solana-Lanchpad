@@ -9,11 +9,17 @@ const TwitterCallbackPage = () => {
     localStorage.setItem('twitteruserData', JSON.stringify(user));
   };
 
+  const saveUserDataToLocal = (user) => {
+    localStorage.setItem('twitterData', JSON.stringify(user));
+  };
+
+
   useEffect(() => {
     // Get the query parameters from the URL
     const { oauth_token, oauth_verifier } = router.query;
 
     const fetchTokens = async () => {
+      
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -29,6 +35,24 @@ const TwitterCallbackPage = () => {
         if(data.screen_name){
           settwitt(data);
           saveUserDataToLocalStorage(data);
+          
+          const twitterDataRequestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              access_token: data.oauth_token,
+              access_token_secret: data.oauth_token_secret
+            })
+          };
+
+          const twitterDataResponse = await fetch('/api/twitterData', twitterDataRequestOptions);
+          const twitterData = await twitterDataResponse.json();
+
+          console.log(twitterData);
+          saveUserDataToLocal(twitterData);
+          
           router.push("/profile");
           return data;
         }
