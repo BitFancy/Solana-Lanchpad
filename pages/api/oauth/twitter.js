@@ -3,11 +3,11 @@ import crypto from 'crypto';
 import qs from 'qs';
 import got from 'got';
 
-// const REDIRECT_URI = 'http://www.localhost:3000/twitterCallback'; // Replace with your redirect URI
-const REDIRECT_URI = 'https://launchpad.myriadflow.com/twitterCallback';
+const REDIRECT_URI = 'http://www.localhost:3000/twitterCallback'; // Replace with your redirect URI
+// const REDIRECT_URI = 'https://launchpad.myriadflow.com/twitterCallback';
 
-const consumer_key = process.env.MYRIADFLOW_TWITTER_API_KEY;
-const consumer_secret = process.env.MYRIADFLOW_TWITTER_API_SECRET_KEY;
+const consumer_key = process.env.NEXT_PUBLIC_MYRIADFLOW_TWITTER_API_KEY;
+const consumer_secret = process.env.NEXT_PUBLIC_MYRIADFLOW_TWITTER_API_SECRET_KEY;
 
 const requestTokenURL = 'https://api.twitter.com/oauth/request_token';
 const endpointURL = `https://api.twitter.com/2/users/me?{params}`;
