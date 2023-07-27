@@ -1,0 +1,32 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Bytecode",
+  "sourceName": "contracts/flow-contracts/cybermaven/Bytecode.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_size",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_start",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_end",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidCodeAtRange",
+      "type": "error"
+    }
+  ],
+  "bytecode": "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220e3ab60fb17299fc65a73da3e13a4b1cd12859ab2a3b3f91f4705a130e552f35564736f6c63430008110033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220e3ab60fb17299fc65a73da3e13a4b1cd12859ab2a3b3f91f4705a130e552f35564736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
