@@ -1,6 +1,5 @@
 import {  useState } from "react";
 import { useRouter } from "next/router";
-import Modal from "@mui/material";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
@@ -10,9 +9,9 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 import Tradhub from '../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json';
 import SignatureSeries from '../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json';
-import { BuyAsset }from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography } from "@mui/material";
-import { Layout } from "../Components/Layout";
+import  BuyAsset from "../Components/buyAssetModal";
+import { Alert, Snackbar, Typography, Modal } from "@mui/material";
+import  Layout  from "../Components/Layout";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import { NFTStorage } from "nft.storage";
