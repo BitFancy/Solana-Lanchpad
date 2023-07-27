@@ -9,10 +9,10 @@ import React, {
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import AppConfig from "./AppConfig";
 import Router from "next/router";
-import { useAccount, useDisconnect, useEnsName } from "wagmi";
+import { useAccount,useDisconnect,useEnsName } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const AppTopbar = forwardRef((props, ref) => {
   const { address, isConnected } = useAccount();
@@ -64,6 +64,14 @@ const AppTopbar = forwardRef((props, ref) => {
             Launch
           </span>
         </Link>
+        <Link href="/createInstagenNft">
+          <span
+            className="text-black"
+            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+          >
+            Inatagen NftCreate
+          </span>
+        </Link>
         <Link href="/subscriptionDashboard">
           <span
             className="text-black"
@@ -77,6 +85,13 @@ const AppTopbar = forwardRef((props, ref) => {
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Manage
+          </span>
+        </Link>
+        <Link href="/createFusionSeriesNft">
+          <span
+            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+          >
+            Create Fusion Series Nft
           </span>
         </Link>
         <Link href="/assets">

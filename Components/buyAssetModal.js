@@ -1,8 +1,5 @@
+import { Button, Modal, Typography } from '@mui/material';
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 
 const style = {
   position: 'absolute',
@@ -15,7 +12,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function BuyAsset({open , setOpen , message}) {
+ function BuyAsset({open , setOpen , message}) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -28,13 +25,14 @@ export default function BuyAsset({open , setOpen , message}) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="text-center">
+        <div sx={style} className="text-center">
           <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center text-gray-500 dark:text-white'>
             {message}
           </Typography>
         
-        </Box>
+        </div>
       </Modal>
     </div>
   );
 }
+export default BuyAsset
