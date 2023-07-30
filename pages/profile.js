@@ -290,11 +290,11 @@ function Profile() {
 
   const handleInstagramAuth = () => {
     const redirectUri = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_REDIRECT_URL;
-  
-      const clientId = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_CLIENT_ID;
-      const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media,instagram_graph_user_profile&response_type=code`;
-  
-      window.location.href = authUrl;
+
+    const clientId = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_CLIENT_ID;
+    const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media,instagram_graph_user_profile&response_type=code`;
+
+    window.location.href = authUrl;
   };
 
 
@@ -495,26 +495,52 @@ function Profile() {
 
                 {twitt ? (
                   <>
-                    <p className="flex p-5 justify-content-around">Twitter account connected</p>
-                    <div className="flex justify-content-around">
-                      <div>
-                        <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.profile_image_url_https}></img>
-                      </div>
-                      <div className="flex text-2xl">
-                        <div className="ml-5 text-gray-500 dark:text-white">
-                          <Link href={`https://twitter.com/${twitt.screen_name}`} target="_blank">
-                            Go to Twitter profile
-                          </Link>
-                          <p>User ID : {twitt.screen_name} </p>
-                          <p>Screen Name: {twitt.name}</p>
-                          {/* <p>Joined on: {new Date(parseInt(twitt.createdAt)).toDateString()}</p> */}
-                          <p>Joined on: {new Date(twitt.created_at).toLocaleString('default', { month: 'long' })} {new Date(twitt.created_at).getFullYear()}</p>
-                          <p>Bio: {twitt.description}</p>
-                          <p>Followers: {twitt.followers_count}</p>
-                          <p>Following: {twitt.friends_count}</p>
+                    {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}
+                    <div className="p-card mt-8 p-mb-3 p-shadow-3"
+
+                      style={{
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '8px',
+                        padding: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '72%'
+                      }}
+
+                    >
+                      <div className="p-card-body">
+                        <div className="flex justify-content-around">
+                          <div>
+                            <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.profile_image_url_https}></img>
+                          </div>
+                          <div className="flex text-xl mt-2">
+                            <div className="ml-5 dark:text-white font-bold">
+                              <Link href={`https://twitter.com/${twitt.screen_name}`} target="_blank" className="text-2xl">
+                                Twitter profile
+                              </Link>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span> {twitt.screen_name}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Screen Name :</span> {twitt.name}
+                              </p>
+                              {/* <p>Joined on: {new Date(parseInt(twitt.createdAt)).toDateString()}</p> */}
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Joined on :</span> {new Date(twitt.created_at).toLocaleString('default', { month: 'long' })} {new Date(twitt.created_at).getFullYear()}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Bio :</span> {twitt.description}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Followers :</span> {twitt.followers_count}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Following :</span> {twitt.friends_count}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
                     </div>
                   </>
                 ) : null}
@@ -522,78 +548,91 @@ function Profile() {
 
                 {discordData ? (
                   <>
-                    <p className="flex p-5 justify-content-around">Discord account connected</p>
-                    <div className="flex justify-content-around">
-                      <div>
-                        <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img>
-                      </div>
-                      <div className="flex text-2xl">
-                        <div className="ml-5 text-gray-500 dark:text-white">
-                          <Link href={`https://discord.com/users/${discordData.id}`} target="_blank">
-                            Go to Discord profile
-                          </Link>
-                          <p>User ID : {discordData.username} </p>
-                          <p>Screen Name: {discordData.global_name}</p>
+                    <div className="p-card mt-8 p-mb-3 p-shadow-3"
+
+                      style={{
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '8px',
+                        padding: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%'
+                      }}
+
+                    >
+                      <div className="p-card-body">
+                        <div className="flex justify-content-around">
+                          <div>
+                            <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img>
+                          </div>
+                          <div className="flex text-xl mt-2 ml-5 dark:text-white font-bold">
+                            <div className="">
+                              <Link href={`https://discord.com/users/${discordData.id}`} target="_blank" className="text-2xl">
+                                Discord Profile
+                              </Link>
+                              {/* <p className="mt-5">User ID : {discordData.username} </p> */}
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span> {discordData.username}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Screen Name :</span> {discordData.global_name}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
                     </div>
                   </>
                 ) : null}
 
 
-{instaData ? (
+                {instaData ? (
                   <>
-                    <p className="flex p-5 justify-content-around">Insta account connected</p>
-                    <div className="flex justify-content-around">
-                      <div>
-                        {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
-                      </div>
-                      <div className="flex text-2xl">
-                        <div className="ml-5 text-gray-500 dark:text-white">
-                          <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank">
-                            Go to Insta profile
-                          </Link>
-                          <p>User ID : {instaData.username} </p>
-                          {/* <p>Screen Name: {discordData.global_name}</p> */}
+                    {/* <p className="flex p-5 justify-content-around">Insta account connected</p> */}
+                    <div className="p-card mt-8 p-mb-3 p-shadow-3"
+
+                      style={{
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '8px',
+                        padding: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%'
+                      }}
+
+                    >
+                      <div className="p-card-body">
+                      <div className="flex justify-content-around">
+                        <div>
+                          {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
+                        </div>
+                        <div className="flex text-xl mt-2">
+                          <div className="ml-5 font-bold dark:text-white">
+                            <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank" className="text-2xl">
+                              Instagram profile
+                            </Link>
+                            <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span> {instaData.username}
+                              </p>
+                          </div>
                         </div>
                       </div>
-
                     </div>
-                  </>
+                  </div>
+              </>
                 ) : null}
 
+                        {/* <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p> */}
 
-                {fb ? (
-                  <>
-                    <p className="flex p-5 justify-content-around">Facebook</p>
-                    <div className="flex justify-content-around">
-                      <div>
-                        <img style={{ height: "150px", borderRadius: '50%' }} src={fb.reloadUserInfo.photoUrl}></img>
-                      </div>
-                      <div className="flex text-2xl">
-                        <div className="ml-5 text-gray-500 dark:text-white">
-                          <Link href={`https://www.facebook.com/profile.php?id=${fb}`} target="_blank">
-                            Go to Facebook profile
-                          </Link>
-                          <p>Screen Name: {fb.providerData[0].displayName}</p>
-                          <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p>
-                        </div>
-                      </div>
-
-                    </div>
-                  </>
-                ) : null}
-
-              </div>
             </div>
           </div>
-          <div>
-            <img style={{ height: "300px" }} src="signatureseries.png"></img>
-          </div>
+        </div>
+        <div>
+          <img style={{ height: "300px" }} src="signatureseries.png"></img>
         </div>
       </div>
-    </Layout>
+    </div>
+    </Layout >
   );
 }
 export default Profile;
