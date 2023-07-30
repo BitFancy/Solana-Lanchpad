@@ -57,10 +57,21 @@ function Profile() {
 
   useEffect(() => {
     const cookieUserData = Cookies.get('discordUserData');
+    console.log(cookieUserData);
     if (cookieUserData) {
       const parsedUserData = JSON.parse(cookieUserData);
       setdiscordData(parsedUserData);
       console.log('User data', parsedUserData);
+    }
+  }, []);
+
+  useEffect(() => {
+    const cookieinstaUserData = Cookies.get('instaData');
+    console.log(cookieinstaUserData);
+    if (cookieinstaUserData) {
+      const parsedData = JSON.parse(cookieinstaUserData);
+      setinstaData(parsedData);
+      console.log('insta User data', parsedData);
     }
   }, []);
 
@@ -81,6 +92,7 @@ function Profile() {
   const router = useRouter();
   const [twitt, settwitt] = useState(null);
   const [discordData, setdiscordData] = useState(null);
+  const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
 
   async function uploadImage(e) {
@@ -277,12 +289,12 @@ function Profile() {
   //----------------------------insta auth -----------------------------------------//
 
   const handleInstagramAuth = () => {
-    const redirectUri = 'https://launchpad.myriadflow.com/instagram-auth-success/';
-
-    const clientId = 593016509511308;
-    const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
-
-    window.location.href = authUrl;
+    const redirectUri = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_REDIRECT_URL;
+  
+      const clientId = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_CLIENT_ID;
+      const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media,instagram_graph_user_profile&response_type=code`;
+  
+      window.location.href = authUrl;
   };
 
 
@@ -320,7 +332,17 @@ function Profile() {
                 <Card title="Instagram Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
+                      {
+                        instaData ? (
+                          <>
+                            <Button label="Connected" icon="pi pi-check" />
+                          </>
+                        ) : (
+                          <>
+                            <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
+                          </>
+                        )
+                      }
                       <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
                     </div>
                   }
@@ -512,6 +534,28 @@ function Profile() {
                           </Link>
                           <p>User ID : {discordData.username} </p>
                           <p>Screen Name: {discordData.global_name}</p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </>
+                ) : null}
+
+
+{instaData ? (
+                  <>
+                    <p className="flex p-5 justify-content-around">Insta account connected</p>
+                    <div className="flex justify-content-around">
+                      <div>
+                        {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
+                      </div>
+                      <div className="flex text-2xl">
+                        <div className="ml-5 text-gray-500 dark:text-white">
+                          <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank">
+                            Go to Insta profile
+                          </Link>
+                          <p>User ID : {instaData.username} </p>
+                          {/* <p>Screen Name: {discordData.global_name}</p> */}
                         </div>
                       </div>
 
