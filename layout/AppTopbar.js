@@ -64,14 +64,14 @@ const AppTopbar = forwardRef((props, ref) => {
             Launch
           </span>
         </Link>
-        <Link href="/createInstagenNft">
+        {/* <Link href="/createInstagenNft">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Inatagen NftCreate
           </span>
-        </Link>
+        </Link> */}
         <Link href="/subscriptionDashboard">
           <span
             className="text-black"
@@ -87,14 +87,14 @@ const AppTopbar = forwardRef((props, ref) => {
             Manage
           </span>
         </Link>
-        <Link href="/createFusionSeriesNft">
+        {/* <Link href="/createFusionSeriesNft">
           <span
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Create Fusion Series Nft
           </span>
-        </Link>
-        <Link href="/assets">
+        </Link> */}
+        <Link href="/signatureSeriesAssets">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}

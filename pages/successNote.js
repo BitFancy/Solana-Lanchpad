@@ -5,7 +5,7 @@ export default function SuccessNote() {
   return (
     <Layout
       title="Success Note"
-      description="Used to show success contarct information"
+      description="Used to show success contract information"
     >
       <div>
         <div className="text-center sucessnote-back">
