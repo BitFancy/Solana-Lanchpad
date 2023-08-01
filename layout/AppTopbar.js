@@ -30,6 +30,7 @@ const AppTopbar = forwardRef((props, ref) => {
     if (!isConnected) {
       Router.push("/notSubscribe");
     }
+    
   }, []);
   useImperativeHandle(ref, () => ({
     menubutton: menubuttonRef.current,
