@@ -4,6 +4,7 @@ import Auth from "./auth";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 import Launchpad from "./launchpad";
+import NotSubscribe from "./notSubscribe";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ export default function Home() {
   console.log("session || authToken", session || authToken);
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      {!(session || authToken) ? <Auth /> : <Launchpad />}
+      {!(session || authToken) ? <Launchpad /> : < NotSubscribe/>}
     </div>
   );
 }

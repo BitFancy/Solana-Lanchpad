@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import Link from "next/link";
+import AppTopbar from "../layout/AppTopbar";
 
 export default function NotSubscribe() {
   const [loading, setLoading] = useState(false);
@@ -13,8 +14,10 @@ export default function NotSubscribe() {
     }, 1000);
   };
   return (
-    <Layout>
+   <div>
+      <AppTopbar />
       <div className="no-subscribe buy-back-image">
+        <div className="subscription-wrapper">
         <div className="mt-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +44,8 @@ export default function NotSubscribe() {
           </div>
         </Link>
       </div>
-    </Layout>
+      </div>
+      </div>
+   
   );
 }

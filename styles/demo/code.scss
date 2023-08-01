@@ -15,7 +15,7 @@ pre.app-code {
 }
 .buy-back-image{
     background-image: url("/blue.png");
-    height: 1000px;
+    height: 800px;
 }
 .back-image-sig-nft{
     background-image: url("/blue.png");
@@ -25,8 +25,33 @@ pre.app-code {
 .back-image-instagen-nft{
     background-image: url("/blue.png");
     height: 1250px;
-
 }
+.back-imag-step1{
+    background-image: url("/blue.png");
+    height: 500px;
+}
+.back-img-eternumpass{
+    background-image: url("/blue.png");
+    height: 1000px;
+}
+.back-img-insta{
+    background-image: url("/blue.png");
+    height: 1000px;
+}
+.back-img-sig{
+    background-image: url("/blue.png");
+    height: 500px;
+}
+.back-fusionseries{
+    background-image: url("/blue.png");
+    height: 1000px;
+}
+.subscription-wrapper{
+    position: absolute;
+    top: 20%;
+    left: 42%;
+}
+
 .add-properties{
     width: 65%;
     margin: 0 auto;
@@ -94,6 +119,7 @@ pre.app-code {
 .subscription-back-part{
     background-color: #5347E7;
     height: 130px;
+
 }
 .subscription-back-part-get-all{
     background-color: #5347E7;
@@ -103,8 +129,8 @@ pre.app-code {
     border-style: dashed;
 }
 .no-subscribe{
-    margin-top: 65px;
     text-align: center;
+    position: relative;
 }
 .active{
     background-color:blue;

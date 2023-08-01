@@ -2,13 +2,14 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import { Messages } from "primereact/messages";
-import { withRouter } from "next/router";
-import Router from "next/router";
-import Layout from "../Components/Layout";
+import { useRouter, withRouter } from "next/router";
 import axios from "axios";
+import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const Step1 = () => {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const load = () => {
     setLoading(true);
@@ -49,14 +50,11 @@ const Step1 = () => {
             closable: true,
           },
         ]);
-        Router.push({
-          pathname: "./fusionSeries",
-          query: { contractAddress: response.data.contractAddress },
-        });
-        Router.push({
-          pathname: "./signatureseries",
-          query: { contractAddress: response.data.contractAddress },
-        });
+        // Router.push({
+        //   pathname: "./fusionSeries",
+        //   query: { contractAddress: response.data.contractAddress },
+        // });
+        router.push("/fusionSeries");
       })
 
       .catch((error) => {
@@ -72,7 +70,8 @@ const Step1 = () => {
     setContractName(e.target.value);
   };
   return (
-    <Layout title="Step 1" description="Step one of the launchpad">
+    <div className="back-imag-step1" title="Step 1" description="Step one of the launchpad">
+      <AppTopbar/>
       <div style={{ marginTop: "100px" }}>
         <div
           className="font-bold p-3 mb-5"
@@ -80,7 +79,7 @@ const Step1 = () => {
         >
           Step 1 : Setup TradeHub
         </div>
-        <div className="card">
+        <div className="card" style={{width:'60%',margin:'0 auto'}}>
           <div className="flex justify-content-between gap-5">
             <div style={{ width: "50%" }}>
               <div>Enter TradeHub Name</div>
@@ -122,7 +121,7 @@ const Step1 = () => {
           <Messages ref={msgs} />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 export default withRouter(Step1);

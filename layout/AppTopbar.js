@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
@@ -15,9 +16,9 @@ import { useAccount,useDisconnect,useEnsName } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const AppTopbar = forwardRef((props, ref) => {
+  const [subscription, setSubscription] = useState();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-
   const { data: ensName } = useEnsName({ address });
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
     useContext(LayoutContext);
@@ -56,7 +57,20 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link href="/launchSignatureseries">
+{ 
+!subscription &&
+  <Link href="/notSubscribe">
+  <span
+    className="text-black"
+    style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+  >
+    Launch
+  </span>
+</Link>
+}
+      {
+        subscription &&
+        <Link href="/fusionSeries">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
@@ -64,14 +78,9 @@ const AppTopbar = forwardRef((props, ref) => {
             Launch
           </span>
         </Link>
-        {/* <Link href="/createInstagenNft">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Inatagen NftCreate
-          </span>
-        </Link> */}
+      }
+        
+
         <Link href="/subscriptionDashboard">
           <span
             className="text-black"
@@ -80,28 +89,21 @@ const AppTopbar = forwardRef((props, ref) => {
             Dashboard
           </span>
         </Link>
-        <Link href="/accessMasterRole">
+        {/* <Link href="/accessMasterRole">
           <span
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Manage
           </span>
-        </Link>
-        {/* <Link href="/createFusionSeriesNft">
-          <span
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Create Fusion Series Nft
-          </span>
         </Link> */}
-        <Link href="/signatureSeriesAssets">
+        {/* <Link href="/signatureSeriesAssets">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
           >
             Create
           </span>
-        </Link>
+        </Link> */}
         <div>
           <ConnectButton />
         </div>

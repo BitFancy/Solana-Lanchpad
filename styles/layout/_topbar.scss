@@ -80,7 +80,9 @@
         list-style: none;
         display: flex;
         gap: 30px;
-
+        text-align: center;
+        align-items: center;
+        justify-content: center;
         .layout-topbar-button {
             margin-left: 1rem;
         }

@@ -78,43 +78,16 @@ export default function CreateInstagenNft() {
       const transaction = await instagenContarct.mint(1, {
         gasLimit: "2099999",
       });
-      let tx = await transaction.wait();
+      // let tx = await transaction.wait();
       console.log("transaction", transaction);
       setmodelmsg("Transaction 1 Complete");
-      let event = tx.events[0];
-      let value = event.args[2];
-      let tokenId = value.toNumber();
-      const price = 1;
-      const forAuction = false,
-        endTime = 0;
-      await listItem(tokenId, price, forAuction, signerData, endTime);
     } catch (e) {
       console.log(e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
   };
-  const listItem = async (tokenId, price, forAuction, endTime) => {
-    try {
-      setmodelmsg("Transaction 2 in progress");
-      const transaction = await tradhubContract.listItem(
-        InstaGenAddress,
-        tokenId,
-        price,
-        1,
-        forAuction,
-        endTime,
-        { gasLimit: "2099999" }
-      );
-      // await transaction.wait();
-      console.log("transaction completed", transaction);
-      setmodelmsg("Transaction 2 Complete !!");
-    } catch (e) {
-      console.log(e);
-      setmodelmsg("Transaction 2 failed");
-    } finally {
-    }
-  };
+ 
   async function createMarket(e) {
     //store
     e.preventDefault();

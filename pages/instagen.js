@@ -1,13 +1,14 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
-import { withRouter } from "next/router";
-import Layout from "../Components/Layout";
+import { useRouter, withRouter } from "next/router";
 import { Messages } from "primereact/messages";
 import axios from "axios";
+import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const Instagen = (props) => {
+  const router = useRouter();
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -54,6 +55,12 @@ const Instagen = (props) => {
             closable: true,
           },
         ]);
+        // Router.push({
+        //   pathname: "./eternumPass",
+        //   query: { contractAddress: response.data.contractAddress },
+        // });
+        router.push("/eternumPass");
+
       })
 
       .catch((error) => {
@@ -87,10 +94,12 @@ const Instagen = (props) => {
     setBaseURI(e.target.value);
   };
   return (
-    <Layout
+    <div
       title="Deploy InstaGen"
       description="This is use to show information of the deploy InstaGen contract"
+      className="back-img-insta"
     >
+      <AppTopbar/>
       <div style={{ marginTop: "85px" }}>
         <div className="p-5 font-bold text-align-center" style={{ borderBottom: "2px solid" }}>Deploy InstaGen</div>
 
@@ -183,7 +192,7 @@ const Instagen = (props) => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

@@ -2,12 +2,13 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect, useRef } from "react";
 import { FileUpload } from "primereact/fileupload";
-import { withRouter } from "next/router";
-import Layout from "../Components/Layout";
+import { useRouter, withRouter } from "next/router";
 import axios from "axios";
 import { Messages } from "primereact/messages";
+import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const FusionSeries = (props) => {
+  const router = useRouter();
   const msgs = useRef(null);
   const [tradhubContarctAddress, setTradhubContarctAddress] = useState("");
   const [_platformFee, setPlatformfee] = useState();
@@ -16,6 +17,7 @@ const FusionSeries = (props) => {
   const [supabaseToken, setsupabaseToken] = useState();
 
 const fusionSerisData = () => {
+
   const token = localStorage.getItem("authToken");
   axios
     .post(
@@ -46,6 +48,11 @@ const fusionSerisData = () => {
           closable: true,
         },
       ]);
+      // Router.push({
+      //   pathname: "./instagen",
+      //   query: { contractAddress: response.data.contractAddress },
+      // });
+      router.push("/instagen");
     })
 
     .catch((error) => {
@@ -64,10 +71,12 @@ const fusionSerisData = () => {
   }, [props.router.query.contractAddress]);
 
   return (
-    <Layout
+    <div
     title="FusionSeries"
     description="This is use to show deployed FusionSeries information"
+    className="back-fusionseries"
   >
+    <AppTopbar/>
     <div style={{ marginTop: "85px" }}>
       <div className="p-5 font-bold text-align-center"style={{ borderBottom: "2px solid" }}
 >Deploy FusionSeries</div>
@@ -100,7 +109,7 @@ const fusionSerisData = () => {
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">Choose Img</div>
+            {/* <div className="mt-3 text-left">Choose Img</div>
             <div className="mt-2">
               <FileUpload
                 name="demo[]"
@@ -111,7 +120,7 @@ const fusionSerisData = () => {
                   <p className="m-0">Drag And Drop Files To Here To Upload.</p>
                 }
               />
-            </div>
+            </div> */}
           </div>
           <div className="text-center mt-5">
             <Button
@@ -126,7 +135,7 @@ const fusionSerisData = () => {
         </div>
       </div>
     </div>
-    </Layout>
+    </div>
   );
 };
 export default withRouter(FusionSeries);

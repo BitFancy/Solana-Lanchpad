@@ -2,14 +2,12 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "next/router";
-import Layout from "../Components/Layout";
 import { Messages } from "primereact/messages";
 import axios from "axios";
+import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 const SignatureSeries = (props) => {
   const msgs = useRef(null);
-
   const [tradhubContarctAddress, setTradhubContarctAddress] = useState("");
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
@@ -46,6 +44,10 @@ const SignatureSeries = (props) => {
             closable: true,
           },
         ]);
+        Router.push({
+          pathname: "./signatureseries",
+          query: { contractAddress: response.data.contractAddress },
+        });
       })
 
       .catch((error) => {
@@ -64,16 +66,18 @@ const SignatureSeries = (props) => {
   }, [props.router.query.contractAddress]);
 
   return (
-    <Layout
+    <div
       title="Deploy SignatureSeries"
       description="This is use to show information of the deploy signatureSeries contract"
+      className="back-img-sig"
     >
+      <AppTopbar/>
       <div style={{marginTop:'100px'}}>
         <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
           Deploy SignatureSeries
         </div>
         <div className="flex justify-content-center gap-5">
-          <div className="card" style={{ width: "50%" }}>
+          <div className="card mt-5" style={{ width: "50%" }}>
             <div className="text-center mt-5">
               <div className="text-left">Enter SignatureSeries Name</div>
               <div className="mt-3">
@@ -93,14 +97,14 @@ const SignatureSeries = (props) => {
                   type="text"
                 />
               </div>
-              <div className="mt-3 text-left">TradeHub address</div>
+              {/* <div className="mt-3 text-left">TradeHub address</div>
               <div className="mt-2">
                 <InputText
                   value={tradhubContarctAddress}
                   className="p-2 w-full input-back"
                   type="text"
                 />
-              </div>
+              </div> */}
             </div>
             <div className="text-center mt-5">
               <Button
@@ -115,7 +119,7 @@ const SignatureSeries = (props) => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
