@@ -12,9 +12,11 @@ const SignatureSeries = (props) => {
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [supabaseToken, setsupabaseToken] = useState();
+  const [loading, setLoading] = useState(false);
 
   const signatureSeriesdata = () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -33,6 +35,9 @@ const SignatureSeries = (props) => {
         }
       )
       .then(async (response) => {
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         console.log("response SignatureSeries data", response);
         setsupabaseToken(response.data.contractAddress);
         msgs.current.show([
@@ -113,6 +118,7 @@ const SignatureSeries = (props) => {
                 severity="Primary"
                 icon="pi pi-external-link"
                 rounded
+                loading={loading}
               />
             </div>
             <Messages ref={msgs} />

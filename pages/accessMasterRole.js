@@ -13,7 +13,10 @@ import { ethers } from 'ethers';
 export default function AccessMasterRole() {
     const { address } = useAccount();
     const { data: ensName } = useEnsName({ address });
-  
+    const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
+
+
     const [role, setRole] = useState("");
     const [userAdddress, setuserAdddress] = useState(address);
   
@@ -25,10 +28,14 @@ export default function AccessMasterRole() {
           accessMasterAbi.abi,
           signer
         );
+        setLoading1(true);
         const revokerole = await accessmasterContarct.revokeRole(
           await accessmasterContarct.FLOW_CREATOR_ROLE(),
           address
         );
+        setTimeout(() => {
+          setLoading1(false);
+      }, 2000);
         console.log("revoke role data", revokerole);
       };
       const grantRoleData = async () => {
@@ -39,10 +46,15 @@ export default function AccessMasterRole() {
           accessMasterAbi.abi,
           signer
         );
+        setLoading(true);
+
         const grantrole = await accessmasterContarct.grantRole(
           await accessmasterContarct.FLOW_CREATOR_ROLE(),
           address
         );
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         console.log("grant role", grantrole);
       };
       const handleInputRole = (e) => {
@@ -96,6 +108,7 @@ export default function AccessMasterRole() {
                   label="Assign"
                   severity="Primary"
                   rounded
+                  loading={loading}
                 />
               </div>
             </div>
@@ -124,6 +137,7 @@ export default function AccessMasterRole() {
                   label="Revoke/Remove"
                   severity="Primary"
                   rounded
+                  loading={loading1}
                 />
               </div>
             </div>

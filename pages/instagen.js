@@ -8,6 +8,8 @@ import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const Instagen = (props) => {
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
@@ -22,6 +24,8 @@ const Instagen = (props) => {
   const msgs = useRef(null);
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
+
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -45,6 +49,9 @@ const Instagen = (props) => {
         }
       )
       .then(async (response) => {
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         console.log("response InstaGen data", response);
         setsupabaseToken(response.data.contractAddress);
         msgs.current.show([
@@ -186,6 +193,7 @@ const Instagen = (props) => {
                 severity="Primary"
                 icon="pi pi-external-link"
                 rounded
+                loading={loading}
               />
             </div>
             <Messages ref={msgs} />

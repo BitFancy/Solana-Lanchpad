@@ -9,13 +9,13 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { Provider } from "react-redux";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import "../styles/demo/LoadingSpinner.css";
 
 import store from "../store";
 import {
   RainbowKitProvider,
   getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
-// import { WagmiConfig, configureChains ,createClient} from 'wagmi';
 import {  polygonMumbai } from 'wagmi/chains';
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { WagmiConfig, configureChains, createClient } from "wagmi";

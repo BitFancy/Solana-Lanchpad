@@ -9,21 +9,14 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const Step1 = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-  const load = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-        setLoading(false);
-    }, 2000);
-};
   const msgs = useRef(null);
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [supabaseToken, setsupabaseToken] = useState();
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -39,7 +32,9 @@ const Step1 = () => {
         }
       )
       .then(async (response) => {
-        load();
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         console.log("response data", response);
         setsupabaseToken(response.data.contractAddress);
         msgs.current.show([

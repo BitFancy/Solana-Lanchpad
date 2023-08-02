@@ -11,6 +11,10 @@ import axios from "axios";
 import Router from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+
+
   const { data: signerData } = useSigner();
   const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
     const [error, setError] = useState(null);
@@ -23,19 +27,16 @@ export default function BuyNft() {
       signerOrProvider: signerData,
     });
     const mint = async () => {
-        function clearError() {
-          setError(null);
-        }
-    
         try {
-          clearError();
+          setLoading1(true);
           const tx = await flowSubscriptionContarct.subscribe({
             value: ethers.utils.parseEther("0.00"),
           });
-          setTimeout(() => {
-          }, 2000);
-        
+         
           tx.wait().then((transaction) => {
+            setTimeout(() => {
+              setLoading1(false);
+          }, 2000);
             console.log('transaction',transaction)
             if (transaction.status === 1) {
               msgs.current.show([
@@ -66,6 +67,7 @@ export default function BuyNft() {
     
       const buySubscription=async ()=>{
         const token = localStorage.getItem("authToken");
+        setLoading(true);
          axios
           .post(
             `${BASE_URL_LAUNCH}api/v1.0/subscription`, { name:"John",
@@ -85,7 +87,10 @@ export default function BuyNft() {
           )
           .then(async (response) => {
             setTimeout(() => {
-            }, 2000);
+              setLoading(false);
+          }, 2000);
+          console.log("buy basic plan details", response);
+
             msgs.current.show([
               {
                 sticky: true,
@@ -129,7 +134,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button  onClick={buySubscription}  style={{background:'white',color:'black'}} severity="info" label="Buy Basic Subscription"></Button>
+            <Button loading={loading} onClick={buySubscription} style={{background:'white',color:'black'}}  severity="info" label="Buy Basic Subscription"></Button>
           </div>
         </div>
         <div className="p-5 subscribe-modal">
@@ -148,7 +153,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button onClick={mint}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Subscription"></Button>
+            <Button onClick={mint} loading={loading1}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Subscription"></Button>
           </div>
         </div>
       </div>

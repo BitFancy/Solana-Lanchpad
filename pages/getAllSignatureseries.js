@@ -41,7 +41,7 @@ export default function GetAllSignatureseries() {
           <Sidemenu />
         </div>
         
-        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
+        <div className="grid" style={{ gap: "20px",cursor:'pointer',marginLeft:'30px' }}>
       
             {contractData.map((contract) => {
                
@@ -49,7 +49,7 @@ export default function GetAllSignatureseries() {
                 <div key={1} className="grid   mt-5">
                   {contract.contractName === "SignatureSeries" && (
                     <div
-                      className="card col-12 lg:col-6 xl:col-3 gap-5"
+                      className="card  gap-5"
                       style={{ marginBottom: "0px", width: "100%",height:'300px' }}
                     >
                       <div className="text-center">

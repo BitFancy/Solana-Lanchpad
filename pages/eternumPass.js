@@ -10,6 +10,7 @@ import AppTopbar from "../layout/AppTopbar";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
@@ -27,6 +28,8 @@ const EternumPass = () => {
   const msgs = useRef(null);
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
+
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -50,6 +53,9 @@ const EternumPass = () => {
         }
       )
       .then(async (response) => {
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         console.log("response EternumPass data", response);
         setsupabaseToken(response.data.contractAddress);
         msgs.current.show([
@@ -186,10 +192,11 @@ const EternumPass = () => {
             <div className="text-center mt-5">
               <Button
                 onClick={instaGenContarctData}
-                label="Deploy InstaGen"
+                label="Deploy EternumPass"
                 severity="Primary"
                 icon="pi pi-external-link"
                 rounded
+                loading={loading}
               />
             </div>
             <Messages ref={msgs} />

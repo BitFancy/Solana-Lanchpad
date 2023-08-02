@@ -4,12 +4,20 @@ import { Dialog } from "primereact/dialog";
 import Layout from "../Components/Layout";
 import axios from "axios";
 import Router from "next/router";
+import NoFound from "../Components/NoFound";
+import { Spinner } from "@chakra-ui/spinner";
+import LoadingSpinner from "../Components/LoadingSpinner";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function Deployflowmarket() {
+
   const [visible, setVisible] = useState(false);
   const [supabaseToken, setsupabaseToken] = useState();
+  const [notdata, setNotData] = useState();
+  const [loading, setLoading] = useState(false);
+
   const flowAccessControllData = async () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -25,6 +33,9 @@ export default function Deployflowmarket() {
         }
       )
       .then(async (response) => {
+        setTimeout(() => {
+          setLoading(false);
+      }, 2000);
         setsupabaseToken(response.data.contractAddress);
         setVisible(true);
         Router.push("/step1");
@@ -43,9 +54,10 @@ export default function Deployflowmarket() {
         <div className="text-center">
           <Button
             label="Deploy Flow Access Control"
-            icon="pi pi-external-link"
+
             onClick={flowAccessControllData}
             style={{ marginTop: "115px" }}
+            loading={loading} 
           />
         </div>
         <Dialog

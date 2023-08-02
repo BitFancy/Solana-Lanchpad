@@ -7,9 +7,36 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SubscriptionDashboard() {
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [defulatImage, setDefulatImage]=useState("https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png");
+  const [loadingsetup, setLoadingsetup] = useState(false);
+  const [loadingmanage, setLoadingmanage] = useState(false);
+  const [loadingview, setLoadingview] = useState(false);
+
   useEffect(() => {
     getSubscriptionData();
   }, []);
+
+  const loadsetup = () => {
+    setLoadingsetup(true);
+
+    setTimeout(() => {
+        setLoadingsetup(false);
+    }, 2000);
+}; 
+const loadsetupManage = () => {
+  setLoadingmanage(true);
+
+  setTimeout(() => {
+      setLoadingmanage(false);
+  }, 2000);
+}; 
+const loadsetupview = () => {
+  setLoadingview(true);
+
+  setTimeout(() => {
+      setLoadingview(false);
+  }, 2000);
+}; 
+
   const getSubscriptionData = () => {
     const token = localStorage.getItem("authToken");
     axios
@@ -63,7 +90,7 @@ const  replaceImage = (error) => {
 
                   <Link href='/step1'>
                   <div>
-                    <Button label="Setup"></Button>
+                    <Button loading={loadingsetup} onClick={loadsetup} label="Setup"></Button>
                   </div>
                   </Link>
                 </div>
@@ -90,13 +117,13 @@ const  replaceImage = (error) => {
                   <div>
                     <Link href='/getAllSignatureseries'>
                   <div >
-                    <Button style={{width:'100%'}} label="View"></Button>
+                    <Button loading={loadingview} onClick={loadsetupview} style={{width:'100%'}} label="View"></Button>
                   </div>
                   </Link>
 
                   <Link href='/accessMasterRole' >
                   <div className='mt-5'>
-                    <Button style={{width:'100%'}}   label="Manage"></Button>
+                    <Button loading={loadingmanage} onClick={loadsetupManage} style={{width:'100%'}}   label="Manage"></Button>
                   </div>
                   </Link>
                   </div>
