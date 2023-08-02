@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
+import { FaUserCircle, FaMapMarkerAlt, FaWallet, FaEnvelope } from "react-icons/fa";
+import { IoLogoInstagram, IoLogoTwitter, IoLogoDiscord } from "react-icons/io5";
 import { convertUtf8ToHex } from "@walletconnect/utils";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -12,6 +14,7 @@ import axios from "axios";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Avatar } from 'primereact/avatar';
 import Link from "next/link";
 import Cookies from 'js-cookie';
 
@@ -446,54 +449,99 @@ function Profile() {
 
 
 
-      <div className="pt-5">
-        <div className="flex p-5 justify-content-around mt-5">
-          <div>
-            <div>
-              <div className="mt-5 text-3xl">
-                <div className="font-bold text-gray-500 dark:text-white">
-                  USER DETAILS
-                </div>
-                <div>
-                  <div className="flex mt-3">
-                    {" "}
-                    <div className="pb-4 text-2xl text-gray-500 dark:text-white">
-                      Wallet Details:
-                    </div>
-                    <div className="ml-5 text-gray-500 dark:text-white">{user}</div>
-                  </div>
-                </div>
-                <div>
-                  <div className=" pb-4 text-2xl text-gray-500 dark:text-white">
-                    Roles :{" "}
-                    <span className=" text-gray-500 dark:text-white">
-                      {hasRole && " Creator"}{" "}
-                    </span>{" "}
-                  </div>
-                </div>
-                <div className="pb-4 text-2xl">
-                  <div className="flex">
-                    <div className="text-gray-500 dark:text-white">Name :</div>
-                    <div className="text-gray-500 dark:text-white">{name}</div>
-                  </div>
-                </div>
-                <div className="text-2xl text-gray-500 dark:text-white">
-                  <div className="flex">
-                    <div className="text-gray-500 dark:text-white">Country :</div>
-                    <div className="text-gray-500 dark:text-white">{country}</div>
-                  </div>
-                </div>
+      <div className="mt-8">
+        <div
+          className="" style={{
+            backgroundImage: 'url("")', width: '100%',
+            height: "250px",
+            objectFit: 'cover',
+            backgroundColor: 'gray',
+          }}>
+        </div>
 
-                <div className="flex flex-wrap mt-5 gap-4">
-                  <div>
-                    <Button label="Edit profile" rounded />
-                  </div>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'start',
+          marginTop: '-100px',
+          marginLeft: '50px',
+        }}>
+          <div style={{
+            width: '200px',
+            height: '200px',
+            borderRadius: '50%',
+            border: '1px solid black',
+            backgroundColor: 'gray',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <FaUserCircle
+              style={{
+                fontSize: '24px',
+                // color: 'gray',
+                width: '200px',
+                height: '200px',
+              }}
+            />
+          </div>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end', marginTop: '-70px',
+          marginRight: '20px',
+        }}>
+          <Button label="Edit Profile" onClick={() => setShowModal(true)} rounded />
+        </div>
+
+        <div style={{
+          margin: '2px',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'start',
+        }}>
+
+          <div style={{
+            marginTop: '50px', // Use '24px' in md viewports and '10px' in lg viewports
+            marginLeft: '60px',
+          }}>
+            <div>
+              <p className="text-2xl font-bold">Neque Porro</p>
+            </div>
+            <div>
+              <p className="mt-12 text-xl">Bio: Neque porro quisquam est qui dolorem ipsum quia dolor sit</p>
+
+              <div className="flex lg:flex-row md:flex-row flex-col mt-4">
+                <div className="flex">
+                  <FaMapMarkerAlt style={{ color: 'grey', marginTop: 6 }} />
+                  <p className="text-xl ml-2" style={{ color: 'grey' }}>Los angeles</p>
+                </div>
+                <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
+                  <FaWallet style={{ color: '', marginTop: 6 }} />
+                  <p className="text-xl ml-2" style={{ color: '' }}>1fdbceyguhjkd5346</p>
+                </div>
+              </div>
+
+              <div className="flex lg:flex-row md:flex-row flex-col mt-6">
+                <div className="flex">
+                  <FaEnvelope style={{ color: '', marginTop: 6 }} />
+                  <p className="text-xl ml-2" style={{ color: '' }}>firstname@gmail.com</p>
+                </div>
+                <div className="flex lg:ml-12 md:ml-12 text-xl" style={{ marginLeft: 20 }}>
+                  <IoLogoInstagram style={{ color: '', marginTop: 6, marginRight: 8 }} />
+                  <IoLogoTwitter style={{ color: '', marginTop: 6, marginRight: 8 }} />
+                  <IoLogoDiscord style={{ color: '', marginTop: 6 }} />
+                </div>
+                <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
                   <div>
                     <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
                   </div>
                 </div>
+              </div>
 
-                {twitt ? (
+              {twitt ? (
                   <>
                     {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}
                     <div className="p-card mt-8 p-mb-3 p-shadow-3"
@@ -602,36 +650,38 @@ function Profile() {
 
                     >
                       <div className="p-card-body">
-                      <div className="flex justify-content-around">
-                        <div>
-                          {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
-                        </div>
-                        <div className="flex text-xl mt-2">
-                          <div className="ml-5 font-bold dark:text-white">
-                            <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank" className="text-2xl">
-                              Instagram profile
-                            </Link>
-                            <p className="mt-4 text-secondary">
+                        <div className="flex justify-content-around">
+                          <div>
+                            {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
+                          </div>
+                          <div className="flex text-xl mt-2">
+                            <div className="ml-5 font-bold dark:text-white">
+                              <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank" className="text-2xl">
+                                Instagram profile
+                              </Link>
+                              <p className="mt-4 text-secondary">
                                 <span className="text-gray-900">User ID :</span> {instaData.username}
                               </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-              </>
+                  </>
                 ) : null}
 
-                        {/* <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p> */}
-
+            </div>
+            <div>
             </div>
           </div>
+
         </div>
-        <div>
-          <img style={{ height: "300px" }} src="signatureseries.png"></img>
+
+
+        <div className="flex p-5 justify-content-around mt-5">
+                {/* <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p> */}
         </div>
       </div>
-    </div>
     </Layout >
   );
 }
