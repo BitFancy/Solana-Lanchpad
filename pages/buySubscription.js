@@ -104,7 +104,7 @@ export default function BuyNft() {
   return (
     <Layout title="Launchpad" description="Used to Subscribe the NFTs">
     <div className="buy-back-image" style={{marginTop:'65px'}}>
-      <div className="font-bold text-3xl p-5">Buy Subscription</div>
+      <div className="font-bold text-3xl p-5 text-center">Buy Subscription</div>
       <hr></hr>
       <Messages  ref={msgs} />
       <div className="flex mt-5 justify-content-center gap-5 ">

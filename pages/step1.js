@@ -74,10 +74,10 @@ const Step1 = () => {
       <AppTopbar/>
       <div style={{ marginTop: "100px" }}>
         <div
-          className="font-bold p-3 mb-5"
+          className="font-bold p-3 mb-5 text-center"
           style={{ borderBottom: "2px solid" }}
         >
-          Step 1 : Setup TradeHub
+          Setup TradeHub
         </div>
         <div className="card" style={{width:'60%',margin:'0 auto'}}>
           <div className="flex justify-content-between gap-5">

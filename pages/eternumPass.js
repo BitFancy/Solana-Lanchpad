@@ -99,7 +99,7 @@ const EternumPass = () => {
     >
       <AppTopbar/>
       <div style={{ marginTop: "85px" }}>
-        <div className="p-5 font-bold text-align-center" style={{ borderBottom: "2px solid" }}>Deploy EternumPass</div>
+        <div className="p-5 font-bold text-align-center text-center" style={{ borderBottom: "2px solid" }}>Deploy EternumPass</div>
 
         <div className="flex justify-content-center gap-5 mt-5">
           <div className="card" style={{ width: "50%" }}>

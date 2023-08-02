@@ -36,7 +36,6 @@ export default function GetAllSignatureseries() {
         <div className="font-bold mt-5 text-3xl text-black text-center">
           SignatureSeries Details
         </div>
-        <hr></hr>
         <div className="flex justify-content-between buy-back-image">
         <div>
           <Sidemenu />
@@ -45,6 +44,7 @@ export default function GetAllSignatureseries() {
         <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
       
             {contractData.map((contract) => {
+               
               return (
                 <div key={1} className="grid   mt-5">
                   {contract.contractName === "SignatureSeries" && (

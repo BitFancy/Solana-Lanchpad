@@ -15,6 +15,7 @@ export default function Sidemenu() {
           className={active === "1" ? "active" : undefined}
           id={"1"}
           onClick={handleClick}
+          style={{color:'white'}}
         >
           Analytics
         </div>
@@ -25,7 +26,7 @@ export default function Sidemenu() {
           className={active === "2" ? "active" : undefined}
           id={"2"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           Subscription
         </div>
@@ -40,7 +41,7 @@ export default function Sidemenu() {
           className={active === "3" ? "active" : undefined}
           id={"3"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px" ,color:'white'}}
         >
           SignatureSeries
         </div>
@@ -51,7 +52,7 @@ export default function Sidemenu() {
           className={active === "4" ? "active" : undefined}
           id={"4"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           FusionSeries
         </div>
@@ -62,7 +63,7 @@ export default function Sidemenu() {
           className={active === "6" ? "active" : undefined}
           id={"6"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           EternumPass
         </div>
@@ -73,22 +74,12 @@ export default function Sidemenu() {
           className={active === "7" ? "active" : undefined}
           id={"7"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           Instagen
         </div>
         </Link>
-        <Link href='/getAllTradeHub'>
-        <div
-          key={9}
-          className={active === "9" ? "active" : undefined}
-          id={"9"}
-          onClick={handleClick}
-          style={{ marginTop: "20px" }}
-        >
-          TradeHub
-        </div>
-        </Link>
+       
       </div>
       <div className="border-bottom-das"></div>
       <div className="font-bold mt-5">Settings</div>
@@ -99,7 +90,7 @@ export default function Sidemenu() {
           className={active === "8" ? "active" : undefined}
           id={"8"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           AccessMaster
         </div>
@@ -110,7 +101,7 @@ export default function Sidemenu() {
           className={active === "11" ? "active" : undefined}
           id={"11"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           Frontend
         </div>
@@ -119,7 +110,7 @@ export default function Sidemenu() {
           className={active === "12" ? "active" : undefined}
           id={"12"}
           onClick={handleClick}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px",color:'white' }}
         >
           Metaverse
         </div>

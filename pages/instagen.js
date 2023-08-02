@@ -101,7 +101,7 @@ const Instagen = (props) => {
     >
       <AppTopbar/>
       <div style={{ marginTop: "85px" }}>
-        <div className="p-5 font-bold text-align-center" style={{ borderBottom: "2px solid" }}>Deploy InstaGen</div>
+        <div className="p-5 font-bold text-align-center text-center" style={{ borderBottom: "2px solid" }}>Deploy InstaGen</div>
 
         <div className="flex justify-content-center gap-5">
           <div className="card mt-5" style={{ width: "50%" }}>

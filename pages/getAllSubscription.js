@@ -45,7 +45,7 @@ const  replaceImage = (error) => {
             <Sidemenu />
           </div>
 
-        
+         
           <div style={{width:'85%',margin:'0 auto'}}>
      <div className="font-bold text-3xl p-5 text-center">Buy Subscription Details</div>
       <hr></hr>

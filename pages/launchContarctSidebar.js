@@ -36,14 +36,7 @@ export default function LaunchContarctSidebar() {
             <div className="edition-note">Instagen</div>
           </div>
           </Link>
-          <Link href='/launchTradhub' style={{color:'white'}}>
-          <div className="flex gap-3 mt-5">
-            <div>
-              <img src="collection.png" alt="TradeHub"></img>
-            </div>
-            <div className="edition-note">TradeHub</div>
-          </div>
-          </Link>
+         
         </div>
   
   )
