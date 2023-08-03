@@ -22,8 +22,8 @@ const SignatureSeries = (props) => {
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
         { contractName : "SignatureSeries",
       constructorParams:{
-            param1 : "NFT_MELA",
-            param2 : "NFM",
+            param1 : contractName,
+            param2 : contractSymbol,
             param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
             param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
         },

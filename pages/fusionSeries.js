@@ -11,7 +11,6 @@ const FusionSeries = (props) => {
   const router = useRouter();
   const msgs = useRef(null);
   const [tradhubContarctAddress, setTradhubContarctAddress] = useState("");
-  const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [supabaseToken, setsupabaseToken] = useState();
@@ -26,7 +25,7 @@ const fusionSerisData = () => {
     .post(
       `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`, {contractName : "FusionSeries",
       constructorParams:{
-          param1:  "www.xyz.com",
+          param1:  contractName,
           param2 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
           param3 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
       },
@@ -80,7 +79,7 @@ const fusionSerisData = () => {
     <div
     title="FusionSeries"
     description="This is use to show deployed FusionSeries information"
-    className="back-fusionseries"
+    className="buy-back-image"
   >
     <AppTopbar/>
     <div style={{ marginTop: "85px" }}>
@@ -107,14 +106,14 @@ const fusionSerisData = () => {
                 type="text"
               />
             </div>
-            <div className="mt-3 text-left">TradeHub address</div>
+            {/* <div className="mt-3 text-left">TradeHub address</div>
             <div className="mt-2">
               <InputText
                 value={tradhubContarctAddress}
                 className="p-2 w-full input-back"
                 type="text"
               />
-            </div>
+            </div> */}
             {/* <div className="mt-3 text-left">Choose Img</div>
             <div className="mt-2">
               <FileUpload

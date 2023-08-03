@@ -31,15 +31,15 @@ const Instagen = (props) => {
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
         {   contractName : "InstaGen",
         constructorParams:{
-            param1: "NFT MELA",
-            param2 : "NM",
+            param1: contractName,
+            param2 : contractSymbol,
             param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
             param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC" ,
-            param5 :"1000000000000000000",
-            param6 : "100000000000000000",
-            param7 : 0,
-            param8 : 2000,
-            param9 : 300,
+            param5 :salePrice,
+            param6 : saleprePrice,
+            param7 : countdownTime,
+            param8 : maxSupply,
+            param9 : royltybps,
             param10: "www.abc.com"
         },network: "hardhat" },
         {
@@ -104,7 +104,7 @@ const Instagen = (props) => {
     <div
       title="Deploy InstaGen"
       description="This is use to show information of the deploy InstaGen contract"
-      className="back-img-insta"
+      className="buy-back-image"
     >
       <AppTopbar/>
       <div style={{ marginTop: "85px" }}>
@@ -176,7 +176,7 @@ const Instagen = (props) => {
                   type="text"
                 />
               </div>
-              <div className="mt-3 text-left">Enter BaseUri</div>
+              {/* <div className="mt-3 text-left">Enter BaseUri</div>
               <div className="mt-2">
                 <InputText
                   value={baseURI}
@@ -184,7 +184,7 @@ const Instagen = (props) => {
                   className="p-2 w-full input-back"
                   type="text"
                 />
-              </div>
+              </div> */}
             </div>
             <div className="text-center mt-5">
               <Button

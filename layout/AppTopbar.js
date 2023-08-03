@@ -28,9 +28,9 @@ const AppTopbar = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (!isConnected) {
-      Router.push("/notSubscribe");
+      Router.push("/buySubscription");
     }
-    
+
   }, []);
   useImperativeHandle(ref, () => ({
     menubutton: menubuttonRef.current,
@@ -50,7 +50,9 @@ const AppTopbar = forwardRef((props, ref) => {
           widt={"true"}
           alt="logo"
         />
-        <span style={{ fontSize: "30px", color: "white" }}>Myriadflow</span>
+        <img src='./myriadflow.png' style={{height:'20px'}}></img>
+        
+
       </Link>
       <div
         ref={topbarmenuRef}
@@ -60,7 +62,7 @@ const AppTopbar = forwardRef((props, ref) => {
       >
 { 
 !subscription &&
-  <Link href="/notSubscribe">
+  <Link href="/buySubscription">
   <span
     className="text-black"
     style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}

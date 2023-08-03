@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import { useRouter, withRouter } from "next/router";
-import Layout from "../Components/Layout";
 import { Messages } from "primereact/messages";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
@@ -11,13 +10,11 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
-  const [saleprePrice, setSalePrePrice] = useState("");
-  const [countdownTime, setcontDownTime] = useState("");
-  const [maxSupply, setMaxSupply] = useState("");
+  const [platformFeeBasePrice, setplatformFeeBasePrice] = useState("");
+  const [subspricePerMonth, setSubspricePerMonth] = useState("");
   const [royltybps, setRoyltybps] = useState("");
   const [selecteOperatorSubscription, setOperatorSubscription] = useState(null);
   const subscriptions = [
@@ -35,13 +32,13 @@ const EternumPass = () => {
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
         {  contractName: "EternumPass",
         constructorParams: {
-          param1: "NFT_MELA",
-          param2: "NFM",
+          param1: contractName,
+          param2: contractSymbol,
           param3: "www.xyz.com",
-          param4: "100000000000000000",
-          param5: "30",
-          param6: "10000000000000",
-          param7: "500",
+          param4: salePrice,
+          param5: platformFeeBasePrice,
+          param6: subspricePerMonth,
+          param7: royltybps,
           param8: true,
           param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
           param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
@@ -83,14 +80,11 @@ const EternumPass = () => {
     setSalePrice(e.target.value);
   };
 
-  const handleInputSalePrePrice = (e) => {
-    setSalePrePrice(e.target.value);
+  const handleInputPlatformFee = (e) => {
+    setplatformFeeBasePrice(e.target.value);
   };
-  const handleInputCountDownTime = (e) => {
-    setcontDownTime(e.target.value);
-  };
-  const handleInputMaxSupply = (e) => {
-    setMaxSupply(e.target.value);
+  const handleInputSubscriptionPrice = (e) => {
+    setSubspricePerMonth(e.target.value);
   };
 
   const handleInputRoyelty = (e) => {
@@ -128,20 +122,11 @@ const EternumPass = () => {
                   type="text"
                 />
               </div>
-              <div className="mt-3 text-left">Enter Initial URI</div>
+              <div className="mt-3 text-left">Enter Public SalePrice</div>
               <div className="mt-2">
                 <InputText
                   value={salePrice}
                   onChange={handleInputSalePrice}
-                  type="text"
-                  className="p-2 w-full input-back"
-                />
-              </div>
-              <div className="mt-3 text-left">Enter Public SalePrice</div>
-              <div className="mt-2">
-                <InputText
-                  value={saleprePrice}
-                  onChange={handleInputSalePrePrice}
                   className="p-2 w-full input-back"
                   type="number"
                 />
@@ -151,8 +136,8 @@ const EternumPass = () => {
               </div>
               <div className="mt-2">
                 <InputText
-                  value={countdownTime}
-                  onChange={handleInputCountDownTime}
+                  value={platformFeeBasePrice}
+                  onChange={handleInputPlatformFee}
                   className="p-2 w-full input-back"
                   type="number"
                 />
@@ -162,8 +147,8 @@ const EternumPass = () => {
               </div>
               <div className="mt-2">
                 <InputText
-                  value={maxSupply}
-                  onChange={handleInputMaxSupply}
+                  value={subspricePerMonth}
+                  onChange={handleInputSubscriptionPrice}
                   className="p-2 w-full input-back"
                   type="text"
                 />

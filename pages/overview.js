@@ -40,7 +40,9 @@ export default function Overview() {
         <Messages ref={msgs} />
         <MarketplaceProfileDetails/>
           <div className="flex p-5 buy-back-image">
+            <div className='sidemenu-right-border'>
             <Sidemenu/>
+            </div>
             <div style={{ margin: "0 auto" }}>
               <div className="flex ">
                 <Chart

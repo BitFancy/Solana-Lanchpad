@@ -13,8 +13,16 @@ pre.app-code {
         font-family: monaco, Consolas, monospace;
     }
 }
+.sidemenu-right-border{
+    border-right: 2px solid gray;
+    padding: 20px;
+}
 .buy-back-image{
     height: 800px;
+    background: radial-gradient( #00FFBD,#44FFD200),#5347E7
+}
+.back-image-fus-nft{
+    height: 1200px;
     background: radial-gradient( #00FFBD,#44FFD200),#5347E7
 }
 .back-image-sig-nft{
@@ -70,6 +78,8 @@ pre.app-code {
     background-image: url("/Rectangle.png");
     height: 1000px;
     background-repeat: no-repeat;
+    position: relative;
+    left:42px;
 }
 .signature-series-head{
     font-size: 40px;

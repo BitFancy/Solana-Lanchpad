@@ -17,7 +17,6 @@ export default function AddSubscription() {
   const msgs = useRef(null);
     const [loading, setLoading] = useState(false);
     const [contarctName, setContarctName] = useState();
-    const [planName ,setPlanName] = useState();
     const [uploadImage, setuploadImage] = useState("");
     async function uploadBlobGetHash(file) {
       try {
@@ -54,7 +53,6 @@ export default function AddSubscription() {
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/subscription`, { name:contarctName,
         owner:"asd3rfsdaf2334r23",
-        plan:planName,
         cost:99,
         currency:"USD",
         createdBy:"Admin",
@@ -85,7 +83,7 @@ export default function AddSubscription() {
         }, 2000);
 
       })
-      Router.push('/getAllSubscription')
+      Router.push('/subscriptionDashboard')
 
       .catch((error) => {
         console.log("err", error);
@@ -96,13 +94,11 @@ export default function AddSubscription() {
         setContarctName(e.target.value);
       
     };
-    const handleInputPlanName = (e) => {
-      setPlanName(e.target.value);
-    };
+   
   return (
     <Layout>
       <div className="buy-back-image" style={{ marginTop: "100px" }}>
-        <div className="font-bold text-3xl p-5">Add subscription Details</div>
+        <div className="font-bold text-3xl p-5">Add subscription</div>
         <hr></hr>
         <div className="flex gap-5 p-5">
           <div className="select-file-image">
@@ -111,14 +107,12 @@ export default function AddSubscription() {
             </div>
           </div>
           <div style={{ width: "100%" }}>
-            <div className="font-bold">Contarct Name:</div>
+            <div className="font-bold">Experience:</div>
             <InputText  value={contarctName}
                 onChange={handleInputContractName} placeholder="Please Enter Contract Name" className="w-full input-back mt-2" />
-            <div className="mt-5 font-bold">Plan:</div>
-            <InputText value={planName}
-                onChange={handleInputPlanName} placeholder="Please Enter Plan Name" className="w-full input-back mt-2" style={{color:'white'}}/>
+            
             <div className="mt-5 ">
-              <Button onClick={addSubscription} loading={loading}  label="Add Subscription"></Button>
+              <Button onClick={addSubscription} loading={loading}  label="Edit Experience"></Button>
             </div>
             <Messages ref={msgs} />
 

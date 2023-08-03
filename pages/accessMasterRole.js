@@ -70,7 +70,7 @@ export default function AccessMasterRole() {
        
        
 <div className='flex justify-content-between buy-back-image'>
-<div>
+<div className='sidemenu-right-border'>
 <Sidemenu/>
 </div>
 <div style={{width:'100%'}}>

@@ -134,7 +134,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button loading={loading} onClick={buySubscription} style={{background:'white',color:'black'}}  severity="info" label="Buy Basic Subscription"></Button>
+            <Button loading={loading} onClick={buySubscription} style={{background:'white',color:'black'}}  severity="info" label="Buy Basic Plan"></Button>
           </div>
         </div>
         <div className="p-5 subscribe-modal">
@@ -153,7 +153,7 @@ export default function BuyNft() {
             </ul>
           </div>
           <div className="mt-5">
-            <Button onClick={mint} loading={loading1}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Subscription"></Button>
+            <Button onClick={mint} loading={loading1}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Plan"></Button>
           </div>
         </div>
       </div>

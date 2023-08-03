@@ -17,22 +17,10 @@ export default function Sidemenu() {
           onClick={handleClick}
           style={{color:'white'}}
         >
-          Analytics
-        </div>
-        </Link>
-        <Link href='/getAllSubscription'>
-        <div
-          key={1}
-          className={active === "2" ? "active" : undefined}
-          id={"2"}
-          onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
-        >
-          Subscription
+          Overview
         </div>
         </Link>
       </div>
-
       <div className="font-bold mt-5">Contracts</div>
       <div className="ml-3">
         <Link href='/getAllSignatureseries'>

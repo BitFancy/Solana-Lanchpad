@@ -21,10 +21,10 @@ const Step1 = () => {
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
         { contractName: "TradeHub",constructorParams: {
-          param1: 30,
-          param2: "NFT BAZAAR",
+          param1: contractName,
+          param2: _platformFee,
           param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-        }, network: "hardhat" },
+        }, network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ const Step1 = () => {
     setContractName(e.target.value);
   };
   return (
-    <div className="back-imag-step1" title="Step 1" description="Step one of the launchpad">
+    <div className="buy-back-image" title="Step 1" description="Step one of the launchpad">
       <AppTopbar/>
       <div style={{ marginTop: "100px" }}>
         <div

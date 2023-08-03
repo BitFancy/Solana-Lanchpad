@@ -34,10 +34,10 @@ export default function GetAllSignatureseries() {
       <div  style={{ marginTop: "65px" }}>
         <MarketplaceProfileDetails/>
         <div className="font-bold mt-5 text-3xl text-black text-center">
-          SignatureSeries Details
+          SignatureSeries
         </div>
         <div className="flex justify-content-between buy-back-image">
-        <div>
+        <div className='sidemenu-right-border'>
           <Sidemenu />
         </div>
         

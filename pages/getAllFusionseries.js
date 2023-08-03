@@ -33,11 +33,11 @@ export default function GetAllFusionseries() {
     <Layout>
       <MarketplaceProfileDetails/>
         <div className="font-bold mt-5 text-3xl text-black text-center">
-          FusionSeries Details
+          FusionSeries
         </div>
         <hr></hr>
         <div className="flex justify-content-between buy-back-image">
-        <div >
+        <div className='sidemenu-right-border'>
           <Sidemenu />
         </div>
           <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
