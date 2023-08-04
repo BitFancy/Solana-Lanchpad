@@ -70,19 +70,18 @@ export default function AccessMasterRole() {
        
        
 <div className='flex justify-content-between buy-back-image'>
-<div className='sidemenu-right-border'>
+<div >
 <Sidemenu/>
 </div>
 <div style={{width:'100%'}}>
 <div className="flex justify-content-between">
        
        <div style={{ width: "80%",margin:'0 auto' }}>
-          <div className='font-bold text-3xl'>Manage Your Role</div>
-          <hr></hr>
-            <div className=" p-5 card card-role">
-              <div> 1 . Grantrole</div>
-              <div className="mt-3">Role</div>
-              <span className="mt-2">
+          <div className='font-bold text-3xl text-white'>Manage Your Role</div>
+            <div className=" p-5 card card-role mt-5">
+              <div className='text-white'>  Grantrole</div>
+              <div className="mt-3 text-white">Role</div>
+              <div className="mt-2">
                 <InputText
                   id="role"
                   value={role}
@@ -91,8 +90,8 @@ export default function AccessMasterRole() {
                   type="text"
                   style={{ width: "100%" }}
                 />
-              </span>
-              <div className="mt-5">Account (Address)</div>
+              </div>
+              <div className="mt-5 text-white">Account (Address)</div>
               <div className="mt-2">
                 <InputText
                   type="text"
@@ -113,8 +112,8 @@ export default function AccessMasterRole() {
               </div>
             </div>
             <div className=" p-5 card card-role">
-              <div> 2. Revokrole</div>
-              <div className="mt-3">Role</div>
+              <div className='text-white'> Revokrole</div>
+              <div className="mt-3 text-white">Role</div>
               <div className="mt-2">
                 <InputText
                   placeholder="Role"
@@ -122,7 +121,7 @@ export default function AccessMasterRole() {
                   style={{ width: "100%" }}
                 />
               </div>
-              <div className="mt-5">Account (Address)</div>
+              <div className="mt-5 text-white">Account (Address)</div>
               <div className="mt-2">
                 <InputText
                   type="text"

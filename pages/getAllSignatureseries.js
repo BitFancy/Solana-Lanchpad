@@ -37,7 +37,7 @@ export default function GetAllSignatureseries() {
           SignatureSeries
         </div>
         <div className="flex justify-content-between buy-back-image">
-        <div className='sidemenu-right-border'>
+        <div >
           <Sidemenu />
         </div>
         

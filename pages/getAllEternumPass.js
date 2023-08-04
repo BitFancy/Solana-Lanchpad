@@ -37,7 +37,7 @@ export default function GetAllEternumPass() {
         </div>
         <hr></hr>
         <div className="flex  buy-back-image">
-        <div className='sidemenu-right-border'>
+        <div >
           <Sidemenu />
         </div>
           <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>

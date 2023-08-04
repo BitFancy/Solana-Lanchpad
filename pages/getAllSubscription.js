@@ -41,7 +41,7 @@ const  replaceImage = (error) => {
         <MarketplaceProfileDetails/>
         <hr></hr>
         <div className="flex  buy-back-image">
-          <div className='sidemenu-right-border'>
+          <div >
             <Sidemenu />
           </div>
 

@@ -27,7 +27,7 @@ const SignatureSeries = (props) => {
             param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
             param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
         },
-         network: "hardhat" },
+         network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,

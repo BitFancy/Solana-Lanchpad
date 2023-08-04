@@ -13,10 +13,6 @@ pre.app-code {
         font-family: monaco, Consolas, monospace;
     }
 }
-.sidemenu-right-border{
-    border-right: 2px solid gray;
-    padding: 20px;
-}
 .buy-back-image{
     height: 800px;
     background: radial-gradient( #00FFBD,#44FFD200),#5347E7
@@ -145,6 +141,15 @@ pre.app-code {
 .active{
     background-color:blue;
     color: white;
+    padding: 8px 15px 8px 8px;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 120px;
+    cursor: pointer;
+    }
+    .active-sig:active{
+        background-color:blue;
+    color: white;
     padding: 10px;
     margin-top: 10px;
     border-radius: 20px;
@@ -177,7 +182,7 @@ pre.app-code {
     height: 535px;
 }
 .overflow-dashboard-left{
-    height: 550px;
+    height: 675px;
 }
 .overflow{
     overflow: scroll;

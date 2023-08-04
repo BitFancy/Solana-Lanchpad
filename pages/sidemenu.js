@@ -1,95 +1,89 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 export default function Sidemenu() {
+  const router = useRouter();
   const [active, setActive] = useState("");
   const handleClick = (event) => {
     setActive(event.target.id);
   };
   return (
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
-      <div className="font-bold">overview</div>
+      <div className="font-bold text-3xl text-white">overview</div>
       <div className="ml-3 mt-3">
-        <Link href='/overview'>
-        <div
-          key={1}
-          className={active === "1" ? "active" : undefined}
-          id={"1"}
-          onClick={handleClick}
-          style={{color:'white'}}
-        >
-          Overview
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/overview"
+            className={router.pathname == "/overview" ? "active" : ""}
+          >
+            Overview
+          </Link>
         </div>
-        </Link>
       </div>
-      <div className="font-bold mt-5">Contracts</div>
+      <div className="font-bold mt-5 text-3xl text-white">Contracts</div>
       <div className="ml-3">
-        <Link href='/getAllSignatureseries'>
-        <div
-          key={3}
-          className={active === "3" ? "active" : undefined}
-          id={"3"}
-          onClick={handleClick}
-          style={{ marginTop: "20px" ,color:'white'}}
-        >
-          SignatureSeries
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/getAllSignatureseries"
+            className={
+              router.pathname == "/getAllSignatureseries" ? "active" : ""
+            }
+          >
+            SignatureSeries
+          </Link>
         </div>
-        </Link>
-        <Link href='/getAllFusionseries'>
-        <div
-          key={4}
-          className={active === "4" ? "active" : undefined}
-          id={"4"}
-          onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
-        >
-          FusionSeries
+
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/getAllFusionseries"
+            className={router.pathname == "/getAllFusionseries" ? "active" : ""}
+          >
+            FusionSeries
+          </Link>
         </div>
-        </Link>
-        <Link href='/getAllEternumPass'>
-        <div
-          key={6}
-          className={active === "6" ? "active" : undefined}
-          id={"6"}
-          onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
-        >
-          EternumPass
+
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/getAllEternumPass"
+            className={router.pathname == "/getAllEternumPass" ? "active" : ""}
+          >
+            EternumPass
+          </Link>
         </div>
-        </Link>
-        <Link href='/getAllInstagen'>
-        <div
-          key={7}
-          className={active === "7" ? "active" : undefined}
-          id={"7"}
-          onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
-        >
-          Instagen
+
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/getAllInstagen"
+            className={router.pathname == "/getAllInstagen" ? "active" : ""}
+          >
+            Instagen
+          </Link>
         </div>
-        </Link>
-       
       </div>
       <div className="border-bottom-das"></div>
-      <div className="font-bold mt-5">Settings</div>
+      <div className="font-bold mt-5 text-3xl text-white">Settings</div>
       <div className="ml-3">
-        <Link href='/accessMasterRole'>
-        <div
-          key={8}
-          className={active === "8" ? "active" : undefined}
-          id={"8"}
-          onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
-        >
-          AccessMaster
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/accessMasterRole"
+            className={router.pathname == "/accessMasterRole" ? "active" : ""}
+          >
+            AccessMaster
+          </Link>
         </div>
-        </Link>
 
         <div
           key={11}
           className={active === "11" ? "active" : undefined}
           id={"11"}
           onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
+          style={{ marginTop: "30px", color: "white" }}
         >
           Frontend
         </div>
@@ -98,7 +92,7 @@ export default function Sidemenu() {
           className={active === "12" ? "active" : undefined}
           id={"12"}
           onClick={handleClick}
-          style={{ marginTop: "20px",color:'white' }}
+          style={{ marginTop: "30px", color: "white" }}
         >
           Metaverse
         </div>
