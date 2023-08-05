@@ -3,17 +3,22 @@ import React, { useEffect, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
+import Loader from "../Components/LoadingSpinner";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function GetAllInstagen() {
   const [contractData, setContarctData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     getAllContarctData();
   }, []);
 
   const getAllContarctData = () => {
     const token = localStorage.getItem("authToken");
+    setLoading(true);
+
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
         headers: {
@@ -24,6 +29,8 @@ export default function GetAllInstagen() {
         if (response?.data?.length > 0) {
           setContarctData(response.data);
         }
+        setLoading(false);
+
       })
       .catch((error) => {
         console.log("Error in Fetching contracts..!", error);
@@ -41,7 +48,8 @@ export default function GetAllInstagen() {
           <Sidemenu />
         </div>
         <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
-            {contractData.map((contract) => {
+        {contractData?.length > 0 ? (
+            contractData.map((contract) => {
               return (
                 <div key={1} className="grid   mt-5">
                   {contract.contractName === "InstaGen" && (
@@ -67,7 +75,14 @@ export default function GetAllInstagen() {
                   )}
                 </div>
               );
-            })}
+            })
+            ) : loading ? (
+              <Loader />
+            ) : (
+              <div className="text-2xl pb-10 font-bold text-center">
+                You haven&apos;t created any InstaGen.
+              </div>
+            )}
           </div>
 
         </div>

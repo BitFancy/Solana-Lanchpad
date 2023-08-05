@@ -3,6 +3,7 @@ import Layout from '../Components/Layout'
 import { Button } from 'primereact/button'
 import Link from 'next/link'
 import axios from "axios";
+import Loader from "../Components/LoadingSpinner";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SubscriptionDashboard() {
   const [subscriptionData, setSubscriptionData] = useState([]);
@@ -10,6 +11,7 @@ export default function SubscriptionDashboard() {
   const [loadingsetup, setLoadingsetup] = useState(false);
   const [loadingmanage, setLoadingmanage] = useState(false);
   const [loadingview, setLoadingview] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getSubscriptionData();
@@ -46,10 +48,15 @@ const loadsetupview = () => {
         },
       })
       .then(async (response) => {
+        setLoading(true);
+
         if (response?.data?.length > 0) {
           setSubscriptionData(response.data);
         }
+        setLoading(false);
+
       })
+      
       .catch((error) => {
         console.log("Error in Fetching subscription..!", error);
       });
@@ -65,7 +72,8 @@ const  replaceImage = (error) => {
                   <div style={{width:'85%',margin:'0 auto'}}>
      <div className="font-bold text-3xl p-5 text-center">Buy Subscription</div>
       <hr></hr>
-      {subscriptionData.map((subscription) => {
+      {subscriptionData?.length > 0 ? (
+      subscriptionData.map((subscription) => {
               return (
                 <div key={1} >
                    <div className="flex justify-content-between mt-5 ml-5 align-items-center subscription-back-part p-5">
@@ -131,7 +139,14 @@ const  replaceImage = (error) => {
                 </div>
               </div>
                  );
-                })}
+                })
+                ) : loading ? (
+                  <Loader />
+                ) : (
+                  <div className="text-2xl pb-10 font-bold text-center">
+                    You haven&apos;t created any asset.
+                  </div>
+                )}
               </div>
               </div>
    </Layout>
