@@ -6,6 +6,7 @@ import Multiselect from "multiselect-react-dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import FusionSeries from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
 import BuyAsset from "../Components/buyAssetModal";
+import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import { Alert, Snackbar, Typography, Modal, Box } from "@mui/material";
 import Layout from "../Components/Layout";
 import { useSelector } from "react-redux";
@@ -26,6 +27,8 @@ const style = {
   pb: 3,
 };
 const FusionSeriesAddress = process.env.NEXT_PUBLIC_FUSIONSERIES_ADDRESS;
+const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
+
 export default function CreateFusionSeriesNft() {
   const { data: signerData } = useSigner();
   console.log("signer data", signerData);
@@ -54,6 +57,11 @@ export default function CreateFusionSeriesNft() {
     signerOrProvider: signerData,
   });
 
+  const tradhubContract = useContract({
+    addressOrName: tradhubAddress,
+    contractInterface: Tradhub.abi,
+    signerOrProvider: signerData,
+  });
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -88,9 +96,16 @@ export default function CreateFusionSeriesNft() {
         "www.facebook.com",
         { gasLimit: "2099999" }
       );
-      // let tx = await transaction.wait();
+      let tx = await transaction.wait();
       console.log("transaction", transaction);
       setmodelmsg("Transaction 1 Complete");
+      let event = tx.events[0];
+      let value = event.args[3];
+      let tokenId = value.toNumber();
+      const forAuction = false,
+        endTime = 0;
+
+      await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
       console.log(e);
       setmodelmsg("Transaction 1 failed");
@@ -98,6 +113,26 @@ export default function CreateFusionSeriesNft() {
     }
   }
 
+  const listItem = async (tokenId, price, forAuction, endTime) => {
+    try {
+      setmodelmsg("Transaction 2 in progress");
+      const transaction = await tradhubContract.listItem(
+        FusionSeriesAddress,
+        tokenId,
+        price,
+        1,
+        forAuction,
+        endTime,
+        { gasLimit: "2099999" }
+      );
+      // await transaction.wait();
+      console.log("transaction 2 is completed", transaction);
+      setmodelmsg("Transaction 2 Complete !!");
+    } catch (e) {
+      console.log(e);
+      setmodelmsg("Transaction 2 failed");
+    } 
+  };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
   ]);

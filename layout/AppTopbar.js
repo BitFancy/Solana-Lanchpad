@@ -62,7 +62,7 @@ const AppTopbar = forwardRef((props, ref) => {
       >
 { 
 !subscription &&
-  <Link href="/buySubscription">
+  <Link href="/addSubscription">
   <span
     className="text-black"
     style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}

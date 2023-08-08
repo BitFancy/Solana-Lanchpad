@@ -70,7 +70,7 @@ const  replaceImage = (error) => {
      <div  className="buy-back-image" style={{marginTop:'100px'}}>
       <hr></hr>
                   <div style={{width:'85%',margin:'0 auto'}}>
-     <div className="font-bold text-3xl p-5 text-center">Buy Subscription</div>
+     <div className="font-bold text-3xl p-5 text-center">StoreFront</div>
       <hr></hr>
       {subscriptionData?.length > 0 ? (
       subscriptionData.map((subscription) => {

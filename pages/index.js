@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
-import Auth from "./auth";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 import Launchpad from "./launchpad";
-import NotSubscribe from "./notSubscribe";
-
+import BuyNft from "./buySubscription";
 export default function Home() {
   const dispatch = useDispatch();
-
   const [isLoading, setIsLoading] = useState(true);
   const [authToken, setAuthToken] = useState("");
   const [session, setSession] = useState(null);
@@ -59,10 +56,9 @@ export default function Home() {
       Router.push("/");
     }
   }, []);
-  console.log("session || authToken", session || authToken);
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      {!(session || authToken) ? <Launchpad /> : < NotSubscribe/>}
+      {!(session || authToken) ? <Launchpad /> :<BuyNft />}
     </div>
   );
 }

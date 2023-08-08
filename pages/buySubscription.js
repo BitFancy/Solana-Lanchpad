@@ -99,7 +99,7 @@ export default function BuyNft() {
                 closable: true,
               },
             ]);
-            Router.push('/addSubscription')
+            Router.push('/subscriptionDashboard')
           })
          
           .catch((error) => {

@@ -18,6 +18,8 @@ export default function AddSubscription() {
   const msgs = useRef(null);
   const [loading, setLoading] = useState(false);
   const [contarctName, setContarctName] = useState();
+  const [description, setdescription] = useState();
+
   const [uploadImage, setuploadImage] = useState("");
   async function uploadBlobGetHash(file) {
     try {
@@ -72,7 +74,7 @@ export default function AddSubscription() {
             sticky: true,
             severity: "success",
             detail:
-              "Your Basic plan subscription has been successfully created",
+              "You are now the Admin, Flow Access Master has been Successfully Deployed",
             closable: true,
           },
         ]);
@@ -89,18 +91,22 @@ export default function AddSubscription() {
     setContarctName(e.target.value);
   };
 
+  const handleInputDescription = (e) => {
+    setdescription(e.target.value);
+  };
+
   return (
     <Layout>
       <div className="buy-back-image" style={{ marginTop: "100px" }}>
         <div className="font-bold text-3xl p-5 text-white text-center">
-          Add subscription
+          Add StoreFront Details
         </div>
         <hr></hr>
         <div
           className=" p-5 mt-5 font-bold card"
           style={{ width: "80%", margin: "0 auto" }}
         >
-          Choose Experience
+          Choose StoreFront
           <div className="select-file-image mt-5">
             <div>
               <FileUpload
@@ -118,19 +124,31 @@ export default function AddSubscription() {
             </div>
           </div>
           <div className="mt-5">
-            <div>Experience:</div>
+            <div>StoreFront Name(Name must be unique):</div>
             <InputText
               value={contarctName}
               onChange={handleInputContractName}
               placeholder="Please Enter Your Experience"
               className="w-full input-back mt-2 text-white"
+              maxLength={12}
+              minLength={7}
+            />
+            <div className="mt-5">Description</div>
+
+            <textarea
+              value={description}
+              onChange={handleInputDescription}
+              placeholder="Please Enter Storefront Description"
+              className="w-full input-back mt-2 text-white"
+              maxLength={100}
+              minLength={10}
             />
 
             <div className="mt-5 ">
               <Button
                 onClick={addSubscription}
                 loading={loading}
-                label="Edit Experience"
+                label="Continue"
               ></Button>
             </div>
             <Messages ref={msgs} />

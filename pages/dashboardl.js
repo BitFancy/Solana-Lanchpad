@@ -187,7 +187,7 @@ export default function Dashboard() {
                 onClick={handleClick}
                 style={{ marginTop: "20px", cursor: "pointer" }}
               >
-                Frontend
+                Web App
               </div>
               <div
                 key={12}

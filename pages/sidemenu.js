@@ -85,7 +85,7 @@ export default function Sidemenu() {
           onClick={handleClick}
           style={{ marginTop: "30px", color: "white" }}
         >
-          Frontend
+          Web App
         </div>
         <div
           key={12}
