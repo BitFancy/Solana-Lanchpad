@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import Router, { useRouter } from "next/router";
+import  { useRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
@@ -193,7 +193,7 @@ export default function CreateItem() {
     console.log("ipfs://" + ipfsHash);
     try {
       console.log("assets crete ", url, formInput.royalties * 100);
-      let transaction = await signatureSeriesContract.createAsset(
+      let transaction = await signatureSeriesContract.createAsset( 
         url,
         formInput.royalties * 100,
         { gasLimit: "2099999" }
@@ -208,7 +208,7 @@ export default function CreateItem() {
       const forAuction = false,
         endTime = 0;
 
-      await listItem(tokenId, price, forAuction, signer, endTime); //Putting item to sale
+      await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
       console.log(e);
       setmodelmsg("Transaction 1 failed");

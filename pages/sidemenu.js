@@ -77,6 +77,15 @@ export default function Sidemenu() {
             AccessMaster
           </Link>
         </div>
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            style={{ color: "white" }}
+            href="/updatemarketplace"
+            className={router.pathname == "/updatemarketplace" ? "active" : ""}
+          >
+            TradeHub
+          </Link>
+        </div>
 
         <div
           key={11}
@@ -87,15 +96,7 @@ export default function Sidemenu() {
         >
           Web App
         </div>
-        <div
-          key={12}
-          className={active === "12" ? "active" : undefined}
-          id={"12"}
-          onClick={handleClick}
-          style={{ marginTop: "30px", color: "white" }}
-        >
-          Metaverse
-        </div>
+      
       </div>
     </div>
   );

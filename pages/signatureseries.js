@@ -1,33 +1,77 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useEffect, useRef } from "react";
-import { withRouter } from "next/router";
-import { Messages } from "primereact/messages";
+import React from "react";
+import Router, { withRouter } from "next/router";
 import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-const SignatureSeries = (props) => {
-  const msgs = useRef(null);
-  const [tradhubContarctAddress, setTradhubContarctAddress] = useState("");
-  const [contractName, setContractName] = useState("");
-  const [contractSymbol, setcontractSymbol] = useState("");
-  const [supabaseToken, setsupabaseToken] = useState();
-  const [loading, setLoading] = useState(false);
+import { Toast } from "primereact/toast";
+import Link from "next/link";
 
-  const signatureSeriesdata = () => {
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+class SignatureSeries extends React.Component {
+  constructor(props) {
+    super(props);
+    this.showError = this.showError.bind(this);
+    this.showSuccess = this.showSuccess.bind(this);
+  }
+  showSuccess() {
+    this.toast.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Your SignatureSeries contract has been  successfully deployed",
+      life: 10000,
+    });
+  }
+  showError() {
+    this.toast.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Something Went Wrong Please Try Again",
+      life: 10000,
+    });
+  }
+  state = {
+    rows: [{}],
+    contractName: "",
+    contractSymbol: "",
+    supabaseToken: "",
+    loading: false,
+  };
+  handleAddRow = () => {
+    const item = {
+      contractName: "",
+      contractSymbol: "",
+    };
+    this.setState({
+      rows: [...this.state.rows, item],
+    });
+  };
+  handleRemoveRow = () => {
+    this.setState({
+      rows: this.state.rows.slice(0, -1),
+    });
+  };
+  handleRemoveSpecificRow = (idx) => () => {
+    const rows = [...this.state.rows];
+    rows.splice(idx, 1);
+    this.setState({ rows });
+  };
+  signatureSeriesdata = () => {
     const token = localStorage.getItem("authToken");
-    setLoading(true);
+    this.setState({ loading: true });
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        { contractName : "SignatureSeries",
-      constructorParams:{
-            param1 : contractName,
-            param2 : contractSymbol,
-            param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
+        {
+          contractName: "SignatureSeries",
+          constructorParams: {
+            param1: this.state.contractName,
+            param2: this.state.contractSymbol,
+            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+          },
+          network: "maticmum",
         },
-         network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,98 +79,130 @@ const SignatureSeries = (props) => {
         }
       )
       .then(async (response) => {
+        this.showSuccess();
+
         setTimeout(() => {
-          setLoading(false);
-      }, 2000);
+          this.setState({ loading: false });
+        }, 2000);
         console.log("response SignatureSeries data", response);
-        setsupabaseToken(response.data.contractAddress);
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail:
-              "Your SignatureSeries contract has been  successfully deployed",
-            closable: true,
-          },
-        ]);
-        Router.push({
-          pathname: "./signatureseries",
-          query: { contractAddress: response.data.contractAddress },
-        });
+        this.setState({ supabaseToken: response.data.contractAddress });
+        Router.push({ pathname: "/eturnalsol" });
+
       })
 
       .catch((error) => {
         console.log("err", error);
+        this.showError();
       });
   };
-  const handleInputName = (e) => {
-    setContractName(e.target.value);
+  handleInputName = (e) => {
+    this.setState({ contractName: e.target.value });
   };
-  const handleInputSymbol = (e) => {
-    setcontractSymbol(e.target.value);
+  handleInputSymbol = (e) => {
+    this.setState({ contractSymbol: e.target.value });
   };
+  // useEffect(() => {
+  //   setTradhubContarctAddress(props.router.query.contractAddress);
+  // }, [props.router.query.contractAddress]);
 
-  useEffect(() => {
-    setTradhubContarctAddress(props.router.query.contractAddress);
-  }, [props.router.query.contractAddress]);
+  render() {
+    return (
+      <div
+        title="Deploy SignatureSeries"
+        description="This is use to show information of the deploy signatureSeries contract"
+        className="back-img-sig"
+      >
+        <AppTopbar />
+        <div style={{ marginTop: "100px" }}>
+          <div
+            className=" p-5 font-bold text-center"
+            style={{ borderBottom: "2px solid" }}
+          >
+            Deploy SignatureSeries
+          </div>
+          <div className="flex justify-content-center gap-5">
+            <div className="card mt-5" style={{ width: "50%" }}>
+              <div className="text-center mt-5">
+                {this.state.rows.map((item, idx) => (
+                  <div id="addr0" key={idx} className="card mt-5">
+                    <div className="">
+                      <div>
+                        <div className="text-left">
+                          Enter SignatureSeries Name
+                        </div>
 
-  return (
-    <div
-      title="Deploy SignatureSeries"
-      description="This is use to show information of the deploy signatureSeries contract"
-      className="back-img-sig"
-    >
-      <AppTopbar/>
-      <div style={{marginTop:'100px'}}>
-        <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
-          Deploy SignatureSeries
-        </div>
-        <div className="flex justify-content-center gap-5">
-          <div className="card mt-5" style={{ width: "50%" }}>
-            <div className="text-center mt-5">
-              <div className="text-left">Enter SignatureSeries Name</div>
-              <div className="mt-3">
-                <InputText
-                  value={contractName}
-                  onChange={handleInputName}
-                  className="p-2 w-full input-back"
-                  type="text"
+                        <InputText
+                          value={this.state.rows[idx].ontractName}
+                          onChange={this.handleInputName}
+                          name="name"
+                          className="p-2 mt-3 input-back w-full text-white"
+                        />
+                      </div>
+                      <div>
+                        <div className="mt-3 text-left">
+                          Enter SignatureSeries Symbol
+                        </div>
+
+                        <InputText
+                          value={this.state.rows[idx].contractSymbol}
+                          onChange={this.handleInputSymbol}
+                          name="mobile"
+                          className="p-2 mt-3 input-back w-full text-white"
+                          type="text"
+                        />
+                        <div className="mt-5">
+                          <Button
+                            severity="danger"
+                            icon="pi pi-minus"
+                            onClick={this.handleRemoveSpecificRow(idx)}
+                          ></Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className="text-center mt-5">
+                  <Button
+                    icon="pi pi-plus"
+                    label="Add Another SignatureSeries"
+                    severity="info"
+                    onClick={this.handleAddRow}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-content-between mt-5">
+              <div className="text-center mt-5">
+                <Button
+                  onClick={this.signatureSeriesdata}
+                  label="Deploy SignatureSeries"
+                  severity="Primary"
+                  icon="pi pi-external-link"
+                  rounded
+                  loading={this.state.loading}
+                  className="w-full"
                 />
               </div>
-              <div className="mt-3 text-left">Enter SignatureSeries Symbol</div>
-              <div className="mt-2">
-                <InputText
-                  value={contractSymbol}
-                  onChange={handleInputSymbol}
-                  className="p-2 w-full input-back"
-                  type="text"
+              <div className="text-center mt-5">
+              <Link href='/eturnalsol'>
+                <Button
+                  label="Continue"
+                  severity="Primary"
+                  icon="pi pi-external-link"
+                  rounded
+                  loading={this.state.loading}
+                  className="w-full"
                 />
+                </Link>
               </div>
-              {/* <div className="mt-3 text-left">TradeHub address</div>
-              <div className="mt-2">
-                <InputText
-                  value={tradhubContarctAddress}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div> */}
+              </div>
+              
             </div>
-            <div className="text-center mt-5">
-              <Button
-                onClick={signatureSeriesdata}
-                label="Deploy SignatureSeries"
-                severity="Primary"
-                icon="pi pi-external-link"
-                rounded
-                loading={loading}
-              />
-            </div>
-            <Messages ref={msgs} />
+            <Toast ref={(el) => (this.toast = el)} />
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default withRouter(SignatureSeries);

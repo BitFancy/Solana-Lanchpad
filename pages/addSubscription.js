@@ -8,6 +8,7 @@ import { Messages } from "primereact/messages";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import Router from "next/router";
+import { Dropdown } from "primereact/dropdown";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -15,10 +16,18 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 
 export default function AddSubscription() {
+  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const blockchain = [
+    { name: "Polygon", value: "Polygon" },
+    { name: "Ethereum", value: "Ethereum" },
+  ];
+
   const msgs = useRef(null);
   const [loading, setLoading] = useState(false);
   const [contarctName, setContarctName] = useState();
   const [description, setdescription] = useState();
+  const [headline, setHeadline] = useState();
+
 
   const [uploadImage, setuploadImage] = useState("");
   async function uploadBlobGetHash(file) {
@@ -94,6 +103,9 @@ export default function AddSubscription() {
   const handleInputDescription = (e) => {
     setdescription(e.target.value);
   };
+  const handleInputHeadline = (e) => {
+    setHeadline(e.target.value);
+  };
 
   return (
     <Layout>
@@ -103,12 +115,13 @@ export default function AddSubscription() {
         </div>
         <hr></hr>
         <div
-          className=" p-5 mt-5 font-bold card"
+          className=" p-5 mt-5 font-bold card flex gap-5" 
           style={{ width: "80%", margin: "0 auto" }}
         >
-          Choose StoreFront
-          <div className="select-file-image mt-5">
-            <div>
+         
+        
+
+            <div style={{padding:'20px',border:'1px solid'}}>
               <FileUpload
                 type="file"
                 onSelect={(event) => {
@@ -121,19 +134,48 @@ export default function AddSubscription() {
                 accept="image/*"
                 maxFileSize={1000000}
               />
-            </div>
+      
           </div>
-          <div className="mt-5">
+          <div className="mt-5 w-full" >
             <div>StoreFront Name(Name must be unique):</div>
+            <div className="mt-2">
             <InputText
               value={contarctName}
               onChange={handleInputContractName}
               placeholder="Please Enter Your Experience"
               className="w-full input-back mt-2 text-white"
               maxLength={12}
-              minLength={7}
+              minLength={7} 
             />
-            <div className="mt-5">Description</div>
+            </div>
+            
+             <div className="mt-5 text-left">
+                Blockchain:
+              </div>
+              <div className="mt-2">
+              <Dropdown
+                  value={selecteBlockchaine}
+                  onChange={(e) => setselectedBlockchaine(e.value)}
+                  options={blockchain}
+                  optionLabel="name"
+                  placeholder="Select Blockchain "
+                  className="w-full input-back"
+                />
+              </div>
+             
+              <div className="mt-3 text-left">Headline:</div>
+              <div className="mt-2">
+                <InputText
+                  value={headline}
+                  onChange={handleInputHeadline}
+                  className="p-2 w-full input-back text-white"
+                  placeholder="Please Enter Headline of the Storefront"
+                  type="text"
+                />
+              </div>
+              
+            
+            <div className="mt-5">Description:</div>
 
             <textarea
               value={description}

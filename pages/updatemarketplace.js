@@ -2,7 +2,6 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
-
 class UpdateMarketPlace extends React.Component {
   state = {
     rows: [{}],
@@ -35,7 +34,7 @@ class UpdateMarketPlace extends React.Component {
           Step 1 : Update Parameters{" "}
         </div>
         {this.state.rows.map((item, idx) => (
-          <div id="addr0" key={idx} className="card mt-5">
+          <div id="addr0" key={idx} className="card mt-5" style={{width:'60%',margin:'0 auto'}}>
             <div className="flex p-2 justify-content-between">
               <div style={{ width: "40%" }}>
                 <div className="text-left">Enter new TradeHub fee</div>
@@ -43,7 +42,7 @@ class UpdateMarketPlace extends React.Component {
                 <InputText
                   value={this.state.rows[idx].name}
                   name="name"
-                  className="p-2 mt-3 input-back w-full"
+                  className="p-2 mt-3 input-back w-full text-white"
                   type="number"
                 />
               </div>
@@ -53,7 +52,7 @@ class UpdateMarketPlace extends React.Component {
                 <InputText
                   value={this.state.rows[idx].mobile}
                   name="mobile"
-                  className="p-2 mt-3 input-back w-full"
+                  className="p-2 mt-3 input-back w-full text-white"
                   type="text"
                 />
               </div>
@@ -67,7 +66,7 @@ class UpdateMarketPlace extends React.Component {
             </div>
           </div>
         ))}
-        <div className="text-center">
+        <div className="text-center mt-5">
           <Button
             icon="pi pi-plus"
             label="Add Another Admin"

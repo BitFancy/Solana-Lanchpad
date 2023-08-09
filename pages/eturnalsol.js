@@ -1,13 +1,14 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React from "react";
+import Router, { withRouter } from "next/router";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
-import Router, { withRouter } from "next/router";
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-class FusionSeries extends React.Component {
-  constructor(props) {
+class Eturnulsol extends React.Component {
+constructor(props) {
     super(props);
     this.showError = this.showError.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
@@ -16,7 +17,7 @@ class FusionSeries extends React.Component {
     this.toast.show({
       severity: "success",
       summary: "Success",
-      detail: "Your FusionSeries contract has been  successfully deployed",
+      detail: "Your Eturnulsol contract has been  successfully deployed",
       life: 10000,
     });
   }
@@ -54,36 +55,44 @@ class FusionSeries extends React.Component {
     rows.splice(idx, 1);
     this.setState({ rows });
   };
-  fusionSerisData = () => {
+   eturnulsolData = () => {
     const token = localStorage.getItem("authToken");
     this.setState({ loading: true });
+
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "FusionSeries",
-          constructorParams: {
-            param1: this.state.contractName,
-            param2: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-          },
-          network: "maticmum",
+        { contractName : "EternalSoul",
+      constructorParams:{
+            param1 : this.state.contractName,
+            param2 : this.state.contractSymbol,
+            param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
         },
+         network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       )
-
       .then(async (response) => {
         this.showSuccess();
+
         setTimeout(() => {
-          this.setState({ loading: false });
+
+            this.setState({ loading: false });
         }, 2000);
-        console.log("response FusionSeries data", response);
+        console.log("response EternalSoul data", response);
         this.setState({ supabaseToken: response.data.contractAddress });
-        Router.push({ pathname: "/instagen" });
+
+        // Router.push({
+        //   pathname: "./signatureseries",
+        //   query: { contractAddress: response.data.contractAddress },
+        // });
+        Router.push({ pathname: "/successNoteContract" });
+
+
       })
 
       .catch((error) => {
@@ -91,40 +100,40 @@ class FusionSeries extends React.Component {
         this.showError();
       });
   };
-  handleInputName = (e) => {
+   handleInputName = (e) => {
     this.setState({ contractName: e.target.value });
   };
-  handleInputSymbol = (e) => {
+   handleInputSymbol = (e) => {
     this.setState({ contractSymbol: e.target.value });
   };
 
-  // useEffect(() => {
-  //   setTradhubContarctAddress(props.router.query.contractAddress);
-  // }, [props.router.query.contractAddress]);
+//   useEffect(() => {
+//     setTradhubContarctAddress(props.router.query.contractAddress);
+//   }, [props.router.query.contractAddress]);
 
   render() {
     return (
-      <div
-        title="FusionSeries"
-        description="This is use to show deployed FusionSeries information"
-        className="buy-back-image"
-      >
-        <AppTopbar />
-        <div style={{ marginTop: "85px" }}>
-          <div
-            className="p-5 font-bold text-align-center text-center"
-            style={{ borderBottom: "2px solid" }}
-          >
-            Deploy FusionSeries
-          </div>
-          <div className="flex justify-content-center gap-5">
-            <div className="card mt-5" style={{ width: "50%" }}>
-              <div className="text-center mt-5">
-                {this.state.rows.map((item, idx) => (
+    <div
+      title="Deploy SignatureSeries"
+      description="This is use to show information of the deploy signatureSeries contract"
+      className="back-img-sig"
+    >
+      <AppTopbar/>
+      <div style={{marginTop:'100px'}}>
+        <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
+          Deploy EternalSoul
+        </div>
+        <div className="flex justify-content-center gap-5">
+          <div className="card mt-5" style={{ width: "50%" }}>
+            <div className="text-center mt-5">
+              <div className="text-left">Enter EternalSoul Name</div>
+              {this.state.rows.map((item, idx) => (
                   <div id="addr0" key={idx} className="card mt-5">
                     <div className="">
                       <div>
-                        <div className="text-left">Enter FusionSeries Name</div>
+                        <div className="text-left">
+                          Enter EternalSoul Name
+                        </div>
 
                         <InputText
                           value={this.state.rows[idx].ontractName}
@@ -135,7 +144,7 @@ class FusionSeries extends React.Component {
                       </div>
                       <div>
                         <div className="mt-3 text-left">
-                          Enter FusionSeries Symbol
+                          Enter EternalSoul Symbol
                         </div>
 
                         <InputText
@@ -159,29 +168,48 @@ class FusionSeries extends React.Component {
                 <div className="text-center mt-5">
                   <Button
                     icon="pi pi-plus"
-                    label="Add Another FusionSeries"
+                    label="Add Another EternalSoul"
                     severity="info"
                     onClick={this.handleAddRow}
                   />
                 </div>
-              </div>
-              <div className="text-center mt-5">
-                <Button
-                  onClick={this.fusionSerisData}
-                  label="Deploy FusionSeries"
-                  severity="Primary"
-                  icon="pi pi-external-link"
-                  rounded
-                  loading={this.state.loading}
-                />
-              </div>
-              <Toast ref={(el) => (this.toast = el)} />
             </div>
+            <div className="flex justify-content-between mt-5">
+            <div className="text-center mt-5">
+              <Button
+                onClick={this.eturnulsolData}
+                label="Deploy EternalSoul"
+                severity="Primary"
+                icon="pi pi-external-link"
+                rounded
+                loading={this.state.loading}
+              />
+            </div>
+            <div >
+            <div className="text-center mt-5">
+                <Link href='/successNoteContract'>
+              <Button
+                label="Continue"
+                severity="Primary"
+                icon="pi pi-external-link"
+                rounded
+                loading={this.state.loading}
+              />
+              </Link>
+            </div>
+            
+            </div>
+           
+            </div>
+            
+            <Toast ref={(el) => (this.toast = el)} />
+
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+);
+}
 }
 
-export default withRouter(FusionSeries);
+export default withRouter(Eturnulsol);
