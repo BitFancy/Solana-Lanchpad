@@ -22,6 +22,52 @@ export default function Launchpad() {
           <div>Categories In Just Few Steps</div>
         </div>
       </div>
+      <div className="flex justify-content-center gap-5 mt-5">
+        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+          <div>
+            <img
+              style={{ width: "60px", height: "60px" }}
+              src="/accessicon.png"
+            ></img>
+          </div>
+          <div className="font-bold mt-5 text-2xl">Access Control</div>
+          <div className="mt-5 text-xl">
+            <div>A self-executing contract automatically </div>
+            <div>grants or denies permissions to </div>
+            <div>network participants based on </div>
+            <div>predefined rules.</div>
+          </div>
+        </div>
+        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+          <div>
+            <img
+              style={{ width: "60px", height: "60px" }}
+              src="/marketplace.png"
+            ></img>
+          </div>
+          <div className="font-bold mt-5 text-2xl">TradeHub</div>
+          <div className="mt-5 text-xl">
+            <div>A leading NFT marketplace for peer- </div>
+            <div>to-peer buying, selling, and trading of </div>
+            <div>non-fungible tokens (NFTs).</div>
+          </div>
+        </div>
+        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+          <div>
+            <img
+              style={{ width: "60px", height: "60px" }}
+              src="/eternalsoul.png"
+            ></img>
+          </div>
+          <div className="font-bold mt-5 text-2xl">EternalSoul</div>
+          <div className="mt-5 text-xl">
+            <div>A soulbound token is a non-transferable </div>
+            <div>NFT publicly verifying an individual's </div>
+            <div>credentials, affiliations, and </div>
+            <div>commitments.</div>
+          </div>
+        </div>
+      </div>
       <div className="flex p-5 justify-content-around mt-5">
         <div>
           <div>
@@ -57,12 +103,12 @@ export default function Launchpad() {
         <div>
           <div className="signature-series-head">TradeHub</div>
           <div className="mt-5 text-3xl">
-          <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-              <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-              <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-              <div>the World of Unique, Non-Fungible Tokens, Each </div>
-              <div>Possessing a Distinct, Unreplicable Signature of </div>
-              <div>Authenticity</div>
+            <div>Dive Into SignatureSeries, An Exclusive NFT </div>
+            <div>Collection Built On ERC-721, Featuring One-of-a-</div>
+            <div>Kind Digital Masterpieces. Immerse Yourself in</div>
+            <div>the World of Unique, Non-Fungible Tokens, Each </div>
+            <div>Possessing a Distinct, Unreplicable Signature of </div>
+            <div>Authenticity</div>
           </div>
           <div className="mt-5">
             <Link href="/step1">
@@ -80,12 +126,12 @@ export default function Launchpad() {
         <div>
           <div className="signature-series-head">SignatureSeries</div>
           <div className="mt-5 text-3xl">
-          <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-              <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-              <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-              <div>the World of Unique, Non-Fungible Tokens, Each </div>
-              <div>Possessing a Distinct, Unreplicable Signature of </div>
-              <div>Authenticity</div>
+            <div>Dive Into SignatureSeries, An Exclusive NFT </div>
+            <div>Collection Built On ERC-721, Featuring One-of-a-</div>
+            <div>Kind Digital Masterpieces. Immerse Yourself in</div>
+            <div>the World of Unique, Non-Fungible Tokens, Each </div>
+            <div>Possessing a Distinct, Unreplicable Signature of </div>
+            <div>Authenticity</div>
           </div>
           <div className="mt-5">
             <Link href="/signatureseries">

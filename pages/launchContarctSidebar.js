@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 export default function LaunchContarctSidebar() {
   return (
-     <div className="bg-blue-600 text-white p-5">
+     <div className="bg-blue-600 text-white p-5" style={{height:'359px'}}>
           <div className="font-bold text-2xl">Create As</div>
           <Link href='/launchSignatureseries' style={{color:'white'}}>
           <div className="flex gap-3 mt-5">
@@ -34,6 +34,14 @@ export default function LaunchContarctSidebar() {
               <img src="collection.png" alt="Instagen"></img>
             </div>
             <div className="edition-note">Instagen</div>
+          </div>
+          </Link>
+          <Link href='/launcheturnulsol' style={{color:'white'}}>
+          <div className="flex gap-3 mt-5">
+            <div>
+              <img src="collection.png" alt="EternalSoul"></img>
+            </div>
+            <div className="edition-note">EternalSoul</div>
           </div>
           </Link>
          

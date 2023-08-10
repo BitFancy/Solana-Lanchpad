@@ -4,11 +4,11 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import { useRef } from "react";
-import { Messages } from "primereact/messages";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import Router from "next/router";
 import { Dropdown } from "primereact/dropdown";
+import { Toast } from 'primereact/toast';
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -21,8 +21,7 @@ export default function AddSubscription() {
     { name: "Polygon", value: "Polygon" },
     { name: "Ethereum", value: "Ethereum" },
   ];
-
-  const msgs = useRef(null);
+  const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [contarctName, setContarctName] = useState();
   const [description, setdescription] = useState();
@@ -61,7 +60,7 @@ export default function AddSubscription() {
     setLoading(true);
     axios
       .post(
-        `${BASE_URL_LAUNCH}api/v1.0/subscription`,
+        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
         {
           name: contarctName,
           owner: "asd3rfsdaf2334r23",
@@ -70,6 +69,9 @@ export default function AddSubscription() {
           createdBy: "Admin",
           updatedBy: "Admin",
           image: uploadImage,
+          headline:headline,
+          description:description,
+          blockchain:selecteBlockchaine
         },
         {
           headers: {
@@ -78,41 +80,57 @@ export default function AddSubscription() {
         }
       )
       .then(async (response) => {
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail:
-              "You are now the Admin, Flow Access Master has been Successfully Deployed",
-            closable: true,
-          },
-        ]);
+        showSuccess()
         setTimeout(() => {
           setLoading(false);
         }, 2000);
       });
     Router.push("/subscriptionDashboard")
     .catch((error) => {
-      console.log("err", error);
+      showError();
     });
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
+    // handleItemChanged();
   };
 
   const handleInputDescription = (e) => {
     setdescription(e.target.value);
+
   };
   const handleInputHeadline = (e) => {
     setHeadline(e.target.value);
   };
 
+  const showSuccess = () => {
+    toast.current.show({severity:'success', summary: 'Success', detail:'Success', life: 1000});
+}
+const showError = () => {
+  toast.current.show({severity:'error', summary: 'Error ', detail:'Storefront Name Must be Unique', life: 1000});
+}
+
+//   const handleItemChanged = (event, index) => {
+//     const value = event;
+//     const list = [...contarctName];
+//     if(list.filter(f=> f.contarctName === value).length > 0){
+//         showSuccess();
+//     }
+//     else{
+//        showError();
+//     }
+//     list[index].contarctName = value;
+//     setContarctName(list)
+    
+// }
   return (
     <Layout>
       <div className="buy-back-image" style={{ marginTop: "100px" }}>
         <div className="font-bold text-3xl p-5 text-white text-center">
           Add StoreFront Details
         </div>
+        <Toast ref={toast} />
+
         <hr></hr>
         <div
           className=" p-5 mt-5 font-bold card flex gap-5" 
@@ -142,7 +160,7 @@ export default function AddSubscription() {
             <InputText
               value={contarctName}
               onChange={handleInputContractName}
-              placeholder="Please Enter Your Experience"
+              placeholder="Please Enter Srorefront Name"
               className="w-full input-back mt-2 text-white"
               maxLength={12}
               minLength={7} 
@@ -193,7 +211,6 @@ export default function AddSubscription() {
                 label="Continue"
               ></Button>
             </div>
-            <Messages ref={msgs} />
           </div>
         </div>
       </div>

@@ -5,32 +5,25 @@ import { Messages } from "primereact/messages";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
-export default function Launcheteriumpass() {
+export default function LaunchEturnulsol() {
   const msgs = useRef(null);
-
   const [loading, setLoading] = useState(false);
-
-  const instaGenContarctData = () => {
+  const eturnalsoldata = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
-
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {  contractName: "EternumPass",
-        constructorParams: {
-          param1: "NFT_MELA",
-          param2: "NFM",
-          param3: "www.xyz.com",
-          param4: "100000000000000000",
-          param5: "30",
-          param6: "10000000000000",
-          param7: "500",
-          param8: true,
-          param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-          param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        }, network: "hardhat" },
+        {
+          contractName: "EternalSoul",
+          constructorParams: {
+            param1: "NFT_MELA",
+            param2: "NFM",
+            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+          },
+          network: "hardhat",
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,11 +34,13 @@ export default function Launcheteriumpass() {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
+        console.log("response EternalSoul data", response);
         msgs.current.show([
           {
             sticky: true,
             severity: "success",
-            detail: "Your EternumPass contract has been  successfully deployed",
+            detail:
+              "Your EternalSoul contract has been  successfully deployed",
             closable: true,
           },
         ]);
@@ -56,11 +51,11 @@ export default function Launcheteriumpass() {
       });
   };
   return (
-    <Layout>
-      <div className="buy-back-image" style={{  marginTop: "130px" }}>
+    <Layout >
+      <div className="buy-back-image">
         <Messages ref={msgs} />
 
-        <div className="flex justify-content-center">
+        <div className="flex justify-content-center" style={{marginTop:'100px'}}>
           <div>
             <LaunchContarctSidebar />
           </div>
@@ -77,19 +72,19 @@ export default function Launcheteriumpass() {
               <div className="flex mt-5 gap-5 p-5">
                 <div>
                   <div className="font-bold text-2xl">
-                    Launch EternumPass
+                    Launch EternalSoul
                   </div>
                   <div>Deploy your own ERC-721 contract &</div>
-                  <div>launch EternumPass of assets</div>
+                  <div>launch EternalSoul of assets</div>
                 </div>
                 <div>
                   <Button
-                    label="Launch EternumPass"
+                    label="Launch EternalSoul"
                     severity="Primary"
                     rounded
                     style={{ width: "200px" }}
                     loading={loading}
-                    onClick={instaGenContarctData}
+                    onClick={eturnalsoldata}
                   />
                 </div>
               </div>

@@ -5,22 +5,19 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
-  useRef,
-  useState,
+  useRef
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import AppConfig from "./AppConfig";
 import Router from "next/router";
-import { useAccount,useDisconnect,useEnsName } from "wagmi";
+import { useAccount, useDisconnect, useEnsName } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
 const AppTopbar = forwardRef((props, ref) => {
-  const [subscription, setSubscription] = useState();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
-  const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
+  const { layoutConfig, layoutState } =
     useContext(LayoutContext);
   const menubuttonRef = useRef(null);
   const topbarmenuRef = useRef(null);
@@ -30,7 +27,6 @@ const AppTopbar = forwardRef((props, ref) => {
     if (!isConnected) {
       Router.push("/buySubscription");
     }
-
   }, []);
   useImperativeHandle(ref, () => ({
     menubutton: menubuttonRef.current,
@@ -50,9 +46,7 @@ const AppTopbar = forwardRef((props, ref) => {
           widt={"true"}
           alt="logo"
         />
-        <img src='./myriadflow.png' style={{height:'20px'}}></img>
-        
-
+        <img src="./myriadflow.png" style={{ height: "20px" }}></img>
       </Link>
       <div
         ref={topbarmenuRef}
@@ -60,20 +54,7 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-{ 
-!subscription &&
-  <Link href="/addSubscription">
-  <span
-    className="text-black"
-    style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-  >
-    Launch
-  </span>
-</Link>
-}
-      {
-        subscription &&
-        <Link href="/fusionSeries">
+        <Link href="/addSubscription">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
@@ -81,8 +62,6 @@ const AppTopbar = forwardRef((props, ref) => {
             Launch
           </span>
         </Link>
-      }
-        
 
         <Link href="/subscriptionDashboard">
           <span
@@ -92,23 +71,14 @@ const AppTopbar = forwardRef((props, ref) => {
             Dashboard
           </span>
         </Link>
-        {/* <Link href="/accessMasterRole">
-          <span
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Manage
-          </span>
-        </Link> */}
-        {/* <Link href="/signatureSeriesAssets">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Create
-          </span>
-        </Link> */}
+
         <div>
           <ConnectButton />
+        </div>
+        <div>
+          <Link href="/profile">
+            <img style={{ cursor: "pointer" }} src="/profile.png"></img>
+          </Link>
         </div>
         <div>
           <AppConfig />

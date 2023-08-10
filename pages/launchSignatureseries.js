@@ -54,12 +54,12 @@ export default function LaunchSignatureseries() {
         console.log("err", error);
       });
   };
-  return (
+  return ( 
     <Layout >
       <div className="buy-back-image">
         <Messages ref={msgs} />
 
-        <div className="flex justify-content-center  " style={{marginTop:'100px'}}>
+        <div className="flex justify-content-center" style={{marginTop:'100px'}}>
           <div>
             <LaunchContarctSidebar />
           </div>

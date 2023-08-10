@@ -5,8 +5,9 @@ import { Messages } from "primereact/messages";
 import { useRouter, withRouter } from "next/router";
 import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
+import { Toast } from 'primereact/toast';
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 const Step1 = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -14,6 +15,15 @@ const Step1 = () => {
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [supabaseToken, setsupabaseToken] = useState();
+  const toast = useRef(null);
+  const showSuccess = () => {
+    toast.current.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 10000});
+}
+const showError = () => {
+  toast.current.show({severity:'error', summary: 'Error', detail:'Something Went Wrong Please try after some time', life: 10000});
+}
+
+
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -37,14 +47,7 @@ const Step1 = () => {
       }, 2000);
         console.log("response data", response);
         setsupabaseToken(response.data.contractAddress);
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail: "Your Tradhub contract has been  successfully deployed",
-            closable: true,
-          },
-        ]);
+        showSuccess();
         // Router.push({
         //   pathname: "./fusionSeries",
         //   query: { contractAddress: response.data.contractAddress },
@@ -54,6 +57,7 @@ const Step1 = () => {
 
       .catch((error) => {
         console.log("err", error);
+        showError();
       });
   };
   const handleInputFee = (e) => {
@@ -67,6 +71,7 @@ const Step1 = () => {
   return (
     <div className="buy-back-image" title="Step 1" description="Step one of the launchpad">
       <AppTopbar/>
+      <Toast ref={toast} />
       <div style={{ marginTop: "100px" }}>
         <div
           className="font-bold p-3 mb-5 text-center"
@@ -101,19 +106,34 @@ const Step1 = () => {
               />
             </div>
           </div>
-
-          <div className="text-center">
+<div className="flex mt-5 justify-content-between">
+<div>
             <Button
-              label="deploy Tradhub Contract"
+              label="Deploy Tradhub Contract"
               onClick={tradHubContarctData}
               severity="Primary"
-              className=" mt-7"
+              className=" mt-7 w-full"
               style={{ width: "30%" }}
               rounded
               loading={loading} 
             />
           </div>
-          <Messages ref={msgs} />
+          <div>
+            <Link href='/'>
+            <Button
+              label="Continue"
+              severity="Primary"
+              className=" mt-7 w-full"
+              style={{ width: "30%" }}
+              rounded
+              loading={loading} 
+            />
+            </Link>
+          </div>
+         
+</div>
+          
+          
         </div>
       </div>
     </div>

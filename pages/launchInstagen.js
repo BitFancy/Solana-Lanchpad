@@ -53,7 +53,7 @@ export default function LaunchInstagen() {
   };
   return (
     <Layout>
-      <div style={{ height: "340px", marginTop: "130px" }}>
+      <div className="buy-back-image" style={{  marginTop: "130px" }}>
         <Messages ref={msgs} />
 
         <div className="flex justify-content-center">

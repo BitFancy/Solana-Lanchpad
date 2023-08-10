@@ -97,9 +97,7 @@ const Instagen = (props) => {
   const handleInputRoyelty = (e) => {
     setRoyltybps(e.target.value);
   };
-  const handleInputBaseURI = (e) => {
-    setBaseURI(e.target.value);
-  };
+ 
   return (
     <div
       title="Deploy InstaGen"
@@ -176,15 +174,7 @@ const Instagen = (props) => {
                   type="text"
                 />
               </div>
-              {/* <div className="mt-3 text-left">Enter BaseUri</div>
-              <div className="mt-2">
-                <InputText
-                  value={baseURI}
-                  onChange={handleInputBaseURI}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div> */}
+             
             </div>
             <div className="text-center mt-5">
               <Button
