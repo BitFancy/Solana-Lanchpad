@@ -101,6 +101,7 @@ function Profile() {
   const [visible, setVisible] = useState(false);
   const [profileData, setProfileData] = useState({ ...profile });
   const [updateProfile, setupdateProfile] = useState({ ...profile });
+  const [profileDetails, setprofileDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modal, setmodal] = useState(false);
   const router = useRouter();
@@ -130,12 +131,12 @@ function Profile() {
     e.preventDefault();
     const token = localStorage.getItem("platform_token");
     try {
-      if (
-        !updateProfile.name.trim() ||
-        !updateProfile.location.trim()
-      )
-        alert("Do not leave any field empty!");
-      else {
+      // if (
+      //   !updateProfile.name.trim() ||
+      //   !updateProfile.location.trim()
+      // )
+      //   alert("Do not leave any field empty!");
+      // else {
         var signroledata = JSON.stringify({
           name: "Alka Rashinkar",
           country: "India",
@@ -156,10 +157,10 @@ function Profile() {
           { ...updateProfile },
           config
         );
-        alert("Updation successful!");
+        // alert("Updation successful!");
         setmodal(false);
         getProfile();
-      }
+      // }
     } catch (error) {
       console.log(error);
       alert("Something went wrong!");
@@ -302,6 +303,8 @@ function Profile() {
           walletAddress
         });
         console.log(updateProfile);
+        localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
+        setprofileDetails(res.data.payload);
         setLoading(true);
       })
       .catch((error) => {
@@ -341,14 +344,18 @@ function Profile() {
 
   useEffect(() => {
     const asyncFn = async () => {
-      // const token = localStorage.getItem("platform_token");
+      const token = localStorage.getItem("platform_token");
       // connectweb();
-      // if (!token) {
-      authorize();
-      // } else {
-      //     getProfile();
-      // }
-
+      if (token) {
+        const profiledt = localStorage.getItem("profiledetails");
+        const parsed = JSON.parse(profiledt);
+        setprofileDetails(parsed);
+// console.log(profiledt);
+        
+      } else {
+        authorize();
+      }
+      // authorize();
       // const accessmaterContarct = await etherContract(accessmasterAddress, AccessMaster.abi)
       // setHasRole(
       //     await accessmaterContarct.hasRole(await accessmaterContarct.FLOW_CREATOR_ROLE(), wallet)
@@ -512,7 +519,7 @@ function Profile() {
           }}>
         </div>
 
-        {profilePictureUrl ? (
+        {profileDetails?.profilePictureUrl ? (
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -531,7 +538,7 @@ function Profile() {
               justifyContent: 'center',
             }}>
               <Avatar image={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
-                profilePictureUrl
+                profileDetails?.profilePictureUrl
               )}`} size="xlarge" shape="circle" style={{ borderRadius: '50%', width: '200px', height: '200px' }} />
               {/* <Image src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
                 profilePictureUrl
@@ -656,7 +663,7 @@ function Profile() {
                 {" "}
                 <button
                   type="submit"
-                  className=" bg-blue-800 text-black-500 dark:text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="cursor-pointer bg-blue-800 text-black-500 dark:text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 >
                   Update Profile
                 </button>
@@ -680,26 +687,26 @@ function Profile() {
             marginLeft: '60px',
           }}>
             <div>
-              <p className="text-2xl font-bold">{updateProfile.name}</p>
+              <p className="text-2xl font-bold">{profileDetails?profileDetails.name : null}</p>
             </div>
             <div>
-              <p className="mt-12 text-xl">{updateProfile.bio}</p>
+              <p className="mt-12 text-xl">{profileDetails?profileDetails.bio:null}</p>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-4">
                 <div className="flex">
                   <FaMapMarkerAlt style={{ color: 'grey', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{updateProfile.location}</p>
+                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails?profileDetails.location:null}</p>
                 </div>
                 <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
                   <FaWallet style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{updateProfile.walletAddress}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.walletAddress:null}</p>
                 </div>
               </div>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-6">
                 <div className="flex">
                   <FaEnvelope style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{updateProfile.email}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.email:null}</p>
                 </div>
                 <div className="flex lg:ml-12 md:ml-12 text-xl" style={{ marginLeft: 20 }}>
                   <IoLogoInstagram style={{ color: '', marginTop: 6, marginRight: 8 }} />
