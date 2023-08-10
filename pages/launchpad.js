@@ -62,7 +62,7 @@ export default function Launchpad() {
           <div className="font-bold mt-5 text-2xl">EternalSoul</div>
           <div className="mt-5 text-xl">
             <div>A soulbound token is a non-transferable </div>
-            <div>NFT publicly verifying an individual's </div>
+            <div>NFT publicly verifying an individual </div>
             <div>credentials, affiliations, and </div>
             <div>commitments.</div>
           </div>
