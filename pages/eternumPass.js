@@ -6,6 +6,7 @@ import { Messages } from "primereact/messages";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const router = useRouter();
@@ -63,7 +64,7 @@ const EternumPass = () => {
             closable: true,
           },
         ]);
-        router.push("/signatureseries");
+        router.push("/instagen");
       })
 
       .catch((error) => {
@@ -174,15 +175,27 @@ const EternumPass = () => {
                 />
               </div>
             </div>
-            <div className="text-center mt-5">
+            <div className="flex justify-content-between mt-5">
+              <div>
               <Button
                 onClick={instaGenContarctData}
                 label="Deploy EternumPass"
                 severity="Primary"
-                icon="pi pi-external-link"
                 rounded
                 loading={loading}
               />
+              </div>
+              <div>
+                <Link href='/markeplaceDetailsForm'>
+              <Button
+                label="Continue"
+                severity="Primary"
+                rounded
+                loading={loading}
+              />
+              </Link>
+              </div>
+             
             </div>
             <Messages ref={msgs} />
           </div>

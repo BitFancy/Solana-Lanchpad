@@ -1,61 +1,21 @@
 import React, { useRef, useState } from "react";
 import Layout from "../Components/Layout";
-import axios from "axios";
 import { Messages } from "primereact/messages";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
+import Link from "next/link";
 export default function LaunchFusionseries() {
-  const msgs = useRef(null);
-
   const [loading, setLoading] = useState(false);
-
-  const fusionSerisData = () => {
-    const token = localStorage.getItem("authToken");
+  const load = () => {
     setLoading(true);
 
-    axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`, {contractName : "FusionSeries",
-        constructorParams:{
-            param1:  "www.xyz.com",
-            param2 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param3 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
-        },
-        network : "hardhat"},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            
-          },
-         
-        },
-       
-      )
-      .then(async (response) => {
-        setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-        console.log("response FusionSeries data", response);
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail: "Your FusionSeries contract has been  successfully deployed",
-            closable: true,
-          },
-        ]);
-      })
-  
-      .catch((error) => {
-        console.log("err", error);
-      });
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
   return (
     <Layout>
       <div className="buy-back-image" style={{  marginTop: "130px" }}>
-        <Messages ref={msgs} />
  
         <div className="flex justify-content-center">
           <div>
@@ -80,14 +40,16 @@ export default function LaunchFusionseries() {
                   <div>launch FusionSeries of assets</div>
                 </div>
                 <div>
+                  <Link href='/fusionSeries'>
                   <Button
                     label="Launch FusionSeries"
                     severity="Primary"
                     rounded
                     style={{ width: "200px" }}
                     loading={loading}
-                    onClick={fusionSerisData}
+                    onClick={load}
                   />
+                  </Link>
                 </div>
               </div>
             </div>

@@ -3,12 +3,69 @@ import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
 import Link from "next/link";
 export default function Launchpad() {
-  const [loading, setLoading] = useState(false);
-  const load = () => {
-    setLoading(true);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const [loading4, setLoading4] = useState(false);
+  const [loading5, setLoading5] = useState(false);
+  const [loading6, setLoading6] = useState(false);
+  const [loading7, setLoading7] = useState(false);
+  const [loading8, setLoading8] = useState(false);
+
+  const load1 = () => {
+    setLoading1(true);
 
     setTimeout(() => {
-      setLoading(false);
+      setLoading1(false);
+    }, 2000);
+  };
+  const load2 = () => {
+    setLoading2(true);
+
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
+  const load3 = () => {
+    setLoading3(true);
+
+    setTimeout(() => {
+      setLoading3(false);
+    }, 2000);
+  };
+  const load4 = () => {
+    setLoading4(true);
+
+    setTimeout(() => {
+      setLoading4(false);
+    }, 2000);
+  };
+  const load5 = () => {
+    setLoading5(true);
+
+    setTimeout(() => {
+      setLoading5(false);
+    }, 2000);
+  };
+  const load6 = () => {
+    setLoading6(true);
+
+    setTimeout(() => {
+      setLoading6(false);
+    }, 2000);
+  };
+  const load7 = () => {
+    setLoading7(true);
+
+    setTimeout(() => {
+      setLoading7(false);
+    }, 2000);
+  };
+  const load8 = () => {
+    setLoading8(true);
+
+    setTimeout(() => {
+      setLoading8(false);
     }, 2000);
   };
   return (
@@ -83,8 +140,8 @@ export default function Launchpad() {
             <div className="mt-5">
               <Link href="/deployflowaccessControl">
                 <Button
-                  loading={loading}
-                  onClick={load}
+                  loading={loading1}
+                  onClick={load1}
                   label="Launch Access Master"
                   rounded
                 />
@@ -113,8 +170,8 @@ export default function Launchpad() {
           <div className="mt-5">
             <Link href="/step1">
               <Button
-                loading={loading}
-                onClick={load}
+                loading={loading2}
+                onClick={load2}
                 label="Launch Tradhub"
                 rounded
               />
@@ -136,8 +193,8 @@ export default function Launchpad() {
           <div className="mt-5">
             <Link href="/signatureseries">
               <Button
-                loading={loading}
-                onClick={load}
+                loading={loading3}
+                onClick={load3}
                 label="Launch SignatureSeries"
                 rounded
               />
@@ -172,8 +229,8 @@ export default function Launchpad() {
           <div className="mt-5">
             <Link href="/fusionSeries">
               <Button
-                loading={loading}
-                onClick={load}
+                loading={loading4}
+                onClick={load4}
                 label="Launch FusionSeries"
                 rounded
               />
@@ -197,8 +254,8 @@ export default function Launchpad() {
             <div className="mt-5">
               <Link href="/instagen">
                 <Button
-                  loading={loading}
-                  onClick={load}
+                  loading={loading5}
+                  onClick={load5}
                   label="Launch Instagen"
                   rounded
                 />
@@ -225,8 +282,8 @@ export default function Launchpad() {
           </div>
           <div className="mt-5">
             <Button
-              loading={loading}
-              onClick={load}
+              loading={loading6}
+              onClick={load6}
               label="Launch DynamicRealms"
               rounded
             />
@@ -246,8 +303,8 @@ export default function Launchpad() {
               <div className="mt-5">
                 <Link href="/eternumPass">
                   <Button
-                    loading={loading}
-                    onClick={load}
+                    loading={loading7}
+                    onClick={load7}
                     label="Launch EternumPass"
                     rounded
                   />
@@ -274,8 +331,8 @@ export default function Launchpad() {
           </div>
           <div className="mt-5">
             <Button
-              loading={loading}
-              onClick={load}
+              loading={loading8}
+              onClick={load8}
               label="Launch Phygital NFTs"
               rounded
             />

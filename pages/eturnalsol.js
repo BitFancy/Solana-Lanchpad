@@ -90,7 +90,7 @@ constructor(props) {
         //   pathname: "./signatureseries",
         //   query: { contractAddress: response.data.contractAddress },
         // });
-        Router.push({ pathname: "/successNoteContract" });
+        Router.push({ pathname: "/markeplaceDetailsForm" });
 
 
       })
@@ -126,7 +126,6 @@ constructor(props) {
         <div className="flex justify-content-center gap-5">
           <div className="card mt-5" style={{ width: "50%" }}>
             <div className="text-center mt-5">
-              <div className="text-left">Enter EternalSoul Name</div>
               {this.state.rows.map((item, idx) => (
                   <div id="addr0" key={idx} className="card mt-5">
                     <div className="">
@@ -180,18 +179,16 @@ constructor(props) {
                 onClick={this.eturnulsolData}
                 label="Deploy EternalSoul"
                 severity="Primary"
-                icon="pi pi-external-link"
                 rounded
                 loading={this.state.loading}
               />
             </div>
             <div >
             <div className="text-center mt-5">
-                <Link href='/successNoteContract'>
+                <Link href='/markeplaceDetailsForm'>
               <Button
                 label="Continue"
                 severity="Primary"
-                icon="pi pi-external-link"
                 rounded
                 loading={this.state.loading}
               />

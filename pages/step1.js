@@ -11,6 +11,8 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Step1 = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
   const msgs = useRef(null);
   const [_platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
@@ -22,7 +24,13 @@ const Step1 = () => {
 const showError = () => {
   toast.current.show({severity:'error', summary: 'Error', detail:'Something Went Wrong Please try after some time', life: 10000});
 }
+const load = () => {
+  setLoading2(true);
 
+  setTimeout(() => {
+    setLoading2(false);
+  }, 2000);
+};
 
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
@@ -119,14 +127,15 @@ const showError = () => {
             />
           </div>
           <div>
-            <Link href='/'>
+            <Link href='/launchSignatureseries'>
             <Button
               label="Continue"
               severity="Primary"
               className=" mt-7 w-full"
               style={{ width: "30%" }}
               rounded
-              loading={loading} 
+              loading={loading2} 
+              onClick={load}
             />
             </Link>
           </div>

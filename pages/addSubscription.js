@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
@@ -9,6 +8,8 @@ import { NFTStorage } from "nft.storage";
 import Router from "next/router";
 import { Dropdown } from "primereact/dropdown";
 import { Toast } from 'primereact/toast';
+import AppTopbar from "../layout/AppTopbar";
+import Link from "next/link";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -23,7 +24,11 @@ export default function AddSubscription() {
   ];
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [contarctName, setContarctName] = useState();
+  const [loading2, setLoading2] = useState(false);
+
+  const [contarctName, setContarctName] = useState([]);
+  const [enteredMarketplaceName, setenteredMarketplaceName] = useState();
+
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
 
@@ -38,6 +43,7 @@ export default function AddSubscription() {
       console.log("Error uploading file: ", error);
     }
   }
+
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
   async function onChangeThumbnail(e) {
@@ -55,7 +61,19 @@ export default function AddSubscription() {
     }
   }
 
+  const load = () => {
+    setLoading2(true);
+
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
   const addSubscription = async () => {
+  //   const filterEmail = contarctName?.filter(x => x === enteredMarketplaceName);
+  //   if (filterEmail) {
+  //     setenteredMarketplaceName({ error: true,errorMessage: "Email already subscribed"})
+  // };
+  // handleItemChanged();
     const token = localStorage.getItem("authToken");
     setLoading(true);
     axios
@@ -64,8 +82,6 @@ export default function AddSubscription() {
         {
           name: contarctName,
           owner: "asd3rfsdaf2334r23",
-          cost: 99,
-          currency: "USD",
           createdBy: "Admin",
           updatedBy: "Admin",
           image: uploadImage,
@@ -80,21 +96,20 @@ export default function AddSubscription() {
         }
       )
       .then(async (response) => {
-        showSuccess()
+        showSticky()
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-      });
-    Router.push("/subscriptionDashboard")
+      })
+    
     .catch((error) => {
       showError();
     });
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
-    // handleItemChanged();
-  };
-
+    
+  }
   const handleInputDescription = (e) => {
     setdescription(e.target.value);
 
@@ -103,8 +118,8 @@ export default function AddSubscription() {
     setHeadline(e.target.value);
   };
 
-  const showSuccess = () => {
-    toast.current.show({severity:'success', summary: 'Success', detail:'Success', life: 1000});
+  const showSticky = () => {
+    toast.current.show({severity:'success', detail:'You have assumed the role of administrator.The deployment of Flow access master has been completed successfully.',sticky: true});
 }
 const showError = () => {
   toast.current.show({severity:'error', summary: 'Error ', detail:'Storefront Name Must be Unique', life: 1000});
@@ -124,7 +139,8 @@ const showError = () => {
     
 // }
   return (
-    <Layout>
+    <div>
+      <AppTopbar/>
       <div className="buy-back-image" style={{ marginTop: "100px" }}>
         <div className="font-bold text-3xl p-5 text-white text-center">
           Add StoreFront Details
@@ -204,16 +220,30 @@ const showError = () => {
               minLength={10}
             />
 
-            <div className="mt-5 ">
+            <div className="flex justify-content-between mt-5">
+              <div>
+            
               <Button
                 onClick={addSubscription}
                 loading={loading}
+                label="Add Storefront"
+              ></Button>
+              
+              </div>
+              <div>
+              <Link href='/step1'>
+              <Button
+                loading={loading2}
+                onClick={load}
                 label="Continue"
               ></Button>
+              </Link>
+              </div>
+             
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

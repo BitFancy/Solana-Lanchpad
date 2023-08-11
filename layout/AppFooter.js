@@ -25,7 +25,7 @@ const AppFooter = () => {
           <div className="font-bold text-2xl cursor-pointer">
             Myriadflow
           </div>
-          <div className="mt-3 text-sm text-left text-gray-500 dark:text-white">
+          <div className="mt-3 text-sm text-left text-black">
             <div>MyriadFlow is an innovative platform to</div>
             <div>explore & launch NFT Experiences. Dive into</div>
             <div>the next generation of Utility NFTs through </div>
@@ -115,7 +115,7 @@ const AppFooter = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-content-center mt-5  text-sm flex flex-col  py-3 px-3  gradient-blue border-y-2">
+      <div className="flex justify-content-center mt-5  text-sm flex flex-col  py-3 px-3  gradient-blue border-y-2 ">
         <div className="font-bold">
           MyriadFlow | Copyright © {year} Lazarus Network Inc. All Rights
           Reserved.

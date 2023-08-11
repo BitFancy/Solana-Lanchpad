@@ -86,7 +86,7 @@ class SignatureSeries extends React.Component {
         }, 2000);
         console.log("response SignatureSeries data", response);
         this.setState({ supabaseToken: response.data.contractAddress });
-        Router.push({ pathname: "/eturnalsol" });
+        Router.push({ pathname: "/fusionSeries" });
 
       })
 
@@ -176,18 +176,16 @@ class SignatureSeries extends React.Component {
                   onClick={this.signatureSeriesdata}
                   label="Deploy SignatureSeries"
                   severity="Primary"
-                  icon="pi pi-external-link"
                   rounded
                   loading={this.state.loading}
                   className="w-full"
                 />
               </div>
               <div className="text-center mt-5">
-              <Link href='/eturnalsol'>
+              <Link href='/markeplaceDetailsForm'>
                 <Button
                   label="Continue"
                   severity="Primary"
-                  icon="pi pi-external-link"
                   rounded
                   loading={this.state.loading}
                   className="w-full"

@@ -70,7 +70,7 @@ export default function BuyNft() {
         setLoading(true);
          axios
           .post(
-            `${BASE_URL_LAUNCH}api/v1.0/subscription`, { name:"John",
+            `${BASE_URL_LAUNCH}api/v1.0/pro1`, { name:"John",
             owner:"asd3rfsdaf2334r23",
             plan:"basic",
             cost:99,

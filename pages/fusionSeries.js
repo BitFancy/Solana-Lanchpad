@@ -5,6 +5,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
 import Router, { withRouter } from "next/router";
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
@@ -83,7 +84,7 @@ class FusionSeries extends React.Component {
         }, 2000);
         console.log("response FusionSeries data", response);
         this.setState({ supabaseToken: response.data.contractAddress });
-        Router.push({ pathname: "/instagen" });
+        Router.push({ pathname: "/eternumPass" });
       })
 
       .catch((error) => {
@@ -165,15 +166,30 @@ class FusionSeries extends React.Component {
                   />
                 </div>
               </div>
-              <div className="text-center mt-5">
+              <div className="flex justify-content-between mt-5">
+                <div>
                 <Button
                   onClick={this.fusionSerisData}
                   label="Deploy FusionSeries"
                   severity="Primary"
-                  icon="pi pi-external-link"
+                 
                   rounded
                   loading={this.state.loading}
                 />
+                </div>
+                <div>
+                  <Link href='/markeplaceDetailsForm'>
+                <Button
+                 
+                  label="Continue"
+                  severity="Primary"
+                 
+                  rounded
+                  
+                  loading={this.state.loading}
+                />
+                </Link>
+                </div>
               </div>
               <Toast ref={(el) => (this.toast = el)} />
             </div>

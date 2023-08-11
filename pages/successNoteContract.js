@@ -9,17 +9,22 @@ export default function SuccessNoteContract() {
             <AppTopbar/>
 
     
-    <div className="text-center mt-5 text-3xl back-img-sig">
+    <div className="text-center text-3xl back-img-sig" style={{marginTop:'100px'}}>
       <div className="font-bold">Congratulations</div>
-      <div className="mt-5">your Storefront has been successfully Settled!</div>
-      <div className="mt-5">
+      <div className="mt-3">your Storefront has been successfully Settled!</div>
+      <div style={{marginTop:'35px'}}>
         <Link href="/subscriptionDashboard">
           <Button rounded>Manage StoreFront</Button>
         </Link>
       </div>
       <div className="mt-3">
         <Link href="/getAllSignatureseries">
-          <Button rounded>Go to Dashboard</Button>
+          <Button rounded style={{background:'none',color:'black',border:'1px solid white'}}>Go to Dashboard</Button>
+        </Link>
+      </div>
+      <div className="mt-3">
+        <Link href="/launchSignatureseries">
+          <Button rounded style={{background:'none',color:'black',border:'1px solid white'}}>Deploy Another Contract</Button>
         </Link>
       </div>
     </div>

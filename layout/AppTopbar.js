@@ -54,7 +54,7 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link href="/addSubscription">
+        <Link href="/subscriptionDashboard">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
@@ -63,7 +63,7 @@ const AppTopbar = forwardRef((props, ref) => {
           </span>
         </Link>
 
-        <Link href="/subscriptionDashboard">
+        <Link href="/getAllSignatureseries">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
