@@ -2,17 +2,18 @@ import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+// import React, {  useState } from 'react';
 import { NFTStorage } from "nft.storage";
 import AppTopbar from '../layout/AppTopbar';
 import Link from 'next/link';
+import { useRef, useState } from 'react';
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
 
-export default function markeplaceDetailsForm() {
+export default function MarkeplaceDetailsForm() {
     const toast = useRef(null);
     const [loading, setLoading] = useState(false);
     const [contarctName, setContarctName] = useState();
