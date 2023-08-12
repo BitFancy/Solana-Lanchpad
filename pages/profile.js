@@ -92,7 +92,7 @@ function Profile() {
     email: "",
     profilePictureUrl: "",
     walletAddress: "",
-    coverPictureUrl:""
+    coverPictureUrl: ""
   };
 
 
@@ -155,29 +155,29 @@ function Profile() {
       // )
       //   alert("Do not leave any field empty!");
       // else {
-        var signroledata = JSON.stringify({
-          name: "Alka Rashinkar",
-          country: "India",
-          profilePictureUrl: "https://unsplash.it/500",
-        });
+      var signroledata = JSON.stringify({
+        name: "Alka Rashinkar",
+        country: "India",
+        profilePictureUrl: "https://unsplash.it/500",
+      });
 
-        const config = {
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          data: signroledata,
-        };
-        setLoading(true);
-        await axios.patch(
-          "https://testnet.gateway.myriadflow.com/api/v1.0/profile",
-          { ...updateProfile },
-          config
-        );
-        // alert("Updation successful!");
-        setmodal(false);
-        getProfile();
+      const config = {
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: signroledata,
+      };
+      setLoading(true);
+      await axios.patch(
+        "https://testnet.gateway.myriadflow.com/api/v1.0/profile",
+        { ...updateProfile },
+        config
+      );
+      // alert("Updation successful!");
+      setmodal(false);
+      getProfile();
       // }
     } catch (error) {
       console.log(error);
@@ -371,8 +371,8 @@ function Profile() {
         const profiledt = localStorage.getItem("profiledetails");
         const parsed = JSON.parse(profiledt);
         setprofileDetails(parsed);
-// console.log(profiledt);
-        
+        // console.log(profiledt);
+
       } else {
         authorize();
       }
@@ -533,26 +533,27 @@ function Profile() {
 
       <div className="mt-8">
 
-      {profileDetails?.coverPictureUrl ? (
-        <div
-          className="" style={{
-            backgroundImage: `url(${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(profileDetails?.coverPictureUrl)})`, 
-            width: '100%',
-            height: "250px",
-            objectFit: 'cover',
-            backgroundColor: 'gray',
-          }}>
-        </div>
-      ):(
-        <div
-          className="" style={{
-            backgroundImage: `url("")`, width: '100%',
-            height: "250px",
-            objectFit: 'cover',
-            backgroundColor: 'gray',
-          }}>
-        </div>
-      )}
+        {profileDetails?.coverPictureUrl ? (
+          <div
+            className="" style={{
+              backgroundImage: `url(${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(profileDetails?.coverPictureUrl)})`,
+              width: '100%',
+              height: "300px",
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+            }}>
+          </div>
+        ) : (
+          <div
+            className="" style={{
+              backgroundImage: `url("")`, width: '100%',
+              height: "250px",
+              objectFit: 'cover',
+              backgroundColor: 'gray',
+            }}>
+          </div>
+        )}
 
         {profileDetails?.profilePictureUrl ? (
           <div style={{
@@ -672,6 +673,8 @@ function Profile() {
               />
             </div>
 
+            {loading && <Loader />}
+
             <div>Upload profile image</div>
             <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
               {updateProfile?.profilePictureUrl && (
@@ -695,7 +698,7 @@ function Profile() {
               />
             </div>
 
-            <div>Upload cover image</div>
+            <div>Upload image for the cover</div>
             <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
               {updateProfile?.coverPictureUrl && (
                 <img
@@ -745,26 +748,26 @@ function Profile() {
             marginLeft: '60px',
           }}>
             <div>
-              <p className="text-2xl font-bold">{profileDetails?profileDetails.name : null}</p>
+              <p className="text-2xl font-bold">{profileDetails ? profileDetails.name : null}</p>
             </div>
             <div>
-              <p className="mt-12 text-xl">{profileDetails?profileDetails.bio:null}</p>
+              <p className="mt-12 text-xl">{profileDetails ? profileDetails.bio : null}</p>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-4">
                 <div className="flex">
                   <FaMapMarkerAlt style={{ color: 'grey', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails?profileDetails.location:null}</p>
+                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails ? profileDetails.location : null}</p>
                 </div>
                 <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
                   <FaWallet style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.walletAddress:null}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.walletAddress : null}</p>
                 </div>
               </div>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-6">
                 <div className="flex">
                   <FaEnvelope style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.email:null}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.email : null}</p>
                 </div>
                 <div className="flex lg:ml-12 md:ml-12 text-xl" style={{ marginLeft: 20 }}>
                   <IoLogoInstagram style={{ color: '', marginTop: 6, marginRight: 8 }} />
