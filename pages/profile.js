@@ -23,6 +23,7 @@ import etherContract from "../utils/web3Modal";
 import { removePrefix } from "../utils/ipfsUtil";
 import AccessMaster from '../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json';
 const accessmasterAddress = process.env.NEXT_PUBLIC_ACCESS_MASTER_ADDRESS;
+import { useAccount, useEnsName } from "wagmi";
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
 
@@ -58,6 +59,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 
 function Profile() {
+
+  const { address } = useAccount();
+  console.log("wallet",address);
 
   useEffect(() => {
     const userData = getUserDataFromLocalStorage();
@@ -239,15 +243,15 @@ function Profile() {
   };
   //use to generate the hex msg and
   const authorize = async () => {
-    const mywallet = localStorage.getItem("platform_wallet")
+    // const mywallet = localStorage.getItem("platform_wallet")
     const { data } = await axios.get(
-      `${BASE_URL}api/v1.0/auth/web3?walletAddress=${mywallet}`
+      `${BASE_URL}api/v1.0/auth/web3?walletAddress=${address}`
     );
 
     let web3 = new Web3(Web3.givenProvider);
     let completemsg = data.payload.eula + data.payload.flowId;
     const hexMsg = convertUtf8ToHex(completemsg);
-    const result = await web3.eth.personal.sign(hexMsg, mywallet);
+    const result = await web3.eth.personal.sign(hexMsg, address);
     var signdata = JSON.stringify({
       flowId: data.payload.flowId,
       signature: result,
