@@ -91,7 +91,8 @@ function Profile() {
     bio: "",
     email: "",
     profilePictureUrl: "",
-    walletAddress: ""
+    walletAddress: "",
+    coverPictureUrl:""
   };
 
 
@@ -119,6 +120,23 @@ function Profile() {
       setupdateProfile({
         ...updateProfile,
         profilePictureUrl: `ipfs://${metaHash}`,
+      });
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function uploadcover(e) {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const blobData = new Blob([e.target.files[0]]);
+      const meta = await client.storeBlob(blobData);
+      setupdateProfile({
+        ...updateProfile,
+        coverPictureUrl: `ipfs://${meta}`,
       });
     } catch (error) {
       console.log("Error uploading file: ", error);
@@ -277,7 +295,8 @@ function Profile() {
               bio,
               email,
               profilePictureUrl,
-              walletAddress
+              walletAddress,
+              coverPictureUrl
             },
           },
         } = res;
@@ -291,7 +310,8 @@ function Profile() {
           bio,
           email,
           profilePictureUrl,
-          walletAddress
+          walletAddress,
+          coverPictureUrl
         });
         setupdateProfile({
           ...profileData,
@@ -300,7 +320,8 @@ function Profile() {
           bio,
           email,
           profilePictureUrl,
-          walletAddress
+          walletAddress,
+          coverPictureUrl
         });
         console.log(updateProfile);
         localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
@@ -371,7 +392,8 @@ function Profile() {
     bio,
     email,
     profilePictureUrl,
-    walletAddress
+    walletAddress,
+    coverPictureUrl
   } = profileData;
 
 
@@ -510,14 +532,27 @@ function Profile() {
 
 
       <div className="mt-8">
+
+      {profileDetails?.coverPictureUrl ? (
         <div
           className="" style={{
-            backgroundImage: 'url("")', width: '100%',
+            backgroundImage: `url(${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(profileDetails?.coverPictureUrl)})`, 
+            width: '100%',
             height: "250px",
             objectFit: 'cover',
             backgroundColor: 'gray',
           }}>
         </div>
+      ):(
+        <div
+          className="" style={{
+            backgroundImage: `url("")`, width: '100%',
+            height: "250px",
+            objectFit: 'cover',
+            backgroundColor: 'gray',
+          }}>
+        </div>
+      )}
 
         {profileDetails?.profilePictureUrl ? (
           <div style={{
@@ -586,7 +621,7 @@ function Profile() {
           <Button label="Edit Profile" onClick={() => setmodal(true)} rounded />
         </div>
 
-        <Dialog header="Edit Profile" visible={modal} onHide={() => setmodal(false)}
+        <Dialog header="Edit Profile (Edit the fields you want to change)" visible={modal} onHide={() => setmodal(false)}
           style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
           <form onSubmit={updateData}>
             <div className="md-form mb-3">
@@ -637,6 +672,7 @@ function Profile() {
               />
             </div>
 
+            <div>Upload profile image</div>
             <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
               {updateProfile?.profilePictureUrl && (
                 <img
@@ -653,11 +689,35 @@ function Profile() {
               <input
                 type="file"
                 accept="image/*"
-                className="btn btn-primary btn-md  mb-5 mt-5"
+                className="btn btn-primary btn-md mb-5 mt-5"
                 name="profilePic"
                 onChange={(e) => uploadImage(e)}
               />
             </div>
+
+            <div>Upload cover image</div>
+            <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
+              {updateProfile?.coverPictureUrl && (
+                <img
+                  alt="alt"
+                  src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY
+                    }/${removePrefix(
+                      updateProfile?.coverPictureUrl
+                    )}`}
+                  className="img-fluid w-6/12 grow"
+                  width="200"
+                  height="200"
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="btn btn-primary btn-md  mb-5 mt-5"
+                name="coverPic"
+                onChange={(e) => uploadcover(e)}
+              />
+            </div>
+
             <div className="flex gap-6">
               <div>
                 {" "}
@@ -668,8 +728,6 @@ function Profile() {
                   Update Profile
                 </button>
               </div>
-
-
             </div>
           </form>
         </Dialog>
