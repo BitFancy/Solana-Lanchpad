@@ -23,6 +23,7 @@ import etherContract from "../utils/web3Modal";
 import { removePrefix } from "../utils/ipfsUtil";
 import AccessMaster from '../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json';
 const accessmasterAddress = process.env.NEXT_PUBLIC_ACCESS_MASTER_ADDRESS;
+import { useAccount, useEnsName } from "wagmi";
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
 
@@ -59,6 +60,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 function Profile() {
 
+  const { address } = useAccount();
+  console.log("wallet",address);
+
   useEffect(() => {
     const userData = getUserDataFromLocalStorage();
     settwitt(userData);
@@ -91,7 +95,8 @@ function Profile() {
     bio: "",
     email: "",
     profilePictureUrl: "",
-    walletAddress: ""
+    walletAddress: "",
+    coverPictureUrl: ""
   };
 
 
@@ -127,6 +132,23 @@ function Profile() {
     }
   }
 
+  async function uploadcover(e) {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const blobData = new Blob([e.target.files[0]]);
+      const meta = await client.storeBlob(blobData);
+      setupdateProfile({
+        ...updateProfile,
+        coverPictureUrl: `ipfs://${meta}`,
+      });
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const updateData = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("platform_token");
@@ -137,29 +159,29 @@ function Profile() {
       // )
       //   alert("Do not leave any field empty!");
       // else {
-        var signroledata = JSON.stringify({
-          name: "Alka Rashinkar",
-          country: "India",
-          profilePictureUrl: "https://unsplash.it/500",
-        });
+      var signroledata = JSON.stringify({
+        name: "Alka Rashinkar",
+        country: "India",
+        profilePictureUrl: "https://unsplash.it/500",
+      });
 
-        const config = {
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          data: signroledata,
-        };
-        setLoading(true);
-        await axios.patch(
-          "https://testnet.gateway.myriadflow.com/api/v1.0/profile",
-          { ...updateProfile },
-          config
-        );
-        // alert("Updation successful!");
-        setmodal(false);
-        getProfile();
+      const config = {
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: signroledata,
+      };
+      setLoading(true);
+      await axios.patch(
+        "https://testnet.gateway.myriadflow.com/api/v1.0/profile",
+        { ...updateProfile },
+        config
+      );
+      // alert("Updation successful!");
+      setmodal(false);
+      getProfile();
       // }
     } catch (error) {
       console.log(error);
@@ -221,15 +243,15 @@ function Profile() {
   };
   //use to generate the hex msg and
   const authorize = async () => {
-    const mywallet = localStorage.getItem("platform_wallet")
+    // const mywallet = localStorage.getItem("platform_wallet")
     const { data } = await axios.get(
-      `${BASE_URL}api/v1.0/auth/web3?walletAddress=${mywallet}`
+      `${BASE_URL}api/v1.0/auth/web3?walletAddress=${address}`
     );
 
     let web3 = new Web3(Web3.givenProvider);
     let completemsg = data.payload.eula + data.payload.flowId;
     const hexMsg = convertUtf8ToHex(completemsg);
-    const result = await web3.eth.personal.sign(hexMsg, mywallet);
+    const result = await web3.eth.personal.sign(hexMsg, address);
     var signdata = JSON.stringify({
       flowId: data.payload.flowId,
       signature: result,
@@ -277,7 +299,8 @@ function Profile() {
               bio,
               email,
               profilePictureUrl,
-              walletAddress
+              walletAddress,
+              coverPictureUrl
             },
           },
         } = res;
@@ -291,7 +314,8 @@ function Profile() {
           bio,
           email,
           profilePictureUrl,
-          walletAddress
+          walletAddress,
+          coverPictureUrl
         });
         setupdateProfile({
           ...profileData,
@@ -300,7 +324,8 @@ function Profile() {
           bio,
           email,
           profilePictureUrl,
-          walletAddress
+          walletAddress,
+          coverPictureUrl
         });
         console.log(updateProfile);
         localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
@@ -350,8 +375,8 @@ function Profile() {
         const profiledt = localStorage.getItem("profiledetails");
         const parsed = JSON.parse(profiledt);
         setprofileDetails(parsed);
-// console.log(profiledt);
-        
+        // console.log(profiledt);
+
       } else {
         authorize();
       }
@@ -371,7 +396,8 @@ function Profile() {
     bio,
     email,
     profilePictureUrl,
-    walletAddress
+    walletAddress,
+    coverPictureUrl
   } = profileData;
 
 
@@ -510,14 +536,28 @@ function Profile() {
 
 
       <div className="mt-8">
-        <div
-          className="" style={{
-            backgroundImage: 'url("")', width: '100%',
-            height: "250px",
-            objectFit: 'cover',
-            backgroundColor: 'gray',
-          }}>
-        </div>
+
+        {profileDetails?.coverPictureUrl ? (
+          <div
+            className="" style={{
+              backgroundImage: `url(${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(profileDetails?.coverPictureUrl)})`,
+              width: '100%',
+              height: "300px",
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+            }}>
+          </div>
+        ) : (
+          <div
+            className="" style={{
+              backgroundImage: `url("")`, width: '100%',
+              height: "250px",
+              objectFit: 'cover',
+              backgroundColor: 'gray',
+            }}>
+          </div>
+        )}
 
         {profileDetails?.profilePictureUrl ? (
           <div style={{
@@ -586,7 +626,7 @@ function Profile() {
           <Button label="Edit Profile" onClick={() => setmodal(true)} rounded />
         </div>
 
-        <Dialog header="Edit Profile" visible={modal} onHide={() => setmodal(false)}
+        <Dialog header="Edit Profile (Edit the fields you want to change)" visible={modal} onHide={() => setmodal(false)}
           style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
           <form onSubmit={updateData}>
             <div className="md-form mb-3">
@@ -637,6 +677,9 @@ function Profile() {
               />
             </div>
 
+            {loading && <Loader />}
+
+            <div>Upload profile image</div>
             <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
               {updateProfile?.profilePictureUrl && (
                 <img
@@ -653,11 +696,35 @@ function Profile() {
               <input
                 type="file"
                 accept="image/*"
-                className="btn btn-primary btn-md  mb-5 mt-5"
+                className="btn btn-primary btn-md mb-5 mt-5"
                 name="profilePic"
                 onChange={(e) => uploadImage(e)}
               />
             </div>
+
+            <div>Upload image for the cover</div>
+            <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
+              {updateProfile?.coverPictureUrl && (
+                <img
+                  alt="alt"
+                  src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY
+                    }/${removePrefix(
+                      updateProfile?.coverPictureUrl
+                    )}`}
+                  className="img-fluid w-6/12 grow"
+                  width="200"
+                  height="200"
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="btn btn-primary btn-md  mb-5 mt-5"
+                name="coverPic"
+                onChange={(e) => uploadcover(e)}
+              />
+            </div>
+
             <div className="flex gap-6">
               <div>
                 {" "}
@@ -668,8 +735,6 @@ function Profile() {
                   Update Profile
                 </button>
               </div>
-
-
             </div>
           </form>
         </Dialog>
@@ -687,26 +752,26 @@ function Profile() {
             marginLeft: '60px',
           }}>
             <div>
-              <p className="text-2xl font-bold">{profileDetails?profileDetails.name : null}</p>
+              <p className="text-2xl font-bold">{profileDetails ? profileDetails.name : null}</p>
             </div>
             <div>
-              <p className="mt-12 text-xl">{profileDetails?profileDetails.bio:null}</p>
+              <p className="mt-12 text-xl">{profileDetails ? profileDetails.bio : null}</p>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-4">
                 <div className="flex">
                   <FaMapMarkerAlt style={{ color: 'grey', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails?profileDetails.location:null}</p>
+                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails ? profileDetails.location : null}</p>
                 </div>
                 <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
                   <FaWallet style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.walletAddress:null}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.walletAddress : null}</p>
                 </div>
               </div>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-6">
                 <div className="flex">
                   <FaEnvelope style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails?profileDetails.email:null}</p>
+                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.email : null}</p>
                 </div>
                 <div className="flex lg:ml-12 md:ml-12 text-xl" style={{ marginLeft: 20 }}>
                   <IoLogoInstagram style={{ color: '', marginTop: 6, marginRight: 8 }} />
