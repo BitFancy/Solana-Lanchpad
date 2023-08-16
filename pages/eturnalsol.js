@@ -33,8 +33,9 @@ constructor(props) {
     rows: [{}],
     contractName: "",
     contractSymbol: "",
-    supabaseToken: "",
+    eturnalsolResponse: "",
     loading: false,
+    loading2:false,
   };
   handleAddRow = () => {
     const item = {
@@ -78,19 +79,16 @@ constructor(props) {
       )
       .then(async (response) => {
         this.showSuccess();
-
         setTimeout(() => {
-
             this.setState({ loading: false });
         }, 2000);
         console.log("response EternalSoul data", response);
-        this.setState({ supabaseToken: response.data.contractAddress });
+        this.setState({ eturnalsolResponse: response.data.contractAddress });
 
         // Router.push({
         //   pathname: "./signatureseries",
         //   query: { contractAddress: response.data.contractAddress },
         // });
-        Router.push({ pathname: "/markeplaceDetailsForm" });
 
 
       })
@@ -111,6 +109,13 @@ constructor(props) {
 //     setTradhubContarctAddress(props.router.query.contractAddress);
 //   }, [props.router.query.contractAddress]);
 
+load = () => {
+  this.setState({loading2:true})
+
+  setTimeout(() => {
+    this.setState({loading2:false})
+  }, 2000);
+};
   render() {
     return (
     <div
@@ -184,16 +189,21 @@ constructor(props) {
               />
             </div>
             <div >
-            <div className="text-center mt-5">
+              {this.state.eturnalsolResponse &&
+                <div className="text-center mt-5">
                 <Link href='/markeplaceDetailsForm'>
               <Button
                 label="Continue"
                 severity="Primary"
                 rounded
-                loading={this.state.loading}
+                loading={this.state.loading2}
+                onClick={this.load}
               />
               </Link>
             </div>
+              }
+
+          
             
             </div>
            

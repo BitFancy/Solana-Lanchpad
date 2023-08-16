@@ -1,17 +1,15 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
-import { useRouter, withRouter } from "next/router";
-import { Messages } from "primereact/messages";
+import {  withRouter } from "next/router";
 import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 const Instagen = (props) => {
   const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
+  const [loading2, setLoading2] = useState(false);
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -20,9 +18,24 @@ const Instagen = (props) => {
   const [maxSupply, setMaxSupply] = useState("");
   const [royltybps, setRoyltybps] = useState("");
   const [baseURI, setBaseURI] = useState("");
-
-  const [supabaseToken, setsupabaseToken] = useState();
-  const msgs = useRef(null);
+  const [instagenResponse, setinstagenResponse] = useState();
+  const toast = useRef(null);
+  const showSuccess=()=> {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Your Instagen contract has been  successfully deployed",
+      life: 10000,
+    });
+  }
+  const showError=()=> {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Something Went Wrong Please Try After Some Time",
+      life: 10000,
+    });
+  }
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -42,7 +55,7 @@ const Instagen = (props) => {
             param8 : maxSupply,
             param9 : royltybps,
             param10: "www.abc.com"
-        },network: "hardhat" },
+        },network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,25 +67,17 @@ const Instagen = (props) => {
           setLoading(false);
       }, 2000);
         console.log("response InstaGen data", response);
-        setsupabaseToken(response.data.contractAddress);
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail: "Your InstaGen contract has been  successfully deployed",
-            closable: true,
-          },
-        ]);
+        setinstagenResponse(response.data.contractAddress);
+       showSuccess();
         // Router.push({
         //   pathname: "./eternumPass",
         //   query: { contractAddress: response.data.contractAddress },
         // });
-        router.push("/eturnalsol");
 
       })
 
       .catch((error) => {
-        console.log("err", error);
+        showError();
       });
   };
   const handleInputName = (e) => {
@@ -99,6 +104,13 @@ const Instagen = (props) => {
     setRoyltybps(e.target.value);
   };
  
+  const load = () => {
+    setLoading2(true);
+  
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
   return (
     <div
       title="Deploy InstaGen"
@@ -187,19 +199,23 @@ const Instagen = (props) => {
                 loading={loading}
               />
               </div>
-              <div>
-                <Link href='/markeplaceDetailsForm'>
-              <Button
-                label="Continue"
-                severity="Primary"
-                rounded
-                loading={loading}
-              />
-              </Link>
-              </div>
+              {instagenResponse && 
+ <div>
+ <Link href='/eturnalsol'>
+<Button
+ label="Continue"
+ severity="Primary"
+ onClick={load}
+ rounded
+ loading={loading2}
+/>
+</Link>
+</div>
+              }
+             
               
             </div>
-            <Messages ref={msgs} />
+            <Toast ref={toast}/>
           </div>
         </div>
       </div>

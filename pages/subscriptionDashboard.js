@@ -4,7 +4,6 @@ import { Button } from 'primereact/button'
 import Link from 'next/link'
 import axios from "axios";
 import Loader from "../Components/LoadingSpinner";
-import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SubscriptionDashboard() {
   const [subscriptionData, setSubscriptionData] = useState([]);
@@ -13,6 +12,8 @@ export default function SubscriptionDashboard() {
   const [loadingmanage, setLoadingmanage] = useState(false);
   const [loadingview, setLoadingview] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(false);
+
 
   useEffect(() => {
     getSubscriptionData();
@@ -62,25 +63,32 @@ const loadsetupview = () => {
         console.log("Error in Fetching subscription..!", error);
       });
   };
+  const load2 = () => {
+    setLoading2(true);
+
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
 const  replaceImage = (error) => {
    
     error.target.src = defulatImage;
 }
   return (
    <Layout>
-    <div className="overview-donut-top-back">
+    <div className="overview-donut-top-back" style={{height:'250px'}}>
    <div className="text-white text-3xl font-bold">Storefronts</div> 
-<div className="flex mt-5 text-center justify-content-center gap-5 align-items-center">
+<div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
   <div className="text-white text-2xl">Testnet</div>
   <div>
     <img style={{width:'95px',height:'65px'}} src='/Toggle.png'></img>
   </div>
-  <div className="text-white text-2xl">mainnet</div>
+  <div className="text-white text-2xl">Mainnet</div>
 </div>
 <div className="flex justify-content-end gap-5">
   <div>
     <Link href='/addSubscription'>
-   <Button  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
+   <Button  loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
    </Link>
   </div>
   <div>
@@ -88,11 +96,12 @@ const  replaceImage = (error) => {
   </div>
 </div>
       </div>
-     <div  className="buy-back-image" style={{marginTop:'100px'}}>
+     <div  className="buy-back-image">
       <hr></hr>
       
       <div style={{width:'85%',margin:'0 auto'}}>
-     <div className="font-bold text-3xl p-5 text-center">StoreFront</div>
+     <div className="font-bold text-3xl p-5 text-center">You are Currently Observing the 
+Deployed Storefronts</div>
       <hr></hr>
       {subscriptionData?.length > 0 ? (
       subscriptionData.map((subscription) => {

@@ -22,11 +22,11 @@ export default function SuccessNoteContract() {
           <Button rounded style={{background:'none',color:'black',border:'1px solid white'}}>Go to Dashboard</Button>
         </Link>
       </div>
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <Link href="/launchSignatureseries">
           <Button rounded style={{background:'none',color:'black',border:'1px solid white'}}>Deploy Another Contract</Button>
         </Link>
-      </div>
+      </div> */}
     </div>
     </div>
   );

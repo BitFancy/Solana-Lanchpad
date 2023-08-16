@@ -2,6 +2,8 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
+import Sidemenu from "./sidemenu";
+import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 class UpdateMarketPlace extends React.Component {
   state = {
     rows: [{}],
@@ -28,14 +30,18 @@ class UpdateMarketPlace extends React.Component {
   render() {
     return (
       <Layout title="Update Tradhub" description="Used to show updated luanchpad information">
+              <MarketplaceProfileDetails/>
 
-      <div>
-        <div className=" p-5 font-bold " style={{ borderBottom: "2px solid" }}>
-          Step 1 : Update Parameters{" "}
+        <div className="flex buy-back-image" >
+          <div><Sidemenu/>
+</div>
+<div style={{margin:'0 auto',width:'70%'}}>
+        <div className=" p-5 font-bold text-3xl">
+         Manage Your TradeHub
         </div>
         {this.state.rows.map((item, idx) => (
-          <div id="addr0" key={idx} className="card mt-5" style={{width:'60%',margin:'0 auto'}}>
-            <div className="flex p-2 justify-content-between">
+          <div id="addr0" key={idx} className="card mt-5" >
+            <div className="flex p-2 justify-content-between gap-5">
               <div style={{ width: "40%" }}>
                 <div className="text-left">Enter new TradeHub fee</div>
 
@@ -74,7 +80,16 @@ class UpdateMarketPlace extends React.Component {
             onClick={this.handleAddRow}
           />
         </div>
+        <div className="text-center mt-5">
+          <Button
+            label="Update"
+            severity="info"
+            
+          />
+        </div>
       </div>
+        </div>
+    
       </Layout>
     );
   }

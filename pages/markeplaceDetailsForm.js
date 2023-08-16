@@ -77,8 +77,7 @@ export default function MarkeplaceDetailsForm() {
           setTimeout(() => {
             setLoading(false);
           }, 2000);
-        });
-      Router.push("/successNoteContract")
+        })
       .catch((error) => {
         showError();
       });
@@ -96,7 +95,7 @@ export default function MarkeplaceDetailsForm() {
     };
   
     const showSuccess = () => {
-      toast.current.show({severity:'success', summary: 'Success', detail:'Success', life: 1000});
+      toast.current.show({severity:'success', summary: 'Success', detail:'Marketplace Deials added successfully', life: 1000});
   }
   const showError = () => {
     toast.current.show({severity:'error', summary: 'Error ', detail:'Storefront Name Must be Unique', life: 1000});

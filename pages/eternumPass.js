@@ -6,11 +6,16 @@ import { Messages } from "primereact/messages";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
+import { Toast } from "primereact/toast";
+
 import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const router = useRouter();
+  const toast = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -22,8 +27,23 @@ const EternumPass = () => {
     { name: "YES", value: "YES" },
     { name: "NO", value: "No" },
   ];
-  const [supabaseToken, setsupabaseToken] = useState();
-  const msgs = useRef(null);
+  const showSuccess=()=> {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Your Eternumpass contract has been  successfully deployed",
+      life: 10000,
+    });
+  }
+  const showError=()=> {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Something Went Wrong Please Try After Some Time",
+      life: 10000,
+    });
+  }
+  const [eturnumpassResponse, setEturnumpassResponse] = useState();
   const instaGenContarctData = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -43,7 +63,7 @@ const EternumPass = () => {
           param8: true,
           param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
           param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        }, network: "hardhat" },
+        }, network: "maticmum" },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,20 +75,12 @@ const EternumPass = () => {
           setLoading(false);
       }, 2000);
         console.log("response EternumPass data", response);
-        setsupabaseToken(response.data.contractAddress);
-        msgs.current.show([
-          {
-            sticky: true,
-            severity: "success",
-            detail: "Your EternumPass contract has been  successfully deployed",
-            closable: true,
-          },
-        ]);
-        router.push("/instagen");
+        setEturnumpassResponse(response.data.contractAddress);
+       showSuccess()
       })
 
       .catch((error) => {
-        console.log("err", error);
+        showError()
       });
   };
   const handleInputName = (e) => {
@@ -92,6 +104,13 @@ const EternumPass = () => {
     setRoyltybps(e.target.value);
   };
 
+  const load = () => {
+    setLoading2(true);
+  
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
   return (
     <div
       title="Deploy InstaGen"
@@ -99,6 +118,8 @@ const EternumPass = () => {
       className="back-img-eternumpass"
     >
       <AppTopbar/>
+      <Toast ref={toast}/>
+
       <div style={{ marginTop: "85px" }}>
         <div className="p-5 font-bold text-align-center text-center" style={{ borderBottom: "2px solid" }}>Deploy EternumPass</div>
 
@@ -185,19 +206,22 @@ const EternumPass = () => {
                 loading={loading}
               />
               </div>
-              <div>
-                <Link href='/markeplaceDetailsForm'>
-              <Button
-                label="Continue"
-                severity="Primary"
-                rounded
-                loading={loading}
-              />
-              </Link>
-              </div>
+              {eturnumpassResponse && 
+ <div>
+ <Link href='/instagen'>
+<Button
+ label="Continue"
+ severity="Primary"
+ onClick={load}
+ rounded
+ loading={loading2}
+/>
+</Link>
+</div>
+
+              }
              
             </div>
-            <Messages ref={msgs} />
           </div>
         </div>
       </div>

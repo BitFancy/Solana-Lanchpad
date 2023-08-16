@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
-import Router, { withRouter } from "next/router";
+import  { withRouter } from "next/router";
 import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
@@ -25,7 +25,7 @@ class FusionSeries extends React.Component {
     this.toast.show({
       severity: "error",
       summary: "Error",
-      detail: "Something Went Wrong Please Try Again",
+      detail: "Something Went Wrong Please Try After Some Time",
       life: 10000,
     });
   }
@@ -33,8 +33,16 @@ class FusionSeries extends React.Component {
     rows: [{}],
     contractName: "",
     contractSymbol: "",
-    supabaseToken: "",
+    fusionseriesResponse: "",
     loading: false,
+    loading2:false,
+  };
+  load = () => {
+    this.setState({loading2:true})
+  
+    setTimeout(() => {
+      this.setState({loading2:false})
+    }, 2000);
   };
   handleAddRow = () => {
     const item = {
@@ -65,8 +73,9 @@ class FusionSeries extends React.Component {
           contractName: "FusionSeries",
           constructorParams: {
             param1: this.state.contractName,
-            param2: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+            param2: this.state.contractSymbol,
+            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
           },
           network: "maticmum",
         },
@@ -83,8 +92,7 @@ class FusionSeries extends React.Component {
           this.setState({ loading: false });
         }, 2000);
         console.log("response FusionSeries data", response);
-        this.setState({ supabaseToken: response.data.contractAddress });
-        Router.push({ pathname: "/eternumPass" });
+        this.setState({ fusionseriesResponse: response.data.contractAddress });
       })
 
       .catch((error) => {
@@ -177,19 +185,22 @@ class FusionSeries extends React.Component {
                   loading={this.state.loading}
                 />
                 </div>
-                <div>
-                  <Link href='/markeplaceDetailsForm'>
+                {this.state.fusionseriesResponse && 
+                  <div>
+                  <Link href='/eternumPass'>
                 <Button
                  
                   label="Continue"
                   severity="Primary"
-                 
+                 onClick={this.load}
                   rounded
                   
-                  loading={this.state.loading}
+                  loading={this.state.loading2}
                 />
                 </Link>
                 </div>
+                }
+              
               </div>
               <Toast ref={(el) => (this.toast = el)} />
             </div>

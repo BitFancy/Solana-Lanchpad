@@ -3,16 +3,26 @@ import { Button } from "primereact/button";
 import React, { useRef, useState } from "react";
 import subscriptionAbi from '../artifacts/contracts/subscription/abi.json';
 import { Messages } from "primereact/messages";
+import { Toast } from 'primereact/toast';
+
 import {
     useAccount, useContract, useEnsName, useSigner,
   } from 'wagmi'
 import Layout from "../Components/Layout";
 import axios from "axios";
-import Router from "next/router";
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+
+  const [basicResponse, setbasitResponse] = useState();
+  const [proResponse, setproResponse] = useState();
+
+
+
 
 
   const { data: signerData } = useSigner();
@@ -20,7 +30,18 @@ export default function BuyNft() {
     const [error, setError] = useState(null);
     const msgs = useRef(null);
     const { address} = useAccount()
+    const toast = useRef(null);
+
     const { data: ensName } = useEnsName({ address })
+    const showSuccessPro = () => {
+      toast.current.show({severity:'success', summary: 'Success Message', detail:'Your Pro plan has been minted/Transaction mined and confirmed', life: 10000});
+  }
+  const showSuccessBasic = () => {
+    toast.current.show({severity:'success', summary: 'Success Message', detail:'Your Basic plan subscription has been successfully created', life: 10000});
+}
+  const showError = () => {
+    toast.current.show({severity:'error', summary: 'Error', detail:'Something Went Wrong Please try after some time', life: 10000});
+  }
     const flowSubscriptionContarct = useContract({
       addressOrName: flowSubscriptionAddress,
       contractInterface: subscriptionAbi.abi,
@@ -38,23 +59,24 @@ export default function BuyNft() {
               setLoading1(false);
           }, 2000);
             console.log('transaction',transaction)
+            setproResponse(transaction);
             if (transaction.status === 1) {
-              msgs.current.show([
-                {
-                  sticky: true,
-                  severity: "success",
-                  detail: "Transaction mined and confirmed",
-                  closable: true,
-                },
-              ]);
-              setTimeout(() => {
-            }, 2000);
-              Router.push('/subscriptionDashboard')
+              // msgs.current.show([
+              //   {
+              //     sticky: true,
+              //     severity: "success",
+              //     detail: "Transaction mined and confirmed",
+              //     closable: true,
+              //   },
+              // ]);
+              showSuccessPro();
+            
              
             } else {
               setTimeout(() => {
               }, 2000);             
                setError("Transaction failed or rejected by the user");
+               showError()
             }
           });
         } catch (error) {
@@ -62,6 +84,7 @@ export default function BuyNft() {
           setTimeout(() => {
           }, 2000);          
           setError("Transaction failed or rejected by the user");
+          showError();
         }
       };
     
@@ -70,7 +93,7 @@ export default function BuyNft() {
         setLoading(true);
          axios
           .post(
-            `${BASE_URL_LAUNCH}api/v1.0/pro1`, { name:"John",
+            `${BASE_URL_LAUNCH}api/v1.0/storefront`, { name:"John",
             owner:"asd3rfsdaf2334r23",
             plan:"basic",
             cost:99,
@@ -90,28 +113,37 @@ export default function BuyNft() {
               setLoading(false);
           }, 2000);
           console.log("buy basic plan details", response);
-
-            msgs.current.show([
-              {
-                sticky: true,
-                severity: "success",
-                detail: "Your Basic plan subscription has been successfully created",
-                closable: true,
-              },
-            ]);
-            Router.push('/subscriptionDashboard')
+           setbasitResponse(response)
+          
+            showSuccessBasic();
           })
          
           .catch((error) => {
             console.log("err", error);
+            showError();
           });
       }
+
+      const load2 = () => {
+        setLoading2(true);
+    
+        setTimeout(() => {
+          setLoading2(false);
+        }, 2000);
+      };
+      const load3 = () => {
+        setLoading3(true);
+    
+        setTimeout(() => {
+          setLoading3(false);
+        }, 2000);
+      };
   return (
     <Layout title="Launchpad" description="Used to Subscribe the NFTs">
     <div className="buy-back-image" style={{marginTop:'65px'}}>
       <div className="font-bold text-3xl p-5 text-center">Buy Subscription</div>
       <hr></hr>
-      <Messages  ref={msgs} />
+      <Toast ref={toast} />
       <div className="flex mt-5 justify-content-center gap-5 ">
         <div className="mt-5">
           <img style={{height:'200px'}} src="./showroom.png"></img>
@@ -156,6 +188,24 @@ export default function BuyNft() {
             <Button onClick={mint} loading={loading1}  severity="info" style={{background:'white',color:'black'}} label="Buy Pro Plan"></Button>
           </div>
         </div>
+       
+       {  proResponse &&
+       <div >
+       <Link href='/subscriptionDashboard'>
+           <Button onClick={load2} loading={loading2}  severity="info" style={{background:'white',color:'black'}} label="Continue"></Button>
+           </Link>
+         </div>
+       }
+        
+        {  basicResponse &&
+       <div >
+       <Link href='/subscriptionDashboard'>
+           <Button onClick={load3} loading={loading3}  severity="info" style={{background:'white',color:'black'}} label="Continue"></Button>
+           </Link>
+         </div>
+       }
+        
+         
       </div>
     </div>
     </Layout>

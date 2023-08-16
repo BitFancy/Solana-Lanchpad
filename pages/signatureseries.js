@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React from "react";
-import Router, { withRouter } from "next/router";
+import { withRouter } from "next/router";
 import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
@@ -34,8 +34,9 @@ class SignatureSeries extends React.Component {
     rows: [{}],
     contractName: "",
     contractSymbol: "",
-    supabaseToken: "",
+    signatureseriesRespoanse: "",
     loading: false,
+    loading2:false,
   };
   handleAddRow = () => {
     const item = {
@@ -46,6 +47,14 @@ class SignatureSeries extends React.Component {
       rows: [...this.state.rows, item],
     });
   };
+   load = () => {
+    this.setState({loading2:true})
+  
+    setTimeout(() => {
+      this.setState({loading2:false})
+    }, 2000);
+  };
+  
   handleRemoveRow = () => {
     this.setState({
       rows: this.state.rows.slice(0, -1),
@@ -85,9 +94,7 @@ class SignatureSeries extends React.Component {
           this.setState({ loading: false });
         }, 2000);
         console.log("response SignatureSeries data", response);
-        this.setState({ supabaseToken: response.data.contractAddress });
-        Router.push({ pathname: "/fusionSeries" });
-
+        this.setState({ signatureseriesRespoanse: response.data.contractAddress });
       })
 
       .catch((error) => {
@@ -176,22 +183,26 @@ class SignatureSeries extends React.Component {
                   onClick={this.signatureSeriesdata}
                   label="Deploy SignatureSeries"
                   severity="Primary"
-                  rounded
+                  rounded 
                   loading={this.state.loading}
                   className="w-full"
                 />
               </div>
-              <div className="text-center mt-5">
-              <Link href='/markeplaceDetailsForm'>
-                <Button
-                  label="Continue"
-                  severity="Primary"
-                  rounded
-                  loading={this.state.loading}
-                  className="w-full"
-                />
-                </Link>
-              </div>
+              {this.state.signatureseriesRespoanse && 
+               <div className="text-center mt-5">
+               <Link href='/fusionSeries'>
+                 <Button
+                   label="Continue"
+                   severity="Primary"
+                   rounded
+                   loading={this.state.loading2}
+                   onClick={this.load}
+                   className="w-full"
+                 />
+                 </Link>
+               </div>
+              }
+             
               </div>
               
             </div>

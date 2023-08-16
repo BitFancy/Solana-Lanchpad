@@ -31,6 +31,7 @@ export default function AddSubscription() {
 
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
+  const [storefrontResponase, setstorefrontResponase] = useState();
 
 
   const [uploadImage, setuploadImage] = useState("");
@@ -96,6 +97,8 @@ export default function AddSubscription() {
         }
       )
       .then(async (response) => {
+        setstorefrontResponase(response)
+
         showSticky()
         setTimeout(() => {
           setLoading(false);
@@ -230,15 +233,18 @@ const showError = () => {
               ></Button>
               
               </div>
-              <div>
-              <Link href='/step1'>
-              <Button
-                loading={loading2}
-                onClick={load}
-                label="Continue"
-              ></Button>
-              </Link>
-              </div>
+              {storefrontResponase && 
+               <div>
+               <Link href='/step1'>
+               <Button
+                 loading={loading2}
+                 onClick={load}
+                 label="Continue"
+               ></Button>
+               </Link>
+               </div>
+              }
+             
              
             </div>
           </div>

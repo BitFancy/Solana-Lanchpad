@@ -11,9 +11,8 @@ export default function Sidemenu() {
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
       <div className="font-bold text-3xl text-white">overview</div>
       <div className="ml-3 mt-3">
-        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+        <div className="text-2xl" style={{ marginTop: "30px"}}>
           <Link
-            style={{ color: "white" }}
             href="/overview"
             className={router.pathname == "/overview" ? "active" : ""}
           >
@@ -25,7 +24,6 @@ export default function Sidemenu() {
       <div className="ml-3">
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/getAllSignatureseries"
             className={
               router.pathname == "/getAllSignatureseries" ? "active" : ""
@@ -37,7 +35,6 @@ export default function Sidemenu() {
 
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/getAllFusionseries"
             className={router.pathname == "/getAllFusionseries" ? "active" : ""}
           >
@@ -47,7 +44,6 @@ export default function Sidemenu() {
 
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/getAllEternumPass"
             className={router.pathname == "/getAllEternumPass" ? "active" : ""}
           >
@@ -57,7 +53,6 @@ export default function Sidemenu() {
 
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/getAllInstagen"
             className={router.pathname == "/getAllInstagen" ? "active" : ""}
           >
@@ -70,7 +65,6 @@ export default function Sidemenu() {
       <div className="ml-3">
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/accessMasterRole"
             className={router.pathname == "/accessMasterRole" ? "active" : ""}
           >
@@ -79,7 +73,6 @@ export default function Sidemenu() {
         </div>
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            style={{ color: "white" }}
             href="/updatemarketplace"
             className={router.pathname == "/updatemarketplace" ? "active" : ""}
           >
@@ -87,15 +80,15 @@ export default function Sidemenu() {
           </Link>
         </div>
 
-        <div
-          key={11}
-          className={active === "11" ? "active" : undefined}
-          id={"11"}
-          onClick={handleClick}
-          style={{ marginTop: "30px", color: "white" }}
-        >
-          Web App
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            href="/manageWebapp"
+            className={router.pathname == "/manageWebapp" ? "active" : ""}
+          >
+             Web App
+          </Link>
         </div>
+      
       
       </div>
     </div>

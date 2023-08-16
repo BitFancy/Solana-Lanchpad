@@ -1,8 +1,12 @@
 import axios from "axios";
+import Link from "next/link";
+import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function MarketplaceProfileDetails() {
   const [subscriptionData, setSubscriptionData] = useState([]);
+  const [loading2, setLoading2] = useState(false);
+
   const [defulatImage, setDefulatImage] = useState(
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
   );
@@ -29,6 +33,13 @@ export default function MarketplaceProfileDetails() {
         console.log("Error in Fetching subscription..!", error);
       });
   };
+  const load2 = () => {
+    setLoading2(true);
+
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
   return (
     <div>
       <div className="text-center mt-10 overview-donut-top-back">
@@ -50,6 +61,16 @@ export default function MarketplaceProfileDetails() {
             </div>
           </div>
         </div>
+        <div className="flex justify-content-end gap-5">
+  <div>
+    <Link href='/addSubscription'>
+   <Button  loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
+   </Link>
+  </div>
+  <div>
+    <Button rounded style={{border:'1px solid white'}} label="Upgrade"></Button>
+  </div>
+</div>
       </div>
     </div>
   );

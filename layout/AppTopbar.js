@@ -11,28 +11,31 @@ import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import AppConfig from "./AppConfig";
 import Router from "next/router";
-import { useAccount, useDisconnect, useEnsName } from "wagmi";
+import { useAccount, useDisconnect, useEnsName ,useEnsAvatar} from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 const AppTopbar = forwardRef((props, ref) => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
+  const { data: ensAvatar } = useEnsAvatar({ address })
+
   const { layoutConfig, layoutState } =
     useContext(LayoutContext);
   const menubuttonRef = useRef(null);
   const topbarmenuRef = useRef(null);
   const topbarmenubuttonRef = useRef(null);
-
-  useEffect(() => {
-    if (!isConnected) {
-      Router.push("/buySubscription");
-    }
-  }, []);
   useImperativeHandle(ref, () => ({
     menubutton: menubuttonRef.current,
     topbarmenu: topbarmenuRef.current,
     topbarmenubutton: topbarmenubuttonRef.current,
   }));
+
+  useEffect(() => {
+   if(!isConnected){
+    Router.push('/launchpad')
+   }
+
+  }, []);
 
   return (
     <div className="layout-topbar">
@@ -54,24 +57,28 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link href="/subscriptionDashboard">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Launch
-          </span>
-        </Link>
+       
+        <Link href="/buySubscription">
+        <span
+          className="text-black"
+          style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+        >
+          Launch
+        </span>
+      </Link>
+         
 
-        <Link href="/getAllSignatureseries">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Dashboard
-          </span>
-        </Link>
+    
+ <Link href="/getAllSignatureseries">
+ <span
+   className="text-black"
+   style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
+ >
+   Dashboard
+ </span>
+</Link>
 
+       
         <div>
           <ConnectButton />
         </div>

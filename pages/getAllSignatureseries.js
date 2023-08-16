@@ -4,6 +4,7 @@ import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
+import Link from "next/link";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
@@ -37,7 +38,7 @@ export default function GetAllSignatureseries() {
   };
   return (
     <Layout>
-      <div style={{ marginTop: "65px" }}>
+      <div>
         <MarketplaceProfileDetails />
         <div className="font-bold mt-5 text-3xl text-black text-center">
           SignatureSeries
@@ -53,6 +54,7 @@ export default function GetAllSignatureseries() {
             {contractData?.length > 0 ? (
               contractData.map((contract) => {
                 return (
+                  <Link href='/getAllSegnatureSeriesNft'>
                   <div key={1} className="grid   mt-5">
                     {contract.contractName === "SignatureSeries" && (
                       <div
@@ -79,6 +81,7 @@ export default function GetAllSignatureseries() {
                       </div>
                     )}
                   </div>
+                  </Link>
                 );
               })
             ) : loading ? (
