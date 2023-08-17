@@ -54,8 +54,8 @@ export default function GetAllSignatureseries() {
             {contractData?.length > 0 ? (
               contractData.map((contract) => {
                 return (
-                  <Link href='/getAllSegnatureSeriesNft'>
-                  <div key={1} className="grid   mt-5">
+                  <Link key={1} href='/getAllSegnatureSeriesNft'>
+                  <div  className="grid   mt-5">
                     {contract.contractName === "SignatureSeries" && (
                       <div
                         className="card  gap-5"

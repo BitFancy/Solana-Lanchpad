@@ -66,8 +66,8 @@ export default function GetAllSignatureSeriesSeriesNft() {
           {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
-                <Link href='/singleSignatureSeriesNFT'>
-                <div key={1} className="grid   mt-5">
+                <Link key={1} href='/singleSignatureSeriesNFT'>
+                <div  className="grid   mt-5">
                   {contract.contractName === "FusionSeries" && (
                     <div
                       className="card col-12 lg:col-6 xl:col-3 gap-5"
