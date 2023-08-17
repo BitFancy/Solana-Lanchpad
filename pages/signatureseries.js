@@ -6,6 +6,9 @@ import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
+import { id } from "ethers/lib/utils";
+import { Field, Form } from "react-final-form";
+import { classNames } from "primereact/utils";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class SignatureSeries extends React.Component {
@@ -36,25 +39,26 @@ class SignatureSeries extends React.Component {
     contractSymbol: "",
     signatureseriesRespoanse: "",
     loading: false,
-    loading2:false,
+    loading2: false,
+    formData: {},
   };
   handleAddRow = () => {
     const item = {
-      contractName: "",
-      contractSymbol: "",
+      name: "",
+      symbol: "",
     };
     this.setState({
       rows: [...this.state.rows, item],
     });
   };
-   load = () => {
-    this.setState({loading2:true})
-  
+  load = () => {
+    this.setState({ loading2: true });
+
     setTimeout(() => {
-      this.setState({loading2:false})
+      this.setState({ loading2: false });
     }, 2000);
   };
-  
+
   handleRemoveRow = () => {
     this.setState({
       rows: this.state.rows.slice(0, -1),
@@ -94,24 +98,60 @@ class SignatureSeries extends React.Component {
           this.setState({ loading: false });
         }, 2000);
         console.log("response SignatureSeries data", response);
-        this.setState({ signatureseriesRespoanse: response.data.contractAddress });
+        this.setState({
+          signatureseriesRespoanse: response.data.contractAddress,
+        });
       })
 
       .catch((error) => {
         console.log("err", error);
         this.showError();
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+        this.setState({ loading2: false });
       });
   };
-  handleInputName = (e) => {
-    this.setState({ contractName: e.target.value });
-  };
-  handleInputSymbol = (e) => {
-    this.setState({ contractSymbol: e.target.value });
-  };
-  // useEffect(() => {
-  //   setTradhubContarctAddress(props.router.query.contractAddress);
-  // }, [props.router.query.contractAddress]);
 
+  handleChange = (idx) => (e) => {
+    const { name, value } = e.target;
+    const rows = [...this.state.rows];
+    rows[idx] = {
+      [name]: value,
+    };
+    this.setState({
+      rows,
+    });
+  };
+
+  validate = (data) => {
+    let errors = {};
+
+    if (!data.contractName) {
+      errors.contractName = "Please Fill SignatureSeries Name.";
+      this.setState({ loading: false });
+    }
+
+    if (!data.contractSymbol) {
+      errors.contractSymbol = "Please Fill SignatureSeries Symbol.";
+      this.setState({ loading: false });
+    }
+
+    return errors;
+  };
+  onSubmit = (data, form) => {
+    this.setState({ formData: data });
+  };
+  isFormFieldValid = (meta) => {
+    !!(meta.touched && meta.error);
+  };
+  getFormErrorMessage = (meta) => {
+    return (
+      this.isFormFieldValid(meta) && (
+        <small className="p-error">{meta.error}</small>
+      )
+    );
+  };
   render() {
     return (
       <div
@@ -132,43 +172,77 @@ class SignatureSeries extends React.Component {
               <div className="text-center mt-5">
                 {this.state.rows.map((item, idx) => (
                   <div id="addr0" key={idx} className="card mt-5">
-                    <div className="">
-                      <div>
-                        <div className="text-left">
-                          Enter SignatureSeries Name
-                        </div>
-
-                        <InputText
-                          value={this.state.rows[idx].ontractName}
-                          onChange={this.handleInputName}
-                          name="name"
-                          className="p-2 mt-3 input-back w-full text-white"
-                        />
-                      </div>
-                      <div>
-                        <div className="mt-3 text-left">
-                          Enter SignatureSeries Symbol
-                        </div>
-
-                        <InputText
-                          value={this.state.rows[idx].contractSymbol}
-                          onChange={this.handleInputSymbol}
-                          name="mobile"
-                          className="p-2 mt-3 input-back w-full text-white"
-                          type="text"
-                        />
-                        <div className="mt-5">
-                          <Button
-                            severity="danger"
-                            icon="pi pi-minus"
-                            onClick={this.handleRemoveSpecificRow(idx)}
-                          ></Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <div className="text-center mt-5">
+                    <Form
+                      onSubmit={this.onSubmit}
+                      initialValues={{ contractName: "", contractSymbol: "" }}
+                      validate={this.validate}
+                      render={({ handleSubmit }) => (
+                        <form onSubmit={handleSubmit} className="p-fluid">
+                          <div>
+                            
+                          </div>
+                          <Field
+                            name="contractName"
+                            render={({ input, meta }) => (
+                              <div className="field">
+                                <div>Enter SignatureSeries Name</div>
+                                <div className="mt-3">
+                                  <InputText
+                                    id="contractName"
+                                    onChange={this.handleChange(idx)}
+                                    {...input}
+                                    autoFocus
+                                    className={classNames({
+                                      "p-invalid": this.isFormFieldValid(meta),
+                                    })}
+                                    value={this.state.rows[idx].contractName}
+                                  />
+                                  <label
+                                    htmlFor="contractName"
+                                    className={classNames({
+                                      "p-error": this.isFormFieldValid(meta),
+                                    })}
+                                  ></label>
+                                </div>
+                                {this.getFormErrorMessage(meta)}
+                              </div>
+                            )}
+                          />
+                          <Field
+                            name="contractSymbol"
+                            render={({ input, meta }) => (
+                              <div className="field">
+                                <div>Enter SignatureSeries Symbol</div>
+                                <div className="mt-3">
+                                  <InputText
+                                    id="contractSymbol"
+                                    onChange={this.handleChange(idx)}
+                                    {...input}
+                                    autoFocus
+                                    className={classNames({
+                                      "p-invalid": this.isFormFieldValid(meta),
+                                    })}
+                                    value={this.state.rows[idx].contractSymbol}
+                                  />
+                                  <label
+                                    htmlFor="contractSymbol"
+                                    className={classNames({
+                                      "p-error": this.isFormFieldValid(meta),
+                                    })}
+                                  ></label>
+                                </div>
+                                {this.getFormErrorMessage(meta)}
+                              </div>
+                            )}
+                          />
+                          <div className="mt-5">
+                            <Button
+                              severity="danger"
+                              icon="pi pi-minus"
+                              onClick={this.handleRemoveSpecificRow(idx)}
+                            ></Button>
+                          </div>
+                          <div className="text-center mt-5">
                   <Button
                     icon="pi pi-plus"
                     label="Add Another SignatureSeries"
@@ -176,35 +250,43 @@ class SignatureSeries extends React.Component {
                     onClick={this.handleAddRow}
                   />
                 </div>
+                <div className="flex justify-content-between mt-5">
+                <div className="text-center mt-5">
+                  <Button
+                    onClick={this.signatureSeriesdata}
+                    label="Deploy SignatureSeries"
+                    severity="Primary"
+                    rounded
+                    loading={this.state.loading}
+                    className="w-full"
+                    type="submit"
+                  />
+                </div>
+                {this.state.signatureseriesRespoanse && (
+                  <div className="text-center mt-5">
+                    <Link href="/fusionSeries">
+                      <Button
+                        label="Continue"
+                        severity="Primary"
+                        rounded
+                        loading={this.state.loading2}
+                        onClick={this.load}
+                        className="w-full"
+                      />
+                    </Link>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-content-between mt-5">
-              <div className="text-center mt-5">
-                <Button
-                  onClick={this.signatureSeriesdata}
-                  label="Deploy SignatureSeries"
-                  severity="Primary"
-                  rounded 
-                  loading={this.state.loading}
-                  className="w-full"
-                />
+
+                        </form>
+                      )}
+                    />
+                  </div>
+                ))}
+               
               </div>
-              {this.state.signatureseriesRespoanse && 
-               <div className="text-center mt-5">
-               <Link href='/fusionSeries'>
-                 <Button
-                   label="Continue"
-                   severity="Primary"
-                   rounded
-                   loading={this.state.loading2}
-                   onClick={this.load}
-                   className="w-full"
-                 />
-                 </Link>
-               </div>
-              }
              
-              </div>
-              
+
             </div>
             <Toast ref={(el) => (this.toast = el)} />
           </div>

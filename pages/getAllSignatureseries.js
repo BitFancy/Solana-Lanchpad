@@ -34,7 +34,9 @@ export default function GetAllSignatureseries() {
       })
       .catch((error) => {
         console.log("Error in Fetching contracts..!", error);
-      });
+      }).finally(()=>{
+        setLoading(false);
+      })
   };
   return (
     <Layout>

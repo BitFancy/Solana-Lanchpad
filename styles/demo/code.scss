@@ -13,51 +13,76 @@ pre.app-code {
         font-family: monaco, Consolas, monospace;
     }
 }
-.buy-back-image{
+
+.buy-back-image-market-form {
+    height: 1600px;
+    background: #8FBAFE;
+}
+
+.buy-back-image-instagen{
+    height: 1200px;
+    background: #8FBAFE;
+
+}
+.buy-back-image {
     height: 800px;
     background: #8FBAFE;
 }
-.buy-back-image-webapp-manage{
+
+.buy-back-image-subs-dashboard {
+    height: 1200px;
+    background: #8FBAFE;
+}
+
+.buy-back-image-webapp-manage {
     height: 1100px;
     background: #8FBAFE;
 }
-.back-image-fus-nft{
+
+.back-image-fus-nft {
     height: 1200px;
-    background: radial-gradient( #00FFBD,#44FFD200),#5347E7
+    background: radial-gradient(#00FFBD, #44FFD200), #5347E7
 }
-.back-image-sig-nft{
-    background: #8FBAFE; 
-       height: 1450px;
+
+.back-image-sig-nft {
+    background: #8FBAFE;
+    height: 1450px;
 
 }
-.back-img-eternumpass{
+
+.back-img-eternumpass {
     background: #8FBAFE;
     height: 1000px;
 }
-.back-img-insta{
+
+.back-img-insta {
     background: #8FBAFE;
     height: 1000px;
 }
-.back-img-sig{
+
+.back-img-sig {
     height: 500px;
     background: #8FBAFE;
 
 
 }
-.subscription-wrapper{
+
+.subscription-wrapper {
     position: absolute;
     top: 20%;
     left: 42%;
 }
 
-.add-properties{
+.add-properties {
     width: 65%;
     margin: 0 auto;
 }
-.assets-input-back{
+
+.assets-input-back {
     background: rgba(83, 71, 231, 0.50);
 }
-.subscribe-modal{
+
+.subscribe-modal {
     text-align: center;
     padding: 10px;
     background-color: #5347E7;
@@ -69,12 +94,14 @@ pre.app-code {
     height: 1000px;
     background-repeat: no-repeat;
     position: relative;
-    left:42px;
+    left: 42px;
 }
-.signature-series-head{
+
+.signature-series-head {
     font-size: 40px;
     font-weight: bold;
 }
+
 .input-back {
     background: rgba(83, 71, 231, 0.5);
     border-radius: 10px;
@@ -87,112 +114,136 @@ pre.app-code {
     height: 300px;
     color: white;
 }
-.dashboardl-top-back{
-    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
-    padding: 80px 10px 80px 10px;
-    margin-top: 70px;
-    margin-left: 0px;
-    margin-right: -50px;
-}
-.overview-top-back{
-    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
+
+.dashboardl-top-back {
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
+    ;
     padding: 80px 10px 80px 10px;
     margin-top: 70px;
     margin-left: 0px;
     margin-right: -50px;
 }
 
-.overview-donut-top-back{
-    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);;
-    padding: 80px 10px 25px 10px;
+.overview-top-back {
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
+    ;
+    padding: 80px 10px 80px 10px;
+    margin-top: 70px;
+    margin-left: 0px;
+    margin-right: -50px;
+}
+
+.overview-donut-top-back {
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
+    ;
+    padding: 25px 10px 15px 10px;
     margin-top: 70px;
     margin-left: 0px;
     margin-right: 0px;
 }
-.overview-card{
+
+.overview-card {
     position: absolute;
     width: 90%;
     top: 166px;
     left: 70px;
 
 }
-.subscription-back-part{
+
+.subscription-back-part {
     background-color: #5347E7;
     height: 130px;
 
 }
-.subscription-back-part-get-all{
+
+.subscription-back-part-get-all {
     background-color: #5347E7;
-   
+
 }
-.select-file-image{
+
+.select-file-image {
     border-style: dashed;
 }
-.no-subscribe{
+
+.no-subscribe {
     text-align: center;
     position: relative;
 }
-.active{
-    background-color:blue;
+
+.active {
+    background-color: blue;
     color: white;
     padding: 8px 15px 8px 8px;
     margin-top: 10px;
     border-radius: 20px;
     width: 120px;
     cursor: pointer;
-    }
-    .active-sig:active{
-        background-color:blue;
+}
+
+.active-sig:active {
+    background-color: blue;
     color: white;
     padding: 10px;
     margin-top: 10px;
     border-radius: 20px;
     width: 120px;
     cursor: pointer;
-    }
-.right-collection-box{
+}
+
+.right-collection-box {
     margin-left: 100px;
     margin-right: 100px;
 }
-.manage-colloection-back{
-    background:linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
+
+.manage-colloection-back {
+    background: linear-gradient(180deg, rgba(1, 98, 255, 0.9) 0%, rgba(83, 71, 231, 0.9) 100%);
     padding: 70px 0px 55px 0px;
     margin: 70px 0px 10px -57px;
     text-align: center;
     font-size: 27px;
     color: white;
 }
-.card-role{
+
+.card-role {
     background: rgba(83, 71, 231, 0.4);
 }
-.dash-img-size{
+
+.dash-img-size {
     width: 300px;
     height: 300px;
 }
-.gap-right{
+
+.gap-right {
     gap: 100px;
 }
-.overflow-manage-left{
+
+.overflow-manage-left {
     height: 535px;
 }
-.overflow-dashboard-left{
+
+.overflow-dashboard-left {
     height: 675px;
 }
-.overflow{
+
+.overflow {
     overflow: scroll;
 }
-.border-bottom-das{
+
+.border-bottom-das {
     border-bottom: 1px solid;
     padding: 10px;
 }
-.input-market-search{
+
+.input-market-search {
     width: 500px;
     border-radius: 25px;
 }
+
 .sucessnote-back {
     background: linear-gradient(181.75deg, rgba(83, 71, 231, 0.8) 9.97%, rgba(83, 71, 231, 0) 97.19%), #FFFFFF;
 }
-.edition-note{
+
+.edition-note {
     font-size: 15px;
 }
 

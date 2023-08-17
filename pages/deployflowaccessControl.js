@@ -1,20 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import Layout from "../Components/Layout";
 import axios from "axios";
 import Router from "next/router";
-import NoFound from "../Components/NoFound";
-import { Spinner } from "@chakra-ui/spinner";
-import LoadingSpinner from "../Components/LoadingSpinner";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function Deployflowmarket() {
-
   const [visible, setVisible] = useState(false);
-  const [supabaseToken, setsupabaseToken] = useState();
-  const [notdata, setNotData] = useState();
+  const [flowaccessResponse, setflowaccessResponse] = useState();
   const [loading, setLoading] = useState(false);
-
   const flowAccessControllData = async () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -36,14 +30,16 @@ export default function Deployflowmarket() {
         setTimeout(() => {
           setLoading(false);
       }, 2000);
-        setsupabaseToken(response.data.contractAddress);
+        setflowaccessResponse(response.data.contractAddress);
         setVisible(true);
         Router.push("/step1");
       })
 
       .catch((error) => {
         console.log("err", error);
-      });
+      }).finally((error)=>{
+        setLoading(false)
+      })
   };
   return (
     <Layout

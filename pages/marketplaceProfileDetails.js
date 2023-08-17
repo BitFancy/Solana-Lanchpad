@@ -31,7 +31,10 @@ export default function MarketplaceProfileDetails() {
       })
       .catch((error) => {
         console.log("Error in Fetching subscription..!", error);
-      });
+      }).finally(()=>{
+        setLoading2(false);
+        
+      })
   };
   const load2 = () => {
     setLoading2(true);

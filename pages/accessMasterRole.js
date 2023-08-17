@@ -55,7 +55,6 @@ export default function AccessMasterRole() {
         setTimeout(() => {
           setLoading(false);
       }, 2000);
-        console.log("grant role", grantrole);
       };
       const handleInputRole = (e) => {
         setRole(e.target.value);

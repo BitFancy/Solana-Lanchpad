@@ -33,7 +33,10 @@ export default function GetAllSignatureSeriesSeriesNft() {
       })
       .catch((error) => {
         console.log("Error in Fetching contracts..!", error);
-      });
+      }).finally(()=>{
+        setLoading(false);
+        setLoading2(false);
+      })
   };
   const load = () => {
     setLoading2(true);

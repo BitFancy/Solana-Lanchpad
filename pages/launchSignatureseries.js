@@ -1,19 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../Components/Layout";
-import axios from "axios";
-import { Messages } from "primereact/messages";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function LaunchSignatureseries() {
-  const msgs = useRef(null);
-
   const [loading, setLoading] = useState(false);
   const load = () => {
     setLoading(true);
-
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -21,7 +15,6 @@ export default function LaunchSignatureseries() {
   return ( 
     <Layout >
       <div className="buy-back-image">
-        <Messages ref={msgs} />
 
         <div className="flex justify-content-center" style={{marginTop:'100px'}}>
           <div>

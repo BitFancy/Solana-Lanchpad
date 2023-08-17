@@ -13,6 +13,7 @@ export default function SubscriptionDashboard() {
   const [loadingview, setLoadingview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
 
   useEffect(() => {
@@ -25,6 +26,13 @@ export default function SubscriptionDashboard() {
     setTimeout(() => {
         setLoadingsetup(false);
     }, 2000);
+}; 
+const loadnewPlan = () => {
+  setLoading1(true);
+
+  setTimeout(() => {
+      setLoading1(false);
+  }, 2000);
 }; 
 const loadsetupManage = () => {
   setLoadingmanage(true);
@@ -61,7 +69,12 @@ const loadsetupview = () => {
       
       .catch((error) => {
         console.log("Error in Fetching subscription..!", error);
-      });
+      }).finally(()=>{
+        setLoading(false);
+        setLoading1(false);
+        setLoading2(false);
+        
+      })
   };
   const load2 = () => {
     setLoading2(true);
@@ -76,7 +89,7 @@ const  replaceImage = (error) => {
 }
   return (
    <Layout>
-    <div className="overview-donut-top-back" style={{height:'250px'}}>
+    <div className="overview-donut-top-back">
    <div className="text-white text-3xl font-bold">Storefronts</div> 
 <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
   <div className="text-white text-2xl">Testnet</div>
@@ -88,7 +101,7 @@ const  replaceImage = (error) => {
 <div className="flex justify-content-end gap-5">
   <div>
     <Link href='/addSubscription'>
-   <Button  loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
+   <Button   loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
    </Link>
   </div>
   <div>
@@ -96,17 +109,26 @@ const  replaceImage = (error) => {
   </div>
 </div>
       </div>
-     <div  className="buy-back-image">
+     <div  className="buy-back-image-subs-dashboard">
       <hr></hr>
       
       <div style={{width:'85%',margin:'0 auto'}}>
-     <div className="font-bold text-3xl p-5 text-center">You are Currently Observing the 
+        <div className="flex justify-content-between">
+        <div className="font-bold text-3xl p-5 text-center">You are Currently Observing the 
 Deployed Storefronts</div>
+<div className="p-5">
+  <Link href='/buySubscription'>
+  <Button onClick={loadnewPlan} loading={loading1} label="Buy Anather Plan"></Button>
+  </Link>
+</div>
+        </div>
+    
       <hr></hr>
       {subscriptionData?.length > 0 ? (
       subscriptionData.map((subscription) => {
               return (
                 <div key={1} >
+                  {subscription.plan==='basic' &&
                    <div className="flex justify-content-between mt-5 ml-5 align-items-center subscription-back-part p-5">
                    <div className="flex gap-5">
                     <div>
@@ -133,41 +155,46 @@ Deployed Storefronts</div>
                   </div>
                   </Link>
                 </div>
-                <div className="flex ml-5 justify-content-between mt-5 align-items-center subscription-back-part p-5">
-                <div className="flex gap-5">
-                    <div>
-                      <img
-                        className="dash-img-size"
-                        style={{ width: "100px", height: "100px" }}
-                        src={subscription.image}
-                        onError={replaceImage}
-                      ></img>
-                    </div>
-                    <div className="text-white">
-                      <div>My first marketplace</div>
-                      <div>Id: {subscription?.id}</div>
-                      <div>Plan: {subscription.plan}</div>
-                      <div>Cost: {subscription.cost}</div>
-                      <div>owner: {subscription.owner}</div>
-                      <div>Currency: {subscription.currency}</div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <Link href='/getAllSignatureseries'>
-                  <div >
-                    <Button loading={loadingview} onClick={loadsetupview} style={{width:'100%'}} label="View"></Button>
-                  </div>
-                  </Link>
-
-                  <Link href='/accessMasterRole' >
-                  <div className='mt-5'>
-                    <Button loading={loadingmanage} onClick={loadsetupManage} style={{width:'100%'}}   label="Manage"></Button>
-                  </div>
-                  </Link>
-                  </div>
+                  }
                   
-                </div>
+                {subscription.plan==='pro' &&
+                 <div className="flex ml-5 justify-content-between mt-5 align-items-center subscription-back-part p-5">
+                 <div className="flex gap-5">
+                     <div>
+                       <img
+                         className="dash-img-size"
+                         style={{ width: "100px", height: "100px" }}
+                         src={subscription.image}
+                         onError={replaceImage}
+                       ></img>
+                     </div>
+                     <div className="text-white">
+                       <div>My first marketplace</div>
+                       <div>Id: {subscription?.id}</div>
+                       <div>Plan: {subscription.plan}</div>
+                       <div>Cost: {subscription.cost}</div>
+                       <div>owner: {subscription.owner}</div>
+                       <div>Currency: {subscription.currency}</div>
+                     </div>
+                   </div>
+ 
+                   <div>
+                     <Link href='/getAllSignatureseries'>
+                   <div >
+                     <Button loading={loadingview} onClick={loadsetupview} style={{width:'100%'}} label="View"></Button>
+                   </div>
+                   </Link>
+ 
+                   <Link href='/accessMasterRole' >
+                   <div className='mt-5'>
+                     <Button loading={loadingmanage} onClick={loadsetupManage} style={{width:'100%'}}   label="Manage"></Button>
+                   </div>
+                   </Link>
+                   </div>
+                   
+                 </div>
+                }
+               
               </div>
                  );
                 })

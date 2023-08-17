@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Chart } from "primereact/chart";
 import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
-import { Messages } from "primereact/messages";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 export default function Overview() {
-  const msgs = useRef(null);
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
   useEffect(() => {
@@ -36,9 +34,7 @@ export default function Overview() {
     <Layout
       title="Overview"
       description="This is use to show information of the overview launchpad"
-    >
-        <Messages ref={msgs} />
-        <MarketplaceProfileDetails/>
+    >        <MarketplaceProfileDetails/>
           <div className="flex p-5 buy-back-image">
             <div >
             <Sidemenu/>

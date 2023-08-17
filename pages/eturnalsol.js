@@ -39,8 +39,8 @@ constructor(props) {
   };
   handleAddRow = () => {
     const item = {
-      contractName: "",
-      contractSymbol: "",
+      name: "",
+      symbol: "",
     };
     this.setState({
       rows: [...this.state.rows, item],
@@ -96,14 +96,12 @@ constructor(props) {
       .catch((error) => {
         console.log("err", error);
         this.showError();
+      }).finally(() => {
+        this.setState({loading:false});
+        this.setState({loading2:false})
       });
   };
-   handleInputName = (e) => {
-    this.setState({ contractName: e.target.value });
-  };
-   handleInputSymbol = (e) => {
-    this.setState({ contractSymbol: e.target.value });
-  };
+
 
 //   useEffect(() => {
 //     setTradhubContarctAddress(props.router.query.contractAddress);
@@ -115,6 +113,16 @@ load = () => {
   setTimeout(() => {
     this.setState({loading2:false})
   }, 2000);
+};
+handleChange = idx => e => {
+  const { name, value } = e.target;
+  const rows = [...this.state.rows];
+  rows[idx] = {
+    [name]: value
+  };
+  this.setState({
+    rows
+  });
 };
   render() {
     return (
@@ -141,7 +149,7 @@ load = () => {
 
                         <InputText
                           value={this.state.rows[idx].ontractName}
-                          onChange={this.handleInputName}
+                          onChange={this.handleChange(idx)}
                           name="name"
                           className="p-2 mt-3 input-back w-full text-white"
                         />
@@ -153,8 +161,8 @@ load = () => {
 
                         <InputText
                           value={this.state.rows[idx].contractSymbol}
-                          onChange={this.handleInputSymbol}
-                          name="mobile"
+                          onChange={this.handleChange(idx)}
+                          name="symbol"
                           className="p-2 mt-3 input-back w-full text-white"
                           type="text"
                         />

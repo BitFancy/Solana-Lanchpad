@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { Button } from "primereact/button";
 import React, { useRef, useState } from "react";
 import subscriptionAbi from '../artifacts/contracts/subscription/abi.json';
-import { Messages } from "primereact/messages";
 import { Toast } from 'primereact/toast';
 
 import {
@@ -34,10 +33,10 @@ export default function BuyNft() {
 
     const { data: ensName } = useEnsName({ address })
     const showSuccessPro = () => {
-      toast.current.show({severity:'success', summary: 'Success Message', detail:'Your Pro plan has been minted/Transaction mined and confirmed', life: 10000});
+      toast.current.show({severity:'success', summary: 'Success ', detail:'Your Pro plan has been minted/Transaction mined and confirmed', life: 10000});
   }
   const showSuccessBasic = () => {
-    toast.current.show({severity:'success', summary: 'Success Message', detail:'Your Basic plan subscription has been successfully created', life: 10000});
+    toast.current.show({severity:'success', summary: 'Success ', detail:'Your Basic plan subscription has been successfully created', life: 10000});
 }
   const showError = () => {
     toast.current.show({severity:'error', summary: 'Error', detail:'Something Went Wrong Please try after some time', life: 10000});
@@ -61,14 +60,6 @@ export default function BuyNft() {
             console.log('transaction',transaction)
             setproResponse(transaction);
             if (transaction.status === 1) {
-              // msgs.current.show([
-              //   {
-              //     sticky: true,
-              //     severity: "success",
-              //     detail: "Transaction mined and confirmed",
-              //     closable: true,
-              //   },
-              // ]);
               showSuccessPro();
             
              
@@ -85,6 +76,11 @@ export default function BuyNft() {
           }, 2000);          
           setError("Transaction failed or rejected by the user");
           showError();
+        }finally{
+          setLoading(false);
+          setLoading1(false);
+          setLoading2(false);
+          setLoading3(false);
         }
       };
     
@@ -121,7 +117,12 @@ export default function BuyNft() {
           .catch((error) => {
             console.log("err", error);
             showError();
-          });
+          }).finally(()=>{
+            setLoading(false);
+            setLoading1(false);
+            setLoading2(false);
+            setLoading3(false);
+          })
       }
 
       const load2 = () => {

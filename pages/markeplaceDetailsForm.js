@@ -1,12 +1,12 @@
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { InputText } from 'primereact/inputtext';
-import { Toast } from 'primereact/toast';
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { InputText } from "primereact/inputtext";
+import { Toast } from "primereact/toast";
 // import React, {  useState } from 'react';
 import { NFTStorage } from "nft.storage";
-import AppTopbar from '../layout/AppTopbar';
-import Link from 'next/link';
-import { useRef, useState } from 'react';
+import AppTopbar from "../layout/AppTopbar";
+import Link from "next/link";
+import { useRef, useState } from "react";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -14,171 +14,297 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 
 export default function MarkeplaceDetailsForm() {
-    const toast = useRef(null);
-    const [loading, setLoading] = useState(false);
-    const [contarctName, setContarctName] = useState();
-    const [description, setdescription] = useState();
-    const [email, setEmail] = useState();
-  
-  
-    const [uploadImage, setuploadImage] = useState("");
-    async function uploadBlobGetHash(file) {
-      try {
-        const blobDataImage = new Blob([file]);
-        const metaHash = await client.storeBlob(blobDataImage);
-        return metaHash;
-      } catch (error) {
-        console.log("Error uploading file: ", error);
-      }
+  const toast = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [stfName, setStfName] = useState();
+  const [stfdescription, setstfdescription] = useState();
+  const [stfheadline, setstfheadline] = useState();
+  const [assetsName, setassetsName] = useState();
+  const [assetsDeascription, setassetsDeascription] = useState();
+  const [tagline, settagline] = useState();
+  const [tagdescription, settagdescription] = useState();
+  const [email, setEmail] = useState();
+  const [twitter, settwitter] = useState();
+  const [discord, setdiscord] = useState();
+  const [instagram, setinstagram] = useState();
+
+
+  const [uploadImage, setuploadImage] = useState("");
+  async function uploadBlobGetHash(file) {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("Error uploading file: ", error);
     }
-    const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
-  
-    async function onChangeThumbnail(e) {
-      const file = e.files[0];
-      console.log("Uploaded file...", file);
-      const thumbnail = new File([file], file.name, {
-        type: file.type,
-      });
-      try {
-        const metaHash = await uploadBlobGetHash(thumbnail);
-        const metaHashURI = getMetaHashURI(metaHash);
-        setuploadImage(metaHashURI);
-      } catch (error) {
-        console.log("Error uploading file: ", error);
-      }
+  }
+  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+
+  async function onChangeThumbnail(e) {
+    const file = e.files[0];
+    console.log("Uploaded file...", file);
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setuploadImage(metaHashURI);
+    } catch (error) {
+      console.log("Error uploading file: ", error);
     }
-  
-    const addMarketplaceDetails = async () => {
-      const token = localStorage.getItem("authToken");
-      setLoading(true);
-      axios
-        .post(
-          `${BASE_URL_LAUNCH}api/v1.0/storefront`,
-          {
-            name: contarctName,
-            owner: "asd3rfsdaf2334r23",
-            cost: 99,
-            currency: "USD",
-            createdBy: "Admin",
-            updatedBy: "Admin",
-            image: uploadImage,
-            headline:headline,
-            description:description,
-            blockchain:selecteBlockchaine
+  }
+
+  const addMarketplaceDetails = async () => {
+    const token = localStorage.getItem("authToken");
+    setLoading(true);
+    axios
+      .post(
+        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
+        {
+          name: contarctName,
+          owner: "asd3rfsdaf2334r23",
+          cost: 99,
+          currency: "USD",
+          createdBy: "Admin",
+          updatedBy: "Admin",
+          image: uploadImage,
+          headline: headline,
+          description: description,
+          blockchain: selecteBlockchaine,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then(async (response) => {
-          showSuccess()
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-        })
+        }
+      )
+      .then(async (response) => {
+        showSuccess();
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      })
       .catch((error) => {
         showError();
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    };
-    const handleInputContractName = (e) => {
-      setContarctName(e.target.value);
-    };
+  };
+  const handleInputContractName = (e) => {
+    setStfName(e.target.value);
+  };
+
+  const handleInputDescription = (e) => {
+    setstfdescription(e.target.value);
+  };
+  const handleInputstfHeadline = (e) => {
+    setstfheadline(e.target.value);
+  };
+
+  const handleInputassetsName = (e) => {
+    setassetsName(e.target.value);
+  };
   
-    const handleInputDescription = (e) => {
-      setdescription(e.target.value);
+  const handleInputassetsDescription = (e) => {
+    setassetsDeascription(e.target.value);
+  };
   
-    };
-    const handleInputEmail = (e) => {
-      setEmail(e.target.value);
-    };
+  const handleInputtagline = (e) => {
+    settagline(e.target.value);
+  };
+  const handleInputtagdescription = (e) => {
+    settagdescription(e.target.value);
+  };
   
-    const showSuccess = () => {
-      toast.current.show({severity:'success', summary: 'Success', detail:'Marketplace Deials added successfully', life: 1000});
-  }
+
+  const handleInputEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleInputtweeter = (e) => {
+    settwitter(e.target.value);
+  };
+  const handleInputdiscord = (e) => {
+    setdiscord(e.target.value);
+  };
+  const handleInputinstagram = (e) => {
+    setinstagram(e.target.value);
+  };
+
+  const showSuccess = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Marketplace Deials added successfully",
+      life: 1000,
+    });
+  };
   const showError = () => {
-    toast.current.show({severity:'error', summary: 'Error ', detail:'Storefront Name Must be Unique', life: 1000});
-  }
-  
+    toast.current.show({
+      severity: "error",
+      summary: "Error ",
+      detail: "Storefront Name Must be Unique",
+      life: 1000,
+    });
+  };
+
   return (
     <div>
-        <AppTopbar/>
-      <div className="buy-back-image" style={{ marginTop: "100px" }}>
-        <div className="font-bold text-3xl p-5 text-white text-center">
-          Add Marketplace Details
+      <AppTopbar />
+      <div className="buy-back-image-market-form" style={{ marginTop: "65px" }}>
+        <div className="font-bold text-3xl p-5 text-center">
+          Make Your Marketplace Shine
         </div>
         <Toast ref={toast} />
 
         <hr></hr>
         <div
-          className=" p-5 mt-5 font-bold card flex gap-5" 
+          className=" p-5 mt-5  card  gap-5"
           style={{ width: "80%", margin: "0 auto" }}
         >
-            <div style={{padding:'20px',border:'1px solid'}}>
-              <FileUpload
-                type="file"
-                onSelect={(event) => {
-                  onChangeThumbnail(event);
-                }}
-                uploadHandler={(e) =>
-                  console.log("File upload handler", e.files)
-                }
-                value={uploadImage}
-                accept="image/*"
-                maxFileSize={1000000}
-              />
-      
-          </div>
-          <div className="mt-5 w-full" >
-            <div>Enter storefront name:</div>
-            <div className="mt-2">
-            <InputText
-              value={contarctName}
-              onChange={handleInputContractName}
-              placeholder="Please Enter Srorefront Name"
-              className="w-full input-back mt-2 text-white"
-              maxLength={12}
-              minLength={7} 
-            />
+          <div className="mt-5 w-full">
+            <div className="font-bold text-3xl text-center">
+              Storefront Details
             </div>
-            
-            
-             
-              <div className="mt-3 text-left">Enter description:</div>
-              <div className="mt-2">
-                <InputText
-                  value={description}
-                  onChange={handleInputDescription}
-                  className="p-2 w-full input-back text-white"
-                  placeholder="Please Enter description of the Storefront"
-                  type="text"
-                />
-              </div>
-              
-            
-            <div className="mt-5">Enter Mail ID:</div>
+            <div className="mt-5">Enter Storefront Name:</div>
+            <div className="mt-2">
+              <InputText
+                value={stfName}
+                onChange={handleInputContractName}
+                placeholder="Please Enter Srorefront Name"
+                className="w-full input-back mt-2 text-white"
+                maxLength={12}
+                minLength={7}
+                required
+              />
+            </div>
 
-            <InputText
-                  value={email}
-                  onChange={handleInputEmail}
-                  className="p-2 w-full input-back text-white"
-                  placeholder="Please Enter Email"
-                  type="text"
-                />
+            <div className="mt-5 text-left">Enter description:</div>
+            <div className="mt-2">
+              <InputText
+                value={stfdescription}
+                onChange={handleInputDescription}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter description of the Storefront"
+                type="text"
+              />
+            </div>
+
+            <div className="mt-5">Enter Headline:</div>
+            <div className="mt-2">
+              <InputText
+                value={setstfheadline}
+                onChange={handleInputstfHeadline}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Headline"
+                type="text"
+              />
+            </div>
+
+            <div className="mt-5 text-center font-bold text-3xl">
+              Asset Details
+            </div>
+            <div className="mt-5">Enter Asset name:</div>
+
+            <div className="mt-2">
+              <InputText
+                value={assetsName}
+                onChange={handleInputassetsName}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Asset Name"
+                type="text"
+              />
+            </div>
+            <div className="mt-5">Enter Asset Description:</div>
+
+            <div className="mt-2">
+              <InputText
+                value={assetsDeascription}
+                onChange={handleInputassetsDescription}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Asset Description"
+                type="text"
+              />
+            </div>
+
+            <div className="mt-5 text-center text-3xl font-bold" >Personal information</div>
+            <div className="mt-5">Enter Tagline:</div>
+            <div className="mt-2">
+              <InputText
+                value={tagline}
+                onChange={handleInputtagline}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Tagline"
+                type="text"
+              />
+            </div>
+
+            <div className="mt-5">Enter Tag Description:</div>
+            <div className="mt-2">
+              <InputText
+                value={tagdescription}
+                onChange={handleInputtagdescription}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Tag Description"
+                type="text"
+              />
+            </div>
+            <div className="mt-5 text-center text-3xl font-bold">Contact Details</div>
+
+            <div className="mt-5">Enter Mail id</div>
+            <div className="mt-2">
+              <InputText
+                value={email}
+                onChange={handleInputEmail}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Email"
+                type="text"
+              />
+            </div>
+            <div className="mt-5 font-bold text-center text-3xl">Social links</div>
+
+            <div className="mt-5">Twitter :</div>
+            <div className="mt-2">
+              <InputText
+                value={twitter}
+                onChange={handleInputtweeter}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Twitter Id"
+                type="text"
+              />
+            </div>
+            <div className="mt-5">Discord :</div>
+            <div className="mt-2">
+              <InputText
+                value={discord}
+                onChange={handleInputdiscord}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Discord Id"
+                type="text"
+              />
+            </div>
+            <div className="mt-5">Instagram :</div>
+            <div className="mt-2">
+              <InputText
+                value={instagram}
+                onChange={handleInputinstagram}
+                className="p-2 w-full input-back text-white"
+                placeholder="Please Enter Instagram Id"
+                type="text"
+              />
+            </div>
 
             <div className="mt-5 ">
-                <Link href='/successNoteContract'>
-              <Button
-                loading={loading}
-                
-                label="Continue"
-              ></Button>
+              <Link href="/successNoteContract">
+                <Button loading={loading} label="Continue"></Button>
               </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

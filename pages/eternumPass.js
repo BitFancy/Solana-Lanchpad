@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
 import { useRouter, withRouter } from "next/router";
-import { Messages } from "primereact/messages";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
@@ -81,6 +80,9 @@ const EternumPass = () => {
 
       .catch((error) => {
         showError()
+      }).finally(() => {
+        setLoading(false);
+        setLoading2(false);
       });
   };
   const handleInputName = (e) => {
