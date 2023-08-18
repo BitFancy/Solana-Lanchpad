@@ -44,6 +44,7 @@ const Step1 = () => {
 
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
+    validate();
     setLoading(true);
     axios
       .post(
@@ -67,7 +68,6 @@ const Step1 = () => {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-        console.log("response data", response);
         settradhubResponse(response.data.contractAddress);
         showSuccess();
       })
@@ -93,12 +93,12 @@ const Step1 = () => {
   const validate = (data) => {
     let errors = {};
 
-    if (!data.contractName) {
+    if (!data?.contractName) {
       errors.contractName = "Name is required.";
       setLoading(false);
     }
 
-    if (!data.platformFee) {
+    if (!data?.platformFee) {
       errors.platformFee = "PlatformFee is required.";
       setLoading(false);
     }

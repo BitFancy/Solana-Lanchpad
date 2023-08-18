@@ -170,6 +170,8 @@ export default function CreateItem() {
     } catch (error) {
       setmodelmsg("Transaction failed");
       console.log("Error uploading file: ", error);
+    }finally{
+      
     }
   }
 

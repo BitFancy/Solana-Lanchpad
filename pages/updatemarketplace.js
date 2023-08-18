@@ -4,19 +4,46 @@ import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
+import axios from "axios";
+import { Toast } from "primereact/toast";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
 class UpdateMarketPlace extends React.Component {
   state = {
     rows: [{}],
+    submitClicked: false,
+    tradhubFees:'',
+    contractAddress:'',
+      errors: {
+        tradhubFeesError: "",
+        contractAddressError: "",
+      },
   };
   handleAddRow = () => {
     const item = {
-      name: "",
-      mobile: "",
+      fees: "",
+      address: "",
     };
     this.setState({
       rows: [...this.state.rows, item],
     });
   };
+  showSuccess() {
+    this.toast.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Marketplace Upadated",
+      life: 10000,
+    });
+  }
+  showError() {
+    this.toast.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Something Went Wrong Please Try Again",
+      life: 10000,
+    });
+  }
   handleRemoveRow = () => {
     this.setState({
       rows: this.state.rows.slice(0, -1),
@@ -27,6 +54,79 @@ class UpdateMarketPlace extends React.Component {
     rows.splice(idx, 1);
     this.setState({ rows });
   };
+
+  handleInputFee = (e) => {
+    this.setState({ tradhubFees: e.target.value, tradhubFeesError: "" });
+    this.setState({ loading: false });
+  };
+  handleInputAddress = (e) => {
+    this.setState({ ContractAddress: e.target.value, contractAddressError: "" });
+    this.setState({ loading: false });
+  }
+
+  updateMarketplaceData = () => {
+    const token = localStorage.getItem("authToken");
+    this.onClickButton();
+    this.setState({ loading: true });
+    axios
+      .post(
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+        {
+          contractName: "SignatureSeries",
+          constructorParams: {
+            param1: this.state.tradhubFees,
+            param2: this.state.contractAddress,
+            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+          },
+          network: "maticmum",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        this.showSuccess();
+
+        setTimeout(() => {
+          this.setState({ loading: false });
+        }, 2000);
+        console.log("response SignatureSeries data", response);
+        this.setState({
+          signatureseriesRespoanse: response.data.contractAddress,
+        });
+      })
+
+      .catch((error) => {
+        console.log("err", error);
+        this.showError();
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+        this.setState({ loading2: false });
+      });
+  };
+  onClickButton = () => {
+    let errors = this.state.errors;
+    if (this.state.tradhubFees && this.state.contractAddress) {
+      this.setState({
+        submitClicked: true,
+      });
+    } else {
+      if (!this.state.tradhubFees) {
+        this.setState({
+          tradhubFeesError: "Please Enter Marketplace Fees",
+        });
+      }
+      if (!this.state.contractAddress) {
+        this.setState({
+          contractAddressError: "Please Enter Marketplace Contract Address",
+        });
+      }
+    }
+  };
   render() {
     return (
       <Layout title="Update Tradhub" description="Used to show updated luanchpad information">
@@ -34,6 +134,8 @@ class UpdateMarketPlace extends React.Component {
 
         <div className="flex buy-back-image" >
           <div><Sidemenu/>
+          <Toast ref={(el) => (this.toast = el)} />
+
 </div>
 <div style={{margin:'0 auto',width:'70%'}}>
         <div className=" p-5 font-bold text-3xl">
@@ -46,21 +148,31 @@ class UpdateMarketPlace extends React.Component {
                 <div className="text-left">Enter new TradeHub fee</div>
 
                 <InputText
-                  value={this.state.rows[idx].name}
-                  name="name"
+                  value={this.state.rows[idx].tradhubFees}
                   className="p-2 mt-3 input-back w-full text-white"
                   type="number"
+                  onChange={this.handleInputFee}
                 />
+                  <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.tradhubFees
+                            ? this.state.tradhubFeesError
+                            : ""}
+                        </p>
               </div>
               <div style={{ width: "40%" }}>
                 <div>Enter payout address</div>
 
                 <InputText
-                  value={this.state.rows[idx].mobile}
-                  name="mobile"
+                  value={this.state.rows[idx].contractAddress}
                   className="p-2 mt-3 input-back w-full text-white"
                   type="text"
+                  onChange={this.handleInputAddress}
                 />
+                  <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.contractAddress
+                            ? this.state.contractAddressError
+                            : ""}
+                        </p>
               </div>
               <div className="mt-5">
                 <Button
@@ -84,6 +196,7 @@ class UpdateMarketPlace extends React.Component {
           <Button
             label="Update"
             severity="info"
+            onClick={this.updateMarketplaceData}
             
           />
         </div>

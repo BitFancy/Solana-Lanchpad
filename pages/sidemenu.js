@@ -82,8 +82,8 @@ export default function Sidemenu() {
 
         <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
           <Link
-            href="/manageWebapp"
-            className={router.pathname == "/manageWebapp" ? "active" : ""}
+            href="/markeplaceDetailsForm"
+            className={router.pathname == "/markeplaceDetailsForm" ? "active" : ""}
           >
              Web App
           </Link>

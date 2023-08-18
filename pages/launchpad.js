@@ -80,7 +80,7 @@ export default function Launchpad() {
         </div>
       </div>
       <div className="flex justify-content-center gap-5 mt-5">
-        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
           <div>
             <img
               style={{ width: "60px", height: "60px" }}
@@ -95,7 +95,7 @@ export default function Launchpad() {
             <div>predefined rules.</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
           <div>
             <img
               style={{ width: "60px", height: "60px" }}
@@ -109,7 +109,7 @@ export default function Launchpad() {
             <div>non-fungible tokens (NFTs).</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'360px',height:'350px'}}>
+        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
           <div>
             <img
               style={{ width: "60px", height: "60px" }}
@@ -126,7 +126,7 @@ export default function Launchpad() {
         </div>
       </div>
       <div className="flex p-5 justify-content-around mt-5">
-        <div>
+        {/* <div>
           <div>
             <div className="signature-series-head">Access Master</div>
             <div className="mt-5 text-3xl">
@@ -148,12 +148,12 @@ export default function Launchpad() {
               </Link>
             </div>
           </div>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <img style={{ height: "300px" }} src="signatureseries.png"></img>
-        </div>
+        </div> */}
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
+      {/* <div className="flex p-5 justify-content-around mt-5">
         <div>
           <img style={{ height: "300px" }} src="signatureseries.png"></img>
         </div>
@@ -178,7 +178,7 @@ export default function Launchpad() {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="flex p-5 justify-content-around mt-5">
         <div>
           <div className="signature-series-head">SignatureSeries</div>

@@ -36,6 +36,12 @@ class FusionSeries extends React.Component {
     fusionseriesResponse: "",
     loading: false,
     loading2:false,
+    submitClicked: false,
+    errors: {
+      contractNameEror: "",
+      symbolError: "",
+    },
+  
   };
   load = () => {
     this.setState({loading2:true})
@@ -46,8 +52,8 @@ class FusionSeries extends React.Component {
   };
   handleAddRow = () => {
     const item = {
-      contractName: "",
-      contractSymbol: "",
+      name: "",
+      symbol: "",
     };
     this.setState({
       rows: [...this.state.rows, item],
@@ -65,6 +71,7 @@ class FusionSeries extends React.Component {
   };
   fusionSerisData = () => {
     const token = localStorage.getItem("authToken");
+    this.onClickButton();
     this.setState({ loading: true });
     axios
       .post(
@@ -73,9 +80,8 @@ class FusionSeries extends React.Component {
           contractName: "FusionSeries",
           constructorParams: {
             param1: this.state.contractName,
-            param2: this.state.contractSymbol,
-            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+            param2: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
           },
           network: "maticmum",
         },
@@ -91,26 +97,60 @@ class FusionSeries extends React.Component {
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
-        console.log("response FusionSeries data", response);
         this.setState({ fusionseriesResponse: response.data.contractAddress });
       })
-
       .catch((error) => {
         console.log("err", error);
         this.showError();
+      }).finally(() => {
+        this.setState({loading:false});
+        this.setState({loading2:false})
       });
   };
-  handleInputName = (e) => {
-    this.setState({ contractName: e.target.value });
-  };
-  handleInputSymbol = (e) => {
-    this.setState({ contractSymbol: e.target.value });
-  };
+ 
 
   // useEffect(() => {
   //   setTradhubContarctAddress(props.router.query.contractAddress);
   // }, [props.router.query.contractAddress]);
 
+  handleChange = idx => e => {
+    const { name, value } = e.target;
+    const rows = [...this.state.rows];
+    rows[idx] = {
+      [name]: value
+    };
+    this.setState({
+      rows
+    });
+  };
+  handleInputName = (e) => {
+    this.setState({ contractName: e.target.value, contractNameEror: "" });
+    this.setState({ loading: false });
+  };
+  handleInputSymbol = (e) => {
+    this.setState({ contractSymbol: e.target.value, symbolError: "" });
+    this.setState({ loading: false });
+  };
+
+  onClickButton = () => {
+    let errors = this.state.errors;
+    if (this.state.contractName && this.state.contractSymbol) {
+      this.setState({
+        submitClicked: true,
+      });
+    } else {
+      if (!this.state.contractName) {
+        this.setState({
+          contractNameEror: "Please Enter FusionSeries  Name",loading:false,
+        });
+      }
+      if (!this.state.contractSymbol) {
+        this.setState({
+          symbolError: "Please Enter FusionSeries Symbol Description",loading:false,
+        });
+      }
+    }
+  };
   render() {
     return (
       <div
@@ -137,10 +177,14 @@ class FusionSeries extends React.Component {
 
                         <InputText
                           value={this.state.rows[idx].ontractName}
-                          onChange={this.handleInputName}
-                          name="name"
+                          onChange={this.handleInputName}                        
                           className="p-2 mt-3 input-back w-full text-white"
                         />
+                         <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.contractName
+                            ? this.state.contractNameEror
+                            : ""}
+                        </p>
                       </div>
                       <div>
                         <div className="mt-3 text-left">
@@ -150,10 +194,13 @@ class FusionSeries extends React.Component {
                         <InputText
                           value={this.state.rows[idx].contractSymbol}
                           onChange={this.handleInputSymbol}
-                          name="mobile"
                           className="p-2 mt-3 input-back w-full text-white"
-                          type="text"
                         />
+                          <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.contractSymbol
+                            ? this.state.symbolError
+                            : ""}
+                        </p>
                         <div className="mt-5">
                           <Button
                             severity="danger"
@@ -180,7 +227,7 @@ class FusionSeries extends React.Component {
                   onClick={this.fusionSerisData}
                   label="Deploy FusionSeries"
                   severity="Primary"
-                 
+                   type="submit"
                   rounded
                   loading={this.state.loading}
                 />

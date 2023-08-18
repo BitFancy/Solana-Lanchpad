@@ -6,15 +6,16 @@ import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
-
 import Link from "next/link";
+import { Field, Form } from "react-final-form";
+import { classNames } from "primereact/utils";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const router = useRouter();
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-
+  const [formData, setFormData] = useState({});
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -43,7 +44,7 @@ const EternumPass = () => {
     });
   }
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
-  const instaGenContarctData = () => {
+  const eturnumpassContarctData = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
 
@@ -113,6 +114,45 @@ const EternumPass = () => {
       setLoading2(false);
     }, 2000);
   };
+  const validate = (data) => {
+    let errors = {};
+
+    if (!data.contractName) {
+      errors.contractName = "Please Fill Eturnumpass Name.";
+      setLoading(false);
+    }
+
+    if (!data.contractSymbol) {
+      errors.contractSymbol = "Please Add Eturnumpass Symbol";
+      setLoading(false);
+    }
+
+    if (!data.salePrice) {
+      errors.salePrice = "Please Add SalePrice";
+      setLoading(false);
+    }
+   
+    if (!data.platformFeeBasePrice) {
+      errors.platformFeeBasePrice = "Please Add Platform Fees Base price";
+      setLoading(false);
+    }
+   
+    if (!data.royltybps) {
+      errors.royltybps = "Please Add Roylty BPS";
+      setLoading(false);
+    }
+
+    return errors;
+  };
+  const onSubmit = (data, form) => {
+    setFormData(data);
+  };
+  const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+  const getFormErrorMessage = (meta) => {
+    return (
+      isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>
+    );
+  };
   return (
     <div
       title="Deploy InstaGen"
@@ -124,71 +164,162 @@ const EternumPass = () => {
 
       <div style={{ marginTop: "85px" }}>
         <div className="p-5 font-bold text-align-center text-center" style={{ borderBottom: "2px solid" }}>Deploy EternumPass</div>
-
+       
         <div className="flex justify-content-center gap-5 mt-5">
-          <div className="card" style={{ width: "50%" }}>
-            <div className="text-center mt-5">
-              <div className="text-left">Enter EternumPass Name</div>
-              <div className="mt-3">
-                <InputText
-                  value={contractName}
-                  onChange={handleInputName}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div>
-              <div className="mt-3 text-left">Enter EternumPass Symbol</div>
-              <div className="mt-2">
-                <InputText
-                  value={contractSymbol}
-                  onChange={handleInputSymbol}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div>
-              <div className="mt-3 text-left">Enter Public SalePrice</div>
-              <div className="mt-2">
-                <InputText
-                  value={salePrice}
-                  onChange={handleInputSalePrice}
-                  className="p-2 w-full input-back"
-                  type="number"
-                />
-              </div>
-              <div className="mt-3 text-left">
-                Enter Platform Fee BasisPoint
-              </div>
-              <div className="mt-2">
-                <InputText
-                  value={platformFeeBasePrice}
-                  onChange={handleInputPlatformFee}
-                  className="p-2 w-full input-back"
-                  type="number"
-                />
-              </div>
-              <div className="mt-3 text-left">
-                Enter Subscription Price Per Month
-              </div>
-              <div className="mt-2">
-                <InputText
-                  value={subspricePerMonth}
-                  onChange={handleInputSubscriptionPrice}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div>
-              <div className="mt-3 text-left">Enter Royalty BPS</div>
-              <div className="mt-2">
-                <InputText
-                  value={royltybps}
-                  onChange={handleInputRoyelty}
-                  className="p-2 w-full input-back"
-                  type="text"
-                />
-              </div>
-              <div className="mt-3 text-left">Enter Operator Suscription</div>
-              <div className="mt-2">
-                <Dropdown
+           <div className="card" style={{ width: "50%" }}>
+          
+                        <Form
+              onSubmit={onSubmit}
+              initialValues={{
+                contractName: "",
+                contractSymbol: "",
+                salePrice: "",
+                platformFeeBasePrice: "",
+                royltybps: "",
+              }}
+              validate={validate}
+              render={({ handleSubmit }) => (
+                <form onSubmit={handleSubmit} className="p-fluid">
+                  <Field
+                    name="contractName"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div>Enter EternumPass Name</div>
+                        <div className="mt-3">
+                          <InputText
+                            id="contractName"
+                            onChange={handleInputName}
+                            {...input}
+                            autoFocus
+                            className={classNames({
+                              "p-invalid": isFormFieldValid(meta),
+                            })}
+                          />
+                          <label
+                            htmlFor="contractName"
+                            className={classNames({
+                              "p-error": isFormFieldValid(meta),
+                            })}
+                          ></label>
+                        </div>
+                        {getFormErrorMessage(meta)}
+                      </div>
+                    )}
+                  />
+                  <Field
+                    name="contractSymbol"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div className="mt-5">Enter EternumPass Symbol</div>
+
+                        <div className=" p-input-icon-right mt-3">
+                          <InputText
+                            value={contractSymbol}
+                            onChange={handleInputSymbol}
+                            {...input}
+                            className={classNames({
+                              "p-invalid": isFormFieldValid(meta),
+                            })}
+                          />
+                          <label
+                            htmlFor="contractSymbol"
+                            className={classNames({
+                              "p-error": isFormFieldValid(meta),
+                            })}
+                          ></label>
+                        </div>
+                        {getFormErrorMessage(meta)}
+                      </div>
+                    )}
+                  />
+                  <Field
+                    name="salePrice"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div className="mt-5">Enter SalePrice</div>
+
+                        <div className=" p-input-icon-right mt-3">
+                          <InputText
+                            value={salePrice}
+                            onChange={handleInputSalePrice}
+                            {...input}
+                            className={classNames({
+                              "p-invalid": isFormFieldValid(meta),
+                            })}
+                          />
+                          <label
+                            htmlFor="salePrice"
+                            className={classNames({
+                              "p-error": isFormFieldValid(meta),
+                            })}
+                          ></label>
+                        </div>
+                        {getFormErrorMessage(meta)}
+                      </div>
+                    )}
+                  />
+                
+                  <Field
+                    name="platformFeeBasePrice"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div className="mt-5">Enter Platform Fees Base Price</div>
+
+                        <div className=" p-input-icon-right mt-3">
+                          <InputText
+                            value={platformFeeBasePrice}
+                            onChange={handleInputPlatformFee}
+                            {...input}
+                            className={classNames({
+                              "p-invalid": isFormFieldValid(meta),
+                            })}
+                          />
+                          <label
+                            htmlFor="platformFeeBasePrice"
+                            className={classNames({
+                              "p-error": isFormFieldValid(meta),
+                            })}
+                          ></label>
+                        </div>
+                        {getFormErrorMessage(meta)}
+                      </div>
+                    )}
+                  />
+                 
+                  <Field
+                    name="royltybps"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div className="mt-5">Enter Royalty BPS</div>
+
+                        <div className=" p-input-icon-right mt-3">
+                          <InputText
+                            value={royltybps}
+                            onChange={handleInputRoyelty}
+                            {...input}
+                            className={classNames({
+                              "p-invalid": isFormFieldValid(meta),
+                            })}
+                          />
+                          <label
+                            htmlFor="royltybps"
+                            className={classNames({
+                              "p-error": isFormFieldValid(meta),
+                            })}
+                          ></label>
+                        </div>
+                        {getFormErrorMessage(meta)}
+                      </div>
+                    )}
+                  />
+                   <Field
+                    name="contractName"
+                    render={({ input, meta }) => (
+                      <div className="field">
+                        <div>Enter Operator Suscription</div>
+                        <div className="mt-3">
+                        
+                            <Dropdown
                   value={selecteOperatorSubscription}
                   onChange={(e) => setOperatorSubscription(e.value)}
                   options={subscriptions}
@@ -196,35 +327,45 @@ const EternumPass = () => {
                   placeholder="Select a Operator Suscription "
                   className="w-full"
                 />
-              </div>
-            </div>
-            <div className="flex justify-content-between mt-5">
-              <div>
-              <Button
-                onClick={instaGenContarctData}
-                label="Deploy EternumPass"
-                severity="Primary"
-                rounded
-                loading={loading}
-              />
-              </div>
-              {eturnumpassResponse && 
- <div>
- <Link href='/instagen'>
-<Button
- label="Continue"
- severity="Primary"
- onClick={load}
- rounded
- loading={loading2}
-/>
-</Link>
-</div>
+                         
+                        </div>
+                      </div>
+                    )}
+                  />
+                  <div className="flex mt-5 justify-content-between">
+                    <div>
+                      <Button
+                        label="Deploy Instagen Contract"
+                        onClick={eturnumpassContarctData}
+                        severity="Primary"
+                        className=" mt-7 w-full"
+                        style={{ width: "30%" }}
+                        rounded
+                        type="submit"
+                        loading={loading}
+                      />
+                    </div>
+                    {eturnumpassResponse && (
+                      <div>
+                        <Link href="/launchSignatureseries">
+                          <Button
+                            label="Continue"
+                            severity="Primary"
+                            className=" mt-7 w-full"
+                            style={{ width: "30%" }}
+                            rounded
+                            loading={loading2}
+                            onClick={load}
+                          />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </form>
+              )}
+            />
+          </div> 
 
-              }
-             
-            </div>
-          </div>
         </div>
       </div>
     </div>

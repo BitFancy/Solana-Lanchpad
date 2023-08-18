@@ -36,6 +36,12 @@ constructor(props) {
     eturnalsolResponse: "",
     loading: false,
     loading2:false,
+    submitClicked: false,
+    errors: {
+      contractNameEror: "",
+      symbolError: "",
+    },
+  
   };
   handleAddRow = () => {
     const item = {
@@ -59,6 +65,7 @@ constructor(props) {
    eturnulsolData = () => {
     const token = localStorage.getItem("authToken");
     this.setState({ loading: true });
+    this.onClickButton();
 
     axios
       .post(
@@ -84,11 +91,6 @@ constructor(props) {
         }, 2000);
         console.log("response EternalSoul data", response);
         this.setState({ eturnalsolResponse: response.data.contractAddress });
-
-        // Router.push({
-        //   pathname: "./signatureseries",
-        //   query: { contractAddress: response.data.contractAddress },
-        // });
 
 
       })
@@ -124,6 +126,36 @@ handleChange = idx => e => {
     rows
   });
 };
+
+handleInputName = (e) => {
+  this.setState({ contractName: e.target.value, contractNameEror: "" });
+  this.setState({ loading: false });
+};
+handleInputSymbol = (e) => {
+  this.setState({ contractSymbol: e.target.value, symbolError: "" });
+  this.setState({ loading: false });
+};
+
+
+onClickButton = () => {
+  let errors = this.state.errors;
+  if (this.state.contractName && this.state.contractSymbol) {
+    this.setState({
+      submitClicked: true,
+    });
+  } else {
+    if (!this.state.contractName) {
+      this.setState({
+        contractNameEror: "Please Enter EternalSoul Name",loading:false,
+      });
+    }
+    if (!this.state.contractSymbol) {
+      this.setState({
+        symbolError: "Please Enter EternalSoul Symbol Description",loading:false,
+      });
+    }
+  }
+};
   render() {
     return (
     <div
@@ -149,10 +181,15 @@ handleChange = idx => e => {
 
                         <InputText
                           value={this.state.rows[idx].ontractName}
-                          onChange={this.handleChange(idx)}
-                          name="name"
+                          onChange={this.handleInputName}                        
+
                           className="p-2 mt-3 input-back w-full text-white"
                         />
+                         <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.contractName
+                            ? this.state.contractNameEror
+                            : ""}
+                        </p>
                       </div>
                       <div>
                         <div className="mt-3 text-left">
@@ -161,11 +198,16 @@ handleChange = idx => e => {
 
                         <InputText
                           value={this.state.rows[idx].contractSymbol}
-                          onChange={this.handleChange(idx)}
+                          onChange={this.handleInputSymbol}
                           name="symbol"
                           className="p-2 mt-3 input-back w-full text-white"
                           type="text"
                         />
+                         <p  style={{textAlign:'left',color:'red'}}>
+                          {!this.state.contractSymbol
+                            ? this.state.symbolError
+                            : ""}
+                            </p>
                         <div className="mt-5">
                           <Button
                             severity="danger"
@@ -199,7 +241,7 @@ handleChange = idx => e => {
             <div >
               {this.state.eturnalsolResponse &&
                 <div className="text-center mt-5">
-                <Link href='/markeplaceDetailsForm'>
+                <Link href='/webappForm'>
               <Button
                 label="Continue"
                 severity="Primary"

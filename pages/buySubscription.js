@@ -19,11 +19,6 @@ export default function BuyNft() {
 
   const [basicResponse, setbasitResponse] = useState();
   const [proResponse, setproResponse] = useState();
-
-
-
-
-
   const { data: signerData } = useSigner();
   const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
     const [error, setError] = useState(null);
@@ -56,25 +51,14 @@ export default function BuyNft() {
           tx.wait().then((transaction) => {
             setTimeout(() => {
               setLoading1(false);
-          }, 2000);
-            console.log('transaction',transaction)
+            }, 2000);    
             setproResponse(transaction);
-            if (transaction.status === 1) {
-              showSuccessPro();
-            
-             
-            } else {
-              setTimeout(() => {
-              }, 2000);             
-               setError("Transaction failed or rejected by the user");
-               showError()
-            }
+            showSuccessPro();
+
           });
+           
         } catch (error) {
-          console.log(error);
-          setTimeout(() => {
-          }, 2000);          
-          setError("Transaction failed or rejected by the user");
+          console.log(error);     
           showError();
         }finally{
           setLoading(false);
@@ -108,12 +92,9 @@ export default function BuyNft() {
             setTimeout(() => {
               setLoading(false);
           }, 2000);
-          console.log("buy basic plan details", response);
            setbasitResponse(response)
-          
             showSuccessBasic();
           })
-         
           .catch((error) => {
             console.log("err", error);
             showError();
