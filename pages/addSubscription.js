@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import { Dropdown } from "primereact/dropdown";
-import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
