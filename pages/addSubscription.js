@@ -222,7 +222,6 @@ export default function AddSubscription() {
         <div className="font-bold text-3xl p-5 text-white text-center">
           Add StoreFront Details
         </div>
-        <Toast ref={toast} />
         <hr></hr>
 
         <div
