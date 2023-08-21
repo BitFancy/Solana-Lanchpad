@@ -5,10 +5,8 @@ import Link from "next/link";
 import axios from "axios";
 import { Messages } from "primereact/messages";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 export default function Dashboard() {
   const msgs = useRef(null);
-
   const [active, setActive] = useState("");
   const [contractsData, setContractsData] = useState([]);
   const [activeMenu, setActiveMenu] = useState("");
@@ -38,7 +36,6 @@ export default function Dashboard() {
         }
       )
       .then(async (response) => {
-        console.log("Get all subscription data", response);
         msgs.current.show([
           {
             sticky: true,
@@ -49,8 +46,7 @@ export default function Dashboard() {
         ]);
       })
 
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
       });
   };
   const handleClick = (activeContract) => {
@@ -73,7 +69,6 @@ export default function Dashboard() {
         }
       })
       .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
       });
   };
   return (

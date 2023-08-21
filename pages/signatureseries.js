@@ -99,14 +99,12 @@ class SignatureSeries extends React.Component {
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
-        console.log("response SignatureSeries data", response);
         this.setState({
           signatureseriesRespoanse: response.data.contractAddress,
         });
       })
 
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
         this.showError();
       })
       .finally(() => {
@@ -229,7 +227,7 @@ class SignatureSeries extends React.Component {
                 </div>
                 {this.state.signatureseriesRespoanse && (
                   <div className="text-center mt-5">
-                    <Link href="/fusionSeries">
+                    <Link href="/instagen">
                       <Button
                         label="Continue"
                         severity="Primary"

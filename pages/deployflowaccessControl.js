@@ -4,11 +4,28 @@ import { Dialog } from "primereact/dialog";
 import Layout from "../Components/Layout";
 import axios from "axios";
 import Router from "next/router";
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function Deployflowmarket() {
   const [visible, setVisible] = useState(false);
   const [flowaccessResponse, setflowaccessResponse] = useState();
   const [loading, setLoading] = useState(false);
+  const toast = useRef(null);
+  const showSuccess = () => {
+    toast.current.show({
+      severity: "success",
+      detail: "Your Tradhub Flow Access Control contract has been Successfully Deployed",
+      life: 10000,
+    });
+  };
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While deploying flow Access control contract",
+      life: 10000,
+    });
+  };
   const flowAccessControllData = async () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -30,14 +47,16 @@ export default function Deployflowmarket() {
         setTimeout(() => {
           setLoading(false);
       }, 2000);
+      showSuccess();
         setflowaccessResponse(response.data.contractAddress);
         setVisible(true);
         Router.push("/step1");
       })
 
-      .catch((error) => {
-        console.log("err", error);
-      }).finally((error)=>{
+      .catch(() => {
+        showError
+      }).finally(()=>{
+
         setLoading(false)
       })
   };
@@ -46,6 +65,8 @@ export default function Deployflowmarket() {
       title="Deploy Flow Access Control Contract"
       description="This is use to show information of the flow access control contract"
     >
+            <Toast ref={toast} />
+
       <div>
         <div className="text-center">
           <Button

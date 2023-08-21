@@ -3,12 +3,8 @@ import React, { useEffect, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
-import Loader from "../Components/LoadingSpinner";
-import Link from "next/link";
 import { Button } from "primereact/button";
-
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 export default function ManageWebapp() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +30,7 @@ export default function ManageWebapp() {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
+        
       }).finally(()=>{
         setLoading(false);
       })

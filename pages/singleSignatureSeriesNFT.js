@@ -3,16 +3,22 @@ import React, { useEffect, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
-import Loader from "../Components/LoadingSpinner";
-import { Button } from "primereact/button";
-import Link from "next/link";
 import { InputText } from "primereact/inputtext";
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SingleSignatureseriesNft() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-
+  const toast = useRef(null);
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While getting single signature series data",
+      life: 10000,
+    });
+  };
   useEffect(() => {
     getAllContarctData();
   }, []);
@@ -32,13 +38,12 @@ export default function SingleSignatureseriesNft() {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
+      .catch(() => {
+        showError();
       });
   };
   const load = () => {
     setLoading2(true);
-
     setTimeout(() => {
       setLoading2(false);
     }, 2000);
@@ -46,6 +51,7 @@ export default function SingleSignatureseriesNft() {
   return (
     <Layout>
       <MarketplaceProfileDetails />
+      <Toast ref={toast} />
       <div className="text-center"></div>
       <hr></hr>
       <div

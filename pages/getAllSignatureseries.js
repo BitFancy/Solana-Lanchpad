@@ -5,13 +5,20 @@ import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import Link from "next/link";
-
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 export default function GetAllSignatureseries() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const toast = useRef(null);
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While getting data of the signature series contract",
+      life: 10000,
+    });
+  };
   useEffect(() => {
     getAllContarctData();
   }, []);
@@ -32,8 +39,8 @@ export default function GetAllSignatureseries() {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
+      .catch(() => {
+     showError();
       }).finally(()=>{
         setLoading(false);
       })
@@ -42,6 +49,8 @@ export default function GetAllSignatureseries() {
     <Layout>
       <div>
         <MarketplaceProfileDetails />
+        <Toast ref={toast} />
+
         <div className="font-bold mt-5 text-3xl text-black text-center">
           SignatureSeries
         </div>
@@ -51,7 +60,7 @@ export default function GetAllSignatureseries() {
           </div>
           <div
             className="grid"
-            style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+            style={{ gap: "20px", cursor: "pointer", marginLeft: "30px",marginBottom:'300px' }}
           >
             {contractData?.length > 0 ? (
               contractData.map((contract) => {

@@ -6,7 +6,15 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function MarketplaceProfileDetails() {
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [loading2, setLoading2] = useState(false);
-
+  const toast = useRef(null);
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While Get storefront Details",
+      life: 10000,
+    });
+  };
   const [defulatImage, setDefulatImage] = useState(
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
   );
@@ -16,10 +24,11 @@ export default function MarketplaceProfileDetails() {
   const replaceImage = (error) => {
     error.target.src = defulatImage;
   };
+
   const getSubscriptionData = () => {
     const token = localStorage.getItem("authToken");
     axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/subscription`, {
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,8 +38,8 @@ export default function MarketplaceProfileDetails() {
           setSubscriptionData(response.data);
         }
       })
-      .catch((error) => {
-        console.log("Error in Fetching subscription..!", error);
+      .catch(() => {
+       showError();
       }).finally(()=>{
         setLoading2(false);
         

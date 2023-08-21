@@ -21,14 +21,12 @@ const Step2=(props)=> {
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
     } catch (error) {
-      console.log("Error uploading file: ", error);
     }
   }
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
   async function onChangeThumbnail(e) {
     const file = e.files[0];
-    console.log("Uploaded file...",file);
     const thumbnail = new File([file], file.name, {
       type: file.type,
     });
@@ -37,7 +35,6 @@ const Step2=(props)=> {
       const metaHashURI = getMetaHashURI(metaHash);
      setuploadImage(metaHashURI)
     } catch (error) {
-      console.log("Error uploading file: ", error);
     }
   }
    
@@ -55,7 +52,6 @@ const Step2=(props)=> {
      try {
        tokenData = await axios.post(`${BASE_URL_LAUNCH}/FusionSeries`,config,  { contractName:"FusionSeries"})
        setsupabaseToken(tokenData)
-       console.log("FusionSeries ContarctData  data",tokenData)  
        msgs.current.show([
         {
           sticky: true,
@@ -73,7 +69,6 @@ const Step2=(props)=> {
         });
       }, 2000);
      } catch (e) {
-       console.log(e);
      }
      
    

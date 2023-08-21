@@ -37,12 +37,9 @@ const style = {
 const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
 const signatureSeriesAddress = process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
 const AccessMasterAddress = process.env.NEXT_PUBLIC_FLOW_ACCESS_Master_ADDRESS;
-
 export default function CreateItem() {
   const msgs = useRef(null);
-
   const { data: signerData } = useSigner();
-
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
@@ -77,7 +74,6 @@ export default function CreateItem() {
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
     } catch (error) {
-      console.log("Error uploading file: ", error);
     }
   }
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
@@ -92,7 +88,6 @@ export default function CreateItem() {
       setMediaHash({ ...mediaHash, image: metaHashURI });
       setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
     } catch (error) {
-      console.log("Error uploading file: ", error);
     }
   }
 
@@ -122,10 +117,8 @@ export default function CreateItem() {
       } else {
         setMediaHash({ ...mediaHash, [fileType]: metaHashURI });
       }
-      console.log("file data", fileData);
       setpreviewMedia(URL.createObjectURL(e.target.files[0]));
     } catch (error) {
-      console.log("Error uploading vedio: ", error);
     }
   }
   function createMarket(e) {
@@ -157,19 +150,15 @@ export default function CreateItem() {
     setmodelmsg("Transaction 1 in  progress");
     setmodel(true);
     const data = JSON.stringify({ ...assetData, ...mediaHash });
-    console.log("Asset Data before create", data);
-    console.log("auction time", assetData, data, assetData.auctionTime);
     const blobData = new Blob([data]);
     try {
       client.storeBlob(blobData).then(async (metaHash) => {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
-        console.log("doc ipfs", ipfsHash, url);
         await createItem(ipfsHash, url);
       });
     } catch (error) {
       setmodelmsg("Transaction failed");
-      console.log("Error uploading file: ", error);
     }finally{
       
     }
@@ -192,16 +181,13 @@ export default function CreateItem() {
   });
 
   async function createItem(ipfsHash, url) {
-    console.log("ipfs://" + ipfsHash);
     try {
-      console.log("assets crete ", url, formInput.royalties * 100);
       let transaction = await signatureSeriesContract.createAsset( 
         url,
         formInput.royalties * 100,
         { gasLimit: "2099999" }
       ); //500 - royalites dynamic
       let tx = await transaction.wait();
-      console.log("transaction", transaction);
       setmodelmsg("Transaction 1 Complete");
       let event = tx.events[0];
       let value = event.args[2];
@@ -212,7 +198,6 @@ export default function CreateItem() {
 
       await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
-      console.log(e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
@@ -232,11 +217,9 @@ export default function CreateItem() {
         { gasLimit: "2099999" }
       );
       // await transaction.wait();
-      console.log("transaction completed", transaction);
       router.push('/createInstagenNft')
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
-      console.log(e);
       setmodelmsg("Transaction 2 failed");
     } finally {
       setpreviewMedia("");
@@ -250,7 +233,6 @@ export default function CreateItem() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("attributes", attributes);
     msgs.current.show([
       {
         sticky: true,

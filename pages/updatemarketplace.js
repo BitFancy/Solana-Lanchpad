@@ -7,17 +7,16 @@ import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 class UpdateMarketPlace extends React.Component {
   state = {
     rows: [{}],
     submitClicked: false,
-    tradhubFees:'',
-    contractAddress:'',
-      errors: {
-        tradhubFeesError: "",
-        contractAddressError: "",
-      },
+    tradhubFees: "",
+    contractAddress: "",
+    errors: {
+      tradhubFeesError: "",
+      contractAddressError: "",
+    },
   };
   handleAddRow = () => {
     const item = {
@@ -60,9 +59,12 @@ class UpdateMarketPlace extends React.Component {
     this.setState({ loading: false });
   };
   handleInputAddress = (e) => {
-    this.setState({ ContractAddress: e.target.value, contractAddressError: "" });
+    this.setState({
+      ContractAddress: e.target.value,
+      contractAddressError: "",
+    });
     this.setState({ loading: false });
-  }
+  };
 
   updateMarketplaceData = () => {
     const token = localStorage.getItem("authToken");
@@ -93,14 +95,12 @@ class UpdateMarketPlace extends React.Component {
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
-        console.log("response SignatureSeries data", response);
         this.setState({
           signatureseriesRespoanse: response.data.contractAddress,
         });
       })
 
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
         this.showError();
       })
       .finally(() => {
@@ -129,80 +129,79 @@ class UpdateMarketPlace extends React.Component {
   };
   render() {
     return (
-      <Layout title="Update Tradhub" description="Used to show updated luanchpad information">
-              <MarketplaceProfileDetails/>
+      <Layout
+        title="Update Tradhub"
+        description="Used to show updated luanchpad information"
+      >
+        <MarketplaceProfileDetails />
 
-        <div className="flex buy-back-image" >
-          <div><Sidemenu/>
-          <Toast ref={(el) => (this.toast = el)} />
+        <div className="flex buy-back-image">
+          <div>
+            <Sidemenu />
+            <Toast ref={(el) => (this.toast = el)} />
+          </div>
+          <div style={{ margin: "0 auto", width: "70%" }}>
+            <div className=" p-5 font-bold text-3xl">Manage Your TradeHub</div>
+            {this.state.rows.map((item, idx) => (
+              <div id="addr0" key={idx} className="card mt-5">
+                <div className="flex p-2 justify-content-between gap-5">
+                  <div style={{ width: "40%" }}>
+                    <div className="text-left">Enter new TradeHub fee</div>
 
-</div>
-<div style={{margin:'0 auto',width:'70%'}}>
-        <div className=" p-5 font-bold text-3xl">
-         Manage Your TradeHub
-        </div>
-        {this.state.rows.map((item, idx) => (
-          <div id="addr0" key={idx} className="card mt-5" >
-            <div className="flex p-2 justify-content-between gap-5">
-              <div style={{ width: "40%" }}>
-                <div className="text-left">Enter new TradeHub fee</div>
+                    <InputText
+                      value={this.state.rows[idx].tradhubFees}
+                      className="p-2 mt-3 input-back w-full text-white"
+                      type="number"
+                      onChange={this.handleInputFee}
+                    />
+                    <p style={{ textAlign: "left", color: "red" }}>
+                      {!this.state.tradhubFees
+                        ? this.state.tradhubFeesError
+                        : ""}
+                    </p>
+                  </div>
+                  <div style={{ width: "40%" }}>
+                    <div>Enter payout address</div>
 
-                <InputText
-                  value={this.state.rows[idx].tradhubFees}
-                  className="p-2 mt-3 input-back w-full text-white"
-                  type="number"
-                  onChange={this.handleInputFee}
-                />
-                  <p  style={{textAlign:'left',color:'red'}}>
-                          {!this.state.tradhubFees
-                            ? this.state.tradhubFeesError
-                            : ""}
-                        </p>
+                    <InputText
+                      value={this.state.rows[idx].contractAddress}
+                      className="p-2 mt-3 input-back w-full text-white"
+                      type="text"
+                      onChange={this.handleInputAddress}
+                    />
+                    <p style={{ textAlign: "left", color: "red" }}>
+                      {!this.state.contractAddress
+                        ? this.state.contractAddressError
+                        : ""}
+                    </p>
+                  </div>
+                  <div className="mt-5">
+                    <Button
+                      severity="danger"
+                      icon="pi pi-minus"
+                      onClick={this.handleRemoveSpecificRow(idx)}
+                    ></Button>
+                  </div>
+                </div>
               </div>
-              <div style={{ width: "40%" }}>
-                <div>Enter payout address</div>
-
-                <InputText
-                  value={this.state.rows[idx].contractAddress}
-                  className="p-2 mt-3 input-back w-full text-white"
-                  type="text"
-                  onChange={this.handleInputAddress}
-                />
-                  <p  style={{textAlign:'left',color:'red'}}>
-                          {!this.state.contractAddress
-                            ? this.state.contractAddressError
-                            : ""}
-                        </p>
-              </div>
-              <div className="mt-5">
-                <Button
-                  severity="danger"
-                  icon="pi pi-minus"
-                  onClick={this.handleRemoveSpecificRow(idx)}
-                ></Button>
-              </div>
+            ))}
+            <div className="text-center mt-5">
+              <Button
+                icon="pi pi-plus"
+                label="Add Another Admin"
+                severity="info"
+                onClick={this.handleAddRow}
+              />
+            </div>
+            <div className="text-center mt-5">
+              <Button
+                label="Update"
+                severity="info"
+                onClick={this.updateMarketplaceData}
+              />
             </div>
           </div>
-        ))}
-        <div className="text-center mt-5">
-          <Button
-            icon="pi pi-plus"
-            label="Add Another Admin"
-            severity="info"
-            onClick={this.handleAddRow}
-          />
         </div>
-        <div className="text-center mt-5">
-          <Button
-            label="Update"
-            severity="info"
-            onClick={this.updateMarketplaceData}
-            
-          />
-        </div>
-      </div>
-        </div>
-    
       </Layout>
     );
   }

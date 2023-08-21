@@ -5,7 +5,7 @@ import subscriptionAbi from '../artifacts/contracts/subscription/abi.json';
 import { Toast } from 'primereact/toast';
 
 import {
-    useAccount, useContract, useEnsName, useSigner,
+     useContract, useSigner,
   } from 'wagmi'
 import Layout from "../Components/Layout";
 import axios from "axios";
@@ -21,20 +21,18 @@ export default function BuyNft() {
   const [proResponse, setproResponse] = useState();
   const { data: signerData } = useSigner();
   const flowSubscriptionAddress=process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
-    const [error, setError] = useState(null);
-    const msgs = useRef(null);
-    const { address} = useAccount()
     const toast = useRef(null);
-
-    const { data: ensName } = useEnsName({ address })
     const showSuccessPro = () => {
       toast.current.show({severity:'success', summary: 'Success ', detail:'Your Pro plan has been minted/Transaction mined and confirmed', life: 10000});
   }
   const showSuccessBasic = () => {
     toast.current.show({severity:'success', summary: 'Success ', detail:'Your Basic plan subscription has been successfully created', life: 10000});
 }
-  const showError = () => {
-    toast.current.show({severity:'error', summary: 'Error', detail:'Something Went Wrong Please try after some time', life: 10000});
+  const showErrorBasic = () => {
+    toast.current.show({severity:'error', summary: 'Error', detail:'Error While Basic plan', life: 10000});
+  }
+  const showErrorpro = () => {
+    toast.current.show({severity:'error', summary: 'Error', detail:'Error While Pro Plan', life: 10000});
   }
     const flowSubscriptionContarct = useContract({
       addressOrName: flowSubscriptionAddress,
@@ -48,23 +46,19 @@ export default function BuyNft() {
             value: ethers.utils.parseEther("0.00"),
           });
          
-          tx.wait().then((transaction) => {
+          tx.wait().then(async (transaction) => {
+            setproResponse(transaction);
+            showSuccessPro();
             setTimeout(() => {
               setLoading1(false);
             }, 2000);    
-            setproResponse(transaction);
-            showSuccessPro();
-
           });
            
         } catch (error) {
-          console.log(error);     
-          showError();
+          showErrorpro();
         }finally{
-          setLoading(false);
           setLoading1(false);
-          setLoading2(false);
-          setLoading3(false);
+       
         }
       };
     
@@ -83,26 +77,20 @@ export default function BuyNft() {
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                
               },
-             
             },
           )
           .then(async (response) => {
+            setbasitResponse(response)
+            showSuccessBasic();
             setTimeout(() => {
               setLoading(false);
           }, 2000);
-           setbasitResponse(response)
-            showSuccessBasic();
           })
-          .catch((error) => {
-            console.log("err", error);
-            showError();
+          .catch(() => {
+            showErrorBasic();
           }).finally(()=>{
             setLoading(false);
-            setLoading1(false);
-            setLoading2(false);
-            setLoading3(false);
           })
       }
 

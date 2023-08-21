@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
-import  { withRouter } from "next/router";
+import { withRouter } from "next/router";
 import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
@@ -25,7 +25,7 @@ class FusionSeries extends React.Component {
     this.toast.show({
       severity: "error",
       summary: "Error",
-      detail: "Something Went Wrong Please Try After Some Time",
+      detail: "Error While Deploying Fusion Series Contarct",
       life: 10000,
     });
   }
@@ -35,19 +35,18 @@ class FusionSeries extends React.Component {
     contractSymbol: "",
     fusionseriesResponse: "",
     loading: false,
-    loading2:false,
+    loading2: false,
     submitClicked: false,
     errors: {
       contractNameEror: "",
       symbolError: "",
     },
-  
   };
   load = () => {
-    this.setState({loading2:true})
-  
+    this.setState({ loading2: true });
+
     setTimeout(() => {
-      this.setState({loading2:false})
+      this.setState({ loading2: false });
     }, 2000);
   };
   handleAddRow = () => {
@@ -79,9 +78,11 @@ class FusionSeries extends React.Component {
         {
           contractName: "FusionSeries",
           constructorParams: {
-            param1: this.state.contractName,
-            param2: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+            param1: "www.xyz.com",
+            param2: this.state.contractName,
+            param3: this.state.contractSymbol,
+            param4: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            param5: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
           },
           network: "maticmum",
         },
@@ -99,28 +100,27 @@ class FusionSeries extends React.Component {
         }, 2000);
         this.setState({ fusionseriesResponse: response.data.contractAddress });
       })
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
         this.showError();
-      }).finally(() => {
-        this.setState({loading:false});
-        this.setState({loading2:false})
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+        this.setState({ loading2: false });
       });
   };
- 
 
   // useEffect(() => {
   //   setTradhubContarctAddress(props.router.query.contractAddress);
   // }, [props.router.query.contractAddress]);
 
-  handleChange = idx => e => {
+  handleChange = (idx) => (e) => {
     const { name, value } = e.target;
     const rows = [...this.state.rows];
     rows[idx] = {
-      [name]: value
+      [name]: value,
     };
     this.setState({
-      rows
+      rows,
     });
   };
   handleInputName = (e) => {
@@ -141,12 +141,14 @@ class FusionSeries extends React.Component {
     } else {
       if (!this.state.contractName) {
         this.setState({
-          contractNameEror: "Please Enter FusionSeries  Name",loading:false,
+          contractNameEror: "Please Enter FusionSeries  Name",
+          loading: false,
         });
       }
       if (!this.state.contractSymbol) {
         this.setState({
-          symbolError: "Please Enter FusionSeries Symbol Description",loading:false,
+          symbolError: "Please Enter FusionSeries Symbol Description",
+          loading: false,
         });
       }
     }
@@ -177,10 +179,10 @@ class FusionSeries extends React.Component {
 
                         <InputText
                           value={this.state.rows[idx].ontractName}
-                          onChange={this.handleInputName}                        
+                          onChange={this.handleInputName}
                           className="p-2 mt-3 input-back w-full text-white"
                         />
-                         <p  style={{textAlign:'left',color:'red'}}>
+                        <p style={{ textAlign: "left", color: "red" }}>
                           {!this.state.contractName
                             ? this.state.contractNameEror
                             : ""}
@@ -196,7 +198,7 @@ class FusionSeries extends React.Component {
                           onChange={this.handleInputSymbol}
                           className="p-2 mt-3 input-back w-full text-white"
                         />
-                          <p  style={{textAlign:'left',color:'red'}}>
+                        <p style={{ textAlign: "left", color: "red" }}>
                           {!this.state.contractSymbol
                             ? this.state.symbolError
                             : ""}
@@ -223,31 +225,28 @@ class FusionSeries extends React.Component {
               </div>
               <div className="flex justify-content-between mt-5">
                 <div>
-                <Button
-                  onClick={this.fusionSerisData}
-                  label="Deploy FusionSeries"
-                  severity="Primary"
-                   type="submit"
-                  rounded
-                  loading={this.state.loading}
-                />
+                  <Button
+                    onClick={this.fusionSerisData}
+                    label="Deploy FusionSeries"
+                    severity="Primary"
+                    type="submit"
+                    rounded
+                    loading={this.state.loading}
+                  />
                 </div>
-                {this.state.fusionseriesResponse && 
+                {this.state.fusionseriesResponse && (
                   <div>
-                  <Link href='/eternumPass'>
-                <Button
-                 
-                  label="Continue"
-                  severity="Primary"
-                 onClick={this.load}
-                  rounded
-                  
-                  loading={this.state.loading2}
-                />
-                </Link>
-                </div>
-                }
-              
+                    <Link href="/eternumPass">
+                      <Button
+                        label="Continue"
+                        severity="Primary"
+                        onClick={this.load}
+                        rounded
+                        loading={this.state.loading2}
+                      />
+                    </Link>
+                  </div>
+                )}
               </div>
               <Toast ref={(el) => (this.toast = el)} />
             </div>

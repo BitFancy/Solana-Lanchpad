@@ -1,50 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import { useRef } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
-import Router from "next/router";
 import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
-import { Field, Form } from "react-final-form";
-import { classNames } from "primereact/utils";
+import { Toast } from "primereact/toast";
+
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-
 export default function AddSubscription() {
   const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
   const blockchain = [
     { name: "Polygon", value: "Polygon" },
     { name: "Ethereum", value: "Ethereum" },
   ];
-  const { address } = useAccount();
 
+ 
+  const { address } = useAccount();
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [formData, setFormData] = useState({});
-
   const [contractName, setContarctName] = useState("");
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
   const [storefrontResponase, setstorefrontResponase] = useState();
-  const [errors, setErrors] = useState(true)
-
+  const [errors, setErros] = useState({
+    contractNameEror: "",
+    descriptionError:"",
+    headlineError:"",
+    uploadImageError:"",
+  });
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
+
+  const showErroruploadBlob = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While Uploading Blob Image",
+      life: 10000,
+    });
+  };
+  const showErroruploadImage = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While Uploading  Image",
+      life: 10000,
+    });
+  };
+  const showErrorGetStorefront = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While Get Storefront",
+      life: 10000,
+    });
+  };
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
     } catch (error) {
-      console.log("Error uploading file: ", error);
+      showErroruploadBlob();
     }
   }
 
@@ -52,7 +79,6 @@ export default function AddSubscription() {
 
   async function onChangeThumbnail(e) {
     const file = e.files[0];
-    console.log("Uploaded file...", file);
     const thumbnail = new File([file], file.name, {
       type: file.type,
     });
@@ -61,7 +87,7 @@ export default function AddSubscription() {
       const metaHashURI = getMetaHashURI(metaHash);
       setuploadImage(metaHashURI);
     } catch (error) {
-      console.log("Error uploading file: ", error);
+      showErroruploadImage();
     } finally {
       setLoading2(false);
       setLoading(false);
@@ -88,21 +114,25 @@ export default function AddSubscription() {
       );
       return data;
     } catch (error) {
-      console.log("Error in Fetching subscription..!", error);
+      showErrorGetStorefront();
+
     }
   };
 
   const addSubscription = async () => {
+    setLoading(true);
     const storefronts = await getSubscriptionData();
-validate();
-    const { contractName, headline, description } = formData;
-    if (storefronts.find((sf) => sf.string?.toLowerCase() === contractName?.toLowerCase())) {
+    onClickButton();
+    if (
+      storefronts.find(
+        (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
+      )
+    ) {
       alert(`Storefront '${contractName}' already exist`);
 
       return;
     }
     const token = localStorage.getItem("authToken");
-    setLoading(true);
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/storefront`,
@@ -128,15 +158,15 @@ validate();
         }, 2000);
         setstorefrontResponase(response);
         showSticky();
-       
       })
 
-      .catch((error) => {
+      .catch(() => {
         showError();
-      }).finally(()=>{
+      })
+      .finally(() => {
         setLoading(false);
         setLoading2(false);
-      })
+      });
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
@@ -156,41 +186,38 @@ validate();
       sticky: true,
     });
   };
- 
+
   const showError = () => {
     toast.current.show({
       severity: "error",
       summary: "Error ",
-      detail: "Some Thing Went Wrong Please try After Some Time",
+      detail: "Error While Add Storefront Details",
       sticky: true,
     });
   };
-  const validate = (data) => {
-    let errors = {};
-    if (!data?.contractName) {
-      errors.contractName = "Please Fill Storefront Name.";
-      setLoading(false);
-    }
-    if (!data && data?.contractName?.length === 0) {
-      errors.contractName = "Name is not Empty.";
-      setLoading(false);
-    }
 
-    console.log("errors",errors);
-    return errors;
-  };
-  const onSubmit = (data, form) => {
-    setFormData(data);
-  };
-  const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-  const getFormErrorMessage = (meta) => {
-    return (
-      isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>
-    );
+
+  const onClickButton = () => {
+    if (contractName && description && headline)  {
+      setSubmitClicked(true);
+    } else {
+      if (!contractName) {
+        setErros({ contractNameEror: "Please Enter Storefront Name" });
+      }
+      if (!description) {
+        setErros({ descriptionError: "Please Enter Description" });
+      }
+      if (!headline) {
+        setErros({ headlineError: "Please Enter Headline" });
+      }
+      setSubmitClicked(false);
+    }
   };
   return (
     <div>
       <AppTopbar />
+      <Toast ref={toast} />
+
       <div className="buy-back-image" style={{ marginTop: "68px" }}>
         <div className="font-bold text-3xl p-5 text-white text-center">
           Add StoreFront Details
@@ -219,141 +246,88 @@ validate();
             </div>
           </div>
           <div className="w-full">
-            <Form
-              onSubmit={onSubmit}
-              validate={validate}
-              render={({ handleSubmit }) => (
-                <form onSubmit={handleSubmit} className="p-fluid">
-                  <Field
-                    name="contractName"
-                    render={({ input, meta }) => (
-                      <div className="field">
-                        <div>StoreFront Name(must be unique)</div>
-                        <div className="mt-3">
-                          <InputText
-                            id="contractName"
-                            onChange={handleInputContractName}
-                            value={contractName}
-                            {...input}
-                            autoFocus
-                            className={classNames({
-                              "p-invalid": isFormFieldValid(meta),
-                            })}
-                          />
-                          <label
-                            htmlFor="contractName"
-                            className={classNames({
-                              "p-error": isFormFieldValid(meta),
-                            })}
-                          ></label>
-                        </div>
-                        {getFormErrorMessage(meta)}
-                      </div>
-                    )}
-                  />
-                  <Field
-                    name="selecteBlockchaine"
-                    render={({ input, meta }) => (
-                      <div className="field">
-                        <div className="mt-5">Blockchain</div>
+            <div>StoreFront Name(must be unique)</div>
+            <div className="mt-3">
+              <InputText
+                id="contractName"
+                onChange={handleInputContractName}
+                value={contractName}
+                className="p-2 mt-3 input-back w-full text-white"
+              />
+               <p style={{ textAlign: "left", color: "red" }}>
+              {!contractName ? errors.contractNameEror : ""}
+            </p>
+            </div>
 
-                        <div className=" p-input-icon-right mt-3">
-                          <Dropdown
-                            value={selecteBlockchaine}
-                            onChange={(e) => setselectedBlockchaine(e.value)}
-                            options={blockchain}
-                            optionLabel="name"
-                            placeholder="Select Blockchain "
-                            className="w-full input-back"
-                          />
-                        </div>
-                      </div>
-                    )}
-                  />
-                  <Field
-                    name="headline"
-                    render={({ input, meta }) => (
-                      <div className="field">
-                        <div className="mt-5">Headline</div>
+            <div className="mt-5">Blockchain</div>
 
-                        <div className=" p-input-icon-right mt-3">
-                          <InputText
-                            value={headline}
-                            onChange={handleInputHeadline}
-                            {...input}
-                            className={classNames({
-                              "p-invalid": isFormFieldValid(meta),
-                            })}
-                          />
-                          <label
-                            htmlFor="headline"
-                            className={classNames({
-                              "p-error": isFormFieldValid(meta),
-                            })}
-                          ></label>
-                        </div>
-                        {getFormErrorMessage(meta)}
-                      </div>
-                    )}
-                  />
-                  <Field
-                    name="description"
-                    render={({ input, meta }) => (
-                      <div className="field">
-                        <div className="mt-5">Description</div>
+            <div className="  mt-3">
+              <Dropdown
+                value={selecteBlockchaine}
+                onChange={(e) => setselectedBlockchaine(e.value)}
+                options={blockchain}
+                optionLabel="name"
+                placeholder="Select Blockchain "
+                className="w-full input-back"
+              />
+             
+            </div>
 
-                        <div className=" p-input-icon-right mt-3">
-                          <InputText
-                            value={description}
-                            onChange={handleInputDescription}
-                            {...input}
-                            className={classNames({
-                              "p-invalid": isFormFieldValid(meta),
-                            })}
-                          />
-                          <label
-                            htmlFor="description"
-                            className={classNames({
-                              "p-error": isFormFieldValid(meta),
-                            })}
-                          ></label>
-                        </div>
-                        {getFormErrorMessage(meta)}
-                      </div>
-                    )}
-                  />
-                  <div className="flex mt-5 justify-content-between">
-                    <div>
-                      <Button
-                        label="Add Storefront"
-                        onClick={addSubscription}
-                        severity="Primary"
-                        className=" mt-7 w-full"
-                        style={{ width: "30%" }}
-                        rounded
-                        type="submit"
-                        loading={loading}
-                      />
-                    </div>
-                    {storefrontResponase && (
-                      <div>
-                        <Link href="/step1">
-                          <Button
-                            label="Continue"
-                            severity="Primary"
-                            className=" mt-7 w-full"
-                            style={{ width: "30%" }}
-                            rounded
-                            loading={loading2}
-                            onClick={load}
-                          />
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </form>
+            <div className="mt-5">Headline</div>
+
+            <div className=" mt-3">
+              <InputText
+                value={headline}
+                onChange={handleInputHeadline}
+                className="p-2 mt-3 input-back w-full text-white"
+              />
+               <p style={{ textAlign: "left", color: "red" }}>
+              {!headline ? errors.headlineError : ""}
+            </p>
+            </div>
+
+            <div className="mt-5">Description</div>
+
+            <div className="  mt-3">
+              <InputText
+                value={description}
+                onChange={handleInputDescription}
+                className="p-2 mt-3 input-back w-full text-white"
+              />
+               <p style={{ textAlign: "left", color: "red" }}>
+              {!description ? errors.descriptionError : ""}
+            </p>
+            </div>
+
+            <div className="flex mt-5 justify-content-between">
+              <div>
+                <Button
+                  label="Add Storefront"
+                  onClick={addSubscription}
+                  severity="Primary"
+                  className=" mt-7 w-full"
+                  style={{ width: "30%" }}
+                  rounded
+                  type="submit"
+                  loading={loading}
+                />
+              </div>
+              {storefrontResponase && (
+                <div>
+                  <Link href="/step1">
+                    <Button
+                      label="Continue"
+                      severity="Primary"
+                      className=" mt-7 w-full"
+                      style={{ width: "30%" }}
+                      rounded
+                      loading={loading2}
+                      onClick={load}
+                    />
+                  </Link>
+                </div>
               )}
-            />
+            </div>
           </div>
         </div>
       </div>

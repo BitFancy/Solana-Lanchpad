@@ -6,12 +6,21 @@ import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import { Button } from "primereact/button";
 import Link from "next/link";
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function GetAllSignatureSeriesSeriesNft() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-
+  const toast = useRef(null);
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While getting data of the signature series NFT Data",
+      life: 10000,
+    });
+  };
   useEffect(() => {
     getAllContarctData();
   }, []);
@@ -31,8 +40,9 @@ export default function GetAllSignatureSeriesSeriesNft() {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
+      .catch(() => {
+        showError();
+
       }).finally(()=>{
         setLoading(false);
         setLoading2(false);
@@ -48,6 +58,8 @@ export default function GetAllSignatureSeriesSeriesNft() {
   return (
     <Layout>
       <MarketplaceProfileDetails/>
+      <Toast ref={toast} />
+
       <div className="flex justify-content-around">
         <div className="font-bold mt-5 text-3xl text-black ">
           SignatureSeries

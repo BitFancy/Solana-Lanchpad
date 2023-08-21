@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
 import Link from "next/link";
@@ -23,7 +23,6 @@ export default function LuanchNFTs() {
         }
       })
       .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
       });
   };
 

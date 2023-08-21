@@ -4,21 +4,26 @@ import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
-
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 export default function GetAllInstagen() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const toast = useRef(null);
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While getting data of the instagen contract",
+      life: 10000,
+    });
+  };
   useEffect(() => {
     getAllContarctData();
   }, []);
-
   const getAllContarctData = () => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
-
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
         headers: {
@@ -30,10 +35,9 @@ export default function GetAllInstagen() {
           setContarctData(response.data);
         }
         setLoading(false);
-
       })
-      .catch((error) => {
-        console.log("Error in Fetching contracts..!", error);
+      .catch(() => {
+        showError();
       }).finally(()=>{
         setLoading(false)
       })
@@ -41,6 +45,7 @@ export default function GetAllInstagen() {
   return (
     <Layout>
       <MarketplaceProfileDetails/>
+      <Toast ref={toast} />
         <div className="font-bold mt-5 text-3xl text-black text-center">
           InstaGen
         </div>
@@ -86,9 +91,7 @@ export default function GetAllInstagen() {
               </div>
             )}
           </div>
-
         </div>
-      
     </Layout>
   );
 }

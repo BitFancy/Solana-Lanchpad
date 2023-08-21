@@ -5,7 +5,6 @@ const accessMaterAddress = process.env.NEXT_PUBLIC_FLOW_ACCESS_Master_ADDRESS;
 import { useAccount, useEnsName } from "wagmi";
 import { Button } from 'primereact/button';
 import Layout from '../Components/Layout';
-import Link from 'next/link';
 import Sidemenu from './sidemenu';
 import MarketplaceProfileDetails from './marketplaceProfileDetails';
 import { ethers } from 'ethers';
@@ -36,7 +35,6 @@ export default function AccessMasterRole() {
         setTimeout(() => {
           setLoading1(false);
       }, 2000);
-        console.log("revoke role data", revokerole);
       };
       const grantRoleData = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);

@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../Components/Layout";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
 export default function LaunchEturnulsol() {
-  const msgs = useRef(null);
   const [loading, setLoading] = useState(false);
   const load = () => {
     setLoading(true);

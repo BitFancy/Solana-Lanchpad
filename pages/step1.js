@@ -6,8 +6,6 @@ import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
-import { Field, Form } from "react-final-form";
-import { classNames } from "primereact/utils";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Step1 = () => {
   const [loading, setLoading] = useState(false);
@@ -15,14 +13,17 @@ const Step1 = () => {
   const [platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [tradhubResponse, settradhubResponse] = useState();
-  const [formData, setFormData] = useState({});
+  const [errors, setErros] = useState({
+    platformFeeErrors: "",
+    contractNameEror: "",
+  });
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   const toast = useRef(null);
   const showSuccess = () => {
     toast.current.show({
       severity: "success",
-      summary: "Success Message",
-      detail: "Message Content",
+      detail: "Your Tradhub Contract has been sucessfully Deployed",
       life: 10000,
     });
   };
@@ -44,7 +45,7 @@ const Step1 = () => {
 
   const tradHubContarctData = () => {
     const token = localStorage.getItem("authToken");
-    validate();
+    onClickButton();
     setLoading(true);
     axios
       .post(
@@ -52,8 +53,8 @@ const Step1 = () => {
         {
           contractName: "TradeHub",
           constructorParams: {
-            param1: contractName,
-            param2: platformFee,
+            param1: platformFee,
+            param2: contractName,
             param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
           },
           network: "maticmum",
@@ -72,8 +73,7 @@ const Step1 = () => {
         showSuccess();
       })
 
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
         showError();
       })
       .finally(() => {
@@ -82,37 +82,23 @@ const Step1 = () => {
       });
   };
   const handleInputFee = (e) => {
-    if (e.target.value <= 100) {
-      setPlatformfee(e.target.value);
-    }
+    setPlatformfee(e.target.value);
   };
   const handleInputName = (e) => {
     setContractName(e.target.value);
   };
 
-  const validate = (data) => {
-    let errors = {};
-
-    if (!data?.contractName) {
-      errors.contractName = "Name is required.";
-      setLoading(false);
+  const onClickButton = () => {
+    if (platformFee && contractName) {
+      setSubmitClicked(true);
+    } else {
+      if (!platformFee) {
+        setErros({ platformFeeErrors: "Please Enter Platform Fees" });
+      }
+      if (!contractName) {
+        setErros({ contractNameEror: "Please Enter Contarct Name" });
+      }
     }
-
-    if (!data?.platformFee) {
-      errors.platformFee = "PlatformFee is required.";
-      setLoading(false);
-    }
-
-    return errors;
-  };
-  const onSubmit = (data, form) => {
-    setFormData(data);
-  };
-  const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-  const getFormErrorMessage = (meta) => {
-    return (
-      isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>
-    );
   };
 
   return (
@@ -131,98 +117,63 @@ const Step1 = () => {
           Setup TradeHub
         </div>
         <div className="card" style={{ width: "60%", margin: "0 auto" }}>
-          <Form
-            onSubmit={onSubmit}
-            initialValues={{ contractName: "", platformFee: "" }}
-            validate={validate}
-            render={({ handleSubmit }) => (
-              <form onSubmit={handleSubmit} className="p-fluid">
-                <Field
-                  name="contractName"
-                  render={({ input, meta }) => (
-                    <div className="field">
-                      <div>Enter TradeHub Name</div>
-                      <div className="mt-3">
-                        <InputText
-                          id="contractName"
-                          onChange={handleInputName}
-                          {...input}
-                          autoFocus
-                          className={classNames({
-                            "p-invalid": isFormFieldValid(meta),
-                          })}
-                        />
-                        <label
-                          htmlFor="contractName"
-                          className={classNames({
-                            "p-error": isFormFieldValid(meta),
-                          })}
-                        ></label>
-                      </div>
-                      {getFormErrorMessage(meta)}
-                    </div>
-                  )}
-                />
-                <Field
-                  name="platformFee"
-                  render={({ input, meta }) => (
-                    <div className="field">
-                      <div className="mt-5">Enter TradeHub Fee</div>
+          <div>Enter TradeHub Fee</div>
+          <div className="mt-3">
+            <InputText
+              type="number"
+              className="p-2 mt-3 input-back w-full text-white"
+              value={platformFee}
+              onChange={handleInputFee}
+            />
 
-                      <div className=" p-input-icon-right mt-3">
-                        <InputText
-                          type="number"
-                          value={platformFee}
-                          onChange={handleInputFee}
-                          {...input}
-                          className={classNames({
-                            "p-invalid": isFormFieldValid(meta),
-                          })}
-                        />
-                        <label
-                          htmlFor="platformFee"
-                          className={classNames({
-                            "p-error": isFormFieldValid(meta),
-                          })}
-                        ></label>
-                      </div>
-                      {getFormErrorMessage(meta)}
-                    </div>
-                  )}
+            <p style={{ textAlign: "left", color: "red" }}>
+              {!platformFee ? errors.platformFeeErrors : ""}
+            </p>
+          </div>
+
+          <div className="mt-5">Enter TradeHub Name</div>
+          <div className="mt-3">
+            <InputText
+              value={contractName}
+              className="p-2 mt-3 input-back w-full text-white"
+              onChange={handleInputName}
+            />
+
+            <p style={{ textAlign: "left", color: "red" }}>
+              {!contractName ? errors.contractNameEror : ""}
+            </p>
+          </div>
+          <div className="flex mt-5 justify-content-between">
+          <div>
+            <Button
+              label="Deploy Tradhub Contract"
+              onClick={tradHubContarctData}
+              severity="Primary"
+              className=" mt-7 w-full"
+              style={{ width: "30%" }}
+              rounded
+              loading={loading}
+            />
+          </div>
+          {tradhubResponse && (
+            <div>
+              <Link href="/launchSignatureseries">
+                <Button
+                  label="Continue"
+                  severity="Primary"
+                  className=" mt-7 w-full"
+                  style={{ width: "30%" }}
+                  rounded
+                  loading={loading2}
+                  onClick={load}
                 />
-                <div className="flex mt-5 justify-content-between">
-                  <div>
-                    <Button
-                      label="Deploy Tradhub Contract"
-                      onClick={tradHubContarctData}
-                      severity="Primary"
-                      className=" mt-7 w-full"
-                      style={{ width: "30%" }}
-                      rounded
-                      type="submit"
-                      loading={loading}
-                    />
-                  </div>
-                  {tradhubResponse && (
-                    <div>
-                      <Link href="/launchSignatureseries">
-                        <Button
-                          label="Continue"
-                          severity="Primary"
-                          className=" mt-7 w-full"
-                          style={{ width: "30%" }}
-                          rounded
-                          loading={loading2}
-                          onClick={load}
-                        />
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </form>
-            )}
-          />
+              </Link>
+            </div>
+          )}
         </div>
+        </div>
+
+        
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
 import Link from 'next/link';
-
 import { StyleClass } from 'primereact/styleclass';
 import { Button } from 'primereact/button';
 import { Ripple } from 'primereact/ripple';
@@ -8,7 +7,6 @@ import { Divider } from 'primereact/divider';
 import AppConfig from '../../layout/AppConfig';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import { classNames } from 'primereact/utils';
-import Image from 'next/image';
 
 const LandingPage = () => {
     const [isHidden, setIsHidden] = useState(false);

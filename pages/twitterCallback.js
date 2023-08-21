@@ -50,7 +50,6 @@ const TwitterCallbackPage = () => {
           const twitterDataResponse = await fetch('/api/twitterData', twitterDataRequestOptions);
           const twitterData = await twitterDataResponse.json();
 
-          console.log(twitterData);
           saveUserDataToLocal(twitterData);
           
           router.push("/profile");

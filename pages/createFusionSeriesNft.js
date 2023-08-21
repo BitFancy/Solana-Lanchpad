@@ -31,7 +31,6 @@ const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
 
 export default function CreateFusionSeriesNft() {
   const { data: signerData } = useSigner();
-  console.log("signer data", signerData);
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
@@ -48,9 +47,6 @@ export default function CreateFusionSeriesNft() {
     royalties: 5,
     auctionTime: 2,
   });
-
-  const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address });
   const buyTokens = useContract({
     addressOrName: FusionSeriesAddress,
     contractInterface: FusionSeries.abi,
@@ -97,7 +93,6 @@ export default function CreateFusionSeriesNft() {
         { gasLimit: "2099999" }
       );
       let tx = await transaction.wait();
-      console.log("transaction", transaction);
       setmodelmsg("Transaction 1 Complete");
       let event = tx.events[0];
       let value = event.args[3];
@@ -107,7 +102,6 @@ export default function CreateFusionSeriesNft() {
 
       await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
-      console.log(e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
@@ -129,7 +123,6 @@ export default function CreateFusionSeriesNft() {
       console.log("transaction 2 is completed", transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
-      console.log(e);
       setmodelmsg("Transaction 2 failed");
     } 
   };
@@ -139,7 +132,6 @@ export default function CreateFusionSeriesNft() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("attributes", attributes);
   };
 
   const handleChangeInput = (id, event) => {

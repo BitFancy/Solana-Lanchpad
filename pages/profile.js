@@ -15,15 +15,11 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Avatar } from 'primereact/avatar';
-import { Image } from 'primereact/image';
 import Link from "next/link";
 import Cookies from 'js-cookie';
 import Loader from "../Components/LoadingSpinner";
-import etherContract from "../utils/web3Modal";
 import { removePrefix } from "../utils/ipfsUtil";
-import AccessMaster from '../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json';
-const accessmasterAddress = process.env.NEXT_PUBLIC_ACCESS_MASTER_ADDRESS;
-import { useAccount, useEnsName } from "wagmi";
+import { useAccount } from "wagmi";
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
 
@@ -61,8 +57,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function Profile() {
 
   const { address } = useAccount();
-  console.log("wallet",address);
-
   useEffect(() => {
     const userData = getUserDataFromLocalStorage();
     settwitt(userData);

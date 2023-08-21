@@ -12,6 +12,6 @@ export const getMetaData = async (uri) => {
     );
     return data;
   } catch (error) {
-    console.log(error);
+    alert("Error While get metadata Info", error)
   }
 };

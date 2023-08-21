@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React from "react";
-import Router, { withRouter } from "next/router";
+import  { withRouter } from "next/router";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
@@ -25,7 +25,7 @@ constructor(props) {
     this.toast.show({
       severity: "error",
       summary: "Error",
-      detail: "Something Went Wrong Please Try Again",
+      detail: "Error While Deploying EternalSoul Contract",
       life: 10000,
     });
   }
@@ -89,14 +89,12 @@ constructor(props) {
         setTimeout(() => {
             this.setState({ loading: false });
         }, 2000);
-        console.log("response EternalSoul data", response);
         this.setState({ eturnalsolResponse: response.data.contractAddress });
 
 
       })
 
-      .catch((error) => {
-        console.log("err", error);
+      .catch(() => {
         this.showError();
       }).finally(() => {
         this.setState({loading:false});
@@ -232,7 +230,7 @@ onClickButton = () => {
             <div className="text-center mt-5">
               <Button
                 onClick={this.eturnulsolData}
-                label="Deploy EternalSoul"
+                label="Deploy EturnalSoul"
                 severity="Primary"
                 rounded
                 loading={this.state.loading}
@@ -241,7 +239,7 @@ onClickButton = () => {
             <div >
               {this.state.eturnalsolResponse &&
                 <div className="text-center mt-5">
-                <Link href='/webappForm'>
+                <Link href='/fusionSeries'>
               <Button
                 label="Continue"
                 severity="Primary"
