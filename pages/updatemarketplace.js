@@ -56,75 +56,73 @@ class UpdateMarketPlace extends React.Component {
 
   handleInputFee = (e) => {
     this.setState({ tradhubFees: e.target.value, tradhubFeesError: "" });
-    this.setState({ loading: false });
   };
   handleInputAddress = (e) => {
     this.setState({
       ContractAddress: e.target.value,
       contractAddressError: "",
     });
-    this.setState({ loading: false });
   };
 
   updateMarketplaceData = () => {
     const token = localStorage.getItem("platform_token");
-    this.onClickButton();
-    this.setState({ loading: true });
+   const valid= this.onClickButton();
+   if(valid){
     axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "SignatureSeries",
-          constructorParams: {
-            param1: this.state.tradhubFees,
-            param2: this.state.contractAddress,
-            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-          },
-          network: "maticmum",
+    .post(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+      {
+        contractName: "SignatureSeries",
+        constructorParams: {
+          param1: this.state.tradhubFees,
+          param2: this.state.contractAddress,
+          param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+          param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        this.showSuccess();
+        network: "maticmum",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(async (response) => {
+      this.showSuccess();
 
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, 2000);
-        this.setState({
-          signatureseriesRespoanse: response.data.contractAddress,
-        });
-      })
-
-      .catch(() => {
-        this.showError();
-      })
-      .finally(() => {
+      setTimeout(() => {
         this.setState({ loading: false });
-        this.setState({ loading2: false });
-      });
-  };
-  onClickButton = () => {
-    let errors = this.state.errors;
-    if (this.state.tradhubFees && this.state.contractAddress) {
+      }, 2000);
       this.setState({
-        submitClicked: true,
+        signatureseriesRespoanse: response.data.contractAddress,
       });
-    } else {
-      if (!this.state.tradhubFees) {
-        this.setState({
-          tradhubFeesError: "Please Enter Marketplace Fees",
-        });
-      }
-      if (!this.state.contractAddress) {
-        this.setState({
-          contractAddressError: "Please Enter Marketplace Contract Address",
-        });
-      }
+    })
+
+    .catch(() => {
+      this.showError();
+    })
+    .finally(() => {
+      this.setState({ loading: false });
+    });
+   }
+   
+  };
+
+  onClickButton = () => {
+    if (!this.state.tradhubFees) {
+      this.setState({
+        tradhubFeesError: "Please Enter Marketplace Fees",
+      });
+       return false;
+    } else if (!this.state.contractAddress) {
+      this.setState({
+        contractAddressError: "Please Enter Marketplace Contract Address",
+      });
+      return false;
+    } else if (this.state.tradhubFees && this.state.contractAddress) {
+      this.setState({submitClicked:true})
+      this.setState({loading:true})
+      return true;
     }
   };
   render() {

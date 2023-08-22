@@ -70,43 +70,44 @@ class FusionSeries extends React.Component {
   };
   fusionSerisData = () => {
     const token = localStorage.getItem("platform_token");
-    this.onClickButton();
-    this.setState({ loading: true });
+   const valid= this.onClickButton();
+   if(valid){
     axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "FusionSeries",
-          constructorParams: {
-            param1: "www.xyz.com",
-            param2: this.state.contractName,
-            param3: this.state.contractSymbol,
-            param4: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param5: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-          },
-          network: "maticmum",
+    .post(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+      {
+        contractName: "FusionSeries",
+        constructorParams: {
+          param1: "www.xyz.com",
+          param2: this.state.contractName,
+          param3: this.state.contractSymbol,
+          param4: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+          param5: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+        network: "maticmum",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
 
-      .then(async (response) => {
-        this.showSuccess();
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, 2000);
-        this.setState({ fusionseriesResponse: response.data.contractAddress });
-      })
-      .catch(() => {
-        this.showError();
-      })
-      .finally(() => {
+    .then(async (response) => {
+      this.showSuccess();
+      setTimeout(() => {
         this.setState({ loading: false });
-        this.setState({ loading2: false });
-      });
+      }, 2000);
+      this.setState({ fusionseriesResponse: response.data.contractAddress });
+    })
+    .catch(() => {
+      this.showError();
+    })
+    .finally(() => {
+      this.setState({ loading: false });
+    });
+   }
+   
   };
 
   // useEffect(() => {
@@ -125,34 +126,30 @@ class FusionSeries extends React.Component {
   };
   handleInputName = (e) => {
     this.setState({ contractName: e.target.value, contractNameEror: "" });
-    this.setState({ loading: false });
   };
   handleInputSymbol = (e) => {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
-    this.setState({ loading: false });
   };
 
+ 
   onClickButton = () => {
-    let errors = this.state.errors;
-    if (this.state.contractName && this.state.contractSymbol) {
+    if (!this.state.contractName) {
       this.setState({
-        submitClicked: true,
-      });
-    } else {
-      if (!this.state.contractName) {
-        this.setState({
-          contractNameEror: "Please Enter FusionSeries  Name",
-          loading: false,
-        });
-      }
-      if (!this.state.contractSymbol) {
-        this.setState({
-          symbolError: "Please Enter FusionSeries Symbol Description",
-          loading: false,
-        });
-      }
+        contractNameEror: "Please Enter FusionSeries  Name"
+      });   
+       return false;
+    } else if (!this.state.contractSymbol) {
+      this.setState({
+        symbolError: "Please Enter FusionSeries Symbol Descriptio"
+      });   
+      return false;
+    } else if (this.state.contractName && this.state.contractSymbol) {
+      this.setState({submitClicked:true})
+      this.setState({loading:true})
+      return true;
     }
   };
+  
   render() {
     return (
       <div

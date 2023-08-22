@@ -47,9 +47,9 @@ const Instagen = (props) => {
   };
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    onClickButton();
-    axios
+const valid= onClickButton();
+if(valid){
+  axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
         {
@@ -85,9 +85,10 @@ const Instagen = (props) => {
         showError();
       })
       .finally(() => {
-        setLoading2(false);
         setLoading(false);
       });
+}
+  
   };
   const handleInputName = (e) => {
     setContractName(e.target.value);
@@ -122,44 +123,40 @@ const Instagen = (props) => {
   };
 
   const onClickButton = () => {
-    if (
-      contractName &&
-      contractSymbol &&
-      salePrice &&
-      saleprePrice &&
-      countdownTime &&
-      maxSupply &&
-      royltybps
-    ) {
+    if (!contractName) {
+      setErros({ contractNameError: "Please Enter Contarct Name" });
+      return false;
+    } else if (!contractSymbol) {
+      setErros({ contractSymbolError: "Please Enter Symbol description" });
+      return false;
+    } else if (!salePrice) {
+      setErros({ salePriceError: "Please Enter Sale Price" });
+      return false;
+    } else if (!saleprePrice) {
+      setErros({
+        PreSalePriceError: "Please Enter Sale Pre Price",
+      });      
+      return false;
+    } else if (!countdownTime) {
+      setErros({
+        countDownTimeError: "Please Enter CountDown Time",
+      });     
+       return false;
+    } else if (!maxSupply) {
+      setErros({ maxSupplyError: "Please Enter Max Supply " });
+      return false;
+    } else if (!royltybps) {
+      setErros({ royltybpsError: "Please EnterRoylty BPS " });
+      return false;
+    } 
+
+    else if (contractName && contractSymbol && salePrice && saleprePrice && countdownTime & maxSupply && royltybps) {
       setSubmitClicked(true);
-    } else {
-      if (!contractName) {
-        setErros({ contractNameError: "Please Enter Contarct Name" });
-      }
-      if (!contractSymbol) {
-        setErros({ contractSymbolError: "Please Enter Symbol description" });
-      }
-      if (!salePrice) {
-        setErros({ salePriceError: "Please Enter Sale Price" });
-      }
-      if (!saleprePrice) {
-        setErros({
-          PreSalePriceError: "Please Enter Sale Pre Price",
-        });
-      }
-      if (!countdownTime) {
-        setErros({
-          countDownTimeError: "Please Enter CountDown Time",
-        });
-      }
-      if (!maxSupply) {
-        setErros({ maxSupplyError: "Please Enter Max Supply " });
-      }
-      if (!royltybps) {
-        setErros({ royltybpsError: "Please EnterRoylty BPS " });
-      }
+      setLoading(true);
+      return true;
     }
   };
+
   return (
     <div
       title="Deploy InstaGen"
@@ -186,7 +183,7 @@ const Instagen = (props) => {
                 onChange={handleInputName}
               />
                <p style={{ textAlign: "left", color: "red" }}>
-              {!contractName ? errors.contractNameEror : ""}
+              {!contractName ? errors.contractNameError : ""}
             </p>
             </div>
 
@@ -227,7 +224,7 @@ const Instagen = (props) => {
                 type="number"
               />
                 <p style={{ textAlign: "left", color: "red" }}>
-              {!saleprePrice ? errors.salePriceError : ""}
+              {!saleprePrice ? errors.PreSalePriceError : ""}
             </p>
             </div>
 

@@ -38,7 +38,7 @@ class SignatureSeries extends React.Component {
     this.toast.show({
       severity: "error",
       summary: "Error",
-      detail: "Something Went Wrong Please Try Again",
+      detail: "Error While deploying signature series contract",
       life: 10000,
     });
   }
@@ -72,73 +72,70 @@ class SignatureSeries extends React.Component {
   };
   signatureSeriesdata = () => {
     const token = localStorage.getItem("platform_token");
-    this.onClickButton();
-    this.setState({ loading: true });
+   const valid= this.onClickButton();
+   if(valid){
     axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "SignatureSeries",
-          constructorParams: {
-            param1: this.state.contractName,
-            param2: this.state.contractSymbol,
-            param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-          },
-          network: "maticmum",
+    .post(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+      {
+        contractName: "SignatureSeries",
+        constructorParams: {
+          param1: this.state.contractName,
+          param2: this.state.contractSymbol,
+          param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+          param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        this.showSuccess();
-
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, 2000);
-        this.setState({
-          signatureseriesRespoanse: response.data.contractAddress,
-        });
-      })
-
-      .catch(() => {
-        this.showError();
-      })
-      .finally(() => {
+        network: "maticmum",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(async (response) => {
+      this.showSuccess();
+      setTimeout(() => {
         this.setState({ loading: false });
-        this.setState({ loading2: false });
+      }, 2000);
+      this.setState({
+        signatureseriesRespoanse: response.data.contractAddress,
       });
+    })
+
+    .catch(() => {
+      this.showError();
+    })
+    .finally(() => {
+      this.setState({ loading: false });
+    });
+   }
+   
   };
 
   handleInputName = (e) => {
     this.setState({ contractName: e.target.value, contractNameEror: "" });
-    this.setState({ loading: false });
   };
   handleInputSymbol = (e) => {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
-    this.setState({ loading: false });
   };
 
+ 
   onClickButton = () => {
-    let errors = this.state.errors;
-    if (this.state.contractName && this.state.contractSymbol) {
+    if (!this.state.contractName) {
       this.setState({
-        submitClicked: true,
-      });
-    } else {
-      if (!this.state.contractName) {
-        this.setState({
-          contractNameEror: "Please Enter Signatureseries Name",
-        });
-      }
-      if (!this.state.contractSymbol) {
-        this.setState({
-          symbolError: "Please Enter Signatureseries Symbol Description",
-        });
-      }
+        contractNameEror: "Please Enter Signatureseries  Name"
+      });   
+       return false;
+    } else if (!this.state.contractSymbol) {
+      this.setState({
+        symbolError: "Please Enter Signatureseries Symbol Descriptio"
+      });   
+      return false;
+    } else if (this.state.contractName && this.state.contractSymbol) {
+      this.setState({submitClicked:true})
+      this.setState({loading:true})
+      return true;
     }
   };
 

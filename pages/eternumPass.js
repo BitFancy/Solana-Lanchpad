@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useState, useRef } from "react";
-import {  withRouter } from "next/router";
+import { withRouter } from "next/router";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
@@ -50,49 +50,51 @@ const EternumPass = () => {
     });
   };
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
+  
+  
   const eturnumpassContarctData = () => {
     const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "EternumPass",
-          constructorParams: {
-            param1: contractName,
-            param2: contractSymbol,
-            param3: "www.xyz.com",
-            param4: salePrice,
-            param5: platformFeeBasePrice,
-            param6: subspricePerMonth,
-            param7: royltybps,
-            param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-            param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+    const valid = onClickButton();
+    if (valid) {
+      axios
+        .post(
+          `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+          {
+            contractName: "EternumPass",
+            constructorParams: {
+              param1: contractName,
+              param2: contractSymbol,
+              param3: "www.xyz.com",
+              param4: salePrice,
+              param5: platformFeeBasePrice,
+              param6: subspricePerMonth,
+              param7: royltybps,
+              param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+              param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+            },
+            network: "maticmum",
           },
-          network: "maticmum",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        onClickButton();
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        setEturnumpassResponse(response.data.contractAddress);
-        showSuccess();
-      })
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(async (response) => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+          setEturnumpassResponse(response.data.contractAddress);
+          showSuccess();
+        })
 
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-        setLoading2(false);
-      });
+        .catch(() => {
+          showError();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
   const handleInputName = (e) => {
     setContractName(e.target.value);
@@ -124,39 +126,42 @@ const EternumPass = () => {
   };
 
   const onClickButton = () => {
-    if (
+    if (!contractName) {
+      setErros({ contractNameError: "Please Enter Contarct Name" });
+      return false;
+    } else if (!contractSymbol) {
+      setErros({ contractSymbolError: "Please Enter Symbol description" });
+      return false;
+    } else if (!salePrice) {
+      setErros({ salePriceError: "Please Enter Sale Price" });
+      return false;
+    } else if (!platformFeeBasePrice) {
+      setErros({
+        platformFeeBasePriceError: "Please Enter Platform Fee Price",
+      });
+      return false;
+    } else if (!subspricePerMonth) {
+      setErros({
+        subspricePerMonthError: "Please Enter Subscription Per Months Price",
+      });
+      return false;
+    } else if (!royltybps) {
+      setErros({ royltybpsError: "Please Enter Roylty BPS" });
+      return false;
+    } else if (
       contractName &&
       contractSymbol &&
       salePrice &&
       platformFeeBasePrice &&
+      subspricePerMonth &&
       royltybps
     ) {
       setSubmitClicked(true);
-    } else {
-      if (!contractName) {
-        setErros({ contractNameError: "Please Enter Contarct Name" });
-      }
-      if (!contractSymbol) {
-        setErros({ contractSymbolError: "Please Enter Symbol description" });
-      }
-      if (!salePrice) {
-        setErros({ salePriceError: "Please Enter Sale Price" });
-      }
-      if (!platformFeeBasePrice) {
-        setErros({
-          platformFeeBasePriceError: "Please Enter Platform Fee Price",
-        });
-      }
-      if (!subspricePerMonth) {
-        setErros({
-          subspricePerMonthError: "Please Enter Subscription Per Months Price",
-        });
-      }
-      if (!royltybps) {
-        setErros({ royltybpsError: "Please Enter Roylty BPS" });
-      }
+      setLoading(true);
+      return true;
     }
   };
+
   return (
     <div
       title="Deploy InstaGen"
@@ -181,9 +186,10 @@ const EternumPass = () => {
               <InputText
                 className="p-2 mt-3 input-back w-full text-white"
                 onChange={handleInputName}
+                value={contractName}
               />
               <p style={{ textAlign: "left", color: "red" }}>
-                {!contractName ? errors.contractNameEror : ""}
+                {!contractName ? errors.contractNameError : ""}
               </p>
             </div>
 

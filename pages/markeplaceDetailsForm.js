@@ -70,8 +70,9 @@ export default function MarkeplaceDetailsForm() {
 
   const addMarketplaceDetails = async () => {
     const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
+    const valid = onClickButton();
+    if(valid){
+      axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/storefront`,
         {
@@ -98,12 +99,14 @@ export default function MarkeplaceDetailsForm() {
           setLoading(false);
         }, 2000);
       })
-      .catch((error) => {
+      .catch(() => {
         showError();
       })
       .finally(() => {
         setLoading(false);
       });
+    }
+    
   };
   const handleInputContractName = (e) => {
     setStfName(e.target.value);
@@ -164,47 +167,57 @@ export default function MarkeplaceDetailsForm() {
 
  
 
-  const onClickButton = () => {
-    if (stfName && stfdescription && stfheadline && assetsName && assetsDeascription && tagline && tagdescription && email && twitter && discord && instagram) {
-      setSubmitClicked(true);
-    } else {
-      if (!stfName) {
-        setErros({ stfNameError: "Please Enter Storefront Name" });
-      }
-      if (!stfdescription) {
-        setErros({ stfdescriptionError: "Please Enter Storefront Description" });
-      }
-      if (!stfheadline) {
-        setErros({ stfheadlineError: "Please Enter Storefront Headline" });
-      }
-      if (!assetsName) {
-        setErros({ assetsNameError: "Please Enter Assets Name" });
-      }
-      if (!assetsDeascription) {
-        setErros({ assetsDeascriptionError: "Please Enter Assets Description" });
-      }
-      if (!tagline) {
-        setErros({ taglineError: "Please Enter Tagline" });
-      }
-      if (!tagdescription) {
-        setErros({ tagdescriptionError: "Please Enter Tagline Description" });
-      }
-      if (!email) {
-        setErros({ emailError: "Please Enter Correct Email" });
-      }
-      if (!twitter) {
-        setErros({ twitterError: "Please Enter Tweeter Id" });
-      }
-      if (!discord) {
-        setErros({ discordError: "Please Enter Discord Id" });
-      }
-      if (!instagram) {
-        setErros({ instagramError: "Please Enter Instagram Id" });
-      }
-      setSubmitClicked(false);
+ 
 
+  const onClickButton = () => {
+    if (!stfName) {
+      setErros({ stfNameError: "Please Enter Storefront Name" });
+      return false;
+    } else if (!stfdescription) {
+      setErros({ stfdescriptionError: "Please Enter Storefront Description" });
+      return false;
+    } else if (!stfheadline) {
+      setErros({ stfheadlineError: "Please Enter Storefront Headline" });
+      return false;
+    } else if (!assetsName) {
+      setErros({ assetsNameError: "Please Enter Assets Name" });
+   
+      return false;
+    } else if (!assetsDeascription) {
+      setErros({ assetsDeascriptionError: "Please Enter Assets Description" });
+
+       return false;
+    } else if (!tagline) {
+      setErros({ taglineError: "Please Enter Tagline" });
+      return false;
+    } else if (!tagdescription) {
+      setErros({ tagdescriptionError: "Please Enter Tagline Description" });
+      return false;
+    } 
+    else if (!email) {
+      setErros({ emailError: "Please Enter Correct Email" });
+      return false;
+    } 
+    else if (!twitter) {
+      setErros({ twitterError: "Please Enter Tweeter Id" });
+      return false;
+    } 
+    else if (!discord) {
+      setErros({ discordError: "Please Enter Discord Id" });
+      return false;
+    } 
+    else if (!instagram) {
+      setErros({ instagramError: "Please Enter Instagram Id" });
+      return false;
+    } 
+
+    else if (stfName && stfdescription && stfheadline && assetsName && assetsDeascription & tagline && tagdescription && email && twitter && discord && instagram) {
+      setSubmitClicked(true);
+      setLoading(true);
+      return true;
     }
   };
+
   return (
     <Layout>
       <MarketplaceProfileDetails />
@@ -394,7 +407,7 @@ export default function MarkeplaceDetailsForm() {
                   <Button
                     type="submit"
                     loading={loading}
-                    onClick={onClickButton}
+                    onClick={addMarketplaceDetails}
                     label="Submit"
                   ></Button>
                 </div>

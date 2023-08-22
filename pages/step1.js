@@ -13,12 +13,12 @@ const Step1 = () => {
   const [platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [tradhubResponse, settradhubResponse] = useState();
+
   const [errors, setErros] = useState({
     platformFeeErrors: "",
     contractNameEror: "",
   });
   const [submitClicked, setSubmitClicked] = useState(false);
-
   const toast = useRef(null);
   const showSuccess = () => {
     toast.current.show({
@@ -31,8 +31,8 @@ const Step1 = () => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail: "Something Went Wrong Please try after some time",
-      life: 10000,
+      detail: "Error While deploying Tradhub Contract",
+      life: 2000,
     });
   };
   const load = () => {
@@ -44,45 +44,46 @@ const Step1 = () => {
   };
 
   const tradHubContarctData = () => {
-    // const token = localStorage.getItem("authToken");
     const token = localStorage.getItem("platform_token");
+    const valid = onClickButton();
 
-    onClickButton();
-    setLoading(true);
-    axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-        {
-          contractName: "TradeHub",
-          constructorParams: {
-            param1: platformFee,
-            param2: contractName,
-            param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+    if (valid) {
+      axios
+        .post(
+          `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+          {
+            contractName: "TradeHub",
+            constructorParams: {
+              param1: platformFee,
+              param2: contractName,
+              param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+            },
+            network: "maticmum",
+            storefrontId: "",
           },
-          network: "maticmum",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        setTimeout(() => {
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(async (response) => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+          settradhubResponse(response.data.contractAddress);
+          showSuccess();
+        })
+
+        .catch(() => {
+          showError();
+        })
+        .finally(() => {
           setLoading(false);
-        }, 2000);
-        settradhubResponse(response.data.contractAddress);
-        showSuccess();
-      })
-
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-        setLoading2(false);
-      });
+        });
+    }
   };
+
   const handleInputFee = (e) => {
     setPlatformfee(e.target.value);
   };
@@ -91,15 +92,16 @@ const Step1 = () => {
   };
 
   const onClickButton = () => {
-    if (platformFee && contractName) {
+    if (!platformFee) {
+      setErros({ platformFeeErrors: "Please Enter Platform Fees" });
+      return false;
+    } else if (!contractName) {
+      setErros({ contractNameEror: "Please Enter Contarct Name" });
+      return false;
+    } else if (platformFee && contractName) {
       setSubmitClicked(true);
-    } else {
-      if (!platformFee) {
-        setErros({ platformFeeErrors: "Please Enter Platform Fees" });
-      }
-      if (!contractName) {
-        setErros({ contractNameEror: "Please Enter Contarct Name" });
-      }
+      setLoading(true);
+      return true;
     }
   };
 
@@ -146,36 +148,34 @@ const Step1 = () => {
             </p>
           </div>
           <div className="flex mt-5 justify-content-between">
-          <div>
-            <Button
-              label="Deploy Tradhub Contract"
-              onClick={tradHubContarctData}
-              severity="Primary"
-              className=" mt-7 w-full"
-              style={{ width: "30%" }}
-              rounded
-              loading={loading}
-            />
-          </div>
-          {tradhubResponse && (
             <div>
-              <Link href="/launchSignatureseries">
-                <Button
-                  label="Continue"
-                  severity="Primary"
-                  className=" mt-7 w-full"
-                  style={{ width: "30%" }}
-                  rounded
-                  loading={loading2}
-                  onClick={load}
-                />
-              </Link>
+              <Button
+                label="Deploy Tradhub Contract"
+                onClick={tradHubContarctData}
+                severity="Primary"
+                className=" mt-7 w-full"
+                style={{ width: "30%" }}
+                rounded
+                loading={loading}
+              />
             </div>
-          )}
+            {tradhubResponse && (
+              <div>
+                <Link href="/launchSignatureseries">
+                  <Button
+                    label="Continue"
+                    severity="Primary"
+                    className=" mt-7 w-full"
+                    style={{ width: "30%" }}
+                    rounded
+                    loading={loading2}
+                    onClick={load}
+                  />
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-        </div>
-
-        
       </div>
     </div>
   );

@@ -119,53 +119,54 @@ export default function AddSubscription() {
   };
 
   const addSubscription = async () => {
-    setLoading(true);
-    const storefronts = await getSubscriptionData();
-    onClickButton();
-    if (
-      storefronts.find(
-        (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
-      )
-    ) {
-      alert(`Storefront '${contractName}' already exist`);
-
-      return;
-    }
     const token = localStorage.getItem("platform_token");
-    axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
-        {
-          name: contractName,
-          owner: address,
-          createdBy: "Admin",
-          updatedBy: "Admin",
-          image: uploadImage,
-          headline: headline,
-          description: description,
-          blockchain: selecteBlockchaine,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        setstorefrontResponase(response);
-        showSticky();
-      })
+    const valid = onClickButton();
+if(valid){
+  const storefronts = await getSubscriptionData();
 
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
+  if (
+    storefronts.find(
+      (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
+    )
+  ) {
+    alert(`Storefront '${contractName}' already exist`);
+
+    return;
+  }
+  axios
+    .post(
+      `${BASE_URL_LAUNCH}api/v1.0/storefront`,
+      {
+        name: contractName,
+        owner: address,
+        createdBy: "Admin",
+        updatedBy: "Admin",
+        image: uploadImage,
+        headline: headline,
+        description: description,
+        blockchain: selecteBlockchaine,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(async (response) => {
+      setTimeout(() => {
         setLoading(false);
-        setLoading2(false);
-      });
+      }, 2000);
+      setstorefrontResponase(response);
+      showSticky();
+    })
+
+    .catch(() => {
+      showError();
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
@@ -197,19 +198,19 @@ export default function AddSubscription() {
 
 
   const onClickButton = () => {
-    if (contractName && description && headline)  {
+    if (!contractName) {
+      setErros({ contractNameEror: "Please Enter Storefront Name" });
+      return false;
+    } else if (!headline) {
+      setErros({ headlineError: "Please Enter Headline" });
+      return false;
+    } else if (!description) {
+      setErros({ descriptionError: "Please Enter Description" });
+      return false;
+    }else if (contractName && headline && description) {
       setSubmitClicked(true);
-    } else {
-      if (!contractName) {
-        setErros({ contractNameEror: "Please Enter Storefront Name" });
-      }
-      if (!description) {
-        setErros({ descriptionError: "Please Enter Description" });
-      }
-      if (!headline) {
-        setErros({ headlineError: "Please Enter Headline" });
-      }
-      setSubmitClicked(false);
+      setLoading(true);
+      return true;
     }
   };
   return (
