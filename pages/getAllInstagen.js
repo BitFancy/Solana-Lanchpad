@@ -22,7 +22,7 @@ export default function GetAllInstagen() {
     getAllContarctData();
   }, []);
   const getAllContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
@@ -46,13 +46,15 @@ export default function GetAllInstagen() {
     <Layout>
       <MarketplaceProfileDetails/>
       <Toast ref={toast} />
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-          InstaGen
-        </div>
-        <hr></hr>
+       
+        
         <div className="flex  buy-back-image">
         <div >
           <Sidemenu />
+        </div>
+        <div>
+        <div className="font-bold mt-5 text-3xl text-black text-center">
+          InstaGen
         </div>
         <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
         {contractData?.length > 0 ? (
@@ -91,6 +93,8 @@ export default function GetAllInstagen() {
               </div>
             )}
           </div>
+        </div>
+       
         </div>
     </Layout>
   );

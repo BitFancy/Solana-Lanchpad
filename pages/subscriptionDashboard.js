@@ -60,7 +60,7 @@ export default function SubscriptionDashboard() {
   };
 
   const getSubscriptionData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
         headers: {

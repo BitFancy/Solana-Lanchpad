@@ -40,7 +40,7 @@ const Step2=(props)=> {
    
 
   const fusionseriesContarctData=async(props)=>{
-    const token= localStorage.getItem('authToken')
+    const token= localStorage.getItem('platform_token')
      localStorage.getItem('')
      const config = {
        headers: {

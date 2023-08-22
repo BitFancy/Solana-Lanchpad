@@ -24,7 +24,7 @@ export default function GetAllFusionseries() {
   }, []);
 
   const getAllContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
 
     axios
@@ -48,17 +48,16 @@ export default function GetAllFusionseries() {
   return (
     <Layout>
       <MarketplaceProfileDetails/>
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-          FusionSeries
-        </div>
         <Toast ref={toast} />
-
-        <hr></hr>
-        <div className="flex justify-content-between buy-back-image">
+        <div className="flex  buy-back-image">
         <div >
           <Sidemenu />
         </div>
-          <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
+        <div>
+        <div className="font-bold mt-5 text-3xl text-black text-center">
+          FusionSeries
+        </div>
+        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
           {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
@@ -95,6 +94,8 @@ export default function GetAllFusionseries() {
               </div>
             )}
           </div>
+        </div>
+         
         </div>
 
     </Layout>

@@ -101,7 +101,7 @@ export default function AddSubscription() {
     }, 2000);
   };
   const getSubscriptionData = async () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     try {
       const { data } = await axios.get(
         `${BASE_URL_LAUNCH}api/v1.0/storefront`,
@@ -131,7 +131,7 @@ export default function AddSubscription() {
 
       return;
     }
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     axios
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/storefront`,

@@ -51,7 +51,7 @@ const EternumPass = () => {
   };
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
   const eturnumpassContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .post(
@@ -66,7 +66,6 @@ const EternumPass = () => {
             param5: platformFeeBasePrice,
             param6: subspricePerMonth,
             param7: royltybps,
-            param8: selecteOperatorSubscription,
             param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
             param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
           },

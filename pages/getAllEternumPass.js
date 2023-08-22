@@ -23,7 +23,7 @@ export default function GetAllEternumPass() {
     getAllContarctData();
   }, []);
   const getAllContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
@@ -46,16 +46,17 @@ export default function GetAllEternumPass() {
   return (
     <Layout>
       <MarketplaceProfileDetails/>
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-          EternumPass
-        </div>
+      
         <Toast ref={toast} />
-        <hr></hr>
         <div className="flex  buy-back-image">
         <div >
           <Sidemenu />
         </div>
-          <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
+        <div>
+        <div className="font-bold mt-5 text-3xl text-black text-center">
+          EternumPass
+        </div>
+        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
           {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
@@ -92,6 +93,8 @@ export default function GetAllEternumPass() {
               </div>
             )}
           </div>
+        </div>
+         
         </div>
 
     </Layout>

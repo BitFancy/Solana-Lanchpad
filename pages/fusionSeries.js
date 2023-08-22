@@ -69,7 +69,7 @@ class FusionSeries extends React.Component {
     this.setState({ rows });
   };
   fusionSerisData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     this.onClickButton();
     this.setState({ loading: true });
     axios

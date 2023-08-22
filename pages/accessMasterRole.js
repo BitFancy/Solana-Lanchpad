@@ -14,11 +14,8 @@ export default function AccessMasterRole() {
     const { data: ensName } = useEnsName({ address });
     const [loading, setLoading] = useState(false);
     const [loading1, setLoading1] = useState(false);
-
-
     const [role, setRole] = useState("");
     const [userAdddress, setuserAdddress] = useState(address);
-  
     const revokeRoleData = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();

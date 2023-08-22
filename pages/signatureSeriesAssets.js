@@ -174,12 +174,7 @@ export default function CreateItem() {
     contractInterface: Tradhub.abi,
     signerOrProvider: signerData,
   });
-  const accessMasterContarct = useContract({
-    addressOrName: AccessMasterAddress,
-    contractInterface: AccessMaster.abi,
-    signerOrProvider: signerData,
-  });
-
+ 
   async function createItem(ipfsHash, url) {
     try {
       let transaction = await signatureSeriesContract.createAsset( 
@@ -285,21 +280,7 @@ export default function CreateItem() {
 
   const [hasRole, setHasRole] = useState(false);
 
-  // useEffect(() => {
-  //   const asyncFn = async () => {
-  //     const hasCreatorRole = await accessMasterContarct.hasRole(
-  //       await accessMasterContarct.FLOW_CREATOR_ROLE(),
-  //       address
-  //     );
-  //     console.log("hasCreatorRole", hasCreatorRole);
-  //     if (hasCreatorRole) {
-  //       router.push("/assets");
-  //     } else {
-  //       router.push("/notSubscribe");
-  //     }
-  //   };
-  //   asyncFn();
-  // }, []);
+ 
 
   const [options1, setOptions] = useState([
     "Image",

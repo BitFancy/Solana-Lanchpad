@@ -63,7 +63,7 @@ export default function BuyNft() {
       };
     
       const buySubscription=async ()=>{
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("platform_token");
         setLoading(true);
          axios
           .post(

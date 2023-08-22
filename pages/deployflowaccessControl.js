@@ -27,7 +27,7 @@ export default function Deployflowmarket() {
     });
   };
   const flowAccessControllData = async () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .post(

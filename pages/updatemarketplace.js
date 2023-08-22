@@ -67,7 +67,7 @@ class UpdateMarketPlace extends React.Component {
   };
 
   updateMarketplaceData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     this.onClickButton();
     this.setState({ loading: true });
     axios

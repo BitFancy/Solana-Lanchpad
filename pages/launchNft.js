@@ -10,7 +10,7 @@ export default function LuanchNFTs() {
     getAllContarctData();
   }, []);
   const getAllContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
         headers: {

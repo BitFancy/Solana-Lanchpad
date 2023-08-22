@@ -46,7 +46,7 @@ const Instagen = (props) => {
     });
   };
   const instaGenContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     onClickButton();
     axios

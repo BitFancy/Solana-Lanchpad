@@ -44,7 +44,9 @@ const Step1 = () => {
   };
 
   const tradHubContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
+
     onClickButton();
     setLoading(true);
     axios

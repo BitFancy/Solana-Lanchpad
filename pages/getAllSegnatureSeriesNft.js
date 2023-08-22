@@ -26,7 +26,7 @@ export default function GetAllSignatureSeriesSeriesNft() {
   }, []);
 
   const getAllContarctData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {

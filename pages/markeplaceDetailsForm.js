@@ -69,7 +69,7 @@ export default function MarkeplaceDetailsForm() {
   }
 
   const addMarketplaceDetails = async () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     setLoading(true);
     axios
       .post(

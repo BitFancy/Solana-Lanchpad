@@ -63,7 +63,7 @@ constructor(props) {
     this.setState({ rows });
   };
    eturnulsolData = () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("platform_token");
     this.setState({ loading: true });
     this.onClickButton();
 
