@@ -114,13 +114,16 @@ const AppFooter = () => {
             </div>
           </div>
         </div>
+
+       
       </div>
-      <div className="flex justify-content-center mt-5  text-sm flex flex-col  py-3 px-3  gradient-blue border-y-2 ">
+      <div className="flex justify-content-center  text-sm flex flex-col  py-3 px-3  gradient-blue border-y-2 " style={{background:"#8FBAFE"}}>
         <div className="font-bold">
           MyriadFlow | Copyright © {year} Lazarus Network Inc. All Rights
           Reserved.
         </div>
       </div>
+    
     </div>
   );
 };

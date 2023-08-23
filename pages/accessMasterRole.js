@@ -59,7 +59,7 @@ export default function AccessMasterRole() {
       };
   return (
     <Layout>
-        <div  style={{marginTop:'65px'}}>
+        <div>
         <MarketplaceProfileDetails/>
        
        

@@ -173,7 +173,7 @@ if(valid){
         </div>
 
         <div className="flex justify-content-center gap-5">
-          <div className="card mt-5" style={{ width: "50%" }}>
+          <div className="card buy-img mt-5" style={{ width: "50%" }}>
           
             <div>Enter InstaGen Name</div>
             <div className="mt-3">

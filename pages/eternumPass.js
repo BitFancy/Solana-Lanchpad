@@ -166,7 +166,7 @@ const EternumPass = () => {
     <div
       title="Deploy InstaGen"
       description="This is use to show information of the deploy InstaGen contract"
-      className="back-img-eternumpass"
+      className="buy-back-image"
     >
       <AppTopbar />
       <Toast ref={toast} />
@@ -180,7 +180,7 @@ const EternumPass = () => {
         </div>
 
         <div className="flex justify-content-center gap-5 mt-5">
-          <div className="card" style={{ width: "50%" }}>
+          <div className="card buy-img" style={{ width: "50%" }}>
             <div>Enter EternumPass Name</div>
             <div className="mt-3">
               <InputText

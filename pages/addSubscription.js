@@ -225,7 +225,7 @@ if(valid){
         <hr></hr>
 
         <div
-          className=" p-5 mt-5 font-bold card flex gap-5"
+          className=" p-5 mt-5 font-bold card flex gap-5 buy-img"
           style={{ width: "80%", margin: "0 auto" }}
         >
           <div>

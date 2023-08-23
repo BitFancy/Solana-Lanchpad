@@ -166,7 +166,7 @@ class FusionSeries extends React.Component {
             Deploy FusionSeries
           </div>
           <div className="flex justify-content-center gap-5">
-            <div className="card mt-5" style={{ width: "50%" }}>
+            <div className="card buy-img mt-5" style={{ width: "50%" }}>
               <div className="text-center mt-5">
                 {this.state.rows.map((item, idx) => (
                   <div id="addr0" key={idx} className="card mt-5">

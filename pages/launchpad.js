@@ -69,6 +69,7 @@ export default function Launchpad() {
     }, 2000);
   };
   return (
+    <div className="launchpad wrapper">
     <Layout title="Launchpad" description="Used to show launchpad information">
       <div className="launchpad-back">
         <div
@@ -191,8 +192,8 @@ export default function Launchpad() {
             <div>Authenticity</div>
           </div>
           <div className="mt-5">
-            <Link href="/signatureseries">
-              <Button
+            <Link href="/signatureseries" >
+              <Button 
                 loading={loading3}
                 onClick={load3}
                 label="Launch SignatureSeries"
@@ -202,8 +203,8 @@ export default function Launchpad() {
           </div>
         </div>
 
-        <div>
-          <img style={{ height: "300px" }} src="signatureseries.png"></img>
+        <div >
+          <img  style={{ height: "300px" }} src="signatureseries.png"></img>
         </div>
       </div>
 
@@ -340,5 +341,6 @@ export default function Launchpad() {
         </div>
       </div>
     </Layout>
+    </div>
   );
 }

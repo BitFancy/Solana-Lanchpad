@@ -110,15 +110,15 @@ export default function BuyNft() {
       };
   return (
     <Layout title="Launchpad" description="Used to Subscribe the NFTs">
-    <div className="buy-back-image" style={{marginTop:'65px'}}>
+    <div className="buy-back-image" >
       <div className="font-bold text-3xl p-5 text-center">Buy Subscription</div>
       <hr></hr>
       <Toast ref={toast} />
       <div className="flex mt-5 justify-content-center gap-5 ">
         <div className="mt-5">
-          <img style={{height:'200px'}} src="./showroom.png"></img>
+          <img className="buy-img" style={{height:'200px'}} src="./showroom.png"></img>
         </div>
-        <div className="p-5 subscribe-modal">
+        <div className="p-5 subscribe-modal card" style={{marginBottom:'0px'}}>
           <div className="font-bold text-3xl">Basic</div>
           <div className="font-bold">$0/Month</div>
 
@@ -139,7 +139,7 @@ export default function BuyNft() {
             <Button loading={loading} onClick={buySubscription} style={{background:'white',color:'black'}}  severity="info" label="Buy Basic Plan"></Button>
           </div>
         </div>
-        <div className="p-5 subscribe-modal">
+        <div className="p-5 subscribe-modal card">
           <div className="font-bold text-3xl">Pro</div>
           <div className="font-bold">$99/Month</div>
           <hr></hr>

@@ -144,7 +144,7 @@ class SignatureSeries extends React.Component {
       <div
         title="Deploy SignatureSeries"
         description="This is use to show information of the deploy signatureSeries contract"
-        className="back-img-sig"
+        className="buy-back-image"
       >
         <AppTopbar />
         <div style={{ marginTop: "100px" }}>
@@ -155,7 +155,7 @@ class SignatureSeries extends React.Component {
             Deploy SignatureSeries
           </div>
           <div className="flex justify-content-center gap-5">
-            <div className="card mt-5" style={{ width: "50%" }}>
+            <div className="card buy-img mt-5" style={{ width: "50%" }}>
               <div className="text-center mt-5">
                 {this.state.rows.map((item, idx) => (
                   <div id="addr0" key={idx} className="card mt-5">
