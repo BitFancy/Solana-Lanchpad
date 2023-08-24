@@ -210,6 +210,7 @@ handleInputSymbol = (e) => {
                             severity="danger"
                             icon="pi pi-minus"
                             onClick={this.handleRemoveSpecificRow(idx)}
+                            className="buy-img"
                           ></Button>
                         </div>
                       </div>
@@ -222,6 +223,7 @@ handleInputSymbol = (e) => {
                     label="Add Another EternalSoul"
                     severity="info"
                     onClick={this.handleAddRow}
+                    className="buy-img"
                   />
                 </div>
             </div>
@@ -230,6 +232,7 @@ handleInputSymbol = (e) => {
               <Button
                 onClick={this.eturnulsolData}
                 label="Deploy EturnalSoul"
+                className="buy-img"
                 severity="Primary"
                 rounded
                 loading={this.state.loading}
@@ -245,6 +248,7 @@ handleInputSymbol = (e) => {
                 rounded
                 loading={this.state.loading2}
                 onClick={this.load}
+                className="buy-img"
               />
               </Link>
             </div>

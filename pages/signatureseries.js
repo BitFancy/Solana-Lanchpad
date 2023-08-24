@@ -176,8 +176,8 @@ class SignatureSeries extends React.Component {
                             : ""}
                         </p>
                       </div>
-                      <div>
-                        <div className="mt-3 text-left">
+                      <div className="mt-5">
+                        <div className="text-left">
                           Enter SignatureSeries Symbol
                         </div>
 
@@ -196,6 +196,7 @@ class SignatureSeries extends React.Component {
                             severity="danger"
                             icon="pi pi-minus"
                             onClick={this.handleRemoveSpecificRow(idx)}
+                            className="buy-img"
                           ></Button>
                         </div>
                       </div>
@@ -207,6 +208,7 @@ class SignatureSeries extends React.Component {
                     icon="pi pi-plus"
                     label="Add Another SignatureSeries"
                     severity="info"
+                    className="buy-img"
                     onClick={this.handleAddRow}
                   />
                 </div>
@@ -219,7 +221,7 @@ class SignatureSeries extends React.Component {
                     severity="Primary"
                     rounded
                     loading={this.state.loading}
-                    className="w-full"
+                    className="w-full buy-img"
                   />
                 </div>
                 {this.state.signatureseriesRespoanse && (
@@ -231,7 +233,7 @@ class SignatureSeries extends React.Component {
                         rounded
                         loading={this.state.loading2}
                         onClick={this.load}
-                        className="w-full"
+                        className="w-full buy-img"
                       />
                     </Link>
                   </div>

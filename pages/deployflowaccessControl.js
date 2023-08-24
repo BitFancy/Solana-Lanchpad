@@ -75,6 +75,7 @@ export default function Deployflowmarket() {
             onClick={flowAccessControllData}
             style={{ marginTop: "115px" }}
             loading={loading} 
+            className="buy-img"
           />
         </div>
         <Dialog

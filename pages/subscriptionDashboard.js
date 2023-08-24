@@ -116,6 +116,7 @@ export default function SubscriptionDashboard() {
             <Link href="/addSubscription">
               <Button
                 loading={loading2}
+                className="buy-img"
                 onClick={load2}
                 rounded
                 style={{ background: "white", color: "black" }}
@@ -128,6 +129,7 @@ export default function SubscriptionDashboard() {
               rounded
               style={{ border: "1px solid white" }}
               label="Upgrade"
+              className="buy-img"
             ></Button>
           </div>
         </div>
@@ -146,6 +148,7 @@ export default function SubscriptionDashboard() {
                   onClick={loadnewPlan}
                   loading={loading1}
                   label="Buy Anather Plan"
+                  className="buy-img"
                 ></Button>
               </Link>
             </div>
@@ -157,7 +160,7 @@ export default function SubscriptionDashboard() {
               return (
                 <div key={1}>
                   {subscription.plan === "basic" && (
-                    <div className="flex justify-content-between mt-5 ml-5 align-items-center subscription-back-part p-5">
+                    <div className="card flex justify-content-between mt-5 ml-5 align-items-center subscription-back-part p-5">
                       <div className="flex gap-5">
                         <div>
                           <img
@@ -183,6 +186,7 @@ export default function SubscriptionDashboard() {
                             loading={loadingsetup}
                             onClick={loadsetup}
                             label="Setup"
+                            className="buy-img"
                           ></Button>
                         </div>
                       </Link>
@@ -190,7 +194,7 @@ export default function SubscriptionDashboard() {
                   )}
 
                   {subscription.plan === "pro" && (
-                    <div className="flex ml-5 justify-content-between mt-5 align-items-center subscription-back-part p-5">
+                    <div className="card flex ml-5 justify-content-between mt-5 align-items-center subscription-back-part p-5">
                       <div className="flex gap-5">
                         <div>
                           <img
@@ -218,6 +222,7 @@ export default function SubscriptionDashboard() {
                               onClick={loadsetupview}
                               style={{ width: "100%" }}
                               label="View"
+                              className="buy-img"
                             ></Button>
                           </div>
                         </Link>
@@ -229,6 +234,7 @@ export default function SubscriptionDashboard() {
                               onClick={loadsetupManage}
                               style={{ width: "100%" }}
                               label="Manage"
+                              className="buy-img"
                             ></Button>
                           </div>
                         </Link>
@@ -242,7 +248,7 @@ export default function SubscriptionDashboard() {
             <Loader />
           ) : (
             <div className="text-2xl pb-10 font-bold text-center">
-              You haven&apos;t created any asset.
+              You haven&apos;t created any Storefront.
             </div>
           )}
         </div>

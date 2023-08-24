@@ -67,7 +67,7 @@ export default function GetAllSignatureSeriesSeriesNft() {
 
         <div className="mt-5">
           <Link href='/signatureSeriesAssets'>
-          <Button loading={loading2} onClick={load} label="Create SignatureSeries NFT"></Button>
+          <Button className="buy-img" loading={loading2} onClick={load} label="Create SignatureSeries NFT"></Button>
           </Link>
         </div>
         </div>

@@ -179,7 +179,7 @@ if(valid){
             <div className="mt-3">
               <InputText
                 id="contractName"
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2  input-back w-full text-white"
                 onChange={handleInputName}
               />
                <p style={{ textAlign: "left", color: "red" }}>
@@ -192,7 +192,7 @@ if(valid){
             <div className="  mt-3">
               <InputText
                 value={contractSymbol}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 onChange={handleInputSymbol}
               />
                <p style={{ textAlign: "left", color: "red" }}>
@@ -206,7 +206,7 @@ if(valid){
               <InputText
                 value={salePrice}
                 onChange={handleInputSalePrice}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 type="number"
               />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -220,7 +220,7 @@ if(valid){
               <InputText
                 value={saleprePrice}
                 onChange={handleInputSalePrePrice}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 type="number"
               />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -234,7 +234,7 @@ if(valid){
               <InputText
                 value={countdownTime}
                 onChange={handleInputCountDownTime}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 type="number"
               />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -246,7 +246,7 @@ if(valid){
 
             <div className=" mt-3">
               <InputText
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 value={maxSupply}
                 onChange={handleInputMaxSupply}
                 type="number"
@@ -260,7 +260,7 @@ if(valid){
 
             <div className="mt-3">
               <InputText
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 value={royltybps}
                 onChange={handleInputRoyelty}
                 type="number"
@@ -273,10 +273,10 @@ if(valid){
             <div className="flex mt-5 justify-content-between">
               <div>
                 <Button
-                  label="Deploy Instagen Contract"
+                  label="Deploy Instagen"
                   onClick={instaGenContarctData}
                   severity="Primary"
-                  className=" mt-7 w-full"
+                  className=" mt-7 w-full buy-img"
                   style={{ width: "30%" }}
                   rounded
                   type="submit"
@@ -289,7 +289,7 @@ if(valid){
                     <Button
                       label="Continue"
                       severity="Primary"
-                      className=" mt-7 w-full"
+                      className=" mt-7 w-full buy-img"
                       style={{ width: "30%" }}
                       rounded
                       loading={loading2}

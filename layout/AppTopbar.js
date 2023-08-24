@@ -39,7 +39,7 @@ const AppTopbar = forwardRef((props, ref) => {
 
   return (
     <div className="layout-topbar">
-      <Link href="/dashboardl" className="layout-topbar-logo">
+      <Link href="/launchpad" className="layout-topbar-logo">
         <Image
           src={`./${
             layoutConfig.colorScheme !== "light" ? "white" : "dark"

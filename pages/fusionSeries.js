@@ -185,8 +185,8 @@ class FusionSeries extends React.Component {
                             : ""}
                         </p>
                       </div>
-                      <div>
-                        <div className="mt-3 text-left">
+                      <div className="mt-5">
+                        <div className=" text-left">
                           Enter FusionSeries Symbol
                         </div>
 
@@ -204,6 +204,7 @@ class FusionSeries extends React.Component {
                           <Button
                             severity="danger"
                             icon="pi pi-minus"
+                            className="buy-img"
                             onClick={this.handleRemoveSpecificRow(idx)}
                           ></Button>
                         </div>
@@ -216,7 +217,9 @@ class FusionSeries extends React.Component {
                     icon="pi pi-plus"
                     label="Add Another FusionSeries"
                     severity="info"
+                    className="buy-img"
                     onClick={this.handleAddRow}
+                    
                   />
                 </div>
               </div>
@@ -226,6 +229,7 @@ class FusionSeries extends React.Component {
                     onClick={this.fusionSerisData}
                     label="Deploy FusionSeries"
                     severity="Primary"
+                    className="buy-img"
                     type="submit"
                     rounded
                     loading={this.state.loading}
@@ -238,6 +242,7 @@ class FusionSeries extends React.Component {
                         label="Continue"
                         severity="Primary"
                         onClick={this.load}
+                        className="buy-img"
                         rounded
                         loading={this.state.loading2}
                       />

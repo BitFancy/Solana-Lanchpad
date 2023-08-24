@@ -16,9 +16,11 @@ export default function Launcheteriumpass() {
   };
   return (
     <Layout>
-      <div className="buy-back-image" style={{  marginTop: "130px" }}>
+      <div>
+      <div className="buy-back-image">
 
         <div className="flex justify-content-center">
+        <div className="flex card" style={{ marginTop: "100px" }}>
           <div>
             <LaunchContarctSidebar />
           </div>
@@ -29,6 +31,8 @@ export default function Launcheteriumpass() {
                 src="garden.png"
                 style={{ width: "200px", height: "185px" }}
                 alt="garden"
+                className="buy-img card"
+
               ></img>
             </div>
             <div>
@@ -44,6 +48,7 @@ export default function Launcheteriumpass() {
                   <Link href='/eternumPass'>
                   <Button
                     label="Launch EternumPass"
+                    className="buy-img"
                     severity="Primary"
                     rounded
                     style={{ width: "200px" }}
@@ -55,7 +60,9 @@ export default function Launcheteriumpass() {
               </div>
             </div>
           </div>
+          </div>
         </div>
+      </div>
       </div>
     </Layout>
   );

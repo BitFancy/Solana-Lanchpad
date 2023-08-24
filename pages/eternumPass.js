@@ -184,7 +184,7 @@ const EternumPass = () => {
             <div>Enter EternumPass Name</div>
             <div className="mt-3">
               <InputText
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
                 onChange={handleInputName}
                 value={contractName}
               />
@@ -197,7 +197,7 @@ const EternumPass = () => {
 
             <div className="  mt-3">
               <InputText
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2  input-back w-full text-white"
                 value={contractSymbol}
                 onChange={handleInputSymbol}
               />
@@ -210,7 +210,7 @@ const EternumPass = () => {
 
             <div className="  mt-3">
               <InputText
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2  input-back w-full text-white"
                 value={salePrice}
                 onChange={handleInputSalePrice}
               />
@@ -225,7 +225,7 @@ const EternumPass = () => {
               <InputText
                 value={platformFeeBasePrice}
                 onChange={handleInputPlatformFee}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!platformFeeBasePrice ? errors.platformFeeBasePriceError : ""}
@@ -237,7 +237,7 @@ const EternumPass = () => {
               <InputText
                 value={subspricePerMonth}
                 onChange={handleInputSubscriptionPrice}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2  input-back w-full text-white"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!subspricePerMonth ? errors.subspricePerMonthError : ""}
@@ -250,7 +250,7 @@ const EternumPass = () => {
               <InputText
                 value={royltybps}
                 onChange={handleInputRoyelty}
-                className="p-2 mt-3 input-back w-full text-white"
+                className="p-2 input-back w-full text-white"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!royltybps ? errors.royltybpsError : ""}
@@ -272,10 +272,10 @@ const EternumPass = () => {
             <div className="flex mt-5 justify-content-between">
               <div>
                 <Button
-                  label="Deploy EternumPass Contract"
+                  label="Deploy EternumPass"
                   onClick={eturnumpassContarctData}
                   severity="Primary"
-                  className=" mt-7 w-full"
+                  className=" mt-7 w-full buy-img"
                   style={{ width: "30%" }}
                   rounded
                   type="submit"
@@ -288,7 +288,7 @@ const EternumPass = () => {
                     <Button
                       label="Continue"
                       severity="Primary"
-                      className=" mt-7 w-full"
+                      className=" mt-7 w-full buy-img"
                       style={{ width: "30%" }}
                       rounded
                       loading={loading2}

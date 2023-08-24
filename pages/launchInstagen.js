@@ -14,9 +14,11 @@ export default function LaunchInstagen() {
   };
   return (
     <Layout>
-      <div className="buy-back-image" style={{  marginTop: "130px" }}>
+      <div>
+      <div className="buy-back-image" >
 
         <div className="flex justify-content-center">
+        <div className="flex card" style={{ marginTop: "100px" }}>
           <div>
             <LaunchContarctSidebar />
           </div>
@@ -27,6 +29,8 @@ export default function LaunchInstagen() {
                 src="garden.png"
                 style={{ width: "200px", height: "185px" }}
                 alt="garden"
+                className="buy-img card"
+
               ></img>
             </div>
             <div>
@@ -43,6 +47,7 @@ export default function LaunchInstagen() {
                   <Button
                     label="Launch InstaGen"
                     severity="Primary"
+                    className="buy-img"
                     rounded
                     style={{ width: "200px" }}
                     loading={loading}
@@ -52,8 +57,10 @@ export default function LaunchInstagen() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </Layout>
   );

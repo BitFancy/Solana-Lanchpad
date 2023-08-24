@@ -398,11 +398,12 @@ export default function WebappForm() {
                     loading={loading}
                     onClick={addMarketplaceDetails}
                     label="Submit"
+                    className='buy-img'
                   ></Button>
                 </div>
                 <div className="mt-5 ">
                   <Link href="/successNoteContract">
-                    <Button loading={loading} label="Continue"></Button>
+                    <Button className='buy-img' loading={loading} label="Continue"></Button>
                   </Link>
                 </div>
               </div>

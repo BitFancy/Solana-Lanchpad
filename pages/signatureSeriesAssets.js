@@ -479,7 +479,7 @@ export default function CreateItem() {
                       onClick={handleShow}
                       label=""
                       severity="info"
-                      className="mt-7   h-10 p-1.5 cursor-pointer "
+                      className="mt-7   h-10 p-1.5 cursor-pointer buy-img"
                     >
                       Add Properties
                     </Button>
@@ -585,7 +585,7 @@ export default function CreateItem() {
                           </form>
                         </Typography>
                         <div className="mt-5" onClick={handleSubmit}>
-                          <Button>Save</Button>
+                          <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
 
@@ -732,7 +732,7 @@ export default function CreateItem() {
 
                 <div className="flex justify-content-between p-5 mt-5">
                   <div>
-                    <Button onClick={(e) => createMarket(e)}>
+                    <Button className="buy-img" onClick={(e) => createMarket(e)}>
                       Create SignatureSeries NFTs
                     </Button>
                   </div>

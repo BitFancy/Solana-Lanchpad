@@ -320,7 +320,7 @@ export default function CreateFusionSeriesNft() {
                       onClick={handleShow}
                       label=""
                       severity="info"
-                      className="mt-7   h-10 p-1.5 cursor-pointer "
+                      className="mt-7   h-10 p-1.5 cursor-pointer buy-img"
                     >
                       Add Properties
                     </Button>
@@ -426,7 +426,7 @@ export default function CreateFusionSeriesNft() {
                           </form>
                         </Typography>
                         <div className="mt-5" onClick={handleSubmit}>
-                          <Button>Save</Button>
+                          <Button className="buy-img">Save</Button>
                         </div>
                       </Box>
                     </Modal>
@@ -571,7 +571,7 @@ export default function CreateFusionSeriesNft() {
 
                 <div className="flex justify-content-between p-5">
                   <div>
-                    <Button onClick={(e) => createMarket(e)}>
+                    <Button  className="buy-img"onClick={(e) => createMarket(e)}>
                       Create FusionSeries NFTs
                     </Button>
                   </div>

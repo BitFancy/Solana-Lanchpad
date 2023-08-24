@@ -96,7 +96,7 @@ export default function ManageWebapp() {
                   Want to create your own martketplace ?
                 </div>
                 <div className="mt-5">
-                  <Button label="Create Now"></Button>
+                  <Button className="buy-img" label="Create Now"></Button>
                 </div>
               </div>
               <div className="flex gap-5">
@@ -115,7 +115,7 @@ export default function ManageWebapp() {
               </div>
             </div>
             <div className="mt-5 text-center">
-                <Button rounded style={{width:'30%'}} label="Upadte"></Button>
+                <Button className="buy-img" rounded style={{width:'30%'}} label="Upadte"></Button>
             </div>
           </div>
         </div>

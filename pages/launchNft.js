@@ -55,7 +55,7 @@ export default function LuanchNFTs() {
               <div className="font-bold">Title of the sidebar</div>
               <div>
                 <Link href='/assets'>
-                <Button label="create NFTs" severity="Primary" rounded />
+                <Button className="buy-img" label="create NFTs" severity="Primary" rounded />
                 </Link>
               </div>
             </div>

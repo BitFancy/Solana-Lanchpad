@@ -14,19 +14,23 @@ export default function LaunchEturnulsol() {
   };
   return (
     <Layout >
+      <div>
       <div className="buy-back-image">
 
-        <div className="flex justify-content-center" style={{marginTop:'100px'}}>
+        <div className="flex justify-content-center" >
+        <div className="flex card" style={{ marginTop: "100px" }}>
+
           <div>
             <LaunchContarctSidebar />
           </div>
 
           <div className="bg-blue-100 p-5" style={{ height: "360px" }}>
-            <div className="text-center">
+            <div className="text-center ">
               <img
                 src="garden.png"
                 style={{ width: "200px", height: "185px" }}
                 alt="garden"
+                className="buy-img card"
               ></img>
             </div>
             <div>
@@ -43,6 +47,7 @@ export default function LaunchEturnulsol() {
                   <Button
                     label="Launch EternalSoul"
                     severity="Primary"
+                    className="buy-img"
                     rounded
                     style={{ width: "200px" }}
                     loading={loading}
@@ -51,9 +56,11 @@ export default function LaunchEturnulsol() {
                   </Link>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </Layout>
   );

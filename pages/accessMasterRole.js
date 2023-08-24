@@ -102,6 +102,7 @@ export default function AccessMasterRole() {
                   severity="Primary"
                   rounded
                   loading={loading}
+                  className="buy-img"
                 />
               </div>
             </div>
@@ -131,6 +132,7 @@ export default function AccessMasterRole() {
                   severity="Primary"
                   rounded
                   loading={loading1}
+                  className="buy-img"
                 />
               </div>
             </div>

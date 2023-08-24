@@ -189,6 +189,7 @@ class UpdateMarketPlace extends React.Component {
                 label="Add Another Admin"
                 severity="info"
                 onClick={this.handleAddRow}
+                className="buy-img"
               />
             </div>
             <div className="text-center mt-5">
@@ -196,6 +197,7 @@ class UpdateMarketPlace extends React.Component {
                 label="Update"
                 severity="info"
                 onClick={this.updateMarketplaceData}
+                className="buy-img"
               />
             </div>
           </div>

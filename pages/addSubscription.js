@@ -218,7 +218,7 @@ if(valid){
       <AppTopbar />
       <Toast ref={toast} />
 
-      <div className="buy-back-image" style={{ marginTop: "68px" }}>
+      <div className="buy-back-image">
         <div className="font-bold text-3xl p-5 text-white text-center">
           Add StoreFront Details
         </div>
@@ -304,7 +304,7 @@ if(valid){
                   label="Add Storefront"
                   onClick={addSubscription}
                   severity="Primary"
-                  className=" mt-7 w-full"
+                  className=" mt-7 w-full buy-img"
                   style={{ width: "30%" }}
                   rounded
                   type="submit"

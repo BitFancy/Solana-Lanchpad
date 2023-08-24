@@ -82,10 +82,11 @@ export default function Launchpad() {
       </div>
       <div className="flex justify-content-center gap-5 mt-5">
         <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div>
+          <div className="card buy-img">
             <img
               style={{ width: "60px", height: "60px" }}
               src="/accessicon.png"
+             
             ></img>
           </div>
           <div className="font-bold mt-5 text-2xl">Access Control</div>
@@ -97,7 +98,7 @@ export default function Launchpad() {
           </div>
         </div>
         <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div>
+          <div className="card buy-img">
             <img
               style={{ width: "60px", height: "60px" }}
               src="/marketplace.png"
@@ -111,7 +112,7 @@ export default function Launchpad() {
           </div>
         </div>
         <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div>
+          <div className="card buy-img">
             <img
               style={{ width: "60px", height: "60px" }}
               src="/eternalsoul.png"
@@ -198,19 +199,20 @@ export default function Launchpad() {
                 onClick={load3}
                 label="Launch SignatureSeries"
                 rounded
+                className="buy-img"
               />
             </Link>
           </div>
         </div>
 
-        <div >
-          <img  style={{ height: "300px" }} src="signatureseries.png"></img>
+        <div className="card buy-img">
+          <img   style={{ height: "300px" }} src="signatureseries.png"></img>
         </div>
       </div>
 
       <div className="flex p-5 justify-content-around">
         <div>
-          <div>
+          <div className="card buy-img">
             <img style={{ height: "300px" }} src="Fusionseries.png"></img>
           </div>
         </div>
@@ -234,6 +236,7 @@ export default function Launchpad() {
                 onClick={load4}
                 label="Launch FusionSeries"
                 rounded
+                className="buy-img"
               />
             </Link>
           </div>
@@ -259,18 +262,19 @@ export default function Launchpad() {
                   onClick={load5}
                   label="Launch Instagen"
                   rounded
+                  className="buy-img"
                 />
               </Link>
             </div>
           </div>
         </div>
-        <div>
-          <img style={{ height: "300px" }} src="instagen.png"></img>
+        <div className="card buy-img">
+          <img  style={{ height: "300px" }} src="instagen.png"></img>
         </div>
       </div>
       <div className="flex p-5 justify-content-around mt-5">
         <div>
-          <div>
+          <div className="card buy-img">
             <img style={{ height: "300px" }} src="dynamicrealms.png"></img>
           </div>
         </div>
@@ -287,6 +291,7 @@ export default function Launchpad() {
               onClick={load6}
               label="Launch DynamicRealms"
               rounded
+              className="buy-img"
             />
           </div>
         </div>
@@ -308,19 +313,20 @@ export default function Launchpad() {
                     onClick={load7}
                     label="Launch EternumPass"
                     rounded
+                    className="buy-img"
                   />
                 </Link>
               </div>
             </div>
           </div>
         </div>
-        <div>
+        <div className="card buy-img">
           <img style={{ height: "300px" }} src="Eternumpass.png"></img>
         </div>
       </div>
       <div className="flex p-5 justify-content-around mt-5">
         <div>
-          <div>
+          <div className="card buy-img">
             <img style={{ height: "300px" }} src="Phygital.png"></img>
           </div>
         </div>
@@ -336,6 +342,7 @@ export default function Launchpad() {
               onClick={load8}
               label="Launch Phygital NFTs"
               rounded
+              className="buy-img"
             />
           </div>
         </div>

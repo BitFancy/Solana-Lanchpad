@@ -121,11 +121,11 @@ const Step1 = () => {
           Setup TradeHub
         </div>
         <div className="card buy-img" style={{ width: "60%", margin: "0 auto" }}>
-          <div>Enter TradeHub Fee</div>
-          <div className="mt-3">
+          <div>Enter TradeHub Fees</div>
+          <div className="mt-2">
             <InputText
               type="number"
-              className="p-2 mt-3 input-back w-full text-white"
+              className="p-2 mt-2 input-back w-full text-white"
               value={platformFee}
               onChange={handleInputFee}
             />
@@ -136,10 +136,10 @@ const Step1 = () => {
           </div>
 
           <div className="mt-5">Enter TradeHub Name</div>
-          <div className="mt-3">
+          <div className="mt-2">
             <InputText
               value={contractName}
-              className="p-2 mt-3 input-back w-full text-white"
+              className="p-2 mt-2 input-back w-full text-white"
               onChange={handleInputName}
             />
 
@@ -150,10 +150,10 @@ const Step1 = () => {
           <div className="flex mt-5 justify-content-between">
             <div>
               <Button
-                label="Deploy Tradhub Contract"
+                label="Deploy Tradhub"
                 onClick={tradHubContarctData}
                 severity="Primary"
-                className=" mt-7 w-full"
+                className=" mt-7 w-full buy-img"
                 style={{ width: "30%" }}
                 rounded
                 loading={loading}
@@ -165,7 +165,7 @@ const Step1 = () => {
                   <Button
                     label="Continue"
                     severity="Primary"
-                    className=" mt-7 w-full"
+                    className=" mt-7 w-full buy-img"
                     style={{ width: "30%" }}
                     rounded
                     loading={loading2}
