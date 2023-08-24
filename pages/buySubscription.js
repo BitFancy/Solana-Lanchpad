@@ -69,8 +69,6 @@ export default function BuyNft() {
           .post(
             `${BASE_URL_LAUNCH}api/v1.0/storefront`, { name:"John",
             owner:"asd3rfsdaf2334r23",
-            plan:"basic",
-            cost:99,
             currency:"USD",
             createdBy:"Admin",
             updatedBy:"Admin"},
