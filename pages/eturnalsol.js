@@ -6,6 +6,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
 constructor(props) {
@@ -155,13 +156,13 @@ handleInputSymbol = (e) => {
 
   render() {
     return (
+      <Layout2  title="Deploy Eturnalsol"
+      description="This is use to show information of the deploy Eturnalsol contract">
     <div
-      title="Deploy SignatureSeries"
-      description="This is use to show information of the deploy signatureSeries contract"
+     
       className="buy-back-image"
     >
-      <AppTopbar/>
-      <div style={{marginTop:'100px'}}>
+      <div >
         <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
           Deploy EternalSoul
         </div>
@@ -266,6 +267,7 @@ handleInputSymbol = (e) => {
         </div>
       </div>
     </div>
+    </Layout2>
 );
 }
 }

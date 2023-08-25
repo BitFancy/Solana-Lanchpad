@@ -173,7 +173,6 @@ export default function SubscriptionDashboard() {
                         <div className="text-white">
                           <div>My first marketplace</div>
                           <div>Id: {subscription?.id}</div>
-                          <div>Plan: {subscription.plan}</div>
                           <div>Cost: {subscription.cost}</div>
                           <div>owner: {subscription.owner}</div>
                           <div>Currency: {subscription.currency}</div>

@@ -129,7 +129,7 @@ class UpdateMarketPlace extends React.Component {
     return (
       <Layout
         title="Update Tradhub"
-        description="Used to show updated luanchpad information"
+        description="Used to show updated tradhub information"
       >
         <MarketplaceProfileDetails />
 

@@ -128,7 +128,7 @@ export default function BuyNft() {
     }, 2000);
   };
   return (
-    <Layout title="Launchpad" description="Used to Subscribe the NFTs">
+    <Layout title="Buy Subscription" description="Used to Subscribe the NFTs">
       <div className="buy-back-image">
         <div className="font-bold text-3xl p-5 text-center">
           Buy Subscription

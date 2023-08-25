@@ -6,6 +6,7 @@ import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Step1 = () => {
   const [loading, setLoading] = useState(false);
@@ -106,14 +107,13 @@ const Step1 = () => {
   };
 
   return (
-    <div
-      className="buy-back-image"
-      title="Step 1"
-      description="Step one of the launchpad"
-    >
-      <AppTopbar />
+    <Layout2  title="Tradhub Setup"
+    description="First Deploy Tradhub">
+   
       <Toast ref={toast} />
-      <div style={{ marginTop: "100px" }}>
+
+      <div className="buy-back-image">
+        <div>
         <div
           className="font-bold p-3 mb-5 text-center"
           style={{ borderBottom: "2px solid" }}
@@ -176,8 +176,11 @@ const Step1 = () => {
             )}
           </div>
         </div>
+        </div>
+      
       </div>
-    </div>
+    
+    </Layout2>
   );
 };
 export default withRouter(Step1);

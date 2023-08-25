@@ -219,13 +219,11 @@ export default function MarkeplaceDetailsForm() {
   };
 
   return (
-    <Layout>
+    <Layout title="Web App " description="Used to Show Details of the Web App">
       <MarketplaceProfileDetails />
       <div>
         <div className="buy-back-image-webapp-form">
-          <div className="font-bold text-3xl p-5 text-center">
-            Make Your Marketplace Shine
-          </div>
+         
           <Toast ref={toast} />
 
           <hr></hr>
@@ -238,6 +236,9 @@ export default function MarkeplaceDetailsForm() {
               className=" p-5 mt-5  card  gap-5"
               style={{ width: "80%", margin: "0 auto" }}
             >
+               <div className="font-bold text-3xl p-5 text-center " style={{color:'rgba(83, 71, 231, 0.5)'}}>
+            Make Your Marketplace Shine
+          </div>
               <div className="mt-5 text-center font-bold text-3xl">
                 Storefront Details
               </div>

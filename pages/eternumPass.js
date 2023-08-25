@@ -7,6 +7,7 @@ import { Dropdown } from "primereact/dropdown";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const toast = useRef(null);
@@ -163,15 +164,16 @@ const EternumPass = () => {
   };
 
   return (
+    <Layout2  title="Deploy Eternumpass"
+    description="This is use to show information of the deploy Eternumpass contract">
     <div
-      title="Deploy InstaGen"
-      description="This is use to show information of the deploy InstaGen contract"
+     
       className="buy-back-image"
     >
-      <AppTopbar />
+     
       <Toast ref={toast} />
 
-      <div style={{ marginTop: "85px" }}>
+      <div >
         <div
           className="p-5 font-bold text-align-center text-center"
           style={{ borderBottom: "2px solid" }}
@@ -302,6 +304,7 @@ const EternumPass = () => {
         </div>
       </div>
     </div>
+    </Layout2>
   );
 };
 

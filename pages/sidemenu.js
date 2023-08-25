@@ -59,6 +59,14 @@ export default function Sidemenu() {
             Instagen
           </Link>
         </div>
+        <div className="text-2xl" style={{ marginTop: "30px", color: "white" }}>
+          <Link
+            href="/getAlleturnalsol"
+            className={router.pathname == "/getAlleturnalsol" ? "active" : ""}
+          >
+            EternalSoul
+          </Link>
+        </div>
       </div>
       <div className="border-bottom-das"></div>
       <div className="font-bold mt-5 text-3xl text-white">Settings</div>

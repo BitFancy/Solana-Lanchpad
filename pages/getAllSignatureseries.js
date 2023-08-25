@@ -85,7 +85,7 @@ export default function GetAllSignatureseries() {
       });
   };
   return (
-    <Layout>
+    <Layout title="Signatureseries Contarct" description="Used to Show All Signatureseries Contarct Details">
       <div>
         <MarketplaceProfileDetails />
         <Toast ref={toast} />
@@ -141,7 +141,7 @@ export default function GetAllSignatureseries() {
               <Loader />
             ) : (
               <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any SignatureSeries.
+                You haven&apos;t created any SignatureSeries Contract.
               </div>
             )}
           </div>

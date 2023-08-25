@@ -15,12 +15,13 @@ export default function Launcheteriumpass() {
     }, 2000);
   };
   return (
-    <Layout>
+    <Layout title="Deploy Eternumpass"
+    description="This is use to show information of the deploy Eternumpass contract">
       <div>
       <div className="buy-back-image">
 
         <div className="flex justify-content-center">
-        <div className="flex card" style={{ marginTop: "100px" }}>
+        <div className="flex card buy-img" style={{ marginTop: "100px" }}>
           <div>
             <LaunchContarctSidebar />
           </div>

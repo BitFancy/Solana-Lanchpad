@@ -46,7 +46,7 @@ export default function GetAllFusionseries() {
       })
   };
   return (
-    <Layout>
+    <Layout title="FusionSeries Contarct" description="Used to Show All FusionSeries Contarct Details">
       <MarketplaceProfileDetails/>
         <Toast ref={toast} />
         <div className="flex  buy-back-image">
@@ -90,7 +90,7 @@ export default function GetAllFusionseries() {
               <Loader />
             ) : (
               <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any FusionSeries.
+                You haven&apos;t created any FusionSeries Contract.
               </div>
             )}
           </div>

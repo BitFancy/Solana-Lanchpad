@@ -58,7 +58,7 @@ export default function AccessMasterRole() {
         setuserAdddress(e.target.value);
       };
   return (
-    <Layout>
+    <Layout title="Access Master Role" description="Used to Show Access Master Role Information Details">
         <div>
         <MarketplaceProfileDetails/>
        

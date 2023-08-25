@@ -57,7 +57,7 @@ export default function Home() {
     }
   }, []);
   return (
-    <div className="container" style={{ padding: "50px 0 100px 0" }}>
+    <div className="container">
       {!(session || authToken) ? <Launchpad /> :<BuyNft />}
     </div>
   );

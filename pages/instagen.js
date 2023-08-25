@@ -6,6 +6,7 @@ import axios from "axios";
 import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Instagen = (props) => {
   const [loading, setLoading] = useState(false);
@@ -158,13 +159,13 @@ if(valid){
   };
 
   return (
+    <Layout2 title="Deploy InstaGen"
+    description="This is use to show information of the deploy InstaGen contract">
     <div
-      title="Deploy InstaGen"
-      description="This is use to show information of the deploy InstaGen contract"
+      
       className="buy-back-image-instagen"
     >
-      <AppTopbar />
-      <div style={{ marginTop: "65px" }}>
+      <div >
         <div
           className="p-5 font-bold text-align-center text-center"
           style={{ borderBottom: "2px solid" }}
@@ -305,6 +306,7 @@ if(valid){
         </div>
       </div>
     </div>
+    </Layout2>
   );
 };
 

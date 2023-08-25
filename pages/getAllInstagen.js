@@ -43,7 +43,7 @@ export default function GetAllInstagen() {
       })
   };
   return (
-    <Layout>
+    <Layout title="InstaGen Contarct" description="Used to Show All InstaGen Contarct Details">
       <MarketplaceProfileDetails/>
       <Toast ref={toast} />
        
@@ -88,8 +88,10 @@ export default function GetAllInstagen() {
             ) : loading ? (
               <Loader />
             ) : (
+              <div className="flex">
               <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any InstaGen.
+                You haven&apos;t created any InstaGen Contract.
+              </div>
               </div>
             )}
           </div>

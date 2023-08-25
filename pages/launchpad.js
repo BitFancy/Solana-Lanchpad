@@ -70,7 +70,7 @@ export default function Launchpad() {
   };
   return (
     <div className="launchpad wrapper">
-    <Layout title="Launchpad" description="Used to show launchpad information">
+    <Layout title="Launchpad Main Page" description="Used to show launchpad information">
       <div className="launchpad-back">
         <div
           className="text-center font-bold mt-16 text-white"

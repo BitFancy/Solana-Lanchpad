@@ -6,16 +6,15 @@ import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllEternumPass() {
+export default function GetAllEturnalsol() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useRef(null);
-
   const showError = () => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail: "Error While get Eternumpass Data",
+      detail: "Error While getting data of the EternalSoul contract",
       life: 10000,
     });
   };
@@ -38,32 +37,33 @@ export default function GetAllEternumPass() {
         setLoading(false);
       })
       .catch(() => {
-       showError();
+        showError();
       }).finally(()=>{
-        setLoading(false);
+        setLoading(false)
       })
   };
   return (
-    <Layout title="EternumPass Contarct" description="Used to Show All EternumPass Contarct Details">
+    <Layout title="EternalSoul Contarct" description="Used to Show All EternalSoul Contarct Details">
       <MarketplaceProfileDetails/>
-      
-        <Toast ref={toast} />
+      <Toast ref={toast} />
+       
+        
         <div className="flex  buy-back-image">
         <div >
           <Sidemenu />
         </div>
         <div>
         <div className="font-bold mt-5 text-3xl text-black text-center">
-          EternumPass
+        EternalSoul
         </div>
-        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
-          {contractData?.length > 0 ? (
+        <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
+        {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
                 <div key={1} className="grid   mt-5">
-                  {contract.contractName === "EternumPass" && (
+                  {contract.contractName === "EternalSoul" && (
                     <div
-                      className="card col-12 lg:col-6 xl:col-3 gap-5"
+                      className="card col-12  xl:col-3 gap-5"
                       style={{ marginBottom: "0px", width: "100%",height:'300px' }}
                     >
                       <div className="text-center">
@@ -80,7 +80,7 @@ export default function GetAllEternumPass() {
                         </span>
                       </div>
                      
-                  </div>
+                    </div>
                   )}
                 </div>
               );
@@ -88,15 +88,16 @@ export default function GetAllEternumPass() {
             ) : loading ? (
               <Loader />
             ) : (
+              <div className="flex">
               <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any EternumPass Contract.
+                You haven&apos;t created any EternalSoul Contract.
+              </div>
               </div>
             )}
           </div>
         </div>
-         
+       
         </div>
-
     </Layout>
   );
 }

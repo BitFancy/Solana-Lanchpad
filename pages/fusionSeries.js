@@ -6,6 +6,7 @@ import { Toast } from "primereact/toast";
 import AppTopbar from "../layout/AppTopbar";
 import { withRouter } from "next/router";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
@@ -152,13 +153,14 @@ class FusionSeries extends React.Component {
   
   render() {
     return (
+      <Layout2  title=" Deploy FusionSeries"
+      description="This is use to show deployed FusionSeries Form">
       <div
-        title="FusionSeries"
-        description="This is use to show deployed FusionSeries information"
+       
         className="buy-back-image"
       >
-        <AppTopbar />
-        <div style={{ marginTop: "85px" }}>
+      
+        <div >
           <div
             className="p-5 font-bold text-align-center text-center"
             style={{ borderBottom: "2px solid" }}
@@ -255,6 +257,7 @@ class FusionSeries extends React.Component {
           </div>
         </div>
       </div>
+      </Layout2>
     );
   }
 }
