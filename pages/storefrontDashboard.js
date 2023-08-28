@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState,useRef } from "react";
+import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function SubscriptionDashboard() {
-  const [subscriptionData, setSubscriptionData] = useState([]);
+export default function StorefrontDashboard() {
+  const [storefrontData, setStorefrontData] = useState([]);
   const [defulatImage, setDefulatImage] = useState(
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
   );
-  const [loadingmanage, setLoadingmanage] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [loading1, setLoading1] = useState(false);
-  const [loading3, setLoading3] = useState(false);
-  const [loadingview, setLoadingview] = useState(false);
   const [loadingsetup, setLoadingsetup] = useState(false);
-
+  const [loadingmanage, setLoadingmanage] = useState(false);
+  const [loadingview, setLoadingview] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -27,22 +27,21 @@ export default function SubscriptionDashboard() {
     });
   };
   useEffect(() => {
-    getSubscriptionData();
+    getStorefrontData();
   }, []);
 
+  const loadsetup = () => {
+    setLoadingsetup(true);
+
+    setTimeout(() => {
+      setLoadingsetup(false);
+    }, 2000);
+  };
   const loadnewPlan = () => {
     setLoading1(true);
 
     setTimeout(() => {
       setLoading1(false);
-    }, 2000);
-  };
-
-  const loadProfile = () => {
-    setLoading3(true);
-
-    setTimeout(() => {
-      setLoading3(false);
     }, 2000);
   };
   const loadsetupManage = () => {
@@ -59,14 +58,8 @@ export default function SubscriptionDashboard() {
       setLoadingview(false);
     }, 2000);
   };
-  const loadsetup = () => {
-    setLoadingsetup(true);
 
-    setTimeout(() => {
-      setLoadingsetup(false);
-    }, 2000);
-  };
-  const getSubscriptionData = () => {
+  const getStorefrontData = () => {
     const token = localStorage.getItem("platform_token");
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
@@ -76,9 +69,8 @@ export default function SubscriptionDashboard() {
       })
       .then(async (response) => {
         setLoading(true);
-
         if (response?.data?.length > 0) {
-          setSubscriptionData(response.data);
+            setStorefrontData(response.data);
         }
         setLoading(false);
       })
@@ -88,51 +80,75 @@ export default function SubscriptionDashboard() {
       })
       .finally(() => {
         setLoading(false);
+        setLoading1(false);
+        setLoading2(false);
       });
   };
+  const load2 = () => {
+    setLoading2(true);
 
+    setTimeout(() => {
+      setLoading2(false);
+    }, 2000);
+  };
   const replaceImage = (error) => {
     error.target.src = defulatImage;
   };
   return (
-    <div>
-      <Toast ref={toast} />
+    <Layout>
+<div>
+   
+<Toast ref={toast} />
 
-      <div className="buy-back-image-subs-dashboard">
+      <div className="overview-donut-top-back">
+        <div className="text-white text-3xl font-bold">Storefronts</div>
+        <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
+          <div className="text-white text-2xl">Testnet</div>
+          <div>
+            <img
+              style={{ width: "95px", height: "65px" }}
+              src="/Toggle.png"
+            ></img>
+          </div>
+          <div className="text-white text-2xl">Mainnet</div>
+        </div>
+        <div className="flex justify-content-end gap-5">
+          <div>
+            <Link href="/">
+              <Button
+                loading={loading2}
+                className="buy-img"
+                onClick={load2}
+                rounded
+                style={{ background: "white", color: "black" }}
+                label="Launch"
+              ></Button>
+            </Link>
+          </div>
+          <div>
+            <Button
+              rounded
+              style={{ border: "1px solid white" }}
+              label="Upgrade"
+              className="buy-img"
+            ></Button>
+          </div>
+        </div>
+      </div>
+      <div className="buy-back-image-storefront-dashboard">
         <hr></hr>
 
         <div style={{ width: "85%", margin: "0 auto" }}>
           <div className="flex justify-content-between">
             <div className="font-bold text-3xl p-5 text-center">
-              You are Currently Observing the Subscription Details
-            </div>
-            <div className="p-5">
-              <Link href="/buySubscription">
-                <Button
-                  onClick={loadnewPlan}
-                  loading={loading1}
-                  label="Buy Anather Plan"
-                  className="buy-img"
-                ></Button>
-              </Link>
+              You are Currently Observing the Deployed Storefront 
             </div>
             <div className="p-5">
               <Link href="/addStorefront">
                 <Button
-                  onClick={loadsetupManage}
-                  loading={loadingmanage}
-                  label="Launch"
-                  className="buy-img"
-                ></Button>
-              </Link>
-            </div>
-
-            <div className="p-5">
-              <Link href="/profile">
-                <Button
-                  onClick={loadProfile}
-                  loading={loading3}
-                  label="Profile"
+                  onClick={loadnewPlan}
+                  loading={loading1}
+                  label="Add Anather Storefront"
                   className="buy-img"
                 ></Button>
               </Link>
@@ -140,28 +156,30 @@ export default function SubscriptionDashboard() {
           </div>
 
           <hr></hr>
-          {subscriptionData?.length > 0 ? (
-            subscriptionData.map((subscription) => {
+          {storefrontData?.length > 0 ? (
+            storefrontData.map((storefront) => {
               return (
                 <div key={1}>
-                  {subscription.plan === "basic" && (
-                    <div className="card flex justify-content-between mt-5 align-items-center subscription-back-part ">
+                  {storefront.plan === "basic" && (
+                    <div className="card flex justify-content-between mt-5 ml-5 align-items-center storefront-back-part p-5">
                       <div className="flex gap-5">
                         <div>
                           <img
                             className="dash-img-size"
                             style={{ width: "100px", height: "100px" }}
-                            src={subscription.image}
+                            src={storefront.image}
                             onError={replaceImage}
                           ></img>
                         </div>
                         <div className="text-white">
-                          <div className=" font-bold mt-3">Name : {subscription?.string}</div>
-                          <div className="mt-2">Id: {subscription?.id}</div>
-                          <div className="mt-2">owner: {subscription.owner}</div>
-                          <div className="mt-2">Currency: {subscription.currency}</div>
+                          <div className="font-bold mt-3">Name: {storefront?.string}</div>
+                          <div className="mt-2">Id : {storefront?.id}</div>
+                          <div className="mt-2">Cost : {storefront?.cost}</div>
+                          <div className="mt-2">owner : {storefront?.owner}</div>
+                          <div className="mt-2">Currency : {storefront?.currency}</div>
                         </div>
                       </div>
+
                       <Link href="/step1">
                         <div>
                           <Button
@@ -175,25 +193,26 @@ export default function SubscriptionDashboard() {
                     </div>
                   )}
 
-                  {subscription.plan === "pro" && (
-                    <div className="card flex justify-content-between mt-5 align-items-center subscription-back-part">
+                  {storefront.plan === "pro" && (
+                    <div className="card flex ml-5 justify-content-between mt-5 align-items-center storefront-back-part p-5">
                       <div className="flex gap-5">
                         <div>
                           <img
                             className="dash-img-size"
                             style={{ width: "100px", height: "100px" }}
-                            src={subscription.image}
+                            src={storefront.image}
                             onError={replaceImage}
                           ></img>
                         </div>
                         <div className="text-white">
-                          <div className="font-bold mt-3"> Name : {subscription.string}</div>
-                          <div className="mt-2">Id: {subscription?.id}</div>
-                          <div className="mt-2">Plan: {subscription.plan}</div>
-                          <div className="mt-2">Cost: {subscription.cost}</div>
-                          <div className="mt-2">owner: {subscription.owner}</div>
+                          <div className="font-bold mt-3">Name : {storefront?.string}</div>
+                          <div className="mt-2">Id : {storefront?.id}</div>
+                          <div className="mt-2">Cost : {storefront?.cost}</div>
+                          <div className="mt-2">owner : {storefront?.owner}</div>
+                          <div className="mt-2">Currency : {storefront?.currency}</div>
                         </div>
                       </div>
+
                       <div>
                         <Link href="/getAllSignatureseries">
                           <div>
@@ -220,7 +239,6 @@ export default function SubscriptionDashboard() {
                         </Link>
                       </div>
                     </div>
-                    
                   )}
                 </div>
               );
@@ -234,6 +252,7 @@ export default function SubscriptionDashboard() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+      </Layout>
   );
 }

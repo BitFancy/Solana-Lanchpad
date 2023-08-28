@@ -22,7 +22,6 @@ import { removePrefix } from "../utils/ipfsUtil";
 import { useAccount } from "wagmi";
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
-
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
@@ -72,6 +71,7 @@ function Profile() {
     }
   }, []);
 
+  
   useEffect(() => {
     const cookieinstaUserData = Cookies.get('instaData');
     console.log(cookieinstaUserData);
@@ -109,6 +109,14 @@ function Profile() {
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
 
+  const [loading3, setLoading3] = useState(false);
+  const loadSubscription = () => {
+    setLoading3(true);
+
+    setTimeout(() => {
+      setLoading3(false);
+    }, 2000);
+  };
   async function uploadImage(e) {
     e.preventDefault();
     try {
@@ -541,6 +549,7 @@ function Profile() {
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
             }}>
+
           </div>
         ) : (
           <div
@@ -550,6 +559,9 @@ function Profile() {
               objectFit: 'cover',
               backgroundColor: 'gray',
             }}>
+          
+
+
           </div>
         )}
 
@@ -561,6 +573,7 @@ function Profile() {
             marginTop: '-100px',
             marginLeft: '50px',
           }}>
+
             <div style={{
               width: '200px',
               height: '200px',
@@ -760,6 +773,7 @@ function Profile() {
                   <FaWallet style={{ color: '', marginTop: 6 }} />
                   <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.walletAddress : null}</p>
                 </div>
+
               </div>
 
               <div className="flex lg:flex-row md:flex-row flex-col mt-6">
@@ -776,6 +790,14 @@ function Profile() {
                   <div>
                     <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
                   </div>
+                </div>
+                <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
+                  <div>
+                    <Link href="/subscriptionDashboard">
+                    <Button loading={loading3} onClick={loadSubscription} label="Subscription Details"  rounded />
+                    </Link>
+                  </div>
+                
                 </div>
               </div>
 

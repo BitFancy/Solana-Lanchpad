@@ -120,6 +120,7 @@ export default function CreateFusionSeriesNft() {
         { gasLimit: "2099999" }
       );
       // await transaction.wait();
+      router.push('/getAllFusionseries')
       console.log("transaction 2 is completed", transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
@@ -571,7 +572,7 @@ export default function CreateFusionSeriesNft() {
 
                 <div className="flex justify-content-between p-5">
                   <div>
-                    <Button  className="buy-img"onClick={(e) => createMarket(e)}>
+                    <Button   className="buy-img"onClick={(e) => createMarket(e)}>
                       Create FusionSeries NFTs
                     </Button>
                   </div>

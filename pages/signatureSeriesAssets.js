@@ -10,7 +10,6 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
-import AccessMaster from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
 import BuyAsset from "../Components/buyAssetModal";
 import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import Layout from "../Components/Layout";
@@ -36,7 +35,6 @@ const style = {
 };
 const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
 const signatureSeriesAddress = process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
-const AccessMasterAddress = process.env.NEXT_PUBLIC_FLOW_ACCESS_Master_ADDRESS;
 export default function CreateItem() {
   const msgs = useRef(null);
   const { data: signerData } = useSigner();
@@ -211,8 +209,8 @@ export default function CreateItem() {
         endTime,
         { gasLimit: "2099999" }
       );
-      // await transaction.wait();
-      router.push('/createInstagenNft')
+    await transaction.wait();
+      router.push('/createFusionSeriesNft')
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
       setmodelmsg("Transaction 2 failed");

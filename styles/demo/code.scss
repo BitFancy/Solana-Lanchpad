@@ -39,6 +39,13 @@ pre.app-code {
 .buy-back-image-subs-dashboard {
     height: 1200px;
     background: #8FBAFE;
+    margin-top: -14px;
+}
+
+.buy-back-image-storefront-dashboard {
+    height: 1200px;
+    background: #8FBAFE;
+    margin-top: -25px;
 }
 
 .buy-back-image-webapp-manage {
@@ -171,7 +178,19 @@ pre.app-code {
 
 .subscription-back-part {
     background-color: #5347E7;
-    height: 130px;
+    height: 145px;
+    margin: 0 auto;
+    width: 70%;
+    padding: 20px;
+
+
+}
+
+.storefront-back-part {
+    background-color: #5347E7;
+    height: 145px;
+    margin: 0 auto;
+   
 
 }
 

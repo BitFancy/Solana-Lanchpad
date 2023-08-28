@@ -13,7 +13,7 @@ export default function MarketplaceProfileDetails() {
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
   );
   useEffect(() => {
-    getSubscriptionData();
+    getStorefrontData();
   }, []);
   const replaceImage = (error) => {
     error.target.src = defulatImage;
@@ -25,7 +25,7 @@ export default function MarketplaceProfileDetails() {
       detail: "Error While Get storefront Details"
     });
   };
-  const getSubscriptionData = () => {
+  const getStorefrontData= () => {
     const token = localStorage.getItem("platform_token");
     axios
       .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
@@ -66,10 +66,10 @@ export default function MarketplaceProfileDetails() {
             </div>
             <div className="ml-3">
               <div className="text-white text-2xl font-bold">
-                My First Marketplace
+              Name: {subscriptionData[0]?.string}
               </div>
-              <div className="text-white">Id:{12}</div>
-              <div className="text-white">Plane:{}</div>
+              <div className="text-white">Id: {subscriptionData[0]?.id}</div>
+              <div className="text-white">Blockchain: {subscriptionData[0]?.blockchain}</div>
             </div>
           </div>
         </div>

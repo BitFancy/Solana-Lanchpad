@@ -87,6 +87,7 @@ export default function BuyNft() {
         `${BASE_URL_LAUNCH}api/v1.0/storefront`,
         {
           name: "John",
+          plan:'basic',
           owner: "asd3rfsdaf2334r23",
           currency: "USD",
           createdBy: "Admin",
@@ -195,7 +196,7 @@ export default function BuyNft() {
 
           {proResponse && (
             <div>
-              <Link href="/subscriptionDashboard">
+              <Link href="/profile">
                 <Button
                   className="buy-img"
                   onClick={load2}
@@ -210,7 +211,7 @@ export default function BuyNft() {
 
           {basicResponse && (
             <div>
-              <Link href="/subscriptionDashboard">
+              <Link href="/profile">
                 <Button
                   className="buy-img"
                   onClick={load3}
