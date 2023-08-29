@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
-// import React, {  useState } from 'react';
 import { NFTStorage } from "nft.storage";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -68,46 +67,7 @@ export default function MarkeplaceDetailsForm() {
     }
   }
 
-  const addMarketplaceDetails = async () => {
-    const token = localStorage.getItem("platform_token");
-    const valid = onClickButton();
-    if(valid){
-      axios
-      .post(
-        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
-        {
-          name: contarctName,
-          owner: "asd3rfsdaf2334r23",
-          cost: 99,
-          currency: "USD",
-          createdBy: "Admin",
-          updatedBy: "Admin",
-          image: uploadImage,
-          headline: stfheadline,
-          description: description,
-          blockchain: selecteBlockchaine,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        showSuccess();
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      })
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    }
-    
-  };
+  
   const handleInputContractName = (e) => {
     setStfName(e.target.value);
   };
@@ -222,7 +182,7 @@ export default function MarkeplaceDetailsForm() {
     <Layout title="Web App " description="Used to Show Details of the Web App">
       <MarketplaceProfileDetails />
       <div>
-        <div className="buy-back-image-webapp-form">
+        {/* <div className="buy-back-image-webapp-form">
          
           <Toast ref={toast} />
 
@@ -420,7 +380,7 @@ export default function MarkeplaceDetailsForm() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

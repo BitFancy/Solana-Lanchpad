@@ -86,6 +86,7 @@ class FusionSeries extends React.Component {
           param5: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
         },
         network: "maticmum",
+        storefrontId: "7e42ad4b-d131-4e0e-a06b-c014ca4e2095"
       },
       {
         headers: {

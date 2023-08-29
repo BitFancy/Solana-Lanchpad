@@ -4,7 +4,6 @@ import React, { useState, useRef } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
-import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
@@ -74,6 +73,7 @@ const EternumPass = () => {
               param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
             },
             network: "maticmum",
+            storefrontId: ""
           },
           {
             headers: {

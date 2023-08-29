@@ -103,7 +103,7 @@ export default function GetAllSignatureseries() {
             className="grid"
             style={{ gap: "20px", cursor: "pointer", marginLeft: "30px",marginBottom:'300px' }}
           >
-            <Button onClick={addsubgraphApi} className="buy-img" label="subgrapg"></Button>
+            {/* <Button onClick={addsubgraphApi} className="buy-img" label="subgrapg"></Button> */}
             {contractData?.length > 0 ? (
               contractData.map((contract) => {
                 return (

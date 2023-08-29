@@ -17,15 +17,15 @@ const AppFooter = () => {
                 layoutConfig.colorScheme === "light" ? "dark" : "white"
               }.svg`}
               alt="Logo"
-              height="30"
-              width="30"
+              height="60"
+              width="60"
               className="mr-2"
             />
           </div>
-          <div className="font-bold text-2xl cursor-pointer">
+          <div className=" mt-3 font-bold text-3xl cursor-pointer">
             Myriadflow
           </div>
-          <div className="mt-3 text-sm text-left text-black">
+          <div className="mt-5 text-xl text-left text-black">
             <div>MyriadFlow is an innovative platform to</div>
             <div>explore & launch NFT Experiences. Dive into</div>
             <div>the next generation of Utility NFTs through </div>
@@ -37,9 +37,9 @@ const AppFooter = () => {
             Explore
           </div>
           <div>
-            <div className="mt-2 text-sm"></div>
+            <div className="mt-5 text-sm"></div>
             All
-          </div>
+          </div>  
           <div>
             <div className="mt-2 text-sm"></div>
             Image
@@ -48,10 +48,7 @@ const AppFooter = () => {
             <div className="mt-2 text-sm"></div>
             Music
           </div>
-          <div>
-            <div className="mt-2 text-sm"></div>
-            Image
-          </div>
+        
           <div>
             <div className="mt-2 text-sm"></div>
             Video
@@ -61,29 +58,26 @@ const AppFooter = () => {
             Document
           </div>
 
-          <div className="mt-2 text-sm">
-            {" "}
-            others
-          </div>
+        
         </div>
 
         <div>
           <div className="font-bold text-2xl ">Dashboard</div>
-          <div className="mt-2">Created</div>
-          <div>Sold</div>
-          <div>bought</div>
-          <div>market</div>
+          <div className="mt-5">Created</div>
+          <div className="mt-2">Sold</div>
+          <div className="mt-2">bought</div>
+          <div className="mt-2">market</div>
         </div>
 
         <div>
           <div className="font-bold text-2xl ">My profile</div>
-          <div className="mt-2">create</div>
-          <div>wishlist</div>
-          <div>cart</div>
+          <div className="mt-5">create</div>
+          <div className="mt-2">wishlist</div>
+          <div className="mt-2">cart</div>
         </div>
         <div>
           <div className="font-bold text-2xl ">Company</div>
-          <div className="mt-2">About</div>
+          <div className="mt-5">About</div>
         </div>
         <div>
           <div className="font-bold text-2xl ">
@@ -117,8 +111,8 @@ const AppFooter = () => {
 
        
       </div>
-      <div className="flex justify-content-center  text-sm flex flex-col  py-3 px-3  gradient-blue border-y-2 " style={{background:"#8FBAFE"}}>
-        <div className="font-bold">
+      <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue border-y-2 " style={{background:"#8FBAFE"}}>
+        <div className="font-bold text-2xl">
           MyriadFlow | Copyright © {year} Lazarus Network Inc. All Rights
           Reserved.
         </div>
