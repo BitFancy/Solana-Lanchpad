@@ -23,6 +23,7 @@ export default function GetAllSignatureseries() {
   useEffect(() => {
     getAllContarctData();
   }, []);
+ 
 
   const getAllContarctData = () => {
     const token = localStorage.getItem("platform_token");

@@ -3,7 +3,6 @@ import { InputText } from "primereact/inputtext";
 import React from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
-import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
@@ -18,6 +17,8 @@ class SignatureSeries extends React.Component {
       contractName: "",
       contractSymbol: "",
       signatureseriesRespoanse: "",
+      storefrontData:'',
+      storefrontId:'',
       loading: false,
       loading2: false,
       submitClicked: false,
@@ -44,6 +45,28 @@ class SignatureSeries extends React.Component {
     });
   }
 
+  componentDidMount(){
+    this.getStorefrontData();
+  }
+   getStorefrontData= () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+          this.setState({storefrontData:response.data})
+          this.setState({storefrontId:response.data[response.data.length-1].id})
+        }
+      })
+      .catch(() => {
+        this.showError();
+      })
+  };
+  
   handleAddRow = () => {
     const item = {
       name: "",
@@ -87,6 +110,7 @@ class SignatureSeries extends React.Component {
           param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
         },
         network: "maticmum",
+        storefrontId: this.state.storefrontId
       },
       {
         headers: {

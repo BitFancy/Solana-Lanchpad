@@ -37,6 +37,8 @@ class FusionSeries extends React.Component {
     fusionseriesResponse: "",
     loading: false,
     loading2: false,
+    storefrontId:"",
+    storefrontData:"",
     submitClicked: false,
     errors: {
       contractNameEror: "",
@@ -68,6 +70,28 @@ class FusionSeries extends React.Component {
     const rows = [...this.state.rows];
     rows.splice(idx, 1);
     this.setState({ rows });
+  };
+
+  componentDidMount(){
+    this.getStorefrontData();
+  }
+  getStorefrontData= () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+       this.setState({storefrontData:response.data})
+       this.setState({storefrontId:response.data[response.data.length-1].id})
+        }
+      })
+      .catch(() => {
+        showError()
+      })
   };
   fusionSerisData = () => {
     const token = localStorage.getItem("platform_token");

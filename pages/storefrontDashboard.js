@@ -114,7 +114,7 @@ export default function StorefrontDashboard() {
         </div>
         <div className="flex justify-content-end gap-5">
           <div>
-            <Link href="/">
+            <Link href="/step1">
               <Button
                 loading={loading2}
                 className="buy-img"
@@ -160,7 +160,7 @@ export default function StorefrontDashboard() {
             storefrontData.map((storefront) => {
               return (
                 <div key={1}>
-                  {storefront.plan === "basic" && (
+                  { 
                     <div className="card flex justify-content-between mt-5 ml-5 align-items-center storefront-back-part p-5">
                       <div className="flex gap-5">
                         <div>
@@ -173,10 +173,9 @@ export default function StorefrontDashboard() {
                         </div>
                         <div className="text-white">
                           <div className="font-bold mt-3">Name: {storefront?.string}</div>
-                          <div className="mt-2">Id : {storefront?.id}</div>
-                          <div className="mt-2">Cost : {storefront?.cost}</div>
-                          <div className="mt-2">owner : {storefront?.owner}</div>
-                          <div className="mt-2">Currency : {storefront?.currency}</div>
+                          <div className="mt-2">Blockchain : {storefront?.blockchain}</div>
+                          <div className="mt-2">Headline : {storefront?.headline}</div>
+                          <div className="mt-2">Description : {storefront?.description}</div>
                         </div>
                       </div>
 
@@ -191,55 +190,9 @@ export default function StorefrontDashboard() {
                         </div>
                       </Link>
                     </div>
-                  )}
+                  }
 
-                  {storefront.plan === "pro" && (
-                    <div className="card flex ml-5 justify-content-between mt-5 align-items-center storefront-back-part p-5">
-                      <div className="flex gap-5">
-                        <div>
-                          <img
-                            className="dash-img-size"
-                            style={{ width: "100px", height: "100px" }}
-                            src={storefront.image}
-                            onError={replaceImage}
-                          ></img>
-                        </div>
-                        <div className="text-white">
-                          <div className="font-bold mt-3">Name : {storefront?.string}</div>
-                          <div className="mt-2">Id : {storefront?.id}</div>
-                          <div className="mt-2">Cost : {storefront?.cost}</div>
-                          <div className="mt-2">owner : {storefront?.owner}</div>
-                          <div className="mt-2">Currency : {storefront?.currency}</div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <Link href="/getAllSignatureseries">
-                          <div>
-                            <Button
-                              loading={loadingview}
-                              onClick={loadsetupview}
-                              style={{ width: "100%" }}
-                              label="View"
-                              className="buy-img"
-                            ></Button>
-                          </div>
-                        </Link>
-
-                        <Link href="/accessMasterRole">
-                          <div className="mt-5">
-                            <Button
-                              loading={loadingmanage}
-                              onClick={loadsetupManage}
-                              style={{ width: "100%" }}
-                              label="Manage"
-                              className="buy-img"
-                            ></Button>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  )}
+                
                 </div>
               );
             })

@@ -14,6 +14,8 @@ const Step1 = () => {
   const [platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [tradhubResponse, settradhubResponse] = useState();
+  const [storefrontData, setStorefrontData] = useState("");
+  const [storefrontId, setStorefrontId] = useState("");
 
   const [errors, setErros] = useState({
     platformFeeErrors: "",
@@ -44,6 +46,30 @@ const Step1 = () => {
     }, 2000);
   };
 
+
+  const getStorefrontData= () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+       setStorefrontData(response.data)
+       setStorefrontId(response.data[response.data.length-1].id)
+        }
+      })
+      .catch(() => {
+        showError()
+      })
+  };
+
+  useEffect(() => {
+    getStorefrontData();
+  }, [])
+  
   const tradHubContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
