@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 import { NFTStorage } from "nft.storage";
 import AppTopbar from "../layout/AppTopbar";

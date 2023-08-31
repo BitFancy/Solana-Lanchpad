@@ -1,9 +1,8 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
-import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
