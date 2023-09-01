@@ -125,7 +125,7 @@ if(valid){
   const storefronts = await getSubscriptionData();
 
   if (
-    storefronts.find(
+    storefronts?.find(
       (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
     )
   ) {

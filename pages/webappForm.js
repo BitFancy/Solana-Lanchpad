@@ -2,12 +2,13 @@ import Link from "next/link";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useEffect, useRef, useState } from "react";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 import { NFTStorage } from "nft.storage";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import axios from "axios";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -46,6 +47,7 @@ export default function WebappForm() {
   const [deploysubgraphName, setdeploySubgraphName] = useState("");
   const [storefrontData, setStorefrontData] = useState("");
   const [storefrontId, setStorefrontId] = useState("");
+  const [username, setUserName] = useState("");
 
 
   const getStorefrontData= () => {
@@ -68,16 +70,47 @@ export default function WebappForm() {
   };
   useEffect(() => {
     getStorefrontData();
+    getProfile();
   }, [])
+  const getProfile = async () => {
+    const token = localStorage.getItem("platform_token");
+    const config = {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/profile`, config)
+      .then((res) => {
+        const {
+          data: {
+            payload: {
+              name,
+            },
+          },
+        } = res;
+
+        console.log(res.data);
+        setUserName(res.data.payload.name);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
   const addMarketplaceDetails = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
+    let result = username.concat("/", stfName);
     if (valid) {
+
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,
           {
-            name: "inci/fgyjh",
+            name: result,
             nodeUrl: "http://3.144.253.205",
             storefrontId: storefrontId,
             network: "mumbai",
@@ -106,7 +139,12 @@ export default function WebappForm() {
           }
         )
         .then(async (response) => {
-          console.log("marketplace description", response);
+          const removeLast10 = response.data.payload.graphUrl
+          // const removeLast10 = response.data.payload.graphUrl.slice(0, -10);
+
+          const url='http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql\u001b[39m';
+           const url2=removeLast10.slice(0, -10);
+          console.log("marketplace description", url2);
           showSuccess();
           setTimeout(() => {
             setLoading(false);
