@@ -7,6 +7,7 @@ import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import Layout2 from "../Components/Layout2";
+import { Dropdown } from "primereact/dropdown";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Instagen = (props) => {
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,12 @@ const Instagen = (props) => {
     maxSupplyError: "",
     royltybpsError: "",
   });
+  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const blockchain = [
+    { name: "Polygon", value: "Polygon" },
+    { name: "Ethereum", value: "Ethereum" },
+  ];
+
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
   const showSuccess = () => {
@@ -173,15 +180,28 @@ const Instagen = (props) => {
     >
       <div className="buy-back-image-instagen">
         <div>
+        <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
           <div
-            className="p-5 font-bold text-align-center text-center"
-            style={{ borderBottom: "2px solid" }}
+            className=" p-5 font-bold text-center text-black"
+            
           >
-            Deploy InstaGen
+           Step 2 : Deploy InstaGen
+          </div>
+          <div className="mt-5">
+          <Dropdown
+                value={selecteBlockchaine}
+                onChange={(e) => setselectedBlockchaine(e.value)}
+                options={blockchain}
+                optionLabel="name"
+                placeholder="Chains "
+                className="w-full font-bold"
+                style={{borderRadius:'20px'}}
+              />
+          </div>
           </div>
 
           <div className="flex justify-content-center gap-5">
-            <div className="card buy-img mt-5" style={{ width: "50%" }}>
+            <div className="p-5 back-color buy-img mt-5" style={{ width: "50%" }}>
               <div>Enter InstaGen Name</div>
               <div className="mt-3">
                 <InputText

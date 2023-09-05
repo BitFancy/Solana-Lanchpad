@@ -80,9 +80,9 @@ export default function Launchpad() {
           <div>Categories In Just Few Steps</div>
         </div>
       </div>
-      <div className="flex justify-content-center gap-5 mt-5">
-        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div className="card buy-img">
+      <div className="flex justify-content-between gap-3 mt-5" style={{padding:'70px'}}>
+        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
+          <div className="card buy-img" style={{marginTop:'100px'}}>
             <img
               style={{ width: "60px", height: "60px" }}
               src="/accessicon.png"
@@ -97,8 +97,8 @@ export default function Launchpad() {
             <div>predefined rules.</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div className="card buy-img">
+        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
+          <div className="card buy-img " style={{marginTop:'100px'}}>
             <img
               style={{ width: "60px", height: "60px" }}
               src="/marketplace.png"
@@ -111,8 +111,8 @@ export default function Launchpad() {
             <div>non-fungible tokens (NFTs).</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'360px',height:'350px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div className="card buy-img">
+        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
+          <div className="card buy-img" style={{marginTop:'100px'}}>
             <img
               style={{ width: "60px", height: "60px" }}
               src="/eternalsoul.png"
@@ -127,61 +127,8 @@ export default function Launchpad() {
           </div>
         </div>
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
-        {/* <div>
-          <div>
-            <div className="signature-series-head">Access Master</div>
-            <div className="mt-5 text-3xl">
-              <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-              <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-              <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-              <div>the World of Unique, Non-Fungible Tokens, Each </div>
-              <div>Possessing a Distinct, Unreplicable Signature of </div>
-              <div>Authenticity</div>
-            </div>
-            <div className="mt-5">
-              <Link href="/deployflowaccessControl">
-                <Button
-                  loading={loading1}
-                  onClick={load1}
-                  label="Launch Access Master"
-                  rounded
-                />
-              </Link>
-            </div>
-          </div>
-        </div> */}
-        {/* <div>
-          <img style={{ height: "300px" }} src="signatureseries.png"></img>
-        </div> */}
-      </div>
-      {/* <div className="flex p-5 justify-content-around mt-5">
-        <div>
-          <img style={{ height: "300px" }} src="signatureseries.png"></img>
-        </div>
-        <div>
-          <div className="signature-series-head">TradeHub</div>
-          <div className="mt-5 text-3xl">
-            <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-            <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-            <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-            <div>the World of Unique, Non-Fungible Tokens, Each </div>
-            <div>Possessing a Distinct, Unreplicable Signature of </div>
-            <div>Authenticity</div>
-          </div>
-          <div className="mt-5">
-            <Link href="/step1">
-              <Button
-                loading={loading2}
-                onClick={load2}
-                label="Launch Tradhub"
-                rounded
-              />
-            </Link>
-          </div>
-        </div>
-      </div> */}
-      <div className="flex p-5 justify-content-around mt-5">
+       
+      <div className="flex  justify-content-between " style={{marginTop:'150px',padding:'70px'}}>
         <div>
           <div className="signature-series-head">SignatureSeries</div>
           <div className="mt-5 text-3xl">
@@ -197,25 +144,26 @@ export default function Launchpad() {
               <Button 
                 loading={loading3}
                 onClick={load3}
-                label="Launch SignatureSeries"
+                label="Launch"
                 rounded
                 className="buy-img"
+                style={{width:'55%'}}
               />
             </Link>
           </div>
         </div>
 
-        <div className="card buy-img">
-          <img   style={{ height: "300px" }} src="signatureseries.png"></img>
+        <div className="buy-img">
+          <img   style={{ height: "430px" }} src="sig.png"></img>
         </div>
       </div>
 
-      <div className="flex p-5 justify-content-around">
-        <div>
-          <div className="card buy-img">
-            <img style={{ height: "300px" }} src="Fusionseries.png"></img>
+      <div className="flex justify-content-between mt-5" style={{padding:'70px'}}>
+       
+          <div className="buy-img">
+            <img style={{ height: "430px" }} src="fusionseries2.png"></img>
           </div>
-        </div>
+        
         <div>
           <div className="signature-series-head">FusionSeries</div>
           <div className="mt-5 text-3xl">
@@ -234,15 +182,16 @@ export default function Launchpad() {
               <Button
                 loading={loading4}
                 onClick={load4}
-                label="Launch FusionSeries"
+                label="Launch"
                 rounded
                 className="buy-img"
+                style={{width:'55%'}}
               />
             </Link>
           </div>
         </div>
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
+      <div className="flex  justify-content-between mt-5" style={{padding:'70px'}}>
         <div>
           <div>
             <div className="signature-series-head">Instagen</div>
@@ -260,22 +209,23 @@ export default function Launchpad() {
                 <Button
                   loading={loading5}
                   onClick={load5}
-                  label="Launch Instagen"
+                  label="Launch"
                   rounded
                   className="buy-img"
+                  style={{width:'55%'}}
                 />
               </Link>
             </div>
           </div>
         </div>
-        <div className="card buy-img">
-          <img  style={{ height: "300px" }} src="instagen.png"></img>
+        <div className=" buy-img">
+          <img  style={{ height: "430px" }} src="Front.png"></img>
         </div>
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
+      <div className="flex justify-content-between mt-5" style={{padding:'70px'}}>
         <div>
-          <div className="card buy-img">
-            <img style={{ height: "300px" }} src="dynamicrealms.png"></img>
+          <div className=" buy-img">
+            <img style={{ height: "400px" }} src="dynamicrealms.png"></img>
           </div>
         </div>
         <div>
@@ -289,14 +239,15 @@ export default function Launchpad() {
             <Button
               loading={loading6}
               onClick={load6}
-              label="Launch DynamicRealms"
+              label="Launch"
               rounded
               className="buy-img"
+              style={{width:'55%'}}
             />
           </div>
         </div>
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
+      <div className="flex  justify-content-between mt-5" style={{padding:'70px'}}>
         <div>
           <div>
             <div>
@@ -311,23 +262,31 @@ export default function Launchpad() {
                   <Button
                     loading={loading7}
                     onClick={load7}
-                    label="Launch EternumPass"
+                    label="Launch"
                     rounded
                     className="buy-img"
+                    style={{width:'55%'}}
                   />
                 </Link>
               </div>
             </div>
           </div>
         </div>
-        <div className="card buy-img">
-          <img style={{ height: "300px" }} src="Eternumpass.png"></img>
+        <div className="flex">
+          <div style={{position:'absolute',left:'83%'}}>
+          <img style={{ height: "200px" }} src="image2.png"></img>
+
+          </div>
+          <div style={{position:'absolute',left:'71%',top:'632%'}}>
+          <img style={{ height: "200px" }} src="image1.png"></img>
+
+          </div>
         </div>
       </div>
-      <div className="flex p-5 justify-content-around mt-5">
+      <div className="flex justify-content-between " style={{marginTop:'130px',padding:'70px'}}>
         <div>
-          <div className="card buy-img">
-            <img style={{ height: "300px" }} src="Phygital.png"></img>
+          <div className=" buy-img">
+            <img style={{ height: "430px" }} src="Phygital.png"></img>
           </div>
         </div>
         <div>
@@ -340,9 +299,10 @@ export default function Launchpad() {
             <Button
               loading={loading8}
               onClick={load8}
-              label="Launch Phygital NFTs"
+              label="Launch"
               rounded
               className="buy-img"
+              style={{width:'55%'}}
             />
           </div>
         </div>

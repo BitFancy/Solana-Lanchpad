@@ -9,7 +9,7 @@ const AppFooter = () => {
   const { layoutConfig } = useContext(LayoutContext);
   return (
     <div>
-      <div className="layout-footer">
+      <div className="layout-footer mt-5" style={{borderBottom:'1px solid', padding:'20px',borderTop:'1px solid'}}>
         <div>
           <div>
             <Image
@@ -91,7 +91,10 @@ const AppFooter = () => {
                 style={{ width: "25px", height: "25px" ,border:"1px solid"}}
                 network="telegram"
               />
+
+              
             </div>
+
             <div className="mt-2">
               <SocialIcon
                 url="https://twitter.com/0xMyriadFlow"
@@ -105,13 +108,14 @@ const AppFooter = () => {
                 style={{ width: "25px", height: "25px",border:"1px solid" }}
                 network="discord"
               />
+
             </div>
           </div>
         </div>
 
        
       </div>
-      <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue border-y-2 " style={{background:"#8FBAFE"}}>
+      <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue  " >
         <div className="font-bold text-2xl">
           MyriadFlow | Copyright © {year} Lazarus Network Inc. All Rights
           Reserved.

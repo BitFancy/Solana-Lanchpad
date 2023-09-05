@@ -7,6 +7,7 @@ import AppTopbar from "../layout/AppTopbar";
 import { withRouter } from "next/router";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
+import { Dropdown } from "primereact/dropdown";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
@@ -40,11 +41,16 @@ class FusionSeries extends React.Component {
     storefrontId:"",
     storefrontData:"",
     submitClicked: false,
+    selecteBlockchaine:null,
     errors: {
       contractNameEror: "",
       symbolError: "",
     },
   };
+  blockchain = [
+    { name: "Polygon", value: "Polygon" },
+    { name: "Ethereum", value: "Ethereum" },
+  ];
   load = () => {
     this.setState({ loading2: true });
 
@@ -186,17 +192,32 @@ class FusionSeries extends React.Component {
       >
       
         <div >
+         
+
+          <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
           <div
-            className="p-5 font-bold text-align-center text-center"
-            style={{ borderBottom: "2px solid" }}
+            className=" p-5 font-bold text-center text-black"
+            
           >
-            Deploy FusionSeries
+           Step 2 : Deploy FusionSeries
+          </div>
+          <div className="mt-5">
+          <Dropdown
+                value={this.state.selecteBlockchaine}
+                onChange={(e) => this.setState({selecteBlockchaine:e.value})}
+                options={this.blockchain}
+                optionLabel="name"
+                placeholder="Chains "
+                className="w-full font-bold"
+                style={{borderRadius:'20px'}}
+              />
+          </div>
           </div>
           <div className="flex justify-content-center gap-5">
-            <div className="card buy-img mt-5" style={{ width: "50%" }}>
+            <div className=" buy-img mt-5 back-color p-5" style={{ width: "50%" }}>
               <div className="text-center mt-5">
                 {this.state.rows.map((item, idx) => (
-                  <div id="addr0" key={idx} className="card mt-5">
+                  <div id="addr0" key={idx} className=" mt-5">
                     <div className="">
                       <div>
                         <div className="text-left">Enter FusionSeries Name</div>

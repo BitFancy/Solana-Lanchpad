@@ -8,6 +8,7 @@ import { useContract, useSigner } from "wagmi";
 import Layout from "../Components/Layout";
 import axios from "axios";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
   const [loading, setLoading] = useState(false);
@@ -129,51 +130,53 @@ export default function BuyNft() {
     }, 2000);
   };
   return (
-    <Layout title="Buy Subscription" description="Used to Subscribe the NFTs">
+    <Layout2 title="Buy Subscription" description="Used to Subscribe the NFTs">
       <div className="buy-back-image">
-        <div className="font-bold text-3xl p-5 text-center">
+        <div className="font-bold text-4xl p-5 text-black">
           Buy Subscription
         </div>
         <hr></hr>
         <Toast ref={toast} />
-        <div className="flex mt-5 justify-content-center gap-5 ">
-          <div className="mt-5 card buy-img">
-            <img style={{ height: "200px" }} src="./showroom.png"></img>
+        <div className="flex  justify-content-center gap-5 " style={{marginTop:'100px'}}>
+          <div style={{marginTop:'100px'}}>
+            <img style={{ height: "400px",height:'375px' }} src="./showroom.png"></img>
           </div>
           <div
             className="p-5 subscribe-modal card"
             style={{ marginBottom: "0px" }}
           >
-            <div className="font-bold text-3xl">Basic</div>
-            <div className="font-bold">$0/Month</div>
+            <div className="font-bold text-6xl text-center mt-5">Basic</div>
+            <div className=" mb-5 text-center text-2xl">$0/Month</div>
 
             <hr></hr>
-            <div>
+            <div className="mt-5  plan-des" style={{marginLeft:'70px'}}>
               <ul>
-                <li>2% platform Fee Total Sales</li>
-                <li>Unlimited Deployments</li>
+                <li>2% platform Fee </li>
+                <li>Only 2 deployments</li>
                 <li> 5+ contracts Support</li>
                 <li>customizable Frontend </li>
                 <li>Metaverse Support</li>
                 <li>Community Support</li>
               </ul>
             </div>
-            <div className="mt-5">
+            <div className=" text-center" style={{marginTop:'75px'}}>
               <Button
                 className="buy-img"
                 loading={loading}
                 onClick={buySubscription}
                 style={{ background: "white", color: "black" }}
                 severity="info"
-                label="Buy Basic Plan"
+                label="BUY BASIC PLAN"
+                rounded
+                
               ></Button>
             </div>
           </div>
           <div className="p-5 subscribe-modal card">
-            <div className="font-bold text-3xl">Pro</div>
-            <div className="font-bold">$99/Month</div>
+            <div className="font-bold text-6xl text-center mt-5">Pro</div>
+            <div className="text-2xl mb-5 text-center">$99/Month</div>
             <hr></hr>
-            <div>
+            <div className="mt-5  plan-des" style={{marginLeft:'70px'}}>
               <ul>
                 <li>0% platform Fee</li>
                 <li>Unlimited Deployments</li>
@@ -181,15 +184,17 @@ export default function BuyNft() {
                 <li>Customizable Frontend </li>
                 <li>Metaverse Support</li>
                 <li> Priority Support</li>
+                <li>Premium account accessibility</li>
               </ul>
             </div>
-            <div className="mt-5">
+            <div className="mt-5 text-center ">
               <Button
                 onClick={mint}
                 loading={loading1}
                 severity="info"
                 style={{ background: "white", color: "black" }}
-                label="Buy Pro Plan"
+                label="BUY PRO PLAN"
+                rounded
               ></Button>
             </div>
           </div>
@@ -225,6 +230,6 @@ export default function BuyNft() {
           )}
         </div>
       </div>
-    </Layout>
+    </Layout2>
   );
 }

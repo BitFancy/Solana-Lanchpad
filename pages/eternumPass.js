@@ -29,6 +29,11 @@ const EternumPass = () => {
     subspricePerMonthError: "",
     royltybpsError: "",
   });
+  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const blockchain = [
+    { name: "Polygon", value: "Polygon" },
+    { name: "Ethereum", value: "Ethereum" },
+  ];
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const subscriptions = [
@@ -200,15 +205,28 @@ const getStorefrontData= () => {
       <Toast ref={toast} />
 
       <div >
-        <div
-          className="p-5 font-bold text-align-center text-center"
-          style={{ borderBottom: "2px solid" }}
-        >
-          Deploy EternumPass
-        </div>
+        <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
+          <div
+            className=" p-5 font-bold text-center text-black"
+            
+          >
+           Step 2 : Deploy EternumPass
+          </div>
+          <div className="mt-5">
+          <Dropdown
+                value={selecteBlockchaine}
+                onChange={(e) => setselectedBlockchaine(e.value)}
+                options={blockchain}
+                optionLabel="name"
+                placeholder="Chains "
+                className="w-full font-bold"
+                style={{borderRadius:'20px'}}
+              />
+          </div>
+          </div>
 
         <div className="flex justify-content-center gap-5 mt-5">
-          <div className="card buy-img" style={{ width: "50%" }}>
+          <div className="back-color p-5 buy-img" style={{ width: "50%" }}>
             <div>Enter EternumPass Name</div>
             <div className="mt-3">
               <InputText

@@ -13,6 +13,11 @@ pre.app-code {
         font-family: monaco, Consolas, monospace;
     }
 }
+.connect-wallet{
+    background-color: white!important;
+    color: black!important;
+    border-radius: 20px!important;
+}
 .button-launch:hover{
     background-color: #8a58a6;
 }
@@ -22,7 +27,7 @@ pre.app-code {
     background: #8FBAFE;
 }
 .buy-back-image-webapp-form{
-    height: 1800px;
+    height: 2110px;
     background: #8FBAFE;
 }
 
@@ -103,13 +108,29 @@ pre.app-code {
     transition: box-shadow .3s;
 
 }
+.plan-des{
+    color: #FFF;
+font-family: Open Sans;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: capitalize;
+line-height: 25px;
+}
 .subscribe-modal {
-    text-align: center;
+  
     padding: 10px;
-    background: rgba(83, 71, 231, 0.50);
+    background: rgba(83, 71, 231, 0.95);
     color: white;
     transition: box-shadow .3s;
+    height: 560px;
+    width: 400px;
 
+}
+
+.back-color{
+    background: rgba(255, 255, 255, 0.30)
 }
 .subscribe-modal:hover{
     box-shadow:0px 50px 60px 0px rgba(83, 71, 231, 0.50)

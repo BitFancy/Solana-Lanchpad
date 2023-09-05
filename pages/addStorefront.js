@@ -219,16 +219,17 @@ if(valid){
       <Toast ref={toast} />
 
       <div className="buy-back-image">
-        <div className="font-bold text-3xl p-5 text-white text-center">
+        <div className="font-bold text-4xl p-5 text-black">
           Add StoreFront Details
         </div>
         <hr></hr>
-
+<div className="ml-5 text-2xl">You are currently observing the deployed storefronts </div>
+<div className="ml-5 text-2xl">in testnet</div>
         <div
-          className=" p-5 mt-5 font-bold card flex gap-5 buy-img"
-          style={{ width: "80%", margin: "0 auto" }}
+          className=" p-5 mt-5 font-bold card flex gap-5 buy-img back-color"
+          style={{ width: "95%", margin: "0 auto"}}
         >
-          <div>
+          <div style={{width:'445px'}}>
             <div style={{ padding: "20px", border: "1px solid" }}>
               <FileUpload
                 type="file"
@@ -246,7 +247,7 @@ if(valid){
           </div>
           <div className="w-full">
             <div>StoreFront Name(must be unique)</div>
-            <div className="mt-3">
+            <div >
               <InputText
                 id="contractName"
                 onChange={handleInputContractName}
@@ -260,7 +261,7 @@ if(valid){
 
             <div className="mt-5">Blockchain</div>
 
-            <div className="  mt-3">
+            <div className="mt-3">
               <Dropdown
                 value={selecteBlockchaine}
                 onChange={(e) => setselectedBlockchaine(e.value)}
@@ -274,7 +275,7 @@ if(valid){
 
             <div className="mt-5">Headline</div>
 
-            <div className=" mt-3">
+            <div >
               <InputText
                 value={headline}
                 onChange={handleInputHeadline}
@@ -287,7 +288,7 @@ if(valid){
 
             <div className="mt-5">Description</div>
 
-            <div className="  mt-3">
+            <div>
               <InputText
                 value={description}
                 onChange={handleInputDescription}

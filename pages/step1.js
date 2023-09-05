@@ -140,12 +140,12 @@ const Step1 = () => {
       <div className="buy-back-image">
         <div>
         <div
-          className="font-bold p-3 mb-5 text-center"
+          className="font-bold p-3 mb-5 text-black ml-5"
           style={{ borderBottom: "2px solid" }}
         >
-          Setup TradeHub
+          Step1: Setup TradeHub
         </div>
-        <div className="card buy-img" style={{ width: "60%", margin: "0 auto" }}>
+        <div className=" buy-img back-color p-5" style={{ width: "60%", margin: "0 auto" }}>
           <div>Enter TradeHub Fees</div>
           <div className="mt-2">
             <InputText

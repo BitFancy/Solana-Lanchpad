@@ -58,14 +58,7 @@ const AppTopbar = forwardRef((props, ref) => {
         })}
       >
        
-        <Link href="/addStorefront">
-        <span
-          className="text-black"
-          style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-        >
-          Add Storefront
-        </span>
-      </Link>
+      
          
       <Link href="/buySubscription">
         <span
@@ -86,8 +79,8 @@ const AppTopbar = forwardRef((props, ref) => {
 </Link>
 
        
-        <div>
-          <ConnectButton />
+        <div >
+          <ConnectButton  className="connect-wallet"/>
         </div>
         <div>
           <Link href="/profile">

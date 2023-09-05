@@ -365,7 +365,7 @@ export default function WebappForm() {
         <hr></hr>
         <div className="flex">
           <div
-            className=" p-5 mt-5  card  gap-5"
+            className=" p-5 mt-5 back-color  gap-5"
             style={{ width: "80%", margin: "0 auto" }}
           >
             <div className="mt-5 text-center font-bold text-3xl">

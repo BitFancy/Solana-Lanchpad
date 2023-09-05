@@ -1,18 +1,9 @@
 .layout-footer {
-    transition: margin-left $transitionDuration;
     display: flex;
-  
     padding-top: 10rem;
     border-top: 1px solid var(--surface-border);
     justify-content: space-between;
     padding: 10px 27px 10px 27px;
-    -webkit-transition: background-color 2s ease-out;
-    -moz-transition: background-color 2s ease-out;
-    -o-transition: background-color 2s ease-out;
-    transition: background-color 2s ease-out;
-    background-color:#8FBAFE;
-    color: white;
+    color: black;
 }
-.layout-footer:hover{
-    background-color: #856299;
-}
+
