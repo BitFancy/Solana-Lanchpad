@@ -7561,3 +7561,11 @@
 }
 
 /* Customizations to the designer theme should be defined here */
+
+.p-heading{
+  color: #ffffff;
+}
+.input-back {
+  background:rgb(132 118 118 / 80%);
+  border-radius: 10px;
+}

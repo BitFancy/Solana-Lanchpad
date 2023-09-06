@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
 import Link from "next/link";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import Image from "next/image";
 export default function Launchpad() {
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -11,6 +13,7 @@ export default function Launchpad() {
   const [loading6, setLoading6] = useState(false);
   const [loading7, setLoading7] = useState(false);
   const [loading8, setLoading8] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
 
   const load1 = () => {
     setLoading1(true);
@@ -73,7 +76,7 @@ export default function Launchpad() {
     <Layout title="Launchpad Main Page" description="Used to show launchpad information">
       <div className="launchpad-back">
         <div
-          className="text-center font-bold mt-16 text-white"
+          className="text-center font-bold mt-16 text-white "
           style={{ top: "200px", position: "relative", fontSize: "50px" }}
         >
           <div>Experience Launching Your Favorites</div>
@@ -81,45 +84,63 @@ export default function Launchpad() {
         </div>
       </div>
       <div className="flex justify-content-between gap-3 mt-5" style={{padding:'70px'}}>
-        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
+        <div className="card text-center p-heading" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
           <div className="card buy-img" style={{marginTop:'100px'}}>
-            <img
-              style={{ width: "60px", height: "60px" }}
-              src="/accessicon.png"
-             
-            ></img>
+          <Image
+              src={`./${
+                layoutConfig.colorScheme === "light" ? "accessLight" : "darkacc"
+              }.svg`}
+              alt="Logo"
+              height="60"
+              width="60"
+              className="mr-2"
+            />
           </div>
-          <div className="font-bold mt-5 text-2xl">Access Control</div>
-          <div className="mt-5 text-xl">
+          <div   className="font-bold mt-5 text-2xl p-heading">Access Control</div>
+          <div className="mt-5 text-xl p-heading">
             <div>A self-executing contract automatically </div>
             <div>grants or denies permissions to </div>
             <div>network participants based on </div>
             <div>predefined rules.</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
-          <div className="card buy-img " style={{marginTop:'100px'}}>
-            <img
-              style={{ width: "60px", height: "60px" }}
-              src="/marketplace.png"
-            ></img>
+        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
+          <div className="card buy-img p-heading" style={{marginTop:'100px'}}>
+          
+          <Image
+              src={`./${
+                layoutConfig.colorScheme === "light" ? "tradhub" : "darktradhub"
+              }.svg`}
+              alt="Logo"
+              height="60"
+              width="60"
+              className="mr-2"
+            />
           </div>
-          <div className="font-bold mt-5 text-2xl">TradeHub</div>
-          <div className="mt-5 text-xl">
+          <div className="font-bold mt-5 text-2xl p-heading">TradeHub</div>
+          <div className="mt-5 text-xl p-heading">
             <div>A leading NFT marketplace for peer- </div>
             <div>to-peer buying, selling, and trading of </div>
             <div>non-fungible tokens (NFTs).</div>
           </div>
         </div>
-        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)'}}>
+        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
           <div className="card buy-img" style={{marginTop:'100px'}}>
             <img
               style={{ width: "60px", height: "60px" }}
-              src="/eternalsoul.png"
+            
+              src={`./${
+                layoutConfig.colorScheme === "light" ? "eternalsoul" : "eterdark"
+              }.png`}
             ></img>
+             
+
+            
+          
+
           </div>
-          <div className="font-bold mt-5 text-2xl">EternalSoul</div>
-          <div className="mt-5 text-xl">
+          <div className="font-bold mt-5 text-2xl p-heading">EternalSoul</div>
+          <div className="mt-5 text-xl p-heading">
             <div>A soulbound token is a non-transferable </div>
             <div>NFT publicly verifying an individual </div>
             <div>credentials, affiliations, and </div>
@@ -130,8 +151,8 @@ export default function Launchpad() {
        
       <div className="flex  justify-content-between " style={{marginTop:'150px',padding:'70px'}}>
         <div>
-          <div className="signature-series-head">SignatureSeries</div>
-          <div className="mt-5 text-3xl">
+          <div className="signature-series-head p-heading">SignatureSeries</div>
+          <div className="mt-5 text-3xl p-heading">
             <div>Dive Into SignatureSeries, An Exclusive NFT </div>
             <div>Collection Built On ERC-721, Featuring One-of-a-</div>
             <div>Kind Digital Masterpieces. Immerse Yourself in</div>
@@ -165,8 +186,8 @@ export default function Launchpad() {
           </div>
         
         <div>
-          <div className="signature-series-head">FusionSeries</div>
-          <div className="mt-5 text-3xl">
+          <div className="signature-series-head p-heading">FusionSeries</div>
+          <div className="mt-5 text-3xl p-heading">
             <div>Explore FusionSeries, a Unique NFT Collection </div>
             <div>Leveraging ERC-1155 Power, Creating </div>
             <div>a Seamless Blend of Unique and</div>
@@ -194,8 +215,8 @@ export default function Launchpad() {
       <div className="flex  justify-content-between mt-5" style={{padding:'70px'}}>
         <div>
           <div>
-            <div className="signature-series-head">Instagen</div>
-            <div className="mt-5 text-3xl">
+            <div className="signature-series-head p-heading">Instagen</div>
+            <div className="mt-5 text-3xl p-heading">
               <div>Discover InstaGen, an Innovative NFT Collection </div>
               <div>Underpinned by the ERC-721A Protocol,</div>
               <div>Offering Unique, Indivisible, and Limited-</div>
@@ -229,8 +250,8 @@ export default function Launchpad() {
           </div>
         </div>
         <div>
-          <div className="signature-series-head">DynamicRealms</div>
-          <div className="mt-5 text-3xl">
+          <div className="signature-series-head p-heading">DynamicRealms</div>
+          <div className="mt-5 text-3xl p-heading">
             <div>Dynamic NFTs that Provide Dynamic </div>
             <div>Features, Changes in a NFT Smart </div>
             <div>Contract are Based on Conditions.</div>
@@ -251,8 +272,8 @@ export default function Launchpad() {
         <div>
           <div>
             <div>
-              <div className="signature-series-head">EternumPass</div>
-              <div className="mt-5 text-3xl">
+              <div className="signature-series-head p-heading">EternumPass</div>
+              <div className="mt-5 text-3xl p-heading">
                 <div>An Opportunity to Access Digital Assets</div>
                 <div>and Ownership to Exclusive Content </div>
                 <div>or services.</div>
@@ -290,8 +311,8 @@ export default function Launchpad() {
           </div>
         </div>
         <div>
-          <div className="signature-series-head">Phygital NFTs</div>
-          <div className="mt-5 text-3xl">
+          <div className="signature-series-head p-heading">Phygital NFTs</div>
+          <div className="mt-5 text-3xl p-heading">
             <div>Experience both the Phygital and </div>
             <div>Digital Worlds with Myriadflow</div>
           </div>

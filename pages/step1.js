@@ -1,11 +1,12 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Step1 = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ const Step1 = () => {
   const [tradhubResponse, settradhubResponse] = useState();
   const [storefrontData, setStorefrontData] = useState("");
   const [storefrontId, setStorefrontId] = useState("");
+  const { layoutConfig } = useContext(LayoutContext);
 
   const [errors, setErros] = useState({
     platformFeeErrors: "",
@@ -137,16 +139,16 @@ const Step1 = () => {
    
       <Toast ref={toast} />
 
-      <div className="buy-back-image">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
         <div>
         <div
-          className="font-bold p-3 mb-5 text-black ml-5"
-          style={{ borderBottom: "2px solid" }}
+          className="font-bold p-3 mb-5 text-black ml-5 p-heading"
+          style={{ borderBottom: "1px solid" }}
         >
           Step1: Setup TradeHub
         </div>
         <div className=" buy-img back-color p-5" style={{ width: "60%", margin: "0 auto" }}>
-          <div>Enter TradeHub Fees</div>
+          <div className="p-heading">Enter TradeHub Fees</div>
           <div className="mt-2">
             <InputText
               type="number"
@@ -160,7 +162,7 @@ const Step1 = () => {
             </p>
           </div>
 
-          <div className="mt-5">Enter TradeHub Name</div>
+          <div className="mt-5 p-heading">Enter TradeHub Name</div>
           <div className="mt-2">
             <InputText
               value={contractName}

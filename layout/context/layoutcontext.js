@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 export const LayoutContext = React.createContext();
-
 export const LayoutProvider = (props) => {
     const [layoutConfig, setLayoutConfig] = useState({
         ripple: false,
@@ -11,7 +10,6 @@ export const LayoutProvider = (props) => {
         theme: 'lara-light-indigo',
         scale: 14
     });
-
     const [layoutState, setLayoutState] = useState({
         staticMenuDesktopInactive: false,
         overlayMenuActive: false,
@@ -20,7 +18,6 @@ export const LayoutProvider = (props) => {
         staticMenuMobileActive: false,
         menuHoverActive: false
     });
-
     const onMenuToggle = () => {
         if (isOverlay()) {
             setLayoutState((prevLayoutState) => ({ ...prevLayoutState, overlayMenuActive: !prevLayoutState.overlayMenuActive }));

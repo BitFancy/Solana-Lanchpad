@@ -1,12 +1,13 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = () => {
   const toast = useRef(null);
@@ -21,6 +22,8 @@ const EternumPass = () => {
   const [storefrontData, setStorefrontData] = useState("");
   const [storefrontId, setStorefrontId] = useState("");
   const [selecteOperatorSubscription, setOperatorSubscription] = useState(null);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [errors, setErros] = useState({
     contractNameError: "",
     contractSymbolError: "",
@@ -198,8 +201,7 @@ const getStorefrontData= () => {
     <Layout2  title="Deploy Eternumpass"
     description="This is use to show information of the deploy Eternumpass contract">
     <div
-     
-      className="buy-back-image"
+     className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}
     >
      
       <Toast ref={toast} />
@@ -207,7 +209,7 @@ const getStorefrontData= () => {
       <div >
         <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
           <div
-            className=" p-5 font-bold text-center text-black"
+            className=" p-5 font-bold text-center p-heading"
             
           >
            Step 2 : Deploy EternumPass
@@ -227,7 +229,7 @@ const getStorefrontData= () => {
 
         <div className="flex justify-content-center gap-5 mt-5">
           <div className="back-color p-5 buy-img" style={{ width: "50%" }}>
-            <div>Enter EternumPass Name</div>
+            <div className="p-heading">Enter EternumPass Name</div>
             <div className="mt-3">
               <InputText
                 className="p-2 input-back w-full text-white"
@@ -239,7 +241,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            <div className="mt-5">Enter EternumPass Symbol</div>
+            <div className="mt-5 p-heading">Enter EternumPass Symbol</div>
 
             <div className="  mt-3">
               <InputText
@@ -252,7 +254,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            <div className="mt-5">Enter Public SalePrice</div>
+            <div className="mt-5 p-heading">Enter Public SalePrice</div>
 
             <div className="  mt-3">
               <InputText
@@ -277,7 +279,7 @@ const getStorefrontData= () => {
                 {!platformFeeBasePrice ? errors.platformFeeBasePriceError : ""}
               </p>
             </div>
-            <div className="mt-5">Enter Subscription Price Per month</div>
+            <div className="mt-5 p-heading">Enter Subscription Price Per month</div>
 
             <div className=" mt-3">
               <InputText
@@ -290,7 +292,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            <div className="mt-5">Enter Royalty BPS</div>
+            <div className="mt-5 p-heading">Enter Royalty BPS</div>
 
             <div className=" mt-3">
               <InputText
@@ -303,7 +305,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            <div className="mt-5">Enter Operator Suscription</div>
+            <div className="mt-5 p-heading">Enter Operator Suscription</div>
             <div className="mt-3">
               <Dropdown
                 value={selecteOperatorSubscription}

@@ -1,13 +1,14 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
-import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import Layout2 from "../Components/Layout2";
 import { Dropdown } from "primereact/dropdown";
+import { LayoutContext } from "../layout/context/layoutcontext";
+
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Instagen = (props) => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ const Instagen = (props) => {
   const [maxSupply, setMaxSupply] = useState("");
   const [royltybps, setRoyltybps] = useState("");
   const [instagenResponse, setinstagenResponse] = useState();
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [errors, setErros] = useState({
     contractNameError: "",
     contractSymbolError: "",
@@ -178,11 +181,13 @@ const Instagen = (props) => {
       title="Deploy InstaGen"
       description="This is use to show information of the deploy InstaGen contract"
     >
-      <div className="buy-back-image-instagen">
+      <div 
+      className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-instagen' : 'dark'}`}
+       >
         <div>
-        <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
+        <div className="flex justify-content-between p-3" style={{ borderBottom: "1px solid" }}>
           <div
-            className=" p-5 font-bold text-center text-black"
+            className="p-5 font-bold text-center p-heading"
             
           >
            Step 2 : Deploy InstaGen
@@ -202,11 +207,11 @@ const Instagen = (props) => {
 
           <div className="flex justify-content-center gap-5">
             <div className="p-5 back-color buy-img mt-5" style={{ width: "50%" }}>
-              <div>Enter InstaGen Name</div>
+              <div className="p-heading" >Enter InstaGen Name</div>
               <div className="mt-3">
                 <InputText
                   id="contractName"
-                  className="p-2  input-back w-full text-white"
+                  className="p-2  input-back w-full"
                   onChange={handleInputName}
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -214,12 +219,13 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter InstaGen Symbol</div>
+              <div className="mt-5 p-heading">Enter InstaGen Symbol</div>
 
               <div className="  mt-3">
                 <InputText
                   value={contractSymbol}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
+                  
                   onChange={handleInputSymbol}
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -227,13 +233,13 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter SalePrice</div>
+              <div className="mt-5 p-heading">Enter SalePrice</div>
 
               <div className="  mt-3">
                 <InputText
                   value={salePrice}
                   onChange={handleInputSalePrice}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                   type="number"
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -241,13 +247,13 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter Pre SalePrice</div>
+              <div className="mt-5 p-heading">Enter Pre SalePrice</div>
 
               <div className=" mt-3">
                 <InputText
                   value={saleprePrice}
                   onChange={handleInputSalePrePrice}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                   type="number"
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -255,13 +261,13 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter Countdown Time</div>
+              <div className="mt-5 p-heading">Enter Countdown Time</div>
 
               <div className="  mt-3">
                 <InputText
                   value={countdownTime}
                   onChange={handleInputCountDownTime}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                   type="number"
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -269,11 +275,11 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter Max. Supply</div>
+              <div className="mt-5 p-heading">Enter Max. Supply</div>
 
               <div className=" mt-3">
                 <InputText
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                   value={maxSupply}
                   onChange={handleInputMaxSupply}
                   type="number"
@@ -283,11 +289,11 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter Royalty BPS</div>
+              <div className="mt-5 p-heading">Enter Royalty BPS</div>
 
               <div className="mt-3">
                 <InputText
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                   value={royltybps}
                   onChange={handleInputRoyelty}
                   type="number"
