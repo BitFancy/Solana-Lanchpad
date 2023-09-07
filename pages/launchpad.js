@@ -15,20 +15,6 @@ export default function Launchpad() {
   const [loading8, setLoading8] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
 
-  const load1 = () => {
-    setLoading1(true);
-
-    setTimeout(() => {
-      setLoading1(false);
-    }, 2000);
-  };
-  const load2 = () => {
-    setLoading2(true);
-
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
   const load3 = () => {
     setLoading3(true);
 
@@ -73,148 +59,201 @@ export default function Launchpad() {
   };
   return (
     <div className="launchpad wrapper">
-    <Layout title="Launchpad Main Page" description="Used to show launchpad information">
-      <div className="launchpad-back">
+      <Layout
+        title="Launchpad Main Page"
+        description="Used to show launchpad information"
+      >
+        <div>
+          <div className="launchpad-back">
+            <div
+              className="text-center font-bold mt-16 text-white "
+              style={{ top: "200px", position: "relative", fontSize: "50px" }}
+            >
+              <div>Experience Launching Your Favorites</div>
+              <div>Categories In Just Few Steps</div>
+            </div>
+          </div>
+        </div>
         <div
-          className="text-center font-bold mt-16 text-white "
-          style={{ top: "200px", position: "relative", fontSize: "50px" }}
+          className="flex justify-content-between gap-3 mt-5"
+          style={{ padding: "70px" }}
         >
-          <div>Experience Launching Your Favorites</div>
-          <div>Categories In Just Few Steps</div>
+          <div
+            className="card text-center p-heading"
+            style={{
+              width: "400px",
+              height: "500px",
+              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+              border: "1px solid",
+            }}
+          >
+            <div className="card buy-img" style={{ marginTop: "100px" }}>
+              <Image
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "accessLight"
+                    : "darkacc"
+                }.svg`}
+                alt="Logo"
+                height="60"
+                width="60"
+                className="mr-2"
+              />
+            </div>
+            <div className="font-bold mt-5 text-2xl p-heading">
+              Access Control
+            </div>
+            <div className="mt-5 text-xl p-heading">
+              <div>A self-executing contract automatically </div>
+              <div>grants or denies permissions to </div>
+              <div>network participants based on </div>
+              <div>predefined rules.</div>
+            </div>
+          </div>
+          <div
+            className="card text-center"
+            style={{
+              width: "400px",
+              height: "500px",
+              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+              border: "1px solid",
+            }}
+          >
+            <div
+              className="card buy-img p-heading"
+              style={{ marginTop: "100px" }}
+            >
+              <Image
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "tradhub"
+                    : "darktradhub"
+                }.svg`}
+                alt="Logo"
+                height="60"
+                width="60"
+                className="mr-2"
+              />
+            </div>
+            <div className="font-bold mt-5 text-2xl p-heading">TradeHub</div>
+            <div className="mt-5 text-xl p-heading">
+              <div>A leading NFT marketplace for peer- </div>
+              <div>to-peer buying, selling, and trading of </div>
+              <div>non-fungible tokens (NFTs).</div>
+            </div>
+          </div>
+          <div
+            className="card text-center"
+            style={{
+              width: "400px",
+              height: "500px",
+              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+              border: "1px solid",
+            }}
+          >
+            <div className="card buy-img" style={{ marginTop: "100px" }}>
+              <img
+                style={{ width: "60px", height: "60px" }}
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "eternalsoul"
+                    : "eterdark"
+                }.png`}
+              ></img>
+            </div>
+            <div className="font-bold mt-5 text-2xl p-heading">EternalSoul</div>
+            <div className="mt-5 text-xl p-heading">
+              <div>A soulbound token is a non-transferable </div>
+              <div>NFT publicly verifying an individual </div>
+              <div>credentials, affiliations, and </div>
+              <div>commitments.</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-content-between gap-3 mt-5" style={{padding:'70px'}}>
-        <div className="card text-center p-heading" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
-          <div className="card buy-img" style={{marginTop:'100px'}}>
-          <Image
-              src={`./${
-                layoutConfig.colorScheme === "light" ? "accessLight" : "darkacc"
-              }.svg`}
-              alt="Logo"
-              height="60"
-              width="60"
-              className="mr-2"
-            />
+
+        <div
+          className="flex "
+          style={{ marginTop: "150px", padding: "70px", gap: "50px" }}
+        >
+          <div style={{ width: "50%" }}>
+            <div className="signature-series-head p-heading">
+              SignatureSeries
+            </div>
+            <div className="mt-5 text-3xl p-heading">
+              <div>Dive Into SignatureSeries, An Exclusive NFT </div>
+              <div>Collection Built On ERC-721, Featuring One-of-a-</div>
+              <div>Kind Digital Masterpieces. Immerse Yourself in</div>
+              <div>the World of Unique, Non-Fungible Tokens, Each </div>
+              <div>Possessing a Distinct, Unreplicable Signature of </div>
+              <div>Authenticity</div>
+            </div>
+            <div className="mt-5">
+              <Link href="/signatureseries">
+                <Button
+                  loading={loading3}
+                  onClick={load3}
+                  label="Launch"
+                  rounded
+                  className="buy-img"
+                  style={{ width: "55%" }}
+                />
+              </Link>
+            </div>
           </div>
-          <div   className="font-bold mt-5 text-2xl p-heading">Access Control</div>
-          <div className="mt-5 text-xl p-heading">
-            <div>A self-executing contract automatically </div>
-            <div>grants or denies permissions to </div>
-            <div>network participants based on </div>
-            <div>predefined rules.</div>
-          </div>
-        </div>
-        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
-          <div className="card buy-img p-heading" style={{marginTop:'100px'}}>
-          
-          <Image
-              src={`./${
-                layoutConfig.colorScheme === "light" ? "tradhub" : "darktradhub"
-              }.svg`}
-              alt="Logo"
-              height="60"
-              width="60"
-              className="mr-2"
-            />
-          </div>
-          <div className="font-bold mt-5 text-2xl p-heading">TradeHub</div>
-          <div className="mt-5 text-xl p-heading">
-            <div>A leading NFT marketplace for peer- </div>
-            <div>to-peer buying, selling, and trading of </div>
-            <div>non-fungible tokens (NFTs).</div>
-          </div>
-        </div>
-        <div className="card text-center" style={{width:'400px',height:'500px',boxShadow:'0px 50px 60px 0px rgba(83, 71, 231, 0.50)',border:'1px solid'}}>
-          <div className="card buy-img" style={{marginTop:'100px'}}>
+
+          <div className="buy-img" style={{ width: "50%" }}>
             <img
-              style={{ width: "60px", height: "60px" }}
-            
-              src={`./${
-                layoutConfig.colorScheme === "light" ? "eternalsoul" : "eterdark"
-              }.png`}
+              style={{ height: "400px", width: "690px" }}
+              src="sig.png"
             ></img>
-             
-
-            
-          
-
-          </div>
-          <div className="font-bold mt-5 text-2xl p-heading">EternalSoul</div>
-          <div className="mt-5 text-xl p-heading">
-            <div>A soulbound token is a non-transferable </div>
-            <div>NFT publicly verifying an individual </div>
-            <div>credentials, affiliations, and </div>
-            <div>commitments.</div>
-          </div>
-        </div>
-      </div>
-       
-      <div className="flex  justify-content-between " style={{marginTop:'150px',padding:'70px'}}>
-        <div>
-          <div className="signature-series-head p-heading">SignatureSeries</div>
-          <div className="mt-5 text-3xl p-heading">
-            <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-            <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-            <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-            <div>the World of Unique, Non-Fungible Tokens, Each </div>
-            <div>Possessing a Distinct, Unreplicable Signature of </div>
-            <div>Authenticity</div>
-          </div>
-          <div className="mt-5">
-            <Link href="/signatureseries" >
-              <Button 
-                loading={loading3}
-                onClick={load3}
-                label="Launch"
-                rounded
-                className="buy-img"
-                style={{width:'55%'}}
-              />
-            </Link>
           </div>
         </div>
 
-        <div className="buy-img">
-          <img   style={{ height: "430px" }} src="sig.png"></img>
-        </div>
-      </div>
-
-      <div className="flex justify-content-between mt-5" style={{padding:'70px'}}>
-       
-          <div className="buy-img">
-            <img style={{ height: "430px" }} src="fusionseries2.png"></img>
-          </div>
-        
-        <div>
-          <div className="signature-series-head p-heading">FusionSeries</div>
-          <div className="mt-5 text-3xl p-heading">
-            <div>Explore FusionSeries, a Unique NFT Collection </div>
-            <div>Leveraging ERC-1155 Power, Creating </div>
-            <div>a Seamless Blend of Unique and</div>
-            <div>Interchangeable Digital Assets. Experience </div>
-            <div>the Future of Digital Art, with Bundled </div>
-            <div>Collections and Rich Metadata that</div>
-            <div>add Unprecedented Depth and</div>
-            <div>Flexibility to Your NFT Experience</div>
+        <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div className="buy-img" style={{ width: "50%" }}>
+            <img
+              style={{ height: "450px", width: "690px" }}
+              src="fusionseries2.png"
+            ></img>
           </div>
 
-          <div className="mt-5">
-            <Link href="/fusionSeries">
-              <Button
-                loading={loading4}
-                onClick={load4}
-                label="Launch"
-                rounded
-                className="buy-img"
-                style={{width:'55%'}}
-              />
-            </Link>
+          <div style={{ width: "50%" }}>
+            <div
+              className="signature-series-head p-heading"
+              style={{ textAlign: "end" }}
+            >
+              FusionSeries
+            </div>
+            <div
+              className="mt-5 text-3xl p-heading"
+              style={{ textAlign: "end" }}
+            >
+              <div>Explore FusionSeries, a Unique NFT Collection </div>
+              <div>Leveraging ERC-1155 Power, Creating </div>
+              <div>a Seamless Blend of Unique and</div>
+              <div>Interchangeable Digital Assets. Experience </div>
+              <div>the Future of Digital Art, with Bundled </div>
+              <div>Collections and Rich Metadata that</div>
+              <div>add Unprecedented Depth and</div>
+              <div>Flexibility to Your NFT Experience</div>
+            </div>
+
+            <div className="mt-5" style={{ textAlign: "end" }}>
+              <Link href="/fusionSeries">
+                <Button
+                  loading={loading4}
+                  onClick={load4}
+                  label="Launch"
+                  rounded
+                  className="buy-img"
+                  style={{ width: "55%" }}
+                />
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex  justify-content-between mt-5" style={{padding:'70px'}}>
-        <div>
-          <div>
+        <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div style={{ width: "50%" }}>
             <div className="signature-series-head p-heading">Instagen</div>
             <div className="mt-5 text-3xl p-heading">
               <div>Discover InstaGen, an Innovative NFT Collection </div>
@@ -233,102 +272,137 @@ export default function Launchpad() {
                   label="Launch"
                   rounded
                   className="buy-img"
-                  style={{width:'55%'}}
+                  style={{ width: "55%" }}
                 />
               </Link>
             </div>
           </div>
-        </div>
-        <div className=" buy-img">
-          <img  style={{ height: "430px" }} src="Front.png"></img>
-        </div>
-      </div>
-      <div className="flex justify-content-between mt-5" style={{padding:'70px'}}>
-        <div>
-          <div className=" buy-img">
-            <img style={{ height: "400px" }} src="dynamicrealms.png"></img>
-          </div>
-        </div>
-        <div>
-          <div className="signature-series-head p-heading">DynamicRealms</div>
-          <div className="mt-5 text-3xl p-heading">
-            <div>Dynamic NFTs that Provide Dynamic </div>
-            <div>Features, Changes in a NFT Smart </div>
-            <div>Contract are Based on Conditions.</div>
-          </div>
-          <div className="mt-5">
-            <Button
-              loading={loading6}
-              onClick={load6}
-              label="Launch"
-              rounded
-              className="buy-img"
-              style={{width:'55%'}}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex  justify-content-between mt-5" style={{padding:'70px'}}>
-        <div>
           <div>
-            <div>
-              <div className="signature-series-head p-heading">EternumPass</div>
-              <div className="mt-5 text-3xl p-heading">
-                <div>An Opportunity to Access Digital Assets</div>
-                <div>and Ownership to Exclusive Content </div>
-                <div>or services.</div>
-              </div>
-              <div className="mt-5">
-                <Link href="/eternumPass">
-                  <Button
-                    loading={loading7}
-                    onClick={load7}
-                    label="Launch"
-                    rounded
-                    className="buy-img"
-                    style={{width:'55%'}}
-                  />
-                </Link>
-              </div>
+            <div style={{ width: "50%" }}>
+              <img
+                style={{ height: "450px", width: "690px" }}
+                src="Front.png"
+              ></img>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div style={{position:'absolute',left:'83%'}}>
-          <img style={{ height: "200px" }} src="image2.png"></img>
-
+        <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div>
+            <div className=" buy-img" style={{ width: "50%" }}>
+              <img
+                style={{ height: "400px", width: "690px" }}
+                src="dynamicrealms.png"
+              ></img>
+            </div>
           </div>
-          <div style={{position:'absolute',left:'71%',top:'632%'}}>
-          <img style={{ height: "200px" }} src="image1.png"></img>
 
+          <div style={{ width: "50%" }}>
+            <div
+              className="signature-series-head p-heading"
+              style={{ textAlign: "end" }}
+            >
+              DynamicRealms
+            </div>
+            <div
+              className="mt-5 text-3xl p-heading"
+              style={{ textAlign: "end" }}
+            >
+              <div>Dynamic NFTs that Provide Dynamic </div>
+              <div>Features, Changes in a NFT Smart </div>
+              <div>Contract are Based on Conditions.</div>
+            </div>
+            <div className="mt-5" style={{ textAlign: "end" }}>
+              <Button
+                loading={loading6}
+                onClick={load6}
+                label="Launch"
+                rounded
+                className="buy-img"
+                style={{ width: "55%" }}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex justify-content-between " style={{marginTop:'130px',padding:'70px'}}>
-        <div>
+        <div style={{ position: "absolute", left: "72%" }}>
+          <img style={{ height: "300px" }} src="image2.png"></img>
+        </div>
+        <div className="flex   mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div>
+            <div>
+              <div>
+                <div className="signature-series-head p-heading">
+                  EternumPass
+                </div>
+                <div className="mt-5 text-3xl p-heading">
+                  <div>An Opportunity to Access Digital Assets</div>
+                  <div>and Ownership to Exclusive Content </div>
+                  <div>or services.</div>
+                </div>
+                <div className="mt-5">
+                  <Link href="/eternumPass">
+                    <Button
+                      loading={loading7}
+                      onClick={load7}
+                      label="Launch"
+                      rounded
+                      className="buy-img"
+                      style={{ width: "55%" }}
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex">
+            <div style={{ position: "absolute", left: "54%", top: "610%" }}>
+              <img style={{ height: "300px" }} src="image1.png"></img>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex  "
+          style={{
+            marginTop: "130px",
+            padding: "70px",
+            gap: "50px",
+            marginBottom: "200px",
+          }}
+        >
           <div className=" buy-img">
-            <img style={{ height: "430px" }} src="Phygital.png"></img>
+            <img
+              style={{ height: "400px", width: "690px" }}
+              src="Phygital.png"
+            ></img>
+          </div>
+
+          <div style={{ width: "100%" }}>
+            <div
+              className="signature-series-head p-heading"
+              style={{ textAlign: "end" }}
+            >
+              Phygital NFTs
+            </div>
+            <div
+              className="mt-5 text-3xl p-heading"
+              style={{ textAlign: "end" }}
+            >
+              <div>Experience both the Phygital and </div>
+              <div>Digital Worlds with Myriadflow</div>
+            </div>
+            <div className="mt-5" style={{ textAlign: "end" }}>
+              <Button
+                loading={loading8}
+                onClick={load8}
+                label="Launch"
+                rounded
+                className="buy-img"
+                style={{ width: "55%" }}
+              />
+            </div>
           </div>
         </div>
-        <div>
-          <div className="signature-series-head p-heading">Phygital NFTs</div>
-          <div className="mt-5 text-3xl p-heading">
-            <div>Experience both the Phygital and </div>
-            <div>Digital Worlds with Myriadflow</div>
-          </div>
-          <div className="mt-5">
-            <Button
-              loading={loading8}
-              onClick={load8}
-              label="Launch"
-              rounded
-              className="buy-img"
-              style={{width:'55%'}}
-            />
-          </div>
-        </div>
-      </div>
-    </Layout>
+      </Layout>
     </div>
   );
 }

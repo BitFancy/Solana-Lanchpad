@@ -7569,3 +7569,27 @@
   background: rgba(83, 71, 231, 0.5);
   border-radius: 10px;
 }
+.subscribe-modal {
+  padding: 10px;
+  background-color: rgba(83, 71, 231, 0.95);
+  color: white;
+  transition: box-shadow .3s;
+  height: 560px;
+  width: 400px;
+  border: 1px solid;
+
+}
+.plan-des{
+  color: #FFF;
+font-family: Open Sans;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: capitalize;
+line-height: 25px;
+
+}
+.back-subs-button{
+  background-color: white;
+}

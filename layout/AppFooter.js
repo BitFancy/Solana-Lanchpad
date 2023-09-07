@@ -12,9 +12,9 @@ const AppFooter = () => {
       <div
         className="layout-footer mt-5"
         style={{
-          borderBottom: "1px solid",
+          borderBottom: "1px solid #bcb2b2",
           padding: "20px",
-          borderTop: "1px solid",
+          borderTop: "1px solid #bcb2b2",
         }}
       >
         <div>
@@ -68,15 +68,15 @@ const AppFooter = () => {
           <div className="font-bold text-2xl ">Dashboard</div>
           <div className="mt-5">Created</div>
           <div className="mt-2">Sold</div>
-          <div className="mt-2">bought</div>
-          <div className="mt-2">market</div>
+          <div className="mt-2">Bought</div>
+          <div className="mt-2">Market</div>
         </div>
 
         <div className="p-heading">
           <div className="font-bold text-2xl ">My profile</div>
-          <div className="mt-5">create</div>
-          <div className="mt-2">wishlist</div>
-          <div className="mt-2">cart</div>
+          <div className="mt-5">Create</div>
+          <div className="mt-2">Wishlist</div>
+          <div className="mt-2">Cart</div>
         </div>
         <div className="p-heading">
           <div className="font-bold text-2xl ">Company</div>
@@ -104,7 +104,7 @@ const AppFooter = () => {
             <div className="mt-2">
               <SocialIcon
                 url="https://discord.gg/38jktRtuY7"
-                style={{ width: "25px", height: "25px", border: "1px solid" }}
+                style={{ width: "25px", height: "25px", border: "1px solid " }}
                 network="discord"
               />
             </div>

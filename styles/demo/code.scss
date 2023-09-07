@@ -105,30 +105,8 @@ pre.app-code {
     box-shadow:0px 50px 60px 0px rgba(83, 71, 231, 0.50)
 
 }
-.buy-img{
-    transition: box-shadow .3s;
 
-}
-.plan-des{
-    color: #FFF;
-font-family: Open Sans;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-text-transform: capitalize;
-line-height: 25px;
-}
-.subscribe-modal {
-  
-    padding: 10px;
-    background: rgba(83, 71, 231, 0.95);
-    color: white;
-    transition: box-shadow .3s;
-    height: 560px;
-    width: 400px;
 
-}
 
 .back-color{
     background: rgba(255, 255, 255, 0.30)
@@ -138,10 +116,8 @@ line-height: 25px;
 }
 .launchpad-back {
     background-image: url("/Rectangle.png");
-    height: 1000px;
-    background-repeat: no-repeat;
-    position: relative;
-    left: 42px;
+    height: 1022px;
+    background-size: cover;
 }
 
 .signature-series-head {
