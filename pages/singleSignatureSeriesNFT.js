@@ -1,15 +1,19 @@
 import Layout from "../Components/Layout";
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState,useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SingleSignatureseriesNft() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -49,14 +53,15 @@ export default function SingleSignatureseriesNft() {
     }, 2000);
   };
   return (
-    <Layout>
+    <LayoutDashbord>
       <MarketplaceProfileDetails />
       <Toast ref={toast} />
       <div className="text-center"></div>
       <hr></hr>
       <div
-        className="flex gap-5  buy-back-image"
+      
         style={{ marginTop: "-30px" }}
+        className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex gap-5` }
       >
         <div>
           <Sidemenu />
@@ -93,6 +98,6 @@ SignatureSeries   Asset 1 (Token ID)
         </div>
         </div>
       </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

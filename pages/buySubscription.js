@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { Button } from "primereact/button";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import subscriptionAbi from "../artifacts/contracts/subscription/abi.json";
 import { Toast } from "primereact/toast";
 
@@ -9,12 +9,14 @@ import Layout from "../Components/Layout";
 import axios from "axios";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
 
   const [basicResponse, setbasitResponse] = useState();
   const [proResponse, setproResponse] = useState();
@@ -131,7 +133,7 @@ export default function BuyNft() {
   };
   return (
     <Layout2 title="Buy Subscription" description="Used to Subscribe the NFTs">
-      <div className="buy-back-image">
+      <div   className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-subsc' : 'dark'}`}>
         <div className="font-bold text-4xl p-5 text-black">
           Buy Subscription
         </div>
@@ -142,14 +144,14 @@ export default function BuyNft() {
             <img style={{ height: "400px",height:'375px' }} src="./showroom.png"></img>
           </div>
           <div
-            className="p-5 subscribe-modal card"
-            style={{ marginBottom: "0px" }}
+             
+             className="subscribe-modal p-5 subscribe-modal2"
+            style={{ marginBottom: "0px", }}
           >
             <div className="font-bold text-6xl text-center mt-5">Basic</div>
             <div className=" mb-5 text-center text-2xl">$0/Month</div>
 
-            <hr></hr>
-            <div className="mt-5  plan-des" style={{marginLeft:'70px'}}>
+            <div className="mt-5  plan-des" style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>
               <ul>
                 <li>2% platform Fee </li>
                 <li>Only 2 deployments</li>
@@ -159,24 +161,23 @@ export default function BuyNft() {
                 <li>Community Support</li>
               </ul>
             </div>
-            <div className=" text-center" style={{marginTop:'75px'}}>
+            <div className=" text-center" style={{marginTop:'75px',}}>
               <Button
-                className="buy-img"
                 loading={loading}
                 onClick={buySubscription}
-                style={{ background: "white", color: "black" }}
+                style={{  color: "black",background:'white',border:"1px solid" }}
                 severity="info"
                 label="BUY BASIC PLAN"
+                className="back-subs-button buy-img"
                 rounded
                 
               ></Button>
             </div>
           </div>
-          <div className="p-5 subscribe-modal card">
+          <div className="p-5 subscribe-modal subscribe-modal2">
             <div className="font-bold text-6xl text-center mt-5">Pro</div>
             <div className="text-2xl mb-5 text-center">$99/Month</div>
-            <hr></hr>
-            <div className="mt-5  plan-des" style={{marginLeft:'70px'}}>
+            <div className="mt-5  plan-des " style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>
               <ul>
                 <li>0% platform Fee</li>
                 <li>Unlimited Deployments</li>
@@ -192,8 +193,9 @@ export default function BuyNft() {
                 onClick={mint}
                 loading={loading1}
                 severity="info"
-                style={{ background: "white", color: "black" }}
+                style={{  color: "black",background:'white',border:"1px solid" }}
                 label="BUY PRO PLAN"
+                className="back-subs-button buy-img"
                 rounded
               ></Button>
             </div>

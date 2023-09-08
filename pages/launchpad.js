@@ -91,8 +91,8 @@ export default function Launchpad() {
               <Image
                 src={`./${
                   layoutConfig.colorScheme === "light"
-                    ? "accessLight"
-                    : "darkacc"
+                    ? "access"
+                    : "Vector"
                 }.svg`}
                 alt="Logo"
                 height="60"

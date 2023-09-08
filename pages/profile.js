@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
-import Layout from "../Components/Layout";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from 'next/router';
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
@@ -22,6 +21,8 @@ import { removePrefix } from "../utils/ipfsUtil";
 import { useAccount } from "wagmi";
 
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
@@ -54,6 +55,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 
 function Profile() {
+  const { layoutConfig } = useContext(LayoutContext);
 
   const { address } = useAccount();
   useEffect(() => {
@@ -404,7 +406,7 @@ function Profile() {
 
 
   return (
-    <Layout
+    <LayoutDashbord
       title="Launchpad Profile Page"
       description="Use to show metamask Profile details of the users"
     >
@@ -537,7 +539,7 @@ function Profile() {
 
 
 
-      <div className="mt-8">
+      <div>
 
         {profileDetails?.coverPictureUrl ? (
           <div
@@ -553,11 +555,11 @@ function Profile() {
           </div>
         ) : (
           <div
-            className="" style={{
+             style={{
               backgroundImage: `url("")`, width: '100%',
               height: "250px",
               objectFit: 'cover',
-              backgroundColor: 'gray',
+              backgroundColor: '#D9D9D9',
             }}>
           
 
@@ -623,19 +625,40 @@ function Profile() {
 
         )}
 
-
-
-        <div style={{
-          display: 'flex',
-          justifyContent: 'flex-end', marginTop: '-70px',
+<div className="flex justify-content-end">
+<div style={{ 
+         
+           marginTop: '-70px',
           marginRight: '20px',
         }}>
-          <Button label="Edit Profile" onClick={() => setmodal(true)} rounded />
+          <Button label="Upgrade plan"  rounded />
         </div>
+
+        <div style={{
+          marginTop: '-70px',
+          marginRight: '20px',
+         
+        }}>
+          <Button label="Edit Profile" 
+         onClick={() => setmodal(true)} rounded />
+        </div>
+</div>
+
 
         <Dialog header="Edit Profile (Edit the fields you want to change)" visible={modal} onHide={() => setmodal(false)}
           style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-          <form onSubmit={updateData}>
+            <div className="flex justify-content-between p-3" style={{background:'blue'}}>
+             
+             
+              <div className="text-white text-bold">Edit profile</div>
+              
+              <div>
+                <Button label="Save" rounded></Button>
+              </div>
+             
+
+            </div>
+          <form style={{marginTop:'135px'}} onSubmit={updateData}>
             <div className="md-form mb-3">
               <input
                 type="text"
@@ -745,13 +768,14 @@ function Profile() {
             </div>
           </form>
         </Dialog>
-
+<div className={`${layoutConfig.colorScheme === 'light' ? 'body-back-back-profile' : 'dark'}`}>
         <div style={{
           margin: '2px',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'start',
+          
         }}>
 
           <div style={{
@@ -942,7 +966,8 @@ function Profile() {
           {/* <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p> */}
         </div>
       </div>
-    </Layout >
+      </div>
+    </LayoutDashbord >
   );
 }
 export default Profile;

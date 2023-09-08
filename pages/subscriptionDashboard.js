@@ -1,11 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function SubscriptionDashboard() {
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [defulatImage, setDefulatImage] = useState(
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
@@ -95,10 +99,11 @@ export default function SubscriptionDashboard() {
     error.target.src = defulatImage;
   };
   return (
+    <LayoutDashbord>
     <div>
       <Toast ref={toast} />
 
-      <div className="buy-back-image-subs-dashboard">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-subs-dashboard' : 'dark'}`}>
         <hr></hr>
 
         <div style={{ width: "85%", margin: "0 auto" }}>
@@ -144,7 +149,7 @@ export default function SubscriptionDashboard() {
             subscriptionData.map((subscription) => {
               return (
                 <div key={1}>
-                  {subscription.plan === "basic" && (
+                  {
                     <div className="card flex justify-content-between mt-5 align-items-center subscription-back-part ">
                       <div className="flex gap-5">
                         <div>
@@ -173,55 +178,9 @@ export default function SubscriptionDashboard() {
                         </div>
                       </Link>
                     </div>
-                  )}
+                  }
 
-                  {subscription.plan === "pro" && (
-                    <div className="card flex justify-content-between mt-5 align-items-center subscription-back-part">
-                      <div className="flex gap-5">
-                        <div>
-                          <img
-                            className="dash-img-size"
-                            style={{ width: "100px", height: "100px" }}
-                            src={subscription.image}
-                            onError={replaceImage}
-                          ></img>
-                        </div>
-                        <div className="text-white">
-                          <div className="font-bold mt-3"> Name : {subscription.string}</div>
-                          <div className="mt-2">Id: {subscription?.id}</div>
-                          <div className="mt-2">Plan: {subscription.plan}</div>
-                          <div className="mt-2">Cost: {subscription.cost}</div>
-                          <div className="mt-2">owner: {subscription.owner}</div>
-                        </div>
-                      </div>
-                      <div>
-                        <Link href="/getAllSignatureseries">
-                          <div>
-                            <Button
-                              loading={loadingview}
-                              onClick={loadsetupview}
-                              style={{ width: "100%" }}
-                              label="View"
-                              className="buy-img"
-                            ></Button>
-                          </div>
-                        </Link>
-
-                        <Link href="/accessMasterRole">
-                          <div className="mt-5">
-                            <Button
-                              loading={loadingmanage}
-                              onClick={loadsetupManage}
-                              style={{ width: "100%" }}
-                              label="Manage"
-                              className="buy-img"
-                            ></Button>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                    
-                  )}
+                
                 </div>
               );
             })
@@ -229,11 +188,13 @@ export default function SubscriptionDashboard() {
             <Loader />
           ) : (
             <div className="text-2xl pb-10 font-bold text-center">
-              You haven&apos;t created any Storefront.
+              You haven&apos;t created any Subscription.
             </div>
           )}
         </div>
       </div>
     </div>
+    </LayoutDashbord>
   );
+
 }

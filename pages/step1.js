@@ -139,10 +139,10 @@ const Step1 = () => {
    
       <Toast ref={toast} />
 
-      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-eternal' : 'dark'}`}>
         <div>
         <div
-          className="font-bold p-3 mb-5 text-black ml-5 p-heading"
+          className="font-bold p-3 mb-5 text-black ml-5 p-heading p-5"
           style={{ borderBottom: "1px solid" }}
         >
           Step1: Setup TradeHub

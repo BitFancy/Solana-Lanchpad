@@ -7593,3 +7593,9 @@ line-height: 25px;
 .back-subs-button{
   background-color: white;
 }
+.buy-back-footer{
+    height: 340px;
+    background: #8FBAFE;
+    margin-top: -30px;
+}
+

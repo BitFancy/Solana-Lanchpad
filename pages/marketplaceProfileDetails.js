@@ -75,8 +75,8 @@ export default function MarketplaceProfileDetails() {
         </div>
         <div className="flex justify-content-end gap-5">
   <div>
-    <Link href='/addSubscription'>
-   <Button  loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
+    <Link href='/addStorefront'>
+   <Button  className="w-full" loading={loading2} onClick={load2}  rounded style={{background:'white',color:'black'}} label="Launch"></Button>
    </Link>
   </div>
   <div>

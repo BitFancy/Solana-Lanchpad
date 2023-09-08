@@ -1,14 +1,17 @@
-import Layout from "../Components/Layout";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function GetAllEturnalsol() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -43,12 +46,12 @@ export default function GetAllEturnalsol() {
       })
   };
   return (
-    <Layout title="EternalSoul Contarct" description="Used to Show All EternalSoul Contarct Details">
+    <LayoutDashbord title="EternalSoul Contarct" description="Used to Show All EternalSoul Contarct Details">
       <MarketplaceProfileDetails/>
       <Toast ref={toast} />
        
         
-        <div className="flex  buy-back-image">
+        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`} >
         <div >
           <Sidemenu />
         </div>
@@ -98,6 +101,6 @@ export default function GetAllEturnalsol() {
         </div>
        
         </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

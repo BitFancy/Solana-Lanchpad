@@ -3,10 +3,12 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { NFTStorage } from "nft.storage";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Layout from "../Components/Layout";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Sidemenu from "./sidemenu";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -25,6 +27,7 @@ export default function MarkeplaceDetailsForm() {
   const [twitter, settwitter] = useState();
   const [discord, setdiscord] = useState();
   const [instagram, setinstagram] = useState();
+  const { layoutConfig } = useContext(LayoutContext);
 
   const [errors, setErros] = useState({
     stfNameError: "",
@@ -179,10 +182,10 @@ export default function MarkeplaceDetailsForm() {
   };
 
   return (
-    <Layout title="Web App " description="Used to Show Details of the Web App">
+    <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">
       <MarketplaceProfileDetails />
       <div>
-        {/* <div className="buy-back-image-webapp-form">
+        <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-webapp-form' : 'dark'}`}>
          
           <Toast ref={toast} />
 
@@ -193,10 +196,10 @@ export default function MarkeplaceDetailsForm() {
             </div>
 
             <div
-              className=" p-5 mt-5  card  gap-5"
+              className=" p-5 mt-5  back-color  gap-5"
               style={{ width: "80%", margin: "0 auto" }}
             >
-               <div className="font-bold text-3xl p-5 text-center " style={{color:'rgba(83, 71, 231, 0.5)'}}>
+               <div className="font-bold text-3xl p-5 text-centerp-heading text-center">
             Make Your Marketplace Shine
           </div>
               <div className="mt-5 text-center font-bold text-3xl">
@@ -368,7 +371,7 @@ export default function MarkeplaceDetailsForm() {
                   <Button
                     type="submit"
                     loading={loading}
-                    onClick={addMarketplaceDetails}
+                    // onClick={addMarketplaceDetails}
                     label="Submit"
                   ></Button>
                 </div>
@@ -380,8 +383,8 @@ export default function MarkeplaceDetailsForm() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

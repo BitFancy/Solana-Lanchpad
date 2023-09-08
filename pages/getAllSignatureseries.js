@@ -1,16 +1,19 @@
 import Layout from "../Components/Layout";
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState ,useRef, useContext} from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
-import { Button } from "primereact/button";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function GetAllSignatureseries() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -86,13 +89,13 @@ export default function GetAllSignatureseries() {
       });
   };
   return (
-    <Layout title="Signatureseries Contarct" description="Used to Show All Signatureseries Contarct Details">
+    <LayoutDashbord title="Signatureseries Contarct" description="Used to Show All Signatureseries Contarct Details">
       <div>
         <MarketplaceProfileDetails />
         <Toast ref={toast} />
 
        
-        <div className="flex  buy-back-image">
+        <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`}>
           <div>
             <Sidemenu />
           </div>
@@ -101,8 +104,8 @@ export default function GetAllSignatureseries() {
           SignatureSeries
         </div>
         <div
-            className="grid"
-            style={{ gap: "20px", cursor: "pointer", marginLeft: "30px",marginBottom:'300px' }}
+            className="grid "
+            style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
           >
             {/* <Button onClick={addsubgraphApi} className="buy-img" label="subgrapg"></Button> */}
             {contractData?.length > 0 ? (
@@ -150,6 +153,6 @@ export default function GetAllSignatureseries() {
          
         </div>
       </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

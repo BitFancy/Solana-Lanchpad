@@ -1,13 +1,15 @@
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import axios from "axios";
 import { Toast } from "primereact/toast";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext, LayoutProvider } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class UpdateMarketPlace extends React.Component {
+ 
   state = {
     rows: [{}],
     submitClicked: false,
@@ -125,25 +127,25 @@ class UpdateMarketPlace extends React.Component {
       return true;
     }
   };
+  static contextType = LayoutContext
   render() {
     return (
-      <Layout
+      <LayoutDashbord
         title="Update Tradhub"
         description="Used to show updated tradhub information"
       >
         <MarketplaceProfileDetails />
-
-        <div className="flex buy-back-image">
+        <div  className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-update-tradhub' : 'dark'} flex`} >
           <div>
             <Sidemenu />
             <Toast ref={(el) => (this.toast = el)} />
           </div>
           <div style={{ margin: "0 auto", width: "70%" }}>
-            <div className=" p-5 font-bold text-3xl">Manage Your TradeHub</div>
+            <div className=" p-5 font-bold text-3xl mt-5">Manage Your TradeHub</div>
             {this.state.rows.map((item, idx) => (
-              <div id="addr0" key={idx} className="card mt-5">
-                <div className="flex p-2 justify-content-between gap-5">
-                  <div style={{ width: "40%" }}>
+              <div  id="addr0" key={idx} className="mt-5 back-color p-5">
+                <div >
+                  <div >
                     <div className="text-left">Enter new TradeHub fee</div>
 
                     <InputText
@@ -158,8 +160,8 @@ class UpdateMarketPlace extends React.Component {
                         : ""}
                     </p>
                   </div>
-                  <div style={{ width: "40%" }}>
-                    <div>Enter payout address</div>
+                  <div>
+                    <div className="mt-5">Enter payout address</div>
 
                     <InputText
                       value={this.state.rows[idx].contractAddress}
@@ -202,7 +204,7 @@ class UpdateMarketPlace extends React.Component {
             </div>
           </div>
         </div>
-      </Layout>
+      </LayoutDashbord>
     );
   }
 }

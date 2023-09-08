@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Layout from "../Components/Layout";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
+import { LayoutContext } from "../layout/context/layoutcontext";
 
 export default function LaunchSignatureseries() {
   const [loading, setLoading] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const load = () => {
     setLoading(true);
     setTimeout(() => {
@@ -16,7 +19,7 @@ export default function LaunchSignatureseries() {
     <Layout title="Deploy SignatureSeries"
     description="This is use to show information of the deploy signatureSeries contract">
       <div>
-        <div className="buy-back-image">
+        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
           <div className="flex justify-content-center">
             <div className="flex buy-img" style={{ marginTop: "100px" }}>
               <div>

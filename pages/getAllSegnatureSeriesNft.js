@@ -1,5 +1,4 @@
-import Layout from "../Components/Layout";
-import React, { useEffect, useState ,useRef } from "react";
+import React, { useEffect, useState ,useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
@@ -7,9 +6,13 @@ import Loader from "../Components/LoadingSpinner";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function GetAllSignatureSeriesSeriesNft() {
   const [contractData, setContarctData] = useState([]);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
@@ -56,7 +59,7 @@ export default function GetAllSignatureSeriesSeriesNft() {
     }, 2000);
   };
   return (
-    <Layout>
+    <LayoutDashbord>
       <MarketplaceProfileDetails/>
       <Toast ref={toast} />
 
@@ -72,7 +75,9 @@ export default function GetAllSignatureSeriesSeriesNft() {
         </div>
         </div>
         <hr></hr>
-        <div className="flex justify-content-between buy-back-image" style={{marginTop:"-98px"}}>
+        <div 
+        className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex justify-content-between`}
+         style={{marginTop:"-98px"}}>
         <div >
           <Sidemenu />
         </div>
@@ -118,6 +123,6 @@ export default function GetAllSignatureSeriesSeriesNft() {
           </div>
         </div>
 
-    </Layout>
+    </LayoutDashbord>
   );
 }

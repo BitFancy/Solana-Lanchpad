@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Chart } from "primereact/chart";
-import Layout from "../Components/Layout";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 export default function Overview() {
   const [chartData, setChartData] = useState({});
+  const { layoutConfig } = useContext(LayoutContext);
   const [chartOptions, setChartOptions] = useState({});
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -31,16 +33,16 @@ export default function Overview() {
     setChartOptions(options);
   }, []);
   return ( 
-    <Layout
+    <LayoutDashbord
       title="Overview"
       description="This is use to show information of the overview launchpad"
     >        <MarketplaceProfileDetails/>
-          <div className="flex p-5 buy-back-image">
+          <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-overview' : 'dark'} flex`}>
             <div >
             <Sidemenu/>
             </div>
             <div style={{ margin: "0 auto" }}>
-              <div className="flex ">
+              <div className="flex mt-5">
                 <Chart
                   style={{ height: "100px", width: "100px" }}
                   type="doughnut"
@@ -64,6 +66,6 @@ export default function Overview() {
           </div>
         
       
-    </Layout>
+    </LayoutDashbord>
   );
 }

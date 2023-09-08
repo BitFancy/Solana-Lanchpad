@@ -7,6 +7,7 @@ import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { Dropdown } from "primereact/dropdown";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class SignatureSeries extends React.Component {
   constructor(props) {
@@ -169,14 +170,14 @@ class SignatureSeries extends React.Component {
       return true;
     }
   };
+  static contextType = LayoutContext
 
   render() {
     return (
       <Layout2   title="Deploy SignatureSeries"
       description="This is use to show information of the deploy signatureSeries contract">
       <div
-      
-        className="buy-back-image"
+              className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-sig' : 'dark'} `}
       >
         <div >
           <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>

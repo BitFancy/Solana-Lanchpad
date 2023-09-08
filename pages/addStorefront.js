@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
@@ -10,6 +10,7 @@ import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { Toast } from "primereact/toast";
+import { LayoutContext } from "../layout/context/layoutcontext";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -22,7 +23,6 @@ export default function AddStorefront() {
     { name: "Ethereum", value: "Ethereum" },
   ];
 
- 
   const { address } = useAccount();
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -31,11 +31,13 @@ export default function AddStorefront() {
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
   const [storefrontResponase, setstorefrontResponase] = useState();
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [errors, setErros] = useState({
     contractNameEror: "",
-    descriptionError:"",
-    headlineError:"",
-    uploadImageError:"",
+    descriptionError: "",
+    headlineError: "",
+    uploadImageError: "",
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
@@ -114,59 +116,58 @@ export default function AddStorefront() {
       return data;
     } catch (error) {
       showErrorGetStorefront();
-
     }
   };
 
   const addSubscription = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
-if(valid){
-  const storefronts = await getSubscriptionData();
+    if (valid) {
+      const storefronts = await getSubscriptionData();
 
-  if (
-    storefronts?.find(
-      (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
-    )
-  ) {
-    alert(`Storefront '${contractName}' already exist`);
+      if (
+        storefronts?.find(
+          (sf) => sf.string?.toLowerCase() === contractName?.toLowerCase()
+        )
+      ) {
+        alert(`Storefront '${contractName}' already exist`);
 
-    return;
-  }
-  axios
-    .post(
-      `${BASE_URL_LAUNCH}api/v1.0/storefront`,
-      {
-        name: contractName,
-        owner: address,
-        createdBy: "Admin",
-        updatedBy: "Admin",
-        image: uploadImage,
-        headline: headline,
-        description: description,
-        blockchain: selecteBlockchaine,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        return;
       }
-    )
-    .then(async (response) => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-      setstorefrontResponase(response);
-      showSticky();
-    })
+      axios
+        .post(
+          `${BASE_URL_LAUNCH}api/v1.0/storefront`,
+          {
+            name: contractName,
+            owner: address,
+            createdBy: "Admin",
+            updatedBy: "Admin",
+            image: uploadImage,
+            headline: headline,
+            description: description,
+            blockchain: selecteBlockchaine,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(async (response) => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+          setstorefrontResponase(response);
+          showSticky();
+        })
 
-    .catch(() => {
-      showError();
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}
+        .catch(() => {
+          showError();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
@@ -196,7 +197,6 @@ if(valid){
     });
   };
 
-
   const onClickButton = () => {
     if (!contractName) {
       setErros({ contractNameEror: "Please Enter Storefront Name" });
@@ -207,7 +207,7 @@ if(valid){
     } else if (!description) {
       setErros({ descriptionError: "Please Enter Description" });
       return false;
-    }else if (contractName && headline && description) {
+    } else if (contractName && headline && description) {
       setSubmitClicked(true);
       setLoading(true);
       return true;
@@ -218,18 +218,19 @@ if(valid){
       <AppTopbar />
       <Toast ref={toast} />
 
-      <div className="buy-back-image">
-        <div className="font-bold text-4xl p-5 text-black">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
+        <div className="font-bold text-4xl p-5 text-black p-heading" style={{borderBottom:'1px solid #aba2a2'}}>
           Add StoreFront Details
         </div>
-        <hr></hr>
-<div className="ml-5 text-2xl">You are currently observing the deployed storefronts </div>
-<div className="ml-5 text-2xl">in testnet</div>
+        <div className="ml-5 text-2xl mt-5">
+          You are currently observing the deployed storefronts{" "}
+        </div>
+        <div className="ml-5 text-2xl">in testnet</div>
         <div
           className=" p-5 mt-5 font-bold card flex gap-5 buy-img back-color"
-          style={{ width: "95%", margin: "0 auto"}}
+          style={{ width: "95%", margin: "0 auto" }}
         >
-          <div style={{width:'445px'}}>
+          <div style={{ width: "445px" }}>
             <div style={{ padding: "20px", border: "1px solid" }}>
               <FileUpload
                 type="file"
@@ -247,16 +248,16 @@ if(valid){
           </div>
           <div className="w-full">
             <div>StoreFront Name(must be unique)</div>
-            <div >
+            <div>
               <InputText
                 id="contractName"
                 onChange={handleInputContractName}
                 value={contractName}
                 className="p-2 mt-3 input-back w-full text-white"
               />
-               <p style={{ textAlign: "left", color: "red" }}>
-              {!contractName ? errors.contractNameEror : ""}
-            </p>
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!contractName ? errors.contractNameEror : ""}
+              </p>
             </div>
 
             <div className="mt-5">Blockchain</div>
@@ -270,20 +271,19 @@ if(valid){
                 placeholder="Select Blockchain "
                 className="w-full input-back"
               />
-             
             </div>
 
             <div className="mt-5">Headline</div>
 
-            <div >
+            <div>
               <InputText
                 value={headline}
                 onChange={handleInputHeadline}
                 className="p-2 mt-3 input-back w-full text-white"
               />
-               <p style={{ textAlign: "left", color: "red" }}>
-              {!headline ? errors.headlineError : ""}
-            </p>
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!headline ? errors.headlineError : ""}
+              </p>
             </div>
 
             <div className="mt-5">Description</div>
@@ -294,9 +294,9 @@ if(valid){
                 onChange={handleInputDescription}
                 className="p-2 mt-3 input-back w-full text-white"
               />
-               <p style={{ textAlign: "left", color: "red" }}>
-              {!description ? errors.descriptionError : ""}
-            </p>
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!description ? errors.descriptionError : ""}
+              </p>
             </div>
 
             <div className="flex mt-5 justify-content-between">

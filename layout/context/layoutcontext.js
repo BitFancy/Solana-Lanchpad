@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 export const LayoutContext = React.createContext();
+
 export const LayoutProvider = (props) => {
     const [layoutConfig, setLayoutConfig] = useState({
         ripple: false,

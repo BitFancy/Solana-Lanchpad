@@ -1,10 +1,12 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState,useRef, useContext } from "react";
 import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function StorefrontDashboard() {
   const [storefrontData, setStorefrontData] = useState([]);
@@ -18,6 +20,8 @@ export default function StorefrontDashboard() {
   const [loading2, setLoading2] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const toast = useRef(null);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const showError = () => {
     toast.current.show({
       severity: "error",
@@ -95,12 +99,12 @@ export default function StorefrontDashboard() {
     error.target.src = defulatImage;
   };
   return (
-    <Layout>
+    <LayoutDashbord>
 <div>
    
 <Toast ref={toast} />
 
-      <div className="overview-donut-top-back">
+      <div className="overview-donut-top-back" >
         <div className="text-white text-3xl font-bold">Storefronts</div>
         <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
           <div className="text-white text-2xl">Testnet</div>
@@ -135,7 +139,7 @@ export default function StorefrontDashboard() {
           </div>
         </div>
       </div>
-      <div className="buy-back-image-storefront-dashboard">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-storefront-dashboard' : 'dark'}`}>
         <hr></hr>
 
         <div style={{ width: "85%", margin: "0 auto" }}>
@@ -206,6 +210,6 @@ export default function StorefrontDashboard() {
         </div>
       </div>
       </div>
-      </Layout>
+      </LayoutDashbord>
   );
 }

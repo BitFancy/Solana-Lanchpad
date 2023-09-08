@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import  { useRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -12,13 +12,14 @@ import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json"
 import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
 import BuyAsset from "../Components/buyAssetModal";
 import { Alert, Snackbar, Typography, Modal } from "@mui/material";
-import Layout from "../Components/Layout";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import { NFTStorage } from "nft.storage";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { useContract, useSigner } from "wagmi";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { LayoutContext } from "../layout/context/layoutcontext";
 
 const style = {
   position: "absolute",
@@ -47,6 +48,8 @@ export default function CreateItem() {
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -304,8 +307,8 @@ export default function CreateItem() {
   // }
 
   return (
-    <Layout title="Assets" description="This is used to create NFTs">
-      <div className="body-back back-image-sig-nft">
+    <LayoutDashbord title="Assets" description="This is used to create NFTs">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}>
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -771,6 +774,6 @@ export default function CreateItem() {
           </div>
         </div>
       </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NFTStorage } from "nft.storage";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import axios from "axios";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 const YOUR_API_KEY =
@@ -48,6 +49,7 @@ export default function WebappForm() {
   const [storefrontData, setStorefrontData] = useState("");
   const [storefrontId, setStorefrontId] = useState("");
   const [username, setUserName] = useState("");
+  const { layoutConfig } = useContext(LayoutContext);
 
 
   const getStorefrontData= () => {
@@ -356,7 +358,7 @@ export default function WebappForm() {
   return (
     <div>
       <AppTopbar />
-      <div className="buy-back-image-webapp-form">
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-webapp-form' : 'dark'}`}>
         <div className="font-bold text-3xl p-5 text-center">
           Make Your Marketplace Shine
         </div>

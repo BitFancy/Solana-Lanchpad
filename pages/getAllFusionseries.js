@@ -1,14 +1,18 @@
 import Layout from "../Components/Layout";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function GetAllFusionseries() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const toast = useRef(null);
 
   const showError = () => {
@@ -46,10 +50,10 @@ export default function GetAllFusionseries() {
       })
   };
   return (
-    <Layout title="FusionSeries Contarct" description="Used to Show All FusionSeries Contarct Details">
+    <LayoutDashbord title="FusionSeries Contarct" description="Used to Show All FusionSeries Contarct Details">
       <MarketplaceProfileDetails/>
         <Toast ref={toast} />
-        <div className="flex  buy-back-image">
+        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`}>
         <div >
           <Sidemenu />
         </div>
@@ -98,6 +102,6 @@ export default function GetAllFusionseries() {
          
         </div>
 
-    </Layout>
+    </LayoutDashbord>
   );
 }

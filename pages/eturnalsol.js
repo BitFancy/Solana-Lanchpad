@@ -6,6 +6,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
+import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
 constructor(props) {
@@ -84,7 +85,7 @@ constructor(props) {
         }
       })
       .catch(() => {
-        showError()     
+        this.showError()     
       })
   };
    eturnulsolData = () => {
@@ -183,23 +184,27 @@ handleInputSymbol = (e) => {
   }
 };
 
+static contextType = LayoutContext
+
   render() {
     return (
       <Layout2  title="Deploy Eturnalsol"
       description="This is use to show information of the deploy Eturnalsol contract">
     <div
      
-      className="buy-back-image"
+    
+      className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-eternal' : 'dark'} `}
     >
       <div >
-        <div className=" p-5 font-bold text-center" style={{ borderBottom: "2px solid" }}>
-          Deploy EternalSoul
+        <div className=" p-5 font-bold" style={{ borderBottom: "2px solid" }}>
+          Step 2 : Deploy EternalSoul
+
         </div>
         <div className="flex justify-content-center gap-5">
-          <div className="card buy-img mt-5" style={{ width: "50%" }}>
-            <div className="text-center mt-5">
+          <div className="card buy-img mt-5 back-color" style={{ width: "50%" }}>
+            <div className="text-center mt-5 ">
               {this.state.rows.map((item, idx) => (
-                  <div id="addr0" key={idx} className="card mt-5">
+                  <div id="addr0" key={idx} className=" mt-5">
                     <div className="">
                       <div>
                         <div className="text-left">
