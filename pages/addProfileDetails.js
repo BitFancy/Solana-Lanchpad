@@ -5,7 +5,7 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import AppFooterDashboard from "../layout/AppFooterDashbord";
 import { Button } from "primereact/button";
 
-export default function addProfileDetails() {
+export default function AddProfileDetails() {
     const { layoutConfig } = useContext(LayoutContext);
 
   return (
