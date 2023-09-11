@@ -1792,7 +1792,7 @@
 
 .p-button {
   color: #ffffff;
-  background: #673AB7;
+  background: #5347E7;
   border: 0 none;
   padding: 0.714rem 1rem;
   font-size: 1rem;
@@ -7598,4 +7598,8 @@ line-height: 25px;
     background: #8FBAFE;
     margin-top: -30px;
 }
+.border-icon{
+  border: 1px solid black;
+}
+
 

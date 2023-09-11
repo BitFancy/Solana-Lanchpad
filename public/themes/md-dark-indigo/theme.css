@@ -1791,8 +1791,8 @@
 }
 
 .p-button {
-  color: #121212;
-  background: #9FA8DA;
+  color: #ffffff;
+  background: #5347E7;  
   border: 0 none;
   padding: 0.714rem 1rem;
   font-size: 1rem;
@@ -7591,5 +7591,8 @@ line-height: 25px;
 
 .back-subs-button{
   background-color: black;
+}
+.border-icon{
+  border: 1px solid #fff;
 }
 

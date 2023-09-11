@@ -83,7 +83,7 @@ export default function GetAllSignatureSeriesSeriesNft() {
         </div>
           <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
 
-          {contractData?.length > 0 ? (
+          {/* {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
                 <Link key={1} href='/singleSignatureSeriesNFT'>
@@ -119,7 +119,7 @@ export default function GetAllSignatureSeriesSeriesNft() {
               <div className="text-2xl pb-10 font-bold text-center">
                 You haven&apos;t created any FusionSeries.
               </div>
-            )}
+            )} */}
           </div>
         </div>
 

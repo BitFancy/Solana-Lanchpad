@@ -1,4 +1,3 @@
-import Layout from "../Components/Layout";
 import React, { useEffect, useState,useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";

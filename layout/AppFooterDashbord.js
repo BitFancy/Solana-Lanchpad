@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import { SocialIcon } from "react-social-icons";
+import Link from "next/link";
 
 const AppFooterDashboard = () => {
   let date = new Date();
@@ -87,26 +88,54 @@ const AppFooterDashboard = () => {
 
           <div className="flex gap-3 items-center mt-5">
             <div className="mt-2">
-              <SocialIcon
-                url="https://t.me/myriadFlow"
-                style={{ width: "25px", height: "25px", border: "1px solid" }}
-                network="telegram"
+            <Link href='https://t.me/myriadFlow'>
+              <Image
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "teliblack"
+                    : "teliwhite"
+                }.svg`}
+                alt="Logo"
+                height="30"
+                width="30"
+                className="mr-2 border-icon"
+                style={{padding:'4px'}}
               />
+              </Link>
             </div>
 
             <div className="mt-2">
-              <SocialIcon
-                url="https://twitter.com/0xMyriadFlow"
-                style={{ width: "25px", height: "25px", border: "1px solid" }}
-                network="twitter"
+            <Link href='https://twitter.com/0xMyriadFlow'>
+              <Image
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "twiblack"
+                    : "tweewhite"
+                }.svg`}
+                alt="Logo"
+                height="30"
+                width="30"
+                className="mr-2 border-icon"
+                style={{padding:'4px'}}
               />
+              </Link>
+              
             </div>
             <div className="mt-2">
-              <SocialIcon
-                url="https://discord.gg/38jktRtuY7"
-                style={{ width: "25px", height: "25px", border: "1px solid " }}
-                network="discord"
+            <Link href='https://discord.gg/38jktRtuY7'>
+              <Image
+                src={`./${
+                  layoutConfig.colorScheme === "light"
+                    ? "disblack"
+                    : "diswhite"
+                }.svg`}
+                alt="Logo"
+                height="30"
+                width="30"
+                className="mr-2 border-icon"
+                style={{padding:'4px'}}
               />
+              </Link>
             </div>
           </div>
         </div>
