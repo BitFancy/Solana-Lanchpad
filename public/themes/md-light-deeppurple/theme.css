@@ -7601,5 +7601,9 @@ line-height: 25px;
 .border-icon{
   border: 1px solid black;
 }
-
+.save-profile{
+  background-color: white;
+  color: #000;
+  border: 1px solid;
+}
 

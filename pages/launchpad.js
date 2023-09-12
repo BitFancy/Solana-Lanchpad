@@ -5,8 +5,6 @@ import Link from "next/link";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Image from "next/image";
 export default function Launchpad() {
-  const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
   const [loading5, setLoading5] = useState(false);
@@ -67,7 +65,7 @@ export default function Launchpad() {
           <div className="launchpad-back">
             <div
               className="text-center font-bold mt-16 text-white "
-              style={{ top: "200px", position: "relative", fontSize: "50px" }}
+              style={{ top: "300px", position: "relative", fontSize: "50px" }}
             >
               <div>Experience Launching Your Favorites</div>
               <div>Categories In Just Few Steps</div>
@@ -87,7 +85,7 @@ export default function Launchpad() {
               border: "1px solid",
             }}
           >
-            <div className="card buy-img" style={{ marginTop: "100px" }}>
+            <div className="card " style={{ marginTop: "100px" }}>
               <Image
                 src={`./${
                   layoutConfig.colorScheme === "light"
@@ -120,7 +118,7 @@ export default function Launchpad() {
             }}
           >
             <div
-              className="card buy-img p-heading"
+              className="card  p-heading"
               style={{ marginTop: "100px" }}
             >
               <Image
@@ -151,7 +149,7 @@ export default function Launchpad() {
               border: "1px solid",
             }}
           >
-            <div className="card buy-img" style={{ marginTop: "100px" }}>
+            <div className="card " style={{ marginTop: "100px" }}>
               <img
                 style={{ width: "60px", height: "60px" }}
                 src={`./${
@@ -195,24 +193,23 @@ export default function Launchpad() {
                   label="Launch"
                   rounded
                   className="buy-img"
-                  style={{ width: "35%" }}
+                  style={{ width: "25%" }}
                 />
               </Link>
             </div>
           </div>
 
-          <div className="buy-img" style={{ width: "50%" }}>
+          <div  style={{ width: "50%" }}>
         
-            <video width="100%" height="400px" controls>
-  <source src='insta.mp4' type="video/mp4"/>
-</video>
+        
+<img style={{width:'90%',height:'80%'}} src='sig.png'></img>
           </div>
         </div>
 
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
-          <div className="buy-img" style={{ width: "50%" }}>
+          <div  style={{ width: "50%" }}>
             <img
-              style={{ height: "450px", width: "690px" }}
+              style={{ height: "450px", width: "600px" }}
               src="fusionseries2.png"
             ></img>
           </div>
@@ -246,7 +243,7 @@ export default function Launchpad() {
                   label="Launch"
                   rounded
                   className="buy-img"
-                  style={{ width: "35%" }}
+                  style={{ width: "25%" }}
                 />
               </Link>
             </div>
@@ -272,24 +269,22 @@ export default function Launchpad() {
                   label="Launch"
                   rounded
                   className="buy-img"
-                  style={{ width: "35%" }}
+                  style={{ width: "25%" }}
                 />
               </Link>
             </div>
           </div>
         
             <div style={{ width: "50%" }}>
-            <video width="100%" height="400px" controls>
-  <source src='insta.mp4' type="video/mp4"/>
-</video>
+            <img style={{width:'90%',height:'80%'}} src='sig.png'></img>
             </div>
           
         </div>
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
           <div>
-            <div className=" buy-img" style={{ width: "50%" }}>
+            <div  style={{ width: "50%" }}>
               <img
-                style={{ height: "400px", width: "690px" }}
+                style={{ height: "400px", width: "600px" }}
                 src="dynamicrealms.png"
               ></img>
             </div>
@@ -317,7 +312,7 @@ export default function Launchpad() {
                 label="Launch"
                 rounded
                 className="buy-img"
-                style={{ width: "35%" }}
+                style={{ width: "25%" }}
               />
             </div>
           </div>
@@ -354,7 +349,7 @@ export default function Launchpad() {
           </div>
 
           <div className="flex">
-            <div style={{ position: "absolute", left: "54%", top: "610%" }}>
+            <div style={{ position: "absolute", left: "54%", top: "640%" }}>
               <img style={{ height: "300px" }} src="image1.png"></img>
             </div>
           </div>
@@ -368,10 +363,8 @@ export default function Launchpad() {
             marginBottom: "200px",
           }}
         >
-          <div style={{width:'50%'}} className=" buy-img">
-          <video width="100%" height="400px" controls>
-  <source src='physi.mp4' type="video/mp4"/>
-</video>
+          <div style={{width:'50%'}} >
+          <img style={{width:'90%',height:'80%'}} src='phy.png'></img>
           </div>
 
           <div style={{ width: "50%" }}>
@@ -395,7 +388,7 @@ export default function Launchpad() {
                 label="Launch"
                 rounded
                 className="buy-img"
-                style={{ width: "35%" }}
+                style={{ width: "25%" }}
               />
             </div>
           </div>

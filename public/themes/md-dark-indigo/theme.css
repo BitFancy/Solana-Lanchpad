@@ -7595,4 +7595,9 @@ line-height: 25px;
 .border-icon{
   border: 1px solid #fff;
 }
+.save-profile{
+  background-color: blue;
+  color: white;
+  border: 1px solid;
+}
 

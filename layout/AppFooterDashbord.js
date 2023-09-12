@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
-import { SocialIcon } from "react-social-icons";
 import Link from "next/link";
 
 const AppFooterDashboard = () => {
