@@ -89,4 +89,4 @@ jobs:
             sudo podman stop launchpad && sudo podman rm launchpad && sudo podman image rm launchpad
             echo ${{ secrets.GHCR_TOKEN }} | podman login ghcr.io -u secrets.GHCR_USERNAME --password-stdin
             sudo podman pull ghcr.io/myriadflow/launchpad:main
-            podman run --name="launchpad" -p 9082:3000 -d ghcr.io/myriadflow/launchpad:main
+            sudo podman run --name="launchpad" -p 9082:3000 -d ghcr.io/myriadflow/launchpad:main
