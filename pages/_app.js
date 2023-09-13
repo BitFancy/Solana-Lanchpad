@@ -26,7 +26,7 @@ export default function MyApp({ Component, pageProps }) {
     [  polygonMumbai],
     [alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_MUMBAI_RPC_URL }), publicProvider()],
     jsonRpcProvider({
-      rpcUrl:"https://rpc-mumbai.maticvigil.com/"
+      rpcUrl:"https://polygon-testnet.public.blastapi.io/"
     }),
   );
   const { connectors } = getDefaultWallets({

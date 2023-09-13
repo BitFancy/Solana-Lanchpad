@@ -23,6 +23,8 @@ import { useAccount } from "wagmi";
 import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { InputText } from "primereact/inputtext";
+import AppConfig from "../layout/AppConfig";
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
@@ -626,6 +628,16 @@ function Profile() {
         )}
 
 <div className="flex justify-content-end">
+  <Link href='/addProfileDetails'>
+<div style={{ 
+         
+         marginTop: '-70px',
+        marginRight: '20px',
+      }}>
+        <Button label="Add Profile"  rounded />
+      </div>
+      </Link>
+
 <div style={{ 
          
            marginTop: '-70px',
@@ -645,22 +657,31 @@ function Profile() {
 </div>
 
 
-        <Dialog header="Edit Profile (Edit the fields you want to change)" visible={modal} onHide={() => setmodal(false)}
+        <Dialog visible={modal} onHide={() => setmodal(false)}
+
           style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-            <div className="flex justify-content-between p-3" style={{background:'blue'}}>
+            <div className="flex justify-content-between p-3" style={{background:'blue',top:'0px',width:'695px',position:'absolute',width:'715px',left:'0px'}}>
              
              
-              <div className="text-white text-bold">Edit profile</div>
+              <div className="text-white text-2xl font-bold">Edit profile</div>
               
               <div>
-                <Button label="Save" rounded></Button>
+                <Button className="save-profile" label="Save" rounded></Button>
               </div>
              
-
+              <AppConfig />
             </div>
-          <form style={{marginTop:'135px'}} onSubmit={updateData}>
+          
+            <div>
+            <Avatar
+           
+               size="xlarge" shape="circle" style={{ borderRadius: '50%', width: '150px', height: '150px' }} />
+            </div>
+            {/* <div  style={{position: 'absolute',background: '#ffff',width: '754px',height: '135px',top: '65px',left: '0px'}}></div> */}
+          <div className="back-color-profile-update">
+          <form  style={{marginTop:'135px'}} onSubmit={updateData}>
             <div className="md-form mb-3">
-              <input
+              <InputText
                 type="text"
                 id="form1Example13"
                 className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
@@ -668,11 +689,12 @@ function Profile() {
                 name="name"
                 onChange={(e) => onUpdateProfile(e)}
                 placeholder="Name"
+                style={{height:'65px'}}
               />
             </div>
 
             <div className="md-form mb-3">
-              <input
+              <InputText
                 type="text"
                 id="form1Example15"
                 className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
@@ -680,11 +702,12 @@ function Profile() {
                 name="location"
                 onChange={(e) => onUpdateProfile(e)}
                 placeholder="Location"
+                style={{height:'65px'}}
               />
             </div>
 
             <div className="md-form mb-3">
-              <input
+              <InputText
                 type="text"
                 id="form1Example16"
                 className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
@@ -692,11 +715,13 @@ function Profile() {
                 name="bio"
                 onChange={(e) => onUpdateProfile(e)}
                 placeholder="Bio"
+                style={{height:'65px'}}
+
               />
             </div>
 
             <div className="md-form mb-3">
-              <input
+              <InputText
                 type="text"
                 id="form1Example17"
                 className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
@@ -704,6 +729,8 @@ function Profile() {
                 name="email"
                 onChange={(e) => onUpdateProfile(e)}
                 placeholder="Email"
+                style={{height:'65px'}}
+
               />
             </div>
 
@@ -767,6 +794,7 @@ function Profile() {
               </div>
             </div>
           </form>
+          </div>
         </Dialog>
 <div className={`${layoutConfig.colorScheme === 'light' ? 'body-back-back-profile' : 'dark'}`}>
         <div style={{

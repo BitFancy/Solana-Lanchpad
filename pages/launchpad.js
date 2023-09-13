@@ -85,7 +85,7 @@ export default function Launchpad() {
               border: "1px solid",
             }}
           >
-            <div className="card " style={{ marginTop: "100px" }}>
+            <div className=" " style={{ marginTop: "100px" }}>
               <Image
                 src={`./${
                   layoutConfig.colorScheme === "light"
@@ -109,7 +109,7 @@ export default function Launchpad() {
             </div>
           </div>
           <div
-            className="card text-center"
+            className=" text-center"
             style={{
               width: "400px",
               height: "500px",
@@ -118,8 +118,8 @@ export default function Launchpad() {
             }}
           >
             <div
-              className="card  p-heading"
-              style={{ marginTop: "100px" }}
+              className="  p-heading"
+              style={{ marginTop: "130px" }}
             >
               <Image
                 src={`./${
@@ -141,7 +141,7 @@ export default function Launchpad() {
             </div>
           </div>
           <div
-            className="card text-center"
+            className=" text-center"
             style={{
               width: "400px",
               height: "500px",
@@ -149,7 +149,7 @@ export default function Launchpad() {
               border: "1px solid",
             }}
           >
-            <div className="card " style={{ marginTop: "100px" }}>
+            <div className=" " style={{ marginTop: "100px" }}>
               <img
                 style={{ width: "60px", height: "60px" }}
                 src={`./${
@@ -202,7 +202,7 @@ export default function Launchpad() {
           <div  style={{ width: "50%" }}>
         
         
-<img style={{width:'90%',height:'80%'}} src='sig.png'></img>
+<img style={{width:'90%',height:'90%'}} src='sig.png'></img>
           </div>
         </div>
 
@@ -276,7 +276,7 @@ export default function Launchpad() {
           </div>
         
             <div style={{ width: "50%" }}>
-            <img style={{width:'90%',height:'80%'}} src='sig.png'></img>
+            <img style={{width:'90%',height:'90%'}} src='sig.png'></img>
             </div>
           
         </div>

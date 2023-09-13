@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { InputText } from "primereact/inputtext";
 import { LayoutContext } from "../layout/context/layoutcontext";
-import AppFooterDashboard from "../layout/AppFooterDashbord";
 import { Button } from "primereact/button";
 
 export default function AddProfileDetails() {

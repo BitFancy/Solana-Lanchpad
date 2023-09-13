@@ -7577,6 +7577,7 @@
   height: 560px;
   width: 400px;
   border: 1px solid;
+  border-radius: 20px;
 }
 .plan-des{
   color:black;
@@ -7600,4 +7601,26 @@ line-height: 25px;
   color: white;
   border: 1px solid;
 }
+.back-color-profile-update{
+  background-color: white;
+}
+.buy-button{
+  background-color: black;
+  color: white;
+  
+}
+.buy-back-color{
+  background-color: black;
+  color: white;
+}
+.subscription-back-part {
+  background-color: #D9D9D9;
+  height: 145px;
+  margin: 0 auto;
+  width: 70%;
+  padding: 20px;
+  color: black;
+  border-radius: 20px;
 
+
+}

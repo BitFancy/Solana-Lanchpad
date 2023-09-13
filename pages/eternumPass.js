@@ -305,7 +305,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            <div className="mt-5 p-heading">Enter Operator Suscription</div>
+            {/* <div className="mt-5 p-heading">Enter Operator Suscription</div>
             <div className="mt-3">
               <Dropdown
                 value={selecteOperatorSubscription}
@@ -315,7 +315,7 @@ const getStorefrontData= () => {
                 placeholder="Select a Operator Suscription "
                 className="w-full"
               />
-            </div>
+            </div> */}
 
             <div className="flex mt-5 justify-content-between">
               <div>

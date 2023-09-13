@@ -113,12 +113,12 @@ export default function WebappForm() {
           `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,
           {
             name: result,
-            nodeUrl: "http://3.144.253.205",
+            nodeUrl: "http://18.119.142.140",
             storefrontId: storefrontId,
             network: "mumbai",
             protocol: "ethereum",
             tag: "v10",
-            nodectlUrl: "http://3.144.253.205:9020",
+            nodectlUrl: "http://18.119.142.140:9020",
             storefrontName: stfName,
             headline: stfheadline,
             description: stfdescription,
@@ -142,10 +142,9 @@ export default function WebappForm() {
         )
         .then(async (response) => {
           const removeLast10 = response.data.payload.graphUrl
-          // const removeLast10 = response.data.payload.graphUrl.slice(0, -10);
-
+          const lastfind= removeLast10.slice(0, removeLast10.lastIndexOf(" \ "));
+          console.log('last string',lastfind)
           const url='http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql\u001b[39m';
-           const url2=removeLast10.slice(0, -10);
           console.log("marketplace description", url2);
           showSuccess();
           setTimeout(() => {

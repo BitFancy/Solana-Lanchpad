@@ -222,13 +222,13 @@ export default function AddStorefront() {
         <div className="font-bold text-4xl p-5 text-black p-heading" style={{borderBottom:'1px solid #aba2a2'}}>
           Add StoreFront Details
         </div>
-        <div className="ml-5 text-2xl mt-5">
-          You are currently observing the deployed storefronts{" "}
+        <div className="ml-5 text-2xl mt-5 text-center font-bold">
+          You are currently observing the deployed {" "}
         </div>
-        <div className="ml-5 text-2xl">in testnet</div>
+        <div className="ml-5 text-2xl text-center font-bold"> storefronts in testnet</div>
         <div
           className=" p-5 mt-5 font-bold card flex gap-5 buy-img back-color"
-          style={{ width: "95%", margin: "0 auto" }}
+          style={{ width: "80%", margin: "0 auto" }}
         >
           <div style={{ width: "445px" }}>
             <div style={{ padding: "20px", border: "1px solid" }}>

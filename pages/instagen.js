@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
@@ -22,6 +22,8 @@ const Instagen = (props) => {
   const [royltybps, setRoyltybps] = useState("");
   const [instagenResponse, setinstagenResponse] = useState();
   const { layoutConfig } = useContext(LayoutContext);
+  const [storefrontId, setStorefrontId] = useState("");
+  const [storefrontData, setStorefrontData] = useState("");
 
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -56,10 +58,36 @@ const Instagen = (props) => {
       life: 10000,
     });
   };
+  const getStorefrontData= () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+       setStorefrontData(response.data)
+       setStorefrontId(response.data[response.data.length-1].id)
+        }
+      })
+      .catch(() => {
+        showError()
+      }).finally(()=>{
+     setLoading(false)
+        
+      })
+  };
+
+  useEffect(() => {
+    getStorefrontData();
+  }, [])
+  
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const validation = onClickButton();
-    if(!validation){
+    if(validation){
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -78,7 +106,7 @@ const Instagen = (props) => {
               param10: "www.abc.com",
             },
             network: "maticmum",
-            storefrontId: ""
+            storefrontId: storefrontId
           },
           {
             headers: {

@@ -3,24 +3,20 @@ import { Button } from "primereact/button";
 import React, { useContext, useRef, useState } from "react";
 import subscriptionAbi from "../artifacts/contracts/subscription/abi.json";
 import { Toast } from "primereact/toast";
-
 import { useContract, useSigner } from "wagmi";
-import Layout from "../Components/Layout";
 import axios from "axios";
-import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { useRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
-  const [loading3, setLoading3] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
-
   const [basicResponse, setbasitResponse] = useState();
   const [proResponse, setproResponse] = useState();
   const { data: signerData } = useSigner();
+  const router = useRouter();
   const flowSubscriptionAddress =
     process.env.NEXT_PUBLIC_FLOW_SUBSCRIPTION_ADDRESS;
   const toast = useRef(null);
@@ -74,6 +70,8 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading1(false);
         }, 2000);
+        router.push("/subscriptionDashboard");
+
       });
     } catch (error) {
       showErrorpro();
@@ -108,7 +106,10 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
+        router.push("/subscriptionDashboard");
       })
+     
+
       .catch(() => {
         showErrorBasic();
       })
@@ -117,20 +118,7 @@ export default function BuyNft() {
       });
   };
 
-  const load2 = () => {
-    setLoading2(true);
-
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
-  const load3 = () => {
-    setLoading3(true);
-
-    setTimeout(() => {
-      setLoading3(false);
-    }, 2000);
-  };
+ 
   return (
     <Layout2 title="Buy Subscription" description="Used to Subscribe the NFTs">
       <div   className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-subsc' : 'dark'}`}>
@@ -141,12 +129,13 @@ export default function BuyNft() {
         <Toast ref={toast} />
         <div className="flex  justify-content-center gap-5 " style={{marginTop:'100px'}}>
           <div style={{marginTop:'100px'}}>
-            <img style={{ height: "400px",height:'375px' }} src="./showroom.png"></img>
+            <img style={{ width: "465px",height:'375px' }} src="./garden.png"></img>
           </div>
           <div
              
              className="subscribe-modal p-5 subscribe-modal2"
-            style={{ marginBottom: "0px", }}
+            style={{ marginBottom: "0px",boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+          }}
           >
             <div className="font-bold text-6xl text-center mt-5">Basic</div>
             <div className=" mb-5 text-center text-2xl">$0/Month</div>
@@ -165,16 +154,15 @@ export default function BuyNft() {
               <Button
                 loading={loading}
                 onClick={buySubscription}
-                style={{  color: "black",background:'white',border:"1px solid" }}
-                severity="info"
                 label="BUY BASIC PLAN"
-                className="back-subs-button buy-img"
+                className="buy-back-color"
                 rounded
                 
               ></Button>
             </div>
           </div>
-          <div className="p-5 subscribe-modal subscribe-modal2">
+          <div className="p-5 subscribe-modal subscribe-modal2" style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+}}>
             <div className="font-bold text-6xl text-center mt-5">Pro</div>
             <div className="text-2xl mb-5 text-center">$99/Month</div>
             <div className="mt-5  plan-des " style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>
@@ -192,44 +180,12 @@ export default function BuyNft() {
               <Button
                 onClick={mint}
                 loading={loading1}
-                severity="info"
-                style={{  color: "black",background:'white',border:"1px solid" }}
                 label="BUY PRO PLAN"
-                className="back-subs-button buy-img"
+                className="buy-back-color"
                 rounded
               ></Button>
             </div>
           </div>
-
-          {proResponse && (
-            <div>
-              <Link href="/profile">
-                <Button
-                  className="buy-img"
-                  onClick={load2}
-                  loading={loading2}
-                  severity="info"
-                  style={{ background: "white", color: "black" }}
-                  label="Continue"
-                ></Button>
-              </Link>
-            </div>
-          )}
-
-          {basicResponse && (
-            <div>
-              <Link href="/profile">
-                <Button
-                  className="buy-img"
-                  onClick={load3}
-                  loading={loading3}
-                  severity="info"
-                  style={{ background: "white", color: "black" }}
-                  label="Continue"
-                ></Button>
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </Layout2>
