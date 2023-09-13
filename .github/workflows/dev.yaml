@@ -1,0 +1,92 @@
+name: "[${GITHUB_REF#refs/heads/}] Build and Push to GHCR"
+on:
+  push:
+    branches: [main]
+
+jobs:
+  next-build:
+    name: Buid Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3 # Checkout the code
+
+      - uses: actions/setup-node@v2 # Install Node.js in the Runner, and allow us to run npm commands
+        with:
+          node-version: "18.x"
+
+      - uses: actions/cache@v2 # Caches the node_modules folder across builds, and makes the Runner use the cache as long as package-lock.json doesn’t change.
+        with:
+          # Next.js stores its cache in the .next/cache directory. This will persist the cache across builds for faster application rebuilds.
+          path: |
+            ${{ github.workspace }}/node_modules
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: NextJS Build
+        run: |
+          npm ci
+          if [ "$GITHUB_REF_NAME" = main ]; then echo $DEV_ENV_FILE | base64 --decode > .env; fi
+          npm run build
+        env:
+          DEV_ENV_FILE: ${{secrets.DEV_ENV_FILE}}
+
+      - name: Upload Next build # Upload the artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            .next
+            public
+            .env
+          retention-days: 0 # artifact retention duration, can be upto 30 days
+  ghcr-push:
+    name:
+    needs: next-build # Job depends on next-build(above) job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download next build # Download the above uploaded artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and Push Docker Image
+        run: |
+          export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+          export TAG=$([[ $CURRENT_BRANCH == ${GITHUB_REF#refs/heads/} ]] && echo $CURRENT_BRANCH || echo "latest")
+          export GITHUB_REF_IMAGE=ghcr.io/myriadflow/launchpad:$GITHUB_SHA
+          export GITHUB_BRANCH_IMAGE=ghcr.io/myriadflow/launchpad:$TAG
+          docker build -t $GITHUB_REF_IMAGE -t $GITHUB_BRANCH_IMAGE .
+          echo "Pushing Image to GitHub Container Registry"
+          docker push $GITHUB_REF_IMAGE 
+          docker push $GITHUB_BRANCH_IMAGE
+
+      - name: Deploy on Dev server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.DEV_REMOTE_SERVER_ADDRESS }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key: ${{ secrets.DEV_REMOTE_SERVER_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          script: |
+            pwd
+            cd ~
+            sudo podman stop launchpad && sudo podman rm launchpad && sudo podman image rm launchpad
+            echo ${{ secrets.GHCR_TOKEN }} | podman login ghcr.io -u secrets.GHCR_USERNAME --password-stdin
+            sudo podman pull ghcr.io/myriadflow/launchpad:main
+            sudo podman run --name="launchpad" -p 9082:3000 -d ghcr.io/myriadflow/launchpad:main
