@@ -1,12 +1,12 @@
 # Install dependencies only when needed
-FROM node:16-alpine AS deps
+FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
 # Rebuild the source code only when needed
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
@@ -40,4 +40,3 @@ EXPOSE 3000
 ENV PORT 3000
 
 CMD ["node", "server.js"]
- 
