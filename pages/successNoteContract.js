@@ -21,7 +21,7 @@ export default function SuccessNoteContract() {
         </Link>
       </div>
       <div className="mt-3 p-heading">
-        <Link href="/getAllSignatureseries">
+        <Link href="/getAllSignatureseriesContract">
           <Button className="buy-img" rounded style={{border:'1px solid white'}}>Go to Dashboard</Button>
         </Link>
       </div>

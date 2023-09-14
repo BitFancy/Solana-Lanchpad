@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +12,10 @@ import Layout from "../Components/Layout";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import { Button } from "primereact/button";
-import { useAccount, useContract, useEnsName, useSigner } from "wagmi";
+import { useContract, useSigner } from "wagmi";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
+import axios from "axios";
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,6 +40,10 @@ export default function CreateFusionSeriesNft() {
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [contractFusionSeriesAddress, setContarctFusionSeriesAddress] = useState([]);
+  const [contractTradhubAddress, setContarctTradhubAddress] = useState([]);
+
+
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [formInput, updateFormInput] = useState({
@@ -53,8 +60,33 @@ export default function CreateFusionSeriesNft() {
     signerOrProvider: signerData,
   });
 
+
+  useEffect(() => {
+    getAllContarctData();
+   
+  }, []);
+  const getAllContarctData = () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.contractName ==='FusionSeries' && response?.data?.contractName ==='TradeHub') {
+          setContarctFusionSeriesAddress(response.data.contractAddress);
+          setContarctTradhubAddress(response.data.contractAddress)
+        }
+      })
+      .catch((error) => {
+        console.log("error while get contract data", error);
+      })
+     
+  };
+
   const tradhubContract = useContract({
-    addressOrName: tradhubAddress,
+    addressOrName: contractTradhubAddress,
     contractInterface: Tradhub.abi,
     signerOrProvider: signerData,
   });
@@ -111,7 +143,7 @@ export default function CreateFusionSeriesNft() {
     try {
       setmodelmsg("Transaction 2 in progress");
       const transaction = await tradhubContract.listItem(
-        FusionSeriesAddress,
+        contractFusionSeriesAddress,
         tokenId,
         price,
         1,
@@ -120,7 +152,7 @@ export default function CreateFusionSeriesNft() {
         { gasLimit: "2099999" }
       );
       // await transaction.wait();
-      router.push('/getAllFusionseries')
+      router.push('/getAllFusionseriesContract')
       console.log("transaction 2 is completed", transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {

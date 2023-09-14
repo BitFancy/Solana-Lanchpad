@@ -64,7 +64,7 @@ const AppTopbar = forwardRef((props, ref) => {
           </span>
         </Link>
 
-        <Link href="/getAllSignatureseries">
+        <Link href="/getAllSignatureseriesContract">
           <span
             className="text-black"
             style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}

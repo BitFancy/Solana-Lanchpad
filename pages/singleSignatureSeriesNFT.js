@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
@@ -53,48 +53,72 @@ export default function SingleSignatureseriesNft() {
   };
   return (
     <LayoutDashbord>
-      <MarketplaceProfileDetails />
-      <Toast ref={toast} />
-      <div className="text-center"></div>
-      <hr></hr>
-      <div
-      
-        style={{ marginTop: "-30px" }}
-        className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex gap-5` }
-      >
-        <div>
-          <Sidemenu />
-        </div>
-<div className="font-bold text-3xl mt-5">
-SignatureSeries   Asset 1 (Token ID)
-<hr></hr>
-        <div className="flex gap-5 mt-5">
+      <div>
+        <MarketplaceProfileDetails />
+        <Toast ref={toast} />
+
+        <div
+          className={`${
+            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+          } flex gap-5`}
+        >
           <div>
-            <img
-              className="dash-img-size"
-              style={{ width: "400px", height: "400px" }}
-              src="garden.png"
-            ></img>
+            <Sidemenu />
           </div>
           <div>
-            <div className="font-bold text-2xl">Assets Name</div>
-            <div className="mt-5 text-2xl">wallet address:</div>
-            <div className="mt-5 text-2xl">Description:</div>
-            <div className="mt-5 text-2xl">Price:</div>
-            <div className="mt-3">
-              <InputText type="number" className="w-full"/>
+            <div className=" text-3xl mt-5 font-bold">
+              SignatureSeries &gt; SignatureSeries 1 &gt; Asset 1 (Token ID)
             </div>
-            <div className="flex mt-3 gap-5" style={{justifyContent:'end'}}>
-              <div className="font-bold text-2xl">Rental Availability</div>
-              <div>
-                <img
-                  style={{ width: "95px", height: "65px" }}
-                  src="/Toggle.png"
-                ></img>
+            <div className="border-bottom-das" style={{ width: "171%" }}></div>
+            <div>
+              <div className="flex gap-5 mt-5">
+                <div>
+                  <img
+                    className="dash-img-size"
+                    style={{ width: "400px", height: "350px" }}
+                    src="garden.png"
+                  ></img>
+                </div>
+                <div>
+                  <div className="flex">
+                    <div className="font-bold text-2xl">Assets Name : </div>
+                    <div className="text-2xl">demo</div>
+                  </div>
+                  <div className="flex mt-5">
+                    <div className=" text-xl">wallet address:</div>
+                    <div className="text-xl">000000000000000000000</div>
+                  </div>
+
+                  <div className="flex mt-5">
+                    <div className=" text-xl">Description:</div>
+                    <div className="text-xl">dd</div>
+                  </div>
+                  <div className="flex mt-5">
+                    <div className=" text-xl">Price:</div>
+                    <div className="text-xl">00</div>
+                  </div>
+
+                  <div className="mt-3">
+                    <InputText type="number" className="w-full" />
+                  </div>
+                  <div
+                    className="flex mt-3 gap-5"
+                    style={{ justifyContent: "end" }}
+                  >
+                    <div className="font-bold text-2xl">
+                      Rental Availability
+                    </div>
+                    <div>
+                      <img
+                        style={{ width: "95px", height: "65px" }}
+                        src="/Toggle.png"
+                      ></img>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </LayoutDashbord>

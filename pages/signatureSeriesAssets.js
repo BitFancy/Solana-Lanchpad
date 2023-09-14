@@ -170,12 +170,17 @@ export default function CreateItem() {
     contractInterface: SignatureSeries.abi,
     signerOrProvider: signerData,
   });
+
+
+
+
   const tradhubContract = useContract({
     addressOrName: tradhubAddress,
     contractInterface: Tradhub.abi,
     signerOrProvider: signerData,
   });
  
+  
   async function createItem(ipfsHash, url) {
     try {
       let transaction = await signatureSeriesContract.createAsset( 

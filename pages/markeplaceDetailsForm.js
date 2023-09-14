@@ -3,12 +3,12 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { NFTStorage } from "nft.storage";
 import Link from "next/link";
-import { useContext, useRef, useState } from "react";
-import Layout from "../Components/Layout";
+import { useContext, useEffect, useRef, useState } from "react";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Sidemenu from "./sidemenu";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
+import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -28,7 +28,7 @@ export default function MarkeplaceDetailsForm() {
   const [discord, setdiscord] = useState();
   const [instagram, setinstagram] = useState();
   const { layoutConfig } = useContext(LayoutContext);
-
+  const [webappData, setWebappData] = useState([]);
   const [errors, setErros] = useState({
     stfNameError: "",
     stfdescriptionError: "",
@@ -55,6 +55,7 @@ export default function MarkeplaceDetailsForm() {
 
     }
   }
+
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
   async function onChangeThumbnail(e) {
@@ -132,6 +133,26 @@ export default function MarkeplaceDetailsForm() {
 
  
 
+  const getWebappData= () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront/myStorefronts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.length > 0) {
+          setWebappData(response.data)
+
+      //  setStorefrontId(response.data[response.data.length-1].id)
+        }
+      })
+      .catch(() => {
+        showError()
+      })
+  };
+
   const onClickButton = () => {
     if (!stfName) {
       setErros({ stfNameError: "Please Enter Storefront Name" });
@@ -180,6 +201,11 @@ export default function MarkeplaceDetailsForm() {
       return true;
     }
   };
+
+  useEffect(() => {
+    getWebappData();
+  }, []);
+ 
 
   return (
     <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">

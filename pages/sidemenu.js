@@ -30,9 +30,9 @@ export default function Sidemenu() {
       <div className="ml-5">
         <div className="text-2xl p-heading" style={{ marginTop: "30px",  }}>
           <Link
-            href="/getAllSignatureseries"
+            href="/getAllSignatureseriesContract"
             className={
-              router.pathname == "/getAllSignatureseries" ? "active" : "p-heading"
+              router.pathname == "/getAllSignatureseriesContract" ? "active" : "p-heading"
             }
           >
             SignatureSeries
@@ -41,8 +41,8 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px"}}>
           <Link
-            href="/getAllFusionseries"
-            className={router.pathname == "/getAllFusionseries" ? "active" : "p-heading"}
+            href="/getAllFusionseriesContract"
+            className={router.pathname == "/getAllFusionseriesContract" ? "active" : "p-heading"}
           >
             FusionSeries
           </Link>
