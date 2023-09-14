@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { Button } from "primereact/button";
 import React, { useContext, useRef, useState } from "react";
-import subscriptionAbi from "../artifacts/contracts/subscription/abi.json";
+import subscriptionAbi from "../artifacts/contracts/abi.json";
 import { Toast } from "primereact/toast";
 import { useContract, useSigner } from "wagmi";
 import axios from "axios";
