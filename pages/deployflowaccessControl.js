@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import Layout from "../Components/Layout";
@@ -14,7 +14,8 @@ export default function Deployflowmarket() {
   const showSuccess = () => {
     toast.current.show({
       severity: "success",
-      detail: "Your Tradhub Flow Access Control contract has been Successfully Deployed",
+      detail:
+        "Your Tradhub Flow Access Control contract has been Successfully Deployed",
       life: 10000,
     });
   };
@@ -46,35 +47,34 @@ export default function Deployflowmarket() {
       .then(async (response) => {
         setTimeout(() => {
           setLoading(false);
-      }, 2000);
-      showSuccess();
+        }, 2000);
+        showSuccess();
         setflowaccessResponse(response.data.contractAddress);
         setVisible(true);
         Router.push("/step1");
       })
 
       .catch(() => {
-        showError
-      }).finally(()=>{
-
-        setLoading(false)
+        showError;
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <Layout
       title="Deploy Flow Access Control Contract"
       description="This is use to show information of the flow access control contract"
     >
-            <Toast ref={toast} />
+      <Toast ref={toast} />
 
       <div>
         <div className="text-center">
           <Button
             label="Deploy Flow Access Control"
-
             onClick={flowAccessControllData}
             style={{ marginTop: "115px" }}
-            loading={loading} 
+            loading={loading}
             className="buy-img"
           />
         </div>

@@ -18,8 +18,7 @@ export default function SubscriptionDashboard() {
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(false);
   const [loading3, setLoading3] = useState(false);
-  const [loadingview, setLoadingview] = useState(false);
-  const [loadingsetup, setLoadingsetup] = useState(false);
+  const [loading4, setLoading4] = useState(false);
 
   const toast = useRef(null);
   const showError = () => {
@@ -56,18 +55,12 @@ export default function SubscriptionDashboard() {
       setLoadingmanage(false);
     }, 2000);
   };
-  const loadsetupview = () => {
-    setLoadingview(true);
-
-    setTimeout(() => {
-      setLoadingview(false);
-    }, 2000);
-  };
+ 
   const loadsetup = () => {
-    setLoadingsetup(true);
+    setLoading4(true);
 
     setTimeout(() => {
-      setLoadingsetup(false);
+      setLoading4(false);
     }, 2000);
   };
   const getSubscriptionData = () => {
@@ -132,7 +125,7 @@ export default function SubscriptionDashboard() {
               </Link>
             </div>
 
-            <div className="p-5">
+            {/* <div className="p-5">
               <Link href="/profile">
                 <Button
                   onClick={loadProfile}
@@ -141,7 +134,7 @@ export default function SubscriptionDashboard() {
                   className="buy-img"
                 ></Button>
               </Link>
-            </div>
+            </div> */}
           </div>
 
           <hr></hr>
@@ -170,7 +163,7 @@ export default function SubscriptionDashboard() {
                       <Link href="/step1">
                         <div>
                           <Button
-                            loading={loadingsetup}
+                            loading={loading4}
                             onClick={loadsetup}
                             label="Setup"
                             className="buy-img buy-back-color"

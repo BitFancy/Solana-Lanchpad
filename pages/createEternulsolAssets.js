@@ -1,26 +1,17 @@
-import { useContext, useRef, useState } from "react";
-import  { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
-import Multiselect from "multiselect-react-dropdown";
-import { Messages } from "primereact/messages";
 import { InputNumber } from "primereact/inputnumber";
-const YOUR_API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
-const client = new NFTStorage({ token: YOUR_API_KEY });
-import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
-import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
+import EternalSoul from "../artifacts/contracts/eternalsoul/EternalSoul.sol/EternalSoul.json";
 import BuyAsset from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography, Modal } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectUser } from "../slices/userSlice";
-import { NFTStorage } from "nft.storage";
-import Image from "next/image";
+import { Alert, Snackbar, Typography, Modal, Box } from "@mui/material";
 import { Button } from "primereact/button";
 import { useContract, useSigner } from "wagmi";
-import LayoutDashbord from "../Components/LayoutDashbord";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+import axios from "axios";
 import { LayoutContext } from "../layout/context/layoutcontext";
-
+import { ethers } from "ethers";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,10 +25,8 @@ const style = {
   px: 4,
   pb: 3,
 };
-const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
-const signatureSeriesAddress = process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
-export default function CreateItem() {
-  const msgs = useRef(null);
+const EternulsoleContractAddress = process.env.NEXT_PUBLIC_ETERNUMPASS_ADDRESS;
+export default function CreateEternumpassNft() {
   const { data: signerData } = useSigner();
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
@@ -45,20 +34,10 @@ export default function CreateItem() {
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [contractEternulsoleAddress, setContarctEternulsoleAddress] = useState([]);
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
-  const [previewThumbnail, setPreviewThumbnail] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
-
-  const [mediaHash, setMediaHash] = useState({
-    image: "",
-    audio: "",
-    video: "",
-    animation_url: "",
-    doctype: "",
-  });
-  const [previewMedia, setpreviewMedia] = useState("");
-  const [addImage, setAddImage] = useState(false);
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -67,66 +46,41 @@ export default function CreateItem() {
     royalties: 5,
     auctionTime: 2,
   });
+  const buyTokens = useContract({
+    addressOrName: EternulsoleContractAddress,
+    contractInterface: EternalSoul.abi,
+    signerOrProvider: signerData,
+  });
 
-  const router = useRouter();
-  async function uploadBlobGetHash(file) {
-    try {
-      const blobDataImage = new Blob([file]);
-      const metaHash = await client.storeBlob(blobDataImage);
-      return metaHash;
-    } catch (error) {
-    }
-  }
-  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
-  async function onChangeThumbnail(e) {
-    const file = e.target.files[0];
-    const thumbnail = new File([file], file.name, {
-      type: file.type,
-    });
-    try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
-      const metaHashURI = getMetaHashURI(metaHash);
-      setMediaHash({ ...mediaHash, image: metaHashURI });
-      setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
-    } catch (error) {
-    }
-  }
 
-  async function onChangeMediaType(e) {
-    const file = e.target.files[0];
-    const { name, type } = file;
-    const fileType = type.split("/")[0];
-    const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-    const fileData = new File([file], name, {
-      type: type,
-    });
-    if (addImage && fileType == "image") {
-      setAddImage(false);
-    }
-    if (!validImageTypes.includes(type)) {
-      setAddImage(true);
-    }
-    try {
-      const metaHash = await uploadBlobGetHash(fileData);
-      const metaHashURI = getMetaHashURI(metaHash);
-      if (fileType == "audio" || fileType == "video" || fileType == "doctype") {
-        setMediaHash({
-          ...mediaHash,
-          [fileType]: metaHashURI,
-          animation_url: metaHashURI,
-        });
-      } else {
-        setMediaHash({ ...mediaHash, [fileType]: metaHashURI });
-      }
-      setpreviewMedia(URL.createObjectURL(e.target.files[0]));
-    } catch (error) {
-    }
-  }
+  useEffect(() => {
+    getAllContarctData();
+   
+  }, []);
+  const getAllContarctData = () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.contractName ==='EternalSoul') {
+            setContarctEternulsoleAddress(response.data.contractAddress)
+        }
+      })
+      .catch((error) => {
+        console.log("error while get contract data", error);
+      })
+     
+  };
+
+  
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
     const { name, description, price, alternettext, auctionTime } = formInput;
-    let assetData = {};
     if (!name || !description || !price) {
       setAlertMsg("Please Fill All Fields");
       setOpen(true);
@@ -137,111 +91,33 @@ export default function CreateItem() {
       description,
       price,
       alternettext,
-      attributes,
-      categories,
-      tags,
       auctionTime,
     };
-
-    if (!mediaHash?.image) {
-      setAlertMsg("Image is required to create asset");
-      setOpen(true);
-      return;
-    }
     setmodelmsg("Transaction 1 in  progress");
     setmodel(true);
-    const data = JSON.stringify({ ...assetData, ...mediaHash });
-    const blobData = new Blob([data]);
-    try {
-      client.storeBlob(blobData).then(async (metaHash) => {
-        const ipfsHash = metaHash;
-        const url = `ipfs://${metaHash}`;
-        await createItem(ipfsHash, url);
-      });
-    } catch (error) {
-      setmodelmsg("Transaction failed");
-    }finally{
-      
-    }
+    createItem();
   }
 
-  const signatureSeriesContract = useContract({
-    addressOrName: signatureSeriesAddress,
-    contractInterface: SignatureSeries.abi,
-    signerOrProvider: signerData,
-  });
+  async function createItem() {
+    const price = ethers.utils.parseUnits(formInput.price, "ether");
+        try {
+          const tx = await buyTokens.issue(price);
+          tx.wait().then(async (transaction) => {
+            console.log('response while eturnulsole nft creation',transaction)
+          });
+        } catch (error) {
+            console.log('error while eturnulsole nft creation',error)
+        } 
+        setmodelmsg("Transaction 1 is  failed");
+        setmodel(false);
 
-
-
-
-  const tradhubContract = useContract({
-    addressOrName: tradhubAddress,
-    contractInterface: Tradhub.abi,
-    signerOrProvider: signerData,
-  });
- 
-  
-  async function createItem(ipfsHash, url) {
-    try {
-      let transaction = await signatureSeriesContract.createAsset( 
-        url,
-        formInput.royalties * 100,
-        { gasLimit: "2099999" }
-      ); //500 - royalites dynamic
-      let tx = await transaction.wait();
-      setmodelmsg("Transaction 1 Complete");
-      let event = tx.events[0];
-      let value = event.args[2];
-      let tokenId = value.toNumber();
-      const price = 1;
-      const forAuction = false,
-        endTime = 0;
-
-      await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
-    } catch (e) {
-      setmodelmsg("Transaction 1 failed");
-      return;
-    }
-    /* then list the item for sale on the marketplace */
-    // router.push("/explore");
   }
-  const listItem = async (tokenId, price, forAuction, endTime) => {
-    try {
-      setmodelmsg("Transaction 2 in progress");
-      const transaction = await tradhubContract.listItem(
-        signatureSeriesAddress,
-        tokenId,
-        price,
-        1,
-        forAuction,
-        endTime,
-        { gasLimit: "2099999" }
-      );
-    await transaction.wait();
-      router.push('/createFusionSeriesNft')
-      setmodelmsg("Transaction 2 Complete !!");
-    } catch (e) {
-      setmodelmsg("Transaction 2 failed");
-    } finally {
-      setpreviewMedia("");
-      setAddImage("");
-      setPreviewThumbnail("");
-    }
-  };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
   ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    msgs.current.show([
-      {
-        sticky: true,
-        severity: "success",
-        detail: "Your Trad Details Added Successfully",
-        closable: true,
-      },
-    ]);
   };
 
   const handleChangeInput = (id, event) => {
@@ -280,40 +156,13 @@ export default function CreateItem() {
     }
     setOpen(false);
   };
-
-  const walletAddr = useSelector(selectUser);
-  var wallet = walletAddr ? walletAddr[0] : "";
-
-  const [hasRole, setHasRole] = useState(false);
-
- 
-
-  const [options1, setOptions] = useState([
-    "Image",
-    "Music",
-    "Video",
-    "Document",
-    "Others",
-  ]);
-  const [options2, setOptions2] = useState([
-    "colection of special tags",
-    " “lo-fi hip hop”, “texas blues”, “guitar shredding”, “solo piano”, “relaxing music” ",
-    "Your video's title, thumbnail, and description are more important pieces of metadata for your video's discovery.",
-    "document tags are integrated into text document and they are actually a set of directions which directs a browser what to do and what props to use.",
-    "Others",
-  ]);
-  const [categories, setCategory] = useState([]);
-  const [tags, setTags] = useState([]);
-
-  // if (!hasRole) {
-  //    setTimeout(() => {
-  //     router.push("/profile");
-  //   }, 1000);
-  // }
+  
 
   return (
     <LayoutDashbord title="Assets" description="This is used to create NFTs">
-      <div  className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}>
+      <div 
+      className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}
+      >
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -334,25 +183,27 @@ export default function CreateItem() {
           )}
 
           <div className="font-bold text-4xl easy-way ">
-            <div>Effective Efficient Easy Way To create NFT</div>
+            <div className="effective-nft-color">Effective Efficient Easy Way To create NFT</div>
           </div>
           <div className="flex justify-content-evenly mt-5">
             <div>
               <h3 className="text-3xl py-4 font-bold text-center">
-                Create New SignatureSeries NFTs
+                Create New EternalSoul NFT
               </h3>
             </div>
-            <div className="text-3xl py-4 font-bold text-center">preview</div>
           </div>
+          <div className="border-bottom-das"></div>
 
-          <div className="flex justify-content-center text-white" style={{ gap: "50px" }}>
-            <div className="p-5 overflow-y-scroll ...">
+          <div
+            className="flex justify-content-center text-white"
+            style={{ gap: "50px" }}
+          >
+            <div className="p-5">
               <div style={{ width: "500px" }}>
                 <div>
                   <div className="mt-5">
                     <div style={{ textAlign: "initial" }}>
-                      {" "}
-                      SignatureSeries Assets Name
+                      EternalSoul Assets Name
                     </div>
                     <input
                       required="required"
@@ -368,13 +219,14 @@ export default function CreateItem() {
 
                     <div className="mt-5">
                       <div style={{ textAlign: "initial" }}>
-                        SignatureSeries Assets Description
+                        {" "}
+                        EternalSoul Assets Description
                       </div>
 
                       <textarea
                         type="text"
                         placeholder="Asset Description"
-                        className="w-full assets-input-back p-3 text-white mt-3"
+                        className="w-full assets-input-back p-3 mt-3 text-white"
                         onChange={(e) =>
                           updateFormInput({
                             ...formInput,
@@ -394,7 +246,7 @@ export default function CreateItem() {
                       value={formInput.royalties} // value * 100
                       suffix="%"
                       mode="decimal"
-                      className="mt-2 p-3 w-full assets-input-back text-white"
+                      className="mt-2 p-3 w-full assets-input-back text-white "
                       showButtons
                       onChange={(e) => {
                         updateFormInput({
@@ -404,80 +256,10 @@ export default function CreateItem() {
                       }}
                     />
                   </div>
-                  <div className="flex">
-                    <div className="mt-5" style={{ textAlign: "initial" }}>
-                      Upload File
-                    </div>
-                  </div>
-                  <div className="flex gap-6 mt-3">
-                    <div className=" rounded-lg text-center p-3 border-2 border-indigo-600 ...mt-20 text-white-500 w-full">
-                      <h1 className="text-lg font-semibold">
-                        Drag File Here to Upload
-                      </h1>
-                      <div className="text-white">
-                        PNG,GIF,WEBP,MP4,or MP3
-                        <br />
-                        <div className="flex text-black mt-3 cursor-pointer rounded-lg bg-slate-300 p-2.5 m-auto w-full">
-                          <input
-                            type="file"
-                            accept="image/png, image/jpeg,.txt,.doc,video/mp4,audio/mpeg,.pdf"
-                            onChange={(e) => onChangeMediaType(e)}
-                            className="assets-input-back text-white"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {addImage && (
-                    <>
-                      <div className="flex justify-content-between">
-                        <div className="font-bold  mt-5 text-left text-gray-500 dark:text-white">
-                          Upload Preview Image
-                        </div>
-                        <div className="font-bold  mt-5 text-left text-gray-500 dark:text-white">
-                          Priview
-                        </div>
-                      </div>
-                      <div className="flex gap-6">
-                        <div className="   rounded-xl border-dashed border-2 border-indigo-600 ... text-center p-3 w-96 ... mt-3">
-                          <h1 className="text-lg font-semibold text-gray-500 dark:text-white">
-                            Drag File Here to Upload
-                          </h1>
-                          <div className="text-gray-500 dark:text-white">
-                            PNG, JPG, or GIF
-                            <br />
-                            <div className=" text-black mt-3 cursor-pointer rounded-xl p-2.5 m-auto w-full bg-slate-300">
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => onChangeThumbnail(e)}
-                                className="assets-input-back text-white"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="   rounded-xl border-dashed border-2 border-indigo-600 ... text-center p-3 w-96 ... mt-3">
-                          <div className="text-[#6a6b76]">
-                            <div className=" text-black mt-3 cursor-pointer rounded-xl p-2.5 m-auto w-full ">
-                              {previewThumbnail && (
-                                <Image
-                                  alt="alt"
-                                  width="200"
-                                  height="200"
-                                  src={previewThumbnail}
-                                />
-                              )}
-                              <div />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
 
                 <div className="w-full py-3">
-                  <div className="flex justify-content-between ">
+                  <div className="flex justify-content-between">
                     <div>
                       <div className="text-lg font-bold mt-6">Properties</div>
                     </div>
@@ -593,9 +375,6 @@ export default function CreateItem() {
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
-                        <Messages ref={msgs} />
-
-                        {/* </Box> */}
                       </div>
                     </Modal>
                   </div>
@@ -606,7 +385,7 @@ export default function CreateItem() {
                   </div>
                   <input
                     placeholder="NFT description in details"
-                    className="mt-2 p-3 w-full assets-input-back  text-white"
+                    className="mt-2 p-3 w-full assets-input-back  "
                     onChange={(e) =>
                       updateFormInput({
                         ...formInput,
@@ -615,39 +394,9 @@ export default function CreateItem() {
                     }
                   />
 
-                  <div className="mt-5 flex">
-                    <div style={{ alignItems: "initial" }}>Category</div>
-                  </div>
-                  <Multiselect
-                    isObject={false}
-                    onRemove={(event) => {
-                      setCategory(event);
-                    }}
-                    onSelect={(event) => {
-                      setCategory(event);
-                    }}
-                    options={options1}
-                    selectedValues={[]}
-                    showCheckbox
-                    className="assets-input-back mt-3"
-                  />
+                  
                 </div>
-                <div className="mt-3 flex">
-                  <div style={{ alignItems: "initial" }}>Tags</div>
-                </div>
-                <Multiselect
-                  isObject={false}
-                  onRemove={(event) => {
-                    setTags(event);
-                  }}
-                  onSelect={(event) => {
-                    setTags(event);
-                  }}
-                  options={options2}
-                  selectedValues={[]}
-                  showCheckbox
-                  className="assets-input-back mt-3"
-                />
+                
                 <div className="flex justify-content-between mt-5">
                   <div className="text-left">
                     <div className="font-bold text-3xl">Put on Tradhub</div>
@@ -692,8 +441,8 @@ export default function CreateItem() {
                   <div className="flex mt-3 gap-6 ">
                     <input
                       type="number"
-                      className="w-full p-2 assets-input-back text-white"
-                      placeholder="Asset Price in Matic"
+                      className="w-full p-2 assets-input-back"
+                      placeholder="Asset Price in Matic text-white"
                       onChange={(e) =>
                         updateFormInput({
                           ...formInput,
@@ -719,7 +468,7 @@ export default function CreateItem() {
                     />
 
                     <InputNumber
-                      className="w-full p-2 assets-input-back"
+                      className="w-full p-2 assets-input-back text-white"
                       placeholder="Auction Duration"
                       inputId="expiry"
                       suffix=" minutes"
@@ -730,50 +479,20 @@ export default function CreateItem() {
                         })
                       }
                       mode="decimal"
+                      showButtons
                       min={0}
                       max={100}
                     />
                   </div>
                 )}
 
-                <div className="flex justify-content-between p-5 mt-5">
+                <div className="flex justify-content-between p-5">
                   <div>
-                    <Button className="buy-img" onClick={(e) => createMarket(e)}>
-                      Create SignatureSeries NFTs
+                    <Button   className="buy-img"onClick={(e) => createMarket(e)}>
+                      Create EternalSoul NFTs
                     </Button>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div
-              className=" rounded-lg text-center p-3 border-2 border-indigo-600 ..."
-              style={{ height: "500px", width: "250px", marginTop: "80px" }}
-            >
-              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto w-full">
-                {previewMedia ? (
-                  mediaHash?.image && addImage == false ? (
-                    <Image
-                      src={previewMedia}
-                      alt="assets2"
-                      className="w-full object-cover h-72 flex justify-content-center"
-                      width="200"
-                      height="200"
-                    />
-                  ) : mediaHash?.video ? (
-                    <video autoPlay controls>
-                      <source src={previewMedia}></source>
-                    </video>
-                  ) : mediaHash?.audio ? (
-                    <audio autoPlay controls>
-                      <source src={previewMedia}></source>
-                    </audio>
-                  ) : mediaHash?.doctype ? (
-                    <input file={previewMedia} alt="" />
-                  ) : null
-                ) : (
-                  <div />
-                )}
               </div>
             </div>
           </div>

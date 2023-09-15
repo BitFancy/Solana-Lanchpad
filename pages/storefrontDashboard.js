@@ -165,7 +165,7 @@ export default function StorefrontDashboard() {
               return (
                 <div key={1}>
                   { 
-                    <div className="card flex justify-content-between mt-5 ml-5 align-items-center storefront-back-part p-5">
+                    <div className=" flex justify-content-between mt-5 align-items-center subscription-back-part ">
                       <div className="flex gap-5">
                         <div>
                           <img
@@ -175,7 +175,7 @@ export default function StorefrontDashboard() {
                             onError={replaceImage}
                           ></img>
                         </div>
-                        <div className="text-white">
+                        <div >
                           <div className="font-bold mt-3">Name: {storefront?.string}</div>
                           <div className="mt-2">Blockchain : {storefront?.blockchain}</div>
                           <div className="mt-2">Headline : {storefront?.headline}</div>
@@ -189,7 +189,7 @@ export default function StorefrontDashboard() {
                             loading={loadingsetup}
                             onClick={loadsetup}
                             label="Setup"
-                            className="buy-img"
+                            className="buy-img buy-img buy-back-color"
                           ></Button>
                         </div>
                       </Link>

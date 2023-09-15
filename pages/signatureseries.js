@@ -21,6 +21,8 @@ class SignatureSeries extends React.Component {
       signatureseriesRespoanse: "",
       storefrontData:'',
       storefrontId:'',
+      accessmasterAddress:'',
+      tradhubAddress:'',
       loading: false,
       loading2: false,
       submitClicked: false,
@@ -54,6 +56,8 @@ class SignatureSeries extends React.Component {
 
   componentDidMount(){
     this.getStorefrontData();
+    this.getAccessMasterAddress();
+    this.getTradhubAddress();
   }
    getStorefrontData= () => {
     const token = localStorage.getItem("platform_token");
@@ -101,6 +105,48 @@ class SignatureSeries extends React.Component {
     rows.splice(idx, 1);
     this.setState({ rows });
   };
+
+
+  getAccessMasterAddress = () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/AccessMaster`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        if (response?.data?.contractName === "AccessMaster") {
+          this.setState({ accessmasterAddress: response.data.contractAddress });
+        }
+      })
+      .catch((error) => {
+        console.log("error while getting accessmaster address", error);
+      });
+  };
+  getTradhubAddress = () => {
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(
+        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/TradeHub`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        if (response?.data?.contractName === "TradeHub") {
+          this.setState({ tradhubAddress: response.data.contractAddress });
+        }
+      })
+      .catch((error) => {
+        console.log("error while getting tradhub address", error);
+      });
+  };
   signatureSeriesdata = () => {
     const token = localStorage.getItem("platform_token");
    const valid= this.onClickButton();
@@ -113,8 +159,8 @@ class SignatureSeries extends React.Component {
         constructorParams: {
           param1: this.state.contractName,
           param2: this.state.contractSymbol,
-          param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-          param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+          param3: this.state.tradhubAddress,
+          param4: this.state.accessmasterAddress
         },
         network: "maticmum",
         storefrontId: this.state.storefrontId

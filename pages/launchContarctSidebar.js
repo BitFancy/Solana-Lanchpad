@@ -20,7 +20,7 @@ export default function LaunchContarctSidebar() {
           <div className="edition-note">FusionSeries</div>
         </div>
       </Link>
-      <Link href="/launcheteriumpass" style={{ color: "white" }}>
+      {/* <Link href="/launcheteriumpass" style={{ color: "white" }}>
         <div className="flex gap-3 mt-3">
           <div>
             <svg
@@ -39,7 +39,7 @@ export default function LaunchContarctSidebar() {
           </div>
           <div className="edition-note">DynamicRealms</div>
         </div>
-      </Link>
+      </Link> */}
 
       <Link href="/launcheteriumpass" style={{ color: "white" }}>
         <div className="flex gap-3 mt-3">

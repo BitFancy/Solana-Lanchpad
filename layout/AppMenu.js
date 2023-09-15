@@ -10,7 +10,6 @@ const AppMenu = () => {
         {
             label: 'UI Components',
             items: [
-                { label: 'Launch Dashboard', icon: 'pi pi-fw pi-id-card', to: '/dashboardl' },
                 { label: 'Launch Manage', icon: 'pi pi-fw pi-id-card', to: '/launchManage' },
                 { label: 'Launch NFTs', icon: 'pi pi-fw pi-id-card', to: '/launchNft' },
                 { label: 'Step5 Theme', icon: 'pi pi-fw pi-id-card', to: '/step5theme' },

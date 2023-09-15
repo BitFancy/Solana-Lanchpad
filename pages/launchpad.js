@@ -77,12 +77,13 @@ export default function Launchpad() {
           style={{ padding: "70px" }}
         >
           <div
-            className="card text-center p-heading"
+            className="text-center p-heading"
             style={{
               width: "400px",
               height: "500px",
               boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
               border: "1px solid",
+              borderRadius:'20px'
             }}
           >
             <div className=" " style={{ marginTop: "100px" }}>
@@ -115,11 +116,13 @@ export default function Launchpad() {
               height: "500px",
               boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
               border: "1px solid",
+              borderRadius:'20px'
+
             }}
           >
             <div
               className="  p-heading"
-              style={{ marginTop: "130px" }}
+              style={{ marginTop: "100px" }}
             >
               <Image
                 src={`./${
@@ -147,6 +150,8 @@ export default function Launchpad() {
               height: "500px",
               boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
               border: "1px solid",
+              borderRadius:'20px'
+
             }}
           >
             <div className=" " style={{ marginTop: "100px" }}>

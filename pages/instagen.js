@@ -24,6 +24,8 @@ const Instagen = (props) => {
   const { layoutConfig } = useContext(LayoutContext);
   const [storefrontId, setStorefrontId] = useState("");
   const [storefrontData, setStorefrontData] = useState("");
+  const [tradhubAddress, setTradhubAddress] = useState("");
+  const [accessmasterAddress, setAccessMasterAddress] = useState("");
 
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -82,8 +84,48 @@ const Instagen = (props) => {
 
   useEffect(() => {
     getStorefrontData();
+    getAccessMasterAddress();
+    getTradhubAddress();
   }, [])
   
+
+
+  const getAccessMasterAddress=()=>{
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/AccessMaster`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.contractName ==='AccessMaster') {
+            setAccessMasterAddress(response.data.contractAddress)
+        }
+      })
+      .catch((error) => {
+        console.log("error while get contract data", error);
+      })
+     
+
+}
+const getTradhubAddress=()=>{
+  const token = localStorage.getItem("platform_token");
+  axios
+    .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/TradeHub`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(async (response) => {
+      if (response?.data?.contractName ==='TradeHub') {
+          setTradhubAddress(response.data.contractAddress)
+      }
+    })
+    .catch((error) => {
+      console.log("error while get contract data", error);
+    })
+}
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const validation = onClickButton();

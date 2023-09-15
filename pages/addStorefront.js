@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useAccount } from "wagmi";
 import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import Layout2 from "../Components/Layout2";
 
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
@@ -214,8 +215,9 @@ export default function AddStorefront() {
     }
   };
   return (
+    <Layout2 title="Add Storefront" description="This is used to Add Storefront Details">
     <div>
-      <AppTopbar />
+     
       <Toast ref={toast} />
 
       <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
@@ -332,5 +334,6 @@ export default function AddStorefront() {
         </div>
       </div>
     </div>
+    </Layout2>
   );
 }

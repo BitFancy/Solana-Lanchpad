@@ -20,10 +20,10 @@ const EternumPass = () => {
   const [subspricePerMonth, setSubspricePerMonth] = useState("");
   const [royltybps, setRoyltybps] = useState("");
   const [storefrontData, setStorefrontData] = useState("");
+  const [tradhubAddress, setTradhubAddress] = useState("");
+  const [accessmasterAddress, setAccessMasterAddress] = useState("");
   const [storefrontId, setStorefrontId] = useState("");
-  const [selecteOperatorSubscription, setOperatorSubscription] = useState(null);
   const { layoutConfig } = useContext(LayoutContext);
-
   const [errors, setErros] = useState({
     contractNameError: "",
     contractSymbolError: "",
@@ -38,11 +38,6 @@ const EternumPass = () => {
     { name: "Ethereum", value: "Ethereum" },
   ];
   const [submitClicked, setSubmitClicked] = useState(false);
-
-  const subscriptions = [
-    { name: "YES", value: "YES" },
-    { name: "NO", value: "No" },
-  ];
   const showSuccess = () => {
     toast.current.show({
       severity: "success",
@@ -84,9 +79,48 @@ const getStorefrontData= () => {
 
   useEffect(() => {
     getStorefrontData();
+    getAccessMasterAddress();
+    getTradhubAddress();
   }, [])
   
 
+
+  const getAccessMasterAddress=()=>{
+      const token = localStorage.getItem("platform_token");
+      axios
+        .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/AccessMaster`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (response) => {
+          if (response?.data?.contractName ==='AccessMaster') {
+              setAccessMasterAddress(response.data.contractAddress)
+          }
+        })
+        .catch((error) => {
+          console.log("error while get contract data", error);
+        })
+       
+  
+  }
+  const getTradhubAddress=()=>{
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/TradeHub`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.contractName ==='TradeHub') {
+            setTradhubAddress(response.data.contractAddress)
+        }
+      })
+      .catch((error) => {
+        console.log("error while get contract data", error);
+      })
+}
   const eturnumpassContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
@@ -104,8 +138,8 @@ const getStorefrontData= () => {
               param5: platformFeeBasePrice,
               param6: subspricePerMonth,
               param7: royltybps,
-              param9: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-              param10: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+              param9: accessmasterAddress,
+              param10: tradhubAddress,
             },
             network: "maticmum",
             storefrontId: storefrontId,
@@ -305,17 +339,7 @@ const getStorefrontData= () => {
               </p>
             </div>
 
-            {/* <div className="mt-5 p-heading">Enter Operator Suscription</div>
-            <div className="mt-3">
-              <Dropdown
-                value={selecteOperatorSubscription}
-                onChange={(e) => setOperatorSubscription(e.value)}
-                options={subscriptions}
-                optionLabel="name"
-                placeholder="Select a Operator Suscription "
-                className="w-full"
-              />
-            </div> */}
+           
 
             <div className="flex mt-5 justify-content-between">
               <div>

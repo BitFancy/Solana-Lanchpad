@@ -38,6 +38,8 @@ constructor(props) {
     eturnalsolResponse: "",
     storefrontId:"",
     storefrontData:"",
+    accessmasterAddress:'',
+    tradhubAddress:'',
     loading: false,
     loading2:false,
     submitClicked: false,
@@ -69,6 +71,7 @@ constructor(props) {
 
   componentDidMount(){
     this.getStorefrontData();
+    this.getAccessMasterAddress();
   }
    getStorefrontData= () => {
     const token = localStorage.getItem("platform_token");
@@ -88,6 +91,28 @@ constructor(props) {
         this.showError()     
       })
   };
+
+
+   getAccessMasterAddress=()=>{
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/AccessMaster`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        if (response?.data?.contractName ==='AccessMaster') {
+            this.setState({accessmasterAddress:response.data.contractAddress})
+        }
+      })
+      .catch((error) => {
+        console.log("error while get accessmaster address", error);
+      })
+     
+
+}
+
    eturnulsolData = () => {
     const token = localStorage.getItem("platform_token");
 const valid= this.onClickButton();
@@ -99,8 +124,8 @@ if(valid){
   constructorParams:{
         param1 : this.state.contractName,
         param2 : this.state.contractSymbol,
-        param3 : "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-        param4 : "0xEFf4209584cc2cE0409a5FA06175002537b055DC"
+        param3 : "www.xyz.com",
+        param4 : this.state.accessmasterAddress
     },
      network: "maticmum",
      storefrontId: this.state.storefrontId

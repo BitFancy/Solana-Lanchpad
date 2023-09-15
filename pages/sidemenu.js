@@ -50,8 +50,8 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAllEternumPass"
-            className={router.pathname == "/getAllEternumPass" ? "active" : "p-heading"}
+            href="/getAllEternumPassContract"
+            className={router.pathname == "/getAllEternumPassContract" ? "active" : "p-heading"}
           >
             EternumPass
           </Link>
@@ -59,16 +59,16 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAllInstagen"
-            className={router.pathname == "/getAllInstagen" ? "active" : "p-heading"}
+            href="/getAllInstagenContract"
+            className={router.pathname == "/getAllInstagenContract" ? "active" : "p-heading"}
           >
             Instagen
           </Link>
         </div>
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAlleturnalsol"
-            className={router.pathname == "/getAlleturnalsol" ? "active" : "p-heading"}
+            href="/getAlleturnalsolContract"
+            className={router.pathname == "/getAlleturnalsolContract" ? "active" : "p-heading"}
           >
             EternalSoul
           </Link>

@@ -7,17 +7,18 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllInstagen() {
-  const { layoutConfig } = useContext(LayoutContext);
-
+export default function GetAllEternumPassContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const toast = useRef(null);
+
   const showError = () => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail: "Error While getting data of the instagen contract",
+      detail: "Error While get Eternumpass Data",
       life: 10000,
     });
   };
@@ -40,33 +41,32 @@ export default function GetAllInstagen() {
         setLoading(false);
       })
       .catch(() => {
-        showError();
+       showError();
       }).finally(()=>{
-        setLoading(false)
+        setLoading(false);
       })
   };
   return (
-    <LayoutDashbord title="InstaGen Contarct" description="Used to Show All InstaGen Contarct Details">
+    <LayoutDashbord title="EternumPass Contarct" description="Used to Show All EternumPass Contarct Details">
       <MarketplaceProfileDetails/>
-      <Toast ref={toast} />
-       
-        
+      
+        <Toast ref={toast} />
         <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`}>
         <div >
           <Sidemenu />
         </div>
         <div>
         <div className="font-bold mt-5 text-3xl text-black text-center">
-          InstaGen
+          EternumPass
         </div>
-        <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
-        {contractData?.length > 0 ? (
+        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
+          {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
                 <div key={1} className="grid   mt-5">
-                  {contract.contractName === "InstaGen" && (
+                  {contract.contractName === "EternumPass" && (
                     <div
-                      className="card col-12  xl:col-3 gap-5"
+                      className="card col-12 lg:col-6 xl:col-3 gap-5"
                       style={{ marginBottom: "0px", width: "100%",height:'300px' }}
                     >
                       <div className="text-center">
@@ -83,7 +83,7 @@ export default function GetAllInstagen() {
                         </span>
                       </div>
                      
-                    </div>
+                  </div>
                   )}
                 </div>
               );
@@ -91,16 +91,15 @@ export default function GetAllInstagen() {
             ) : loading ? (
               <Loader />
             ) : (
-              <div className="flex">
               <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any InstaGen Contract.
-              </div>
+                You haven&apos;t created any EternumPass Contract.
               </div>
             )}
           </div>
         </div>
-       
+         
         </div>
+
     </LayoutDashbord>
   );
 }

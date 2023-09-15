@@ -4,6 +4,7 @@ import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import Layout2 from "../Components/Layout2";
 
 export default function LaunchSignatureseries() {
   const [loading, setLoading] = useState(false);
@@ -16,10 +17,10 @@ export default function LaunchSignatureseries() {
     }, 2000);
   };
   return (
-    <Layout title="Deploy SignatureSeries"
+    <Layout2 title="Deploy SignatureSeries"
     description="This is use to show information of the deploy signatureSeries contract">
       <div>
-        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
+        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-launch' : 'dark'}`}>
           <div className="flex justify-content-center">
             <div className="flex buy-img" style={{ marginTop: "100px" }}>
               <div>
@@ -38,11 +39,11 @@ export default function LaunchSignatureseries() {
                 </div>
                 <div>
                   <div className="flex gap-5 p-5" style={{marginTop:'75px'}}>
-                    <div>
+                    <div style={{color:'black'}}>
                       <div className="font-bold text-2xl">
                         Launch SignatureSeries
                       </div>
-                      <div>Deploy your own ERC-721 contract &</div>
+                      <div className="mt-2">Deploy your own ERC-721 contract &</div>
                       <div>launch SignatureSeries of assets</div>
                     </div>
                     <div>
@@ -66,6 +67,6 @@ export default function LaunchSignatureseries() {
           </div>
         </div>
       </div>
-    </Layout>
+    </Layout2>
   );
 }

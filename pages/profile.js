@@ -843,14 +843,14 @@ function Profile() {
                     <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
+                {/* <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
                   <div>
                     <Link href="/subscriptionDashboard">
                     <Button loading={loading3} onClick={loadSubscription} label="Subscription Details"  rounded />
                     </Link>
                   </div>
                 
-                </div>
+                </div> */}
               </div>
 
               {twitt ? (

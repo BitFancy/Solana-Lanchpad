@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -7,15 +7,13 @@ import { InputNumber } from "primereact/inputnumber";
 import FusionSeries from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
 import BuyAsset from "../Components/buyAssetModal";
 import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
-import { Alert, Snackbar, Typography, Modal, Box } from "@mui/material";
-import Layout from "../Components/Layout";
-import { useSelector } from "react-redux";
-import { selectUser } from "../slices/userSlice";
+import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import { Button } from "primereact/button";
 import { useContract, useSigner } from "wagmi";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 import axios from "axios";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
 const style = {
   position: "absolute",
   top: "50%",
@@ -42,10 +40,10 @@ export default function CreateFusionSeriesNft() {
   const handleShow = () => setShow(true);
   const [contractFusionSeriesAddress, setContarctFusionSeriesAddress] = useState([]);
   const [contractTradhubAddress, setContarctTradhubAddress] = useState([]);
-
-
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
+  const { layoutConfig } = useContext(LayoutContext);
+
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -86,7 +84,7 @@ export default function CreateFusionSeriesNft() {
   };
 
   const tradhubContract = useContract({
-    addressOrName: contractTradhubAddress,
+    addressOrName: tradhubAddress,
     contractInterface: Tradhub.abi,
     signerOrProvider: signerData,
   });
@@ -132,7 +130,7 @@ export default function CreateFusionSeriesNft() {
       const forAuction = false,
         endTime = 0;
 
-      await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
+      await listItem(tokenId, price, forAuction, endTime);
     } catch (e) {
       setmodelmsg("Transaction 1 failed");
       return;
@@ -204,25 +202,8 @@ export default function CreateFusionSeriesNft() {
     setOpen(false);
   };
 
-  const walletAddr = useSelector(selectUser);
-  var wallet = walletAddr ? walletAddr[0] : "";
-
-  const [hasRole, setHasRole] = useState(false);
-
-  // useEffect(() => {
-  //   const asyncFn = async () => {
-  //     const contract = await etherContract(accessmasterAddress,AccessMaster.abi)
-  //     const hasCreatorRole = await contract.hasRole(await contract.FLOW_CREATOR_ROLE(), wallet)
-  //     setHasRole(hasCreatorRole)
-  //     console.log("hasCreatorRole",hasCreatorRole);
-  //       if (hasCreatorRole) {
-  //         router.push('/assets')
-  //     } else {
-  //       router.push('/authWallet')
-  //     }
-  //   };
-  //   asyncFn();
-  // }, []);
+  
+ 
 
   const [options1, setOptions] = useState([
     "Image",
@@ -248,8 +229,10 @@ export default function CreateFusionSeriesNft() {
   // }
 
   return (
-    <Layout title="Assets" description="This is used to create NFTs">
-      <div className="body-back back-image-fus-nft">
+    <LayoutDashbord title="Assets" description="This is used to create NFTs">
+      <div 
+      className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}
+      >
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -270,7 +253,7 @@ export default function CreateFusionSeriesNft() {
           )}
 
           <div className="font-bold text-4xl easy-way ">
-            <div>Effective Efficient Easy Way To create NFT</div>
+            <div className="effective-nft-color">Effective Efficient Easy Way To create NFT</div>
           </div>
           <div className="flex justify-content-evenly mt-5">
             <div>
@@ -279,6 +262,7 @@ export default function CreateFusionSeriesNft() {
               </h3>
             </div>
           </div>
+          <div className="border-bottom-das"></div>
 
           <div
             className="flex justify-content-center text-white"
@@ -364,9 +348,9 @@ export default function CreateFusionSeriesNft() {
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
                     >
-                      <Box
+                      <div
                         sx={style}
-                        className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6]"
+                        className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6] p-5 add-properties"
                       >
                         <Typography
                           id="modal-modal-title"
@@ -397,7 +381,7 @@ export default function CreateFusionSeriesNft() {
                           <form onSubmit={handleSubmit}>
                             {attributes.map((inputField) => (
                               <div key={inputField.id}>
-                                <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4 pb-2  align-center">
+                                <div className="flex  align-center gap-5">
                                   <input
                                     name="display_type"
                                     label="First Name"
@@ -461,7 +445,8 @@ export default function CreateFusionSeriesNft() {
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
-                      </Box>
+
+                      </div>
                     </Modal>
                   </div>
                   <div className="flex mt-5">
@@ -614,6 +599,6 @@ export default function CreateFusionSeriesNft() {
           </div>
         </div>
       </div>
-    </Layout>
+    </LayoutDashbord>
   );
 }

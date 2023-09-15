@@ -6,12 +6,12 @@ import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import Link from "next/link";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllEturnalsol() {
+export default function GetAllEturnalsolContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
-
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -63,6 +63,7 @@ export default function GetAllEturnalsol() {
         {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
+                <Link href='getAllEturnalsolNft'>
                 <div key={1} className="grid   mt-5">
                   {contract.contractName === "EternalSoul" && (
                     <div
@@ -86,6 +87,7 @@ export default function GetAllEturnalsol() {
                     </div>
                   )}
                 </div>
+                </Link>
               );
             })
             ) : loading ? (

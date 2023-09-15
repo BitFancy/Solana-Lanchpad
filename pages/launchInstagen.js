@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import Layout from "../Components/Layout";
+import React, { useContext, useState } from "react";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
+import Layout2 from "../Components/Layout2";
+import { LayoutContext } from "../layout/context/layoutcontext";
 export default function LaunchInstagen() {
   const [loading, setLoading] = useState(false);
+  const { layoutConfig } = useContext(LayoutContext);
+
   const load = () => {
     setLoading(true);
 
@@ -13,10 +16,12 @@ export default function LaunchInstagen() {
     }, 2000);
   };
   return (
-    <Layout title="Deploy InstaGen"
+    <Layout2 title="Deploy InstaGen"
     description="This is use to show information of the deploy InstaGen contract">
       <div>
-      <div className="buy-back-image" >
+      <div 
+      className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-launch' : 'dark'}`}
+      >
 
         <div className="flex justify-content-center">
         <div className="flex  buy-img" style={{ marginTop: "100px" }}>
@@ -36,11 +41,11 @@ export default function LaunchInstagen() {
             </div>
             <div>
               <div className="flex gap-5 p-5" style={{marginTop:'75px'}}>
-                <div>
+                <div style={{color:'black'}}>
                   <div className="font-bold text-2xl">
                     Launch InstaGen
                   </div>
-                  <div>Deploy your own ERC-721 contract &</div>
+                  <div className="mt-2">Deploy your own ERC-721 contract &</div>
                   <div>launch InstaGen of assets</div>
                 </div>
                 <div>
@@ -63,6 +68,6 @@ export default function LaunchInstagen() {
         </div>
       </div>
       </div>
-    </Layout>
+    </Layout2>
   );
 }
