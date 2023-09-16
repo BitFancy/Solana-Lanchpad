@@ -64,8 +64,8 @@ export default function GetAllInstagenContract() {
         {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
-                <Link href='getAllInstagenNft'>
-                <div key={1} className="grid   mt-5">
+                <Link key={1} href='getAllInstagenNft'>
+                <div  className="grid   mt-5">
                   {contract.contractName === "InstaGen" && (
                     <div
                       className="card col-12  xl:col-3 gap-5"

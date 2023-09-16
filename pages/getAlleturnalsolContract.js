@@ -63,8 +63,8 @@ export default function GetAllEturnalsolContract() {
         {contractData?.length > 0 ? (
             contractData.map((contract) => {
               return (
-                <Link href='getAllEturnalsolNft'>
-                <div key={1} className="grid   mt-5">
+                <Link key={1} href='getAllEturnalsolNft'>
+                <div  className="grid   mt-5">
                   {contract.contractName === "EternalSoul" && (
                     <div
                       className="card col-12  xl:col-3 gap-5"
