@@ -29,7 +29,6 @@ const style = {
 };
 const FusionSeriesAddress = process.env.NEXT_PUBLIC_FUSIONSERIES_ADDRESS;
 const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
-
 export default function CreateFusionSeriesNft() {
   const { data: signerData } = useSigner();
   const [toggle, setToggle] = useState(false);
@@ -38,12 +37,11 @@ export default function CreateFusionSeriesNft() {
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [contractFusionSeriesAddress, setContarctFusionSeriesAddress] = useState([]);
-  const [contractTradhubAddress, setContarctTradhubAddress] = useState([]);
+  const [contractFusionSeriesAddress, setContarctFusionSeriesAddress] = useState('');
+  const [contractTradhubAddress, setContarctTradhubAddress] = useState('');
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const { layoutConfig } = useContext(LayoutContext);
-
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -52,12 +50,7 @@ export default function CreateFusionSeriesNft() {
     royalties: 5,
     auctionTime: 2,
   });
-  const buyTokens = useContract({
-    addressOrName: FusionSeriesAddress,
-    contractInterface: FusionSeries.abi,
-    signerOrProvider: signerData,
-  });
-
+ 
 
   useEffect(() => {
     getAllContarctData();
@@ -72,9 +65,9 @@ export default function CreateFusionSeriesNft() {
         },
       })
       .then(async (response) => {
-        if (response?.data?.contractName ==='FusionSeries' && response?.data?.contractName ==='TradeHub') {
-          setContarctFusionSeriesAddress(response.data.contractAddress);
-          setContarctTradhubAddress(response.data.contractAddress)
+        if (response?.data[0]?.contractName ==='FusionSeries' && response?.data[0]?.contractName ==='TradeHub') {
+          setContarctFusionSeriesAddress(response.data[0].contractAddress);
+          setContarctTradhubAddress(response.data[0].contractAddress)
         }
       })
       .catch((error) => {
@@ -82,12 +75,6 @@ export default function CreateFusionSeriesNft() {
       })
      
   };
-
-  const tradhubContract = useContract({
-    addressOrName: tradhubAddress,
-    contractInterface: Tradhub.abi,
-    signerOrProvider: signerData,
-  });
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -113,10 +100,20 @@ export default function CreateFusionSeriesNft() {
     const data = JSON.stringify({ ...assetData });
     createItem();
   }
+  const fusionSeriesContarct = useContract({
+    addressOrName: contractFusionSeriesAddress?contractFusionSeriesAddress:FusionSeriesAddress,
+    contractInterface: FusionSeries.abi,
+    signerOrProvider: signerData,
+  });
+  const tradhubContract = useContract({
+    addressOrName: contractTradhubAddress?contractTradhubAddress:tradhubAddress,
+    contractInterface: Tradhub.abi,
+    signerOrProvider: signerData
+  });
   async function createItem() {
     try {
       const price = ethers.utils.parseUnits(formInput.price, "ether");
-      let transaction = await buyTokens.createAsset(
+      let transaction = await fusionSeriesContarct.createAsset(
         price,
         11111,
         "www.facebook.com",

@@ -44,7 +44,7 @@
     "react-redux": "^8.0.5",
     "react-transition-group": "^4.4.5",
     "wagmi": "^0.5.12",
-    "web3": "^1.9.0"
+    "web3": "^1.10.2"
   },
   "devDependencies": {
     "@types/node": "18.15.11",

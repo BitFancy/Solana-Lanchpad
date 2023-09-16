@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { useProvider } from "wagmi";
 import request, { gql } from "graphql-request";
 import { ethers } from "ethers";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
@@ -15,7 +14,6 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const graphqlAPI =
   "https://api.thegraph.com/subgraphs/name/myriadflow/storefront-v1";
 export default function GetAllSignatureseriesContract() {
-  const provider = useProvider();
   const [data, setData] = useState([]);
   const [storefrontId, setStorefrontId] = useState("");
   const [storefrontData, setStorefrontData] = useState("");
@@ -46,7 +44,7 @@ export default function GetAllSignatureseriesContract() {
           setStorefrontId(response.data[response.data.length - 1].id);
         }
       })
-      .catch(() => {
+      .catch((error) => {
         console.log("error while get storefront data", error);
       });
   };
