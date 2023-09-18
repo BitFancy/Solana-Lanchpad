@@ -7,47 +7,17 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import request, { gql } from "graphql-request";
-import { ethers } from "ethers";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-// const graphqlAPI='http://18.119.142.140:8000/subgraphs/name/sig/graphql'
-const graphqlAPI =
-  "https://api.thegraph.com/subgraphs/name/myriadflow/storefront-v1";
-export default function GetAllSignatureseriesContract() {
-  const [data, setData] = useState([]);
-  const [storefrontId, setStorefrontId] = useState("");
-  const [storefrontData, setStorefrontData] = useState("");
+function GetAllSignatureseriesContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
   const toast = useRef(null);
   useEffect(() => {
     getAllContarctData();
-    getStorefrontData();
-    getStorefrontById();
-    fetchUserAssests();
-    getAllSignatureseriesNfts();
   }, []);
 
-  const getStorefrontData = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setStorefrontData(response.data);
-
-          setStorefrontId(response.data[response.data.length - 1].id);
-        }
-      })
-      .catch((error) => {
-        console.log("error while get storefront data", error);
-      });
-  };
   const getAllContarctData = () => {
     const token = localStorage.getItem("platform_token");
     setLoading(true);
@@ -60,7 +30,7 @@ export default function GetAllSignatureseriesContract() {
       })
       .then(async (response) => {
         if (response?.data?.length > 0) {
-          setContarctData(response.data);
+          setContarctData(response.data.filter((e) => e.contractAddress));
         }
         setLoading(false);
       })
@@ -71,65 +41,6 @@ export default function GetAllSignatureseriesContract() {
         setLoading(false);
       });
   };
-
-  const getStorefrontById = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .get(
-        `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${storefrontId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
-        }
-        console.log("storefront id ", response);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error while get storefront id data", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const fetchUserAssests = async () => {
-    const query = gql`
-      query Query($where: AssetCreated_filter) {
-        assetCreateds(first: 100) {
-          id
-          tokenID
-          creator
-          blockNumber
-          blockTimestamp
-          metaDataURI
-          transactionHash
-        }
-      }
-    `;
-    const result = await request(graphqlAPI, query);
-    setLoading(true);
-    setData(result.assetCreateds);
-    setLoading(false);
-  };
-
-  const getAllSignatureseriesNfts = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // const provider = ethers.providers;
-    console.log("ethers", ethers, ethers.providers);
-    const txHash =
-      "0x272e444722efd544c2357560b12dd7bc42aa160a07ec4fa6dc1ca6bfaaad3299";
-    const tx = await provider.formatter;
-
-    console.log("contract address", tx);
-  };
-
   return (
     <LayoutDashbord
       title="Signatureseries Contarct"
@@ -151,23 +62,33 @@ export default function GetAllSignatureseriesContract() {
             <div className="font-bold mt-5 ml-5  text-3xl text-black">
               SignatureSeries
             </div>
-            <hr></hr>
+            <div className="border-bottom-das"></div>
+
             <div
-              className="grid "
+              className="grid"
               style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
             >
-              {/* <Button onClick={addsubgraphApi} className="buy-img" label="subgrapg"></Button> */}
               {contractData?.length > 0 ? (
-                contractData.map((contract) => {
-                  return (
-                    <Link key={1} href="/getAllSegnatureSeriesNft">
-                      <div className="grid   mt-5">
-                        {contract.contractName === "SignatureSeries" && (
+                contractData
+                  .filter((cd) => cd.contractName === "SignatureSeries")
+                  .map((contract) => {
+                    return (
+                      <Link
+                        style={{ color: "black" }}
+                        key={1}
+                        href={{
+                          pathname: "/getAllSegnatureSeriesNft",
+                          query: { contractAddress: contract.contractAddress },
+                        }}
+                      >
+                        <div
+                          className="col-12 lg:col-6 xl:col-3   mt-5"
+                          style={{ width: "285px" }}
+                        >
                           <div
-                            className="card  gap-5"
+                            className="back-contract gap-5 p-5"
                             style={{
                               marginBottom: "0px",
-                              width: "100%",
                               height: "300px",
                             }}
                           >
@@ -178,18 +99,17 @@ export default function GetAllSignatureseriesContract() {
                                 src="garden.png"
                               ></img>
                             </div>
-                            <div>
+                            <div className="mt-5">
                               Contract Name :{" "}
                               <span style={{ color: "blue" }}>
                                 <>{contract.contractName}</>
                               </span>
                             </div>
                           </div>
-                        )}
-                      </div>
-                    </Link>
-                  );
-                })
+                        </div>
+                      </Link>
+                    );
+                  })
               ) : loading ? (
                 <Loader />
               ) : (
@@ -204,3 +124,5 @@ export default function GetAllSignatureseriesContract() {
     </LayoutDashbord>
   );
 }
+
+export default withRouter(GetAllSignatureseriesContract);

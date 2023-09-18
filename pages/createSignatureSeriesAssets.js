@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import  { useRouter } from "next/router";
+import  { useRouter, withRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
@@ -8,16 +8,16 @@ import { InputNumber } from "primereact/inputnumber";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
 import BuyAsset from "../Components/buyAssetModal";
 import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import { NFTStorage } from "nft.storage";
 import Image from "next/image";
 import { Button } from "primereact/button";
-import { useContract, useSigner } from "wagmi";
+import { useContract } from "wagmi";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { ethers } from "ethers";
 
 const style = {
   position: "absolute",
@@ -32,11 +32,9 @@ const style = {
   px: 4,
   pb: 3,
 };
-const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
-const signatureSeriesAddress = process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
-export default function CreateSignatureSeriesNfts() {
+const signetureSeriesAddress=process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
+function CreateSignatureSeriesNfts(props) {
   const msgs = useRef(null);
-  const { data: signerData } = useSigner();
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
@@ -47,7 +45,8 @@ export default function CreateSignatureSeriesNfts() {
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
-
+  const dynamicContractAddress =  props.router.query.contractAddress
+console.log('signetureseries Address',dynamicContractAddress)
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -162,20 +161,12 @@ export default function CreateSignatureSeriesNfts() {
       
     }
   }
-
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner();
   const signatureSeriesContract = useContract({
-    addressOrName: signatureSeriesAddress,
+    addressOrName: dynamicContractAddress,
     contractInterface: SignatureSeries.abi,
-    signerOrProvider: signerData,
-  });
-
-
-
-
-  const tradhubContract = useContract({
-    addressOrName: tradhubAddress,
-    contractInterface: Tradhub.abi,
-    signerOrProvider: signerData,
+    signerOrProvider: signer,
   });
  
   
@@ -186,46 +177,49 @@ export default function CreateSignatureSeriesNfts() {
         formInput.royalties * 100,
         { gasLimit: "2099999" }
       ); //500 - royalites dynamic
-      let tx = await transaction.wait();
+      // let tx = await transaction.wait();
+      console.log('transaction ',transaction)
       setmodelmsg("Transaction 1 Complete");
-      let event = tx.events[0];
-      let value = event.args[2];
-      let tokenId = value.toNumber();
-      const price = 1;
-      const forAuction = false,
-        endTime = 0;
+      // router.push('/getAllSegnatureSeriesNft')
+      // let event = tx.events[0];
+      // let value = event.args[2];
+      // let tokenId = value.toNumber();
+      // const price = 1;
+      // const forAuction = false,
+      //   endTime = 0;
 
-      await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
+      // await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
+      console.log('transaction 1' ,e)
       setmodelmsg("Transaction 1 failed");
       return;
     }
     /* then list the item for sale on the marketplace */
     // router.push("/explore");
   }
-  const listItem = async (tokenId, price, forAuction, endTime) => {
-    try {
-      setmodelmsg("Transaction 2 in progress");
-      const transaction = await tradhubContract.listItem(
-        signatureSeriesAddress,
-        tokenId,
-        price,
-        1,
-        forAuction,
-        endTime,
-        { gasLimit: "2099999" }
-      );
-    await transaction.wait();
-      router.push('/createFusionSeriesNft')
-      setmodelmsg("Transaction 2 Complete !!");
-    } catch (e) {
-      setmodelmsg("Transaction 2 failed");
-    } finally {
-      setpreviewMedia("");
-      setAddImage("");
-      setPreviewThumbnail("");
-    }
-  };
+  // const listItem = async (tokenId, price, forAuction, endTime) => {
+  //   try {
+  //     setmodelmsg("Transaction 2 in progress");
+  //     const transaction = await tradhubContract.listItem(
+  //       signatureSeriesAddress,
+  //       tokenId,
+  //       price,
+  //       1,
+  //       forAuction,
+  //       endTime,
+  //       { gasLimit: "2099999" }
+  //     );
+  //   await transaction.wait();
+  //     router.push('/createFusionSeriesNft')
+  //     setmodelmsg("Transaction 2 Complete !!");
+  //   } catch (e) {
+  //     setmodelmsg("Transaction 2 failed");
+  //   } finally {
+  //     setpreviewMedia("");
+  //     setAddImage("");
+  //     setPreviewThumbnail("");
+  //   }
+  // };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
   ]);
@@ -296,15 +290,8 @@ export default function CreateSignatureSeriesNfts() {
   ]);
   const [categories, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
-
-  // if (!hasRole) {
-  //    setTimeout(() => {
-  //     router.push("/profile");
-  //   }, 1000);
-  // }
-
   return (
-    <LayoutDashbord title="Assets" description="This is used to create NFTs">
+    <LayoutDashbord title="Create SignetureSeries Assets" description="This is used to create Signetureseries Nfts">
       <div  className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}>
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
@@ -773,3 +760,4 @@ export default function CreateSignatureSeriesNfts() {
     </LayoutDashbord>
   );
 }
+export default withRouter(CreateSignatureSeriesNfts)

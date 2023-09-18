@@ -45,6 +45,10 @@ export default function MarkeplaceDetailsForm() {
 
   
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [uploadImageProfile, setuploadImageProfile] = useState("");
+  const [uploadImageCover, setuploadImageCover] = useState("");
+  const [uploadImageRelavent, setuploadImageRelavent] = useState("");
+
   const [uploadImage, setuploadImage] = useState("");
   async function uploadBlobGetHash(file) {
     try {
@@ -112,25 +116,49 @@ export default function MarkeplaceDetailsForm() {
     setinstagram(e.target.value);
   };
 
-  const showSuccess = () => {
-    toast.current.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Marketplace Deials added successfully",
-      life: 1000,
-    });
-  };
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error ",
-      detail: "Storefront Name Must be Unique",
-      life: 1000,
-    });
-  };
-
  
+  
+ 
+  const updateMarketplaceDetails = async (e) => {
+    const token = localStorage.getItem("platform_token");
+    const username=localStorage.getItem('userName');
+    const storefrontId = localStorage.getItem("storefrontId");
 
+    let resultName = username.concat("/", stfName);
+    var product={
+      name: resultName,
+      storefrontId: storefrontId,
+      network: "mumbai",
+      protocol: "ethereum",
+      tag: "v1",
+      storefrontName: stfName,
+      headline: stfheadline,
+      description: stfdescription,
+      profileImage:uploadImageProfile,
+      coverImage: uploadImageCover,
+      assetName: assetsName,
+      assetDescription: assetsDeascription,
+      personalTagline: tagline,
+      personalDescription: tagdescription,
+      relevantImage: uploadImageRelavent,
+      mailId: email,
+      twitter: twitter,
+      discord: discord,
+      instagram: instagram
+    }
+    const config = {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+   const responseData= axios.patch( `${BASE_URL_LAUNCH}api/v1.0/storefront`, product, { config })
+      .then(response => {
+        console.log('data', response)
+      });
+      console.log('data', responseData)
+  };
  
 
   const getWebappData= () => {
@@ -149,7 +177,6 @@ export default function MarkeplaceDetailsForm() {
         }
       })
       .catch(() => {
-        showError()
       })
   };
 
@@ -204,9 +231,9 @@ export default function MarkeplaceDetailsForm() {
 
   useEffect(() => {
     getWebappData();
+    updateMarketplaceDetails();
   }, []);
  
-
   return (
     <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">
       <MarketplaceProfileDetails />

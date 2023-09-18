@@ -1,4 +1,3 @@
-import Layout from "../Components/Layout";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Sidemenu from "./sidemenu";
 import axios from "axios";
@@ -8,22 +7,13 @@ import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Link from "next/link";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllFusionseriesContract() {
+ function GetAllFusionseriesContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
-
-  const toast = useRef(null);
-
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error while get Fusion Series Data",
-      life: 10000,
-    });
-  };
+  const toast = useRef(null); 
   useEffect(() => {
     getAllContarctData();
   }, []);
@@ -44,67 +34,95 @@ export default function GetAllFusionseriesContract() {
         }
         setLoading(false);
       })
-      .catch(() => {
-       showError();
-      }).finally(()=>{
-        setLoading(false);
+      .catch((error) => {
+        console.log('error while get fusionseries contract data',error)
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
-    <LayoutDashbord title="FusionSeries Contarct" description="Used to Show All FusionSeries Contarct Details">
-      <MarketplaceProfileDetails/>
+    <LayoutDashbord
+      title="FusionSeries Contarct"
+      description="Used to Show All FusionSeries Contarct Details"
+    >
+      <div>
+        <MarketplaceProfileDetails />
         <Toast ref={toast} />
-        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`}>
-        <div >
-          <Sidemenu />
-        </div>
-        <div>
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-          FusionSeries
-        </div>
-        <div className="grid ml-5" style={{ gap: "20px",cursor:'pointer' }}>
-          {contractData?.length > 0 ? (
-            contractData.map((contract) => {
-              return (
-                <Link key={1} href="/getAllFusionSeriesNft">
-                <div key={1} className="grid   mt-5">
-                  {contract.contractName === "FusionSeries" && (
-                    <div
-                      className="card col-12 lg:col-6 xl:col-3 gap-5"
-                      style={{ marginBottom: "0px", width: "100%",height:'300px' }}
+        <div
+          className={`${
+            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+          } flex`}
+        >
+          <div>
+            <Sidemenu />
+          </div>
+          <div>
+            <div className="font-bold mt-5 ml-5 text-3xl text-black">
+              FusionSeries
+            </div>
+            <div className="border-bottom-das"></div>
+
+            <div
+              className="grid"
+              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+            >
+              {contractData?.length > 0 ? (
+                  contractData
+                  .filter((cd) => cd.contractName === "FusionSeries")
+                  .map((contract) => {
+                  return (
+                    <Link
+                      style={{ color: "black" }}
+                      key={1}
+                      href={{
+                        pathname: "/getAllFusionSeriesNft",
+                        query: { contractAddress: contract.contractAddress },
+                      }}
                     >
-                      <div className="text-center">
-                        <img
-                          className="dash-img-size"
-                          style={{ width: "200px", height: "200px" }}
-                          src="garden.png"
-                        ></img>
+                      <div
+                        className="col-12 lg:col-6 xl:col-3   mt-5"
+                        style={{ width: "285px" }}
+                      >
+                     
+                          <div
+                            className="back-contract gap-5 p-5"
+                            style={{
+                              marginBottom: "0px",
+                              height: "300px",
+                            }}
+                          >
+                            <div className="text-center">
+                              <img
+                                className="dash-img-size"
+                                style={{ width: "200px", height: "200px" }}
+                                src="garden.png"
+                              ></img>
+                            </div>
+                            <div className="mt-5">
+                              Contract Name :{" "}
+                              <span style={{ color: "blue" }}>
+                                <>{contract.contractName}</>
+                              </span>
+                            </div>
+                          </div>
+                      
                       </div>
-                      <div>
-                        Contract Name :{" "}
-                        <span style={{ color: "blue" }}>
-                          <>{contract.contractName}</>
-                        </span>
-                      </div>
-                    
-                    </div>
-                  )}
+                    </Link>
+                  );
+                })
+              ) : loading ? (
+                <Loader />
+              ) : (
+                <div className="text-2xl pb-10 font-bold text-center">
+                  You haven&apos;t created any FusionSeries Contract.
                 </div>
-                </Link>
-              );
-            })
-            ) : loading ? (
-              <Loader />
-            ) : (
-              <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any FusionSeries Contract.
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-         
-        </div>
-
+      </div>
     </LayoutDashbord>
   );
 }
+export default withRouter(GetAllFusionseriesContract)

@@ -8,47 +8,54 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllFusionSeriesNft() {
-  const [contractData, setContarctData] = useState([]);
+import { withRouter } from "next/router";
+import { ethers } from "ethers";
+function GetAllFusionSeriesNft(props) {
+  const [assetsData, setAsseetsData] = useState([]);
   const { layoutConfig } = useContext(LayoutContext);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While getting data of the signature series NFT Data",
-      life: 10000,
-    });
-  };
+ 
   useEffect(() => {
-    getAllContarctData();
+    getSignetureSeriesAssets();
   }, []);
 
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
+  const getSignetureSeriesAssets = async () => {
+    console.log(
+      " fusion series NFT page>>>>",
+      props.router.query.contractAddress,
+      localStorage.getItem("activeGraphQLURL")
+    );
+    const testCTA = props.router.query.contractAddress;
+    const {
+      data: { assetCreateds },
+    } = await axios.get("/api/assetsCreated");
+    console.log("Data>>>", assetCreateds);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    let tranasactionHashArray = assetCreateds?.map(
+      (asset) => asset.transactionHash
+    );
+    const innerContractAddress = [];
+    await Promise.all(
+      tranasactionHashArray?.map(async (hash) => {
+        const contractAddress = await provider.getTransaction(hash);
+        if (contractAddress.to == testCTA) {
+          console.log(
+            "Condition>>>",
+            contractAddress.to == testCTA,
+            contractAddress.to,
+            testCTA
+          );
+          innerContractAddress.push(
+            assetCreateds.find((asset) => asset.transactionHash === hash)
+          );
         }
-        setLoading(false);
+        setAsseetsData(innerContractAddress);
       })
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-        setLoading2(false);
-      });
+    ).then(() => {
+      console.log("innerContractAddress", innerContractAddress);
+    });
   };
   const load = () => {
     setLoading2(true);
@@ -57,85 +64,104 @@ export default function GetAllFusionSeriesNft() {
       setLoading2(false);
     }, 2000);
   };
+  const contractAddress = props.router.query.contractAddress;
+
   return (
-    <LayoutDashbord title="FusionSeries NFts" description="Used to Show All FusionSeries NFTs Details">
+    <LayoutDashbord
+      title="FusionSeries NFts"
+      description="Used to Show All FusionSeries NFTs Details"
+    >
       <div>
         <MarketplaceProfileDetails />
         <div
           className={`${
             layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
           } flex `}
-          
         >
           <div>
             <Sidemenu />
           </div>
           <div>
-          <div className="flex ml-5 justify-content-around" >
-            <div className="font-bold mt-5 text-3xl text-black ">
-              FusionSeries &gt;  FusionSeries 1
-            </div>
+            <div className="flex ml-5 justify-content-around">
+              <div className="font-bold mt-5 text-3xl text-black ">
+                FusionSeries &gt; FusionSeries 1
+              </div>
 
-            <div className="mt-5 ml-5">
-              <Link href="/signatureSeriesAssets">
-                <Button
-                  className="buy-img"
-                  loading={loading2}
-                  onClick={load}
-                  label="Create FusionSeries NFT"
-                ></Button>
-              </Link>
+              <div className="mt-5 ml-5">
+                <Link
+                  href={{
+                    pathname: "/createFusionSeriesAssets",
+                    query: { contractAddress: contractAddress },
+                  }}
+                >
+                  <Button
+                    className="buy-img"
+                    loading={loading2}
+                    onClick={load}
+                    label="Create FusionSeries NFT"
+                  ></Button>
+                </Link>
+              </div>
             </div>
-           
-          </div>
-          <div className="border-bottom-das"></div>
-          <div
+            <div className="border-bottom-das"></div>
+            <div
               className="grid "
               style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
             >
-              {contractData?.length > 0 ? (
-                contractData.map((contract) => {
+              {assetsData?.length > 0 ? (
+                assetsData.map((asset) => {
                   return (
-                    <Link key={1} href="/singleFusionSeriesNFT">
-                      <div className="grid   mt-5">
-                        {contract.contractName === "SignatureSeries" && (
-                          <div
-                            className="p-3 gap-5"
-                            style={{
-                              marginBottom: "0px",
-                              width: "100%",
-                              height: "350px",
-                              background:'white',
-                              borderRadius:'20px'
-                            }}
-                          >
-                            <div className="text-center" >
-                              <img
-                                className="dash-img-size"
-                                style={{ width: "200px", height: "200px",background:'#CFCDCD' }}
-                                src="garden.png"
-                              ></img>
-                            </div>
-                            <div className="mt-5 " style={{color:'black'}}>
-                              Assets Description :{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
-                            </div>
-                            <div className="mt-2 " style={{color:'black'}}>
-                            Price:{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
-                            </div>
-                            <div className="mt-2 " style={{color:'black'}}>
-                            Last Sale:{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
-                            </div>
+                    <Link
+                      key={1}
+                      href={{
+                        pathname: "/singleFusionSeriesNFT",
+                        query: { contractAddress: asset.contractAddress },
+                      }}
+                    >
+                      <div
+                        className="col-12 lg:col-6 xl:col-3"
+                        style={{ width: "285px" }}
+                      >
+                        <div
+                          className="p-3 gap-5 back-contract mt-5"
+                          style={{
+                            marginBottom: "0px",
+                            width: "100%",
+                            height: "350px",
+                            borderRadius: "20px",
+                          }}
+                        >
+                          <div className="text-center">
+                            <img
+                              className="dash-img-size"
+                              style={{
+                                width: "200px",
+                                height: "200px",
+                                background: "#CFCDCD",
+                              }}
+                              src="garden.png"
+                            ></img>
                           </div>
-                        )}
+
+                          <div className="mt-5 " style={{ color: "black" }}>
+                            Token Id :{" "}
+                            <span style={{ color: "blue" }}>
+                              <>{asset.tokenID}</>
+                            </span>
+                          </div>
+                          <div className="mt-2 " style={{ color: "black" }}>
+                            Price:{" "}
+                            <span style={{ color: "blue" }}>
+                              {/* <>{asset.contractName}</> */}
+                            </span>
+                          </div>
+                          <div className="mt-2 " style={{ color: "black" }}>
+                            Last Sale:{" "}
+                            <span style={{ color: "blue" }}>
+                              {/* <>{asset.contractName}</> */}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </Link>
                   );
@@ -143,19 +169,18 @@ export default function GetAllFusionSeriesNft() {
               ) : loading ? (
                 <Loader />
               ) : (
-                <div className="text-2xl pb-10 font-bold text-center">
+                <div className="text-2xl pb-10 font-bold text-center mt-5">
                   You haven&apos;t created any FusionSeries NFts.
                 </div>
               )}
             </div>
           </div>
-         
-         
-          
-         
+
           <Toast ref={toast} />
         </div>
       </div>
     </LayoutDashbord>
   );
 }
+
+export default withRouter(GetAllFusionSeriesNft);

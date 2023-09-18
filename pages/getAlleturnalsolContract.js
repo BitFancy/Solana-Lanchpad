@@ -7,8 +7,9 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Link from "next/link";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllEturnalsolContract() {
+ function GetAllEturnalsolContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
@@ -41,68 +42,92 @@ export default function GetAllEturnalsolContract() {
       })
       .catch(() => {
         showError();
-      }).finally(()=>{
-        setLoading(false)
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
-    <LayoutDashbord title="EternalSoul Contarct" description="Used to Show All EternalSoul Contarct Details">
-      <MarketplaceProfileDetails/>
+    <LayoutDashbord
+      title="EternalSoul Contarct"
+      description="Used to Show All EternalSoul Contarct Details"
+    >
+      <MarketplaceProfileDetails />
       <Toast ref={toast} />
-       
-        
-        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`} >
-        <div >
+
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+        } flex`}
+      >
+        <div>
           <Sidemenu />
         </div>
         <div>
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-        EternalSoul
-        </div>
-        <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
-        {contractData?.length > 0 ? (
-            contractData.map((contract) => {
-              return (
-                <Link key={1} href='getAllEturnalsolNft'>
-                <div  className="grid   mt-5">
-                  {contract.contractName === "EternalSoul" && (
+          <div className="font-bold mt-5 text-3xl text-black ml-5">
+            EternalSoul
+          </div>
+          <div className="border-bottom-das"></div>
+
+          <div
+            className="grid"
+            style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+          >
+            {contractData?.length > 0 ? (
+               contractData
+               .filter((cd) => cd.contractName === "EternalSoul")
+               .map((contract) => {
+                return (
+                  <Link
+                    style={{ color: "black" }}
+                    key={1}
+                    href={{
+                      pathname: "/getAllEturnalsolNft",
+                      query: { contractAddress: contract.contractAddress },
+                    }}
+                  >
                     <div
-                      className="card col-12  xl:col-3 gap-5"
-                      style={{ marginBottom: "0px", width: "100%",height:'300px' }}
+                      className="col-12 lg:col-6 xl:col-3   mt-5"
+                      style={{ width: "285px" }}
                     >
-                      <div className="text-center">
-                        <img
-                          className="dash-img-size"
-                          style={{ width: "200px", height: "200px" }}
-                          src="garden.png"
-                        ></img>
-                      </div>
-                      <div>
-                        Contract Name :{" "}
-                        <span style={{ color: "blue" }}>
-                          <>{contract.contractName}</>
-                        </span>
-                      </div>
                      
+                        <div
+                          className="back-contract gap-5 p-5"
+                          style={{
+                            marginBottom: "0px",
+                            height: "300px",
+                          }}
+                        >
+                          <div className="text-center">
+                            <img
+                              className="dash-img-size"
+                              style={{ width: "200px", height: "200px" }}
+                              src="garden.png"
+                            ></img>
+                          </div>
+                          <div className="mt-5">
+                            Contract Name :{" "}
+                            <span style={{ color: "blue" }}>
+                              <>{contract.contractName}</>
+                            </span>
+                          </div>
+                        </div>
+                    
                     </div>
-                  )}
-                </div>
-                </Link>
-              );
-            })
+                  </Link>
+                );
+              })
             ) : loading ? (
               <Loader />
             ) : (
-              <div className="flex">
               <div className="text-2xl pb-10 font-bold text-center">
                 You haven&apos;t created any EternalSoul Contract.
-              </div>
               </div>
             )}
           </div>
         </div>
-       
-        </div>
+      </div>
     </LayoutDashbord>
   );
 }
+export default withRouter(GetAllEturnalsolContract)

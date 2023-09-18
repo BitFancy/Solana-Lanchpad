@@ -22,10 +22,6 @@ const Instagen = (props) => {
   const [royltybps, setRoyltybps] = useState("");
   const [instagenResponse, setinstagenResponse] = useState();
   const { layoutConfig } = useContext(LayoutContext);
-  const [storefrontId, setStorefrontId] = useState("");
-  const [storefrontData, setStorefrontData] = useState("");
-  const [tradhubAddress, setTradhubAddress] = useState("");
-  const [accessmasterAddress, setAccessMasterAddress] = useState("");
 
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -60,74 +56,12 @@ const Instagen = (props) => {
       life: 10000,
     });
   };
-  const getStorefrontData= () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-       setStorefrontData(response.data)
-       setStorefrontId(response.data[response.data.length-1].id)
-        }
-      })
-      .catch(() => {
-        showError()
-      }).finally(()=>{
-     setLoading(false)
-        
-      })
-  };
 
-  useEffect(() => {
-    getStorefrontData();
-    getAccessMasterAddress();
-    getTradhubAddress();
-  }, [])
-  
-
-
-  const getAccessMasterAddress=()=>{
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/AccessMaster`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.contractName ==='AccessMaster') {
-            setAccessMasterAddress(response.data.contractAddress)
-        }
-      })
-      .catch((error) => {
-        console.log("error while get contract data", error);
-      })
-     
-
-}
-const getTradhubAddress=()=>{
-  const token = localStorage.getItem("platform_token");
-  axios
-    .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/TradeHub`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(async (response) => {
-      if (response?.data?.contractName ==='TradeHub') {
-          setTradhubAddress(response.data.contractAddress)
-      }
-    })
-    .catch((error) => {
-      console.log("error while get contract data", error);
-    })
-}
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
+    const tradhubAddress = localStorage.getItem("tradhubAddress");
+    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
+    const storefrontId = localStorage.getItem("storefrontId");
     const validation = onClickButton();
     if(validation){
       axios
@@ -138,8 +72,8 @@ const getTradhubAddress=()=>{
             constructorParams: {
               param1: contractName,
               param2: contractSymbol,
-              param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-              param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+              param3: tradhubAddress,
+              param4: accessmasterAddress,
               param5: salePrice,
               param6: saleprePrice,
               param7: countdownTime,
@@ -148,7 +82,9 @@ const getTradhubAddress=()=>{
               param10: "www.abc.com",
             },
             network: "maticmum",
-            storefrontId: storefrontId
+            storefrontId: storefrontId,
+            collectionName:contractName
+
           },
           {
             headers: {

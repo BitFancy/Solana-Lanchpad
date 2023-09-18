@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Toast } from "primereact/toast";
@@ -14,10 +14,7 @@ const Step1 = () => {
   const [platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
   const [tradhubResponse, settradhubResponse] = useState();
-  const [storefrontData, setStorefrontData] = useState("");
-  const [storefrontId, setStorefrontId] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
-
   const [errors, setErros] = useState({
     platformFeeErrors: "",
     contractNameEror: "",
@@ -46,35 +43,12 @@ const Step1 = () => {
       setLoading2(false);
     }, 2000);
   };
-
-
-  const getStorefrontData= () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-       setStorefrontData(response.data)
-       setStorefrontId(response.data[response.data.length-1].id)
-        }
-      })
-      .catch(() => {
-        showError()
-      })
-  };
-
-  useEffect(() => {
-    getStorefrontData();
-  }, [])
   
   const tradHubContarctData = () => {
     const token = localStorage.getItem("platform_token");
+    const storefrontId = localStorage.getItem("storefrontId");
+    const accessMasterAddress = localStorage.getItem("accessMasterAddress");
     const valid = onClickButton();
-
     if (valid) {
       axios
         .post(
@@ -84,10 +58,11 @@ const Step1 = () => {
             constructorParams: {
               param1: platformFee,
               param2: contractName,
-              param3: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+              param3: accessMasterAddress,
             },
             network: "maticmum",
             storefrontId: storefrontId,
+            collectionName:contractName
           },
           {
             headers: {
@@ -101,8 +76,8 @@ const Step1 = () => {
           }, 2000);
           settradhubResponse(response.data.contractAddress);
           showSuccess();
+          localStorage.setItem('tradhubAddress',response.data.contractAddress)
         })
-
         .catch(() => {
           showError();
         })
@@ -132,7 +107,6 @@ const Step1 = () => {
       return true;
     }
   };
-
   return (
     <Layout2  title="Tradhub Setup"
     description="First Deploy Tradhub">

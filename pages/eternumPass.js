@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
@@ -19,10 +19,6 @@ const EternumPass = () => {
   const [platformFeeBasePrice, setplatformFeeBasePrice] = useState("");
   const [subspricePerMonth, setSubspricePerMonth] = useState("");
   const [royltybps, setRoyltybps] = useState("");
-  const [storefrontData, setStorefrontData] = useState("");
-  const [tradhubAddress, setTradhubAddress] = useState("");
-  const [accessmasterAddress, setAccessMasterAddress] = useState("");
-  const [storefrontId, setStorefrontId] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -55,74 +51,11 @@ const EternumPass = () => {
     });
   };
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
-const getStorefrontData= () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-       setStorefrontData(response.data)
-       setStorefrontId(response.data[response.data.length-1].id)
-        }
-      })
-      .catch(() => {
-        showError()
-      }).finally(()=>{
-     setLoading(false)
-        
-      })
-  };
-
-  useEffect(() => {
-    getStorefrontData();
-    getAccessMasterAddress();
-    getTradhubAddress();
-  }, [])
-  
-
-
-  const getAccessMasterAddress=()=>{
-      const token = localStorage.getItem("platform_token");
-      axios
-        .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/AccessMaster`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(async (response) => {
-          if (response?.data?.contractName ==='AccessMaster') {
-              setAccessMasterAddress(response.data.contractAddress)
-          }
-        })
-        .catch((error) => {
-          console.log("error while get contract data", error);
-        })
-       
-  
-  }
-  const getTradhubAddress=()=>{
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${storefrontId}/TradeHub`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.contractName ==='TradeHub') {
-            setTradhubAddress(response.data.contractAddress)
-        }
-      })
-      .catch((error) => {
-        console.log("error while get contract data", error);
-      })
-}
   const eturnumpassContarctData = () => {
     const token = localStorage.getItem("platform_token");
+    const tradhubAddress = localStorage.getItem("tradhubAddress");
+    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
+    const storefrontId = localStorage.getItem("storefrontId");
     const valid = onClickButton();
     if (valid) {
       axios
@@ -143,6 +76,8 @@ const getStorefrontData= () => {
             },
             network: "maticmum",
             storefrontId: storefrontId,
+            collectionName:contractName
+
           },
           {
             headers: {
@@ -356,7 +291,7 @@ const getStorefrontData= () => {
               </div>
               {eturnumpassResponse && (
                 <div>
-                  <Link href="/webappForm">
+                  <Link href="/eturnalsol">
                     <Button
                       label="Continue"
                       severity="Primary"

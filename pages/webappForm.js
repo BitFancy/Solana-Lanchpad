@@ -1,19 +1,19 @@
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { NFTStorage } from "nft.storage";
 import AppTopbar from "../layout/AppTopbar";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import axios from "axios";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import Router,{ withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-export default function WebappForm() {
+const WebappForm=()=> {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -45,67 +45,18 @@ export default function WebappForm() {
   const [uploadImageProfile, setuploadImageProfile] = useState("");
   const [uploadImageCover, setuploadImageCover] = useState("");
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
-  const [deploysubgraphName, setdeploySubgraphName] = useState("");
-  const [storefrontData, setStorefrontData] = useState("");
-  const [storefrontId, setStorefrontId] = useState("");
-  const [username, setUserName] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
 
-
-  const getStorefrontData= () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-       setStorefrontData(response.data)
-       setStorefrontId(response.data[response.data.length-1].id)
-        }
-      })
-      .catch(() => {
-        showError()
-      })
-  };
-  useEffect(() => {
-    getStorefrontData();
-    getProfile();
-  }, [])
-  const getProfile = async () => {
-    const token = localStorage.getItem("platform_token");
-    const config = {
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/profile`, config)
-      .then((res) => {
-        const {
-          data: {
-            payload: {
-              name,
-            },
-          },
-        } = res;
-
-        console.log(res.data);
-        setUserName(res.data.payload.name);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  };
-
+  
+ 
   const addMarketplaceDetails = async () => {
+    Router.push({pathname:"/successNoteContract",query:{redirectURL:'http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql'}})
+    return
     const token = localStorage.getItem("platform_token");
+    const storefrontId = localStorage.getItem("storefrontId");
+   const userName=localStorage.getItem('userName')
     const valid = onClickButton();
-    let result = username.concat("/", stfName);
+    let result = userName.concat("/", stfName);
     if (valid) {
 
       axios
@@ -113,12 +64,10 @@ export default function WebappForm() {
           `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,
           {
             name: result,
-            nodeUrl: "http://18.119.142.140",
             storefrontId: storefrontId,
             network: "mumbai",
             protocol: "ethereum",
-            tag: "v10",
-            nodectlUrl: "http://18.119.142.140:9020",
+            tag: "v1",
             storefrontName: stfName,
             headline: stfheadline,
             description: stfdescription,
@@ -141,18 +90,16 @@ export default function WebappForm() {
           }
         )
         .then(async (response) => {
-          const removeLast10 = response.data.payload.graphUrl
-          const lastfind= removeLast10.slice(0, removeLast10.lastIndexOf(" \ "));
-          console.log('last string',lastfind)
-          const url='http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql\u001b[39m';
-          console.log("marketplace description", url2);
+          const str = response.data.payload.graphUrl
+          const finalString =str.slice(0,str.indexOf("graphql"))+"graphql"
           showSuccess();
           setTimeout(() => {
             setLoading(false);
+            Router.push({pathname:"/successNoteContract",query:{redirectURL: finalString}})
           }, 2000);
         })
         .catch((error) => {
-          showError();
+          console.log('error while deploying storefront',error)
         })
         .finally(() => {
           setLoading(false);
@@ -596,7 +543,6 @@ export default function WebappForm() {
               <div></div>
               <div className="mt-5 ">
                 <Button
-                  type="submit"
                   loading={loading}
                   onClick={addMarketplaceDetails}
                   label="Submit"
@@ -620,3 +566,4 @@ export default function WebappForm() {
     </div>
   );
 }
+export default  withRouter(WebappForm)

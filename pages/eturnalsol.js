@@ -36,10 +36,6 @@ constructor(props) {
     contractName: "",
     contractSymbol: "",
     eturnalsolResponse: "",
-    storefrontId:"",
-    storefrontData:"",
-    accessmasterAddress:'',
-    tradhubAddress:'',
     loading: false,
     loading2:false,
     submitClicked: false,
@@ -69,52 +65,15 @@ constructor(props) {
     this.setState({ rows });
   };
 
-  componentDidMount(){
-    this.getStorefrontData();
-    this.getAccessMasterAddress();
-  }
-   getStorefrontData= () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-       this.setState({storefrontData:response.data})
-       this.setState({storefrontId:response.data[response.data.length-1].id})
-        }
-      })
-      .catch(() => {
-        this.showError()     
-      })
-  };
+ 
 
 
-   getAccessMasterAddress=()=>{
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/AccessMaster`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.contractName ==='AccessMaster') {
-            this.setState({accessmasterAddress:response.data.contractAddress})
-        }
-      })
-      .catch((error) => {
-        console.log("error while get accessmaster address", error);
-      })
-     
-
-}
+  
 
    eturnulsolData = () => {
     const token = localStorage.getItem("platform_token");
+    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
+    const storefrontId = localStorage.getItem("storefrontId");
 const valid= this.onClickButton();
 if(valid){
   axios
@@ -125,10 +84,13 @@ if(valid){
         param1 : this.state.contractName,
         param2 : this.state.contractSymbol,
         param3 : "www.xyz.com",
-        param4 : this.state.accessmasterAddress
+        param4 : accessmasterAddress
     },
      network: "maticmum",
-     storefrontId: this.state.storefrontId
+     storefrontId: storefrontId,
+     collectionName:this.state.contractName
+
+
      },
     {
       headers: {
@@ -301,7 +263,7 @@ static contextType = LayoutContext
             <div >
               {this.state.eturnalsolResponse &&
                 <div className="text-center mt-5">
-                <Link href='/fusionSeries'>
+                <Link href='/webappForm'>
               <Button
                 label="Continue"
                 severity="Primary"

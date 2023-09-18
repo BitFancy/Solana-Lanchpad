@@ -37,7 +37,6 @@ export default function CreateInstagenNft() {
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const { layoutConfig } = useContext(LayoutContext);
-
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -75,8 +74,6 @@ export default function CreateInstagenNft() {
       })
      
   };
-
-  
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();

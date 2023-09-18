@@ -36,11 +36,7 @@ class FusionSeries extends React.Component {
     contractSymbol: "",
     fusionseriesResponse: "",
     loading: false,
-    loading2: false,
-    storefrontId: "",
-    accessmasterAddress:'',
-    tradhubAddress:'',
-    storefrontData: "",
+    loading2: false,   
     submitClicked: false,
     selecteBlockchaine: null,
     errors: {
@@ -78,75 +74,11 @@ class FusionSeries extends React.Component {
     rows.splice(idx, 1);
     this.setState({ rows });
   };
-
-  componentDidMount() {
-    this.getStorefrontData();
-    this.getAccessMasterAddress();
-    this.getTradhubAddress();
-  }
-  getStorefrontData = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          this.setState({ storefrontData: response.data });
-          this.setState({
-            storefrontId: response.data[response.data.length - 1].id,
-          });
-        }
-      })
-      .catch(() => {
-        showError();
-      });
-  };
-
-  getAccessMasterAddress = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/AccessMaster`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        if (response?.data?.contractName === "AccessMaster") {
-          this.setState({ accessmasterAddress: response.data.contractAddress });
-        }
-      })
-      .catch((error) => {
-        console.log("error while getting accessmaster address", error);
-      });
-  };
-  getTradhubAddress = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(
-        `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${this.state.storefrontId}/TradeHub`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        if (response?.data?.contractName === "TradeHub") {
-          this.setState({ tradhubAddress: response.data.contractAddress });
-        }
-      })
-      .catch((error) => {
-        console.log("error while getting tradhub address", error);
-      });
-  };
   fusionSerisData = () => {
     const token = localStorage.getItem("platform_token");
+    const tradhubAddress = localStorage.getItem("tradhubAddress");
+    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
+    const storefrontId = localStorage.getItem("storefrontId");
     const valid = this.onClickButton();
     if (valid) {
       axios
@@ -158,11 +90,13 @@ class FusionSeries extends React.Component {
               param1: "www.xyz.com",
               param2: this.state.contractName,
               param3: this.state.contractSymbol,
-              param4: this.state.tradhubAddress,
-              param5: this.state.accessmasterAddress
+              param4: tradhubAddress,
+              param5: accessmasterAddress
             },
             network: "maticmum",
-            storefrontId: this.state.storefrontId,
+            storefrontId: storefrontId,
+            collectionName:this.state.contractName
+
           },
           {
             headers: {

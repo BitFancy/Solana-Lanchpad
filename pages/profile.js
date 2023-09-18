@@ -336,6 +336,7 @@ function Profile() {
         console.log(updateProfile);
         localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
         setprofileDetails(res.data.payload);
+        localStorage.setItem('userName',res.data.payload.name)
         setLoading(true);
       })
       .catch((error) => {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState,useRef, useContext } from "react";
-import Layout from "../Components/Layout";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import axios from "axios";
@@ -14,8 +13,6 @@ export default function StorefrontDashboard() {
     "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
   );
   const [loadingsetup, setLoadingsetup] = useState(false);
-  const [loadingmanage, setLoadingmanage] = useState(false);
-  const [loadingview, setLoadingview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -46,20 +43,6 @@ export default function StorefrontDashboard() {
 
     setTimeout(() => {
       setLoading1(false);
-    }, 2000);
-  };
-  const loadsetupManage = () => {
-    setLoadingmanage(true);
-
-    setTimeout(() => {
-      setLoadingmanage(false);
-    }, 2000);
-  };
-  const loadsetupview = () => {
-    setLoadingview(true);
-
-    setTimeout(() => {
-      setLoadingview(false);
     }, 2000);
   };
 

@@ -9,7 +9,8 @@ export const LayoutProvider = (props) => {
         menuMode: 'static',
         colorScheme: 'light',
         theme: 'lara-light-indigo',
-        scale: 14
+        scale: 14,
+        storeFrontId:111
     });
     const [layoutState, setLayoutState] = useState({
         staticMenuDesktopInactive: false,

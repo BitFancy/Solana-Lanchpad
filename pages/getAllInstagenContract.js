@@ -7,10 +7,10 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Link from "next/link";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllInstagenContract() {
+import { withRouter } from "next/router";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY; 
+function GetAllInstagenContract() {
   const { layoutConfig } = useContext(LayoutContext);
-
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useRef(null);
@@ -42,68 +42,95 @@ export default function GetAllInstagenContract() {
       })
       .catch(() => {
         showError();
-      }).finally(()=>{
-        setLoading(false)
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
-    <LayoutDashbord title="InstaGen Contarct" description="Used to Show All InstaGen Contarct Details">
-      <MarketplaceProfileDetails/>
-      <Toast ref={toast} />
-       
-        
-        <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'} flex`}>
-        <div >
-          <Sidemenu />
-        </div>
-        <div>
-        <div className="font-bold mt-5 text-3xl text-black text-center">
-          InstaGen
-        </div>
-        <div className="grid ml-5" style={{ gap: "20px" ,cursor:'pointer'}}>
-        {contractData?.length > 0 ? (
-            contractData.map((contract) => {
-              return (
-                <Link key={1} href='getAllInstagenNft'>
-                <div  className="grid   mt-5">
-                  {contract.contractName === "InstaGen" && (
-                    <div
-                      className="card col-12  xl:col-3 gap-5"
-                      style={{ marginBottom: "0px", width: "100%",height:'300px' }}
-                    >
-                      <div className="text-center">
-                        <img
-                          className="dash-img-size"
-                          style={{ width: "200px", height: "200px" }}
-                          src="garden.png"
-                        ></img>
-                      </div>
-                      <div>
-                        Contract Name :{" "}
-                        <span style={{ color: "blue" }}>
-                          <>{contract.contractName}</>
-                        </span>
-                      </div>
+    <LayoutDashbord
+      title="InstaGen Contarct"
+      description="Used to Show All InstaGen Contarct Details"
+    >
+      <div>
+        <MarketplaceProfileDetails />
+        <Toast ref={toast} />
+
+        <div
+          className={`${
+            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+          } flex`}
+        >
+          <div>
+            <Sidemenu />
+          </div>
+          <div>
+            <div className="font-bold mt-5 text-3xl text-black ml-5">
+              InstaGen
+            </div>
+            <div className="border-bottom-das"></div>
+
+            <div
+              className="grid"
+              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+            >
+              {contractData?.length > 0 ? (
+               contractData
+               .filter((cd) => cd.contractName === "InstaGen")
+               .map((contract) => {
+                  return (
+                    <Link
+                      style={{ color: "black" }}
+                      key={1}
                      
-                    </div>
-                  )}
+                      href={{
+                        pathname: "/getAllInstagenNft",
+                        query: { contractAddress: contract.contractAddress },
+                      }}
+
+                    >
+                      <div
+                        className="col-12 lg:col-6 xl:col-3   mt-5"
+                        style={{ width: "285px" }}
+                      >
+                     
+                          <div
+                            className="back-contract gap-5 p-5"
+                            style={{
+                              marginBottom: "0px",
+                              height: "300px",
+                            }}
+                          >
+                            <div className="text-center">
+                              <img
+                                className="dash-img-size"
+                                style={{ width: "200px", height: "200px" }}
+                                src="garden.png"
+                              ></img>
+                            </div>
+                            <div className="mt-5">
+                              Contract Name :{" "}
+                              <span style={{ color: "blue" }}>
+                                <>{contract.contractName}</>
+                              </span>
+                            </div>
+                          </div>
+                      </div>
+                    </Link>
+                  );
+                })
+              ) : loading ? (
+                <Loader />
+              ) : (
+                <div className="text-2xl pb-10 font-bold text-center">
+                  You haven&apos;t created any InstaGen Contract.
                 </div>
-                </Link>
-              );
-            })
-            ) : loading ? (
-              <Loader />
-            ) : (
-              <div className="flex">
-              <div className="text-2xl pb-10 font-bold text-center">
-                You haven&apos;t created any InstaGen Contract.
-              </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-       
-        </div>
+      </div>
     </LayoutDashbord>
   );
 }
+export default withRouter(GetAllInstagenContract)

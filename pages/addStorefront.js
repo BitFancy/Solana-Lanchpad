@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import { Dropdown } from "primereact/dropdown";
-import AppTopbar from "../layout/AppTopbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { Toast } from "primereact/toast";
@@ -90,9 +89,6 @@ export default function AddStorefront() {
       setuploadImage(metaHashURI);
     } catch (error) {
       showErroruploadImage();
-    } finally {
-      setLoading2(false);
-      setLoading(false);
     }
   }
 
@@ -132,7 +128,6 @@ export default function AddStorefront() {
         )
       ) {
         alert(`Storefront '${contractName}' already exist`);
-
         return;
       }
       axios
@@ -155,11 +150,14 @@ export default function AddStorefront() {
           }
         )
         .then(async (response) => {
+          
+          setstorefrontResponase(response.data.storefrontId);
           setTimeout(() => {
             setLoading(false);
           }, 2000);
-          setstorefrontResponase(response);
           showSticky();
+          localStorage.setItem("storefrontId",response.data.storefrontId)
+          localStorage.setItem("accessMasterAddress",response.data.accessMasterAddress)
         })
 
         .catch(() => {
