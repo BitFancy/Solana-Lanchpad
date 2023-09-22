@@ -67,12 +67,12 @@ export default function Launchpad() {
               className="text-center font-bold mt-16 text-white "
               style={{ top: "300px", position: "relative", fontSize: "50px" }}
             >
-              <div>Experience Launching Your Favorites</div>
-              <div>Categories In Just Few Steps</div>
+              <div> Launching Your Favorites</div>
+              <div>NFTs in just few steps</div>
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className="flex justify-content-between gap-3 mt-5"
           style={{ padding: "70px" }}
         >
@@ -172,7 +172,7 @@ export default function Launchpad() {
               <div>commitments.</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div
           className="flex "
@@ -204,19 +204,14 @@ export default function Launchpad() {
             </div>
           </div>
 
-          <div  style={{ width: "50%" }}>
-        
-        
-<img style={{width:'90%',height:'90%'}} src='sig.png'></img>
+          <div style={{ width: "50%" }}>
+            <img style={{ width: "100%", height: "100%" }} src="sig.png"></img>
           </div>
         </div>
 
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
-          <div  style={{ width: "50%" }}>
-            <img
-              style={{ height: "450px", width: "600px" }}
-              src="fusionseries2.png"
-            ></img>
+          <div style={{ width: "50%" }}>
+            <img src="fusionseries2.png"></img>
           </div>
 
           <div style={{ width: "50%" }}>
@@ -279,21 +274,17 @@ export default function Launchpad() {
               </Link>
             </div>
           </div>
-        
-            <div style={{ width: "50%" }}>
-            <img style={{width:'90%',height:'90%'}} src='sig.png'></img>
-            </div>
-          
+
+          <div style={{ width: "50%" }}>
+            <img src="sig.png"></img>
+          </div>
         </div>
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
-          <div>
-            <div  style={{ width: "50%" }}>
-              <img
-                style={{ height: "400px", width: "600px" }}
-                src="dynamicrealms.png"
-              ></img>
+          
+            <div style={{ width: "50%" }}>
+              <img src="dynamicrealms.png"></img>
             </div>
-          </div>
+          
 
           <div style={{ width: "50%" }}>
             <div
@@ -322,54 +313,44 @@ export default function Launchpad() {
             </div>
           </div>
         </div>
-        <div style={{ position: "absolute", left: "72%" }}>
-          <img style={{ height: "300px" }} src="image2.png"></img>
-        </div>
+
         <div className="flex   mt-5" style={{ padding: "70px", gap: "50px" }}>
-          <div>
+          <div style={{ width: "50%" }}>
             <div>
-              <div>
-                <div className="signature-series-head p-heading">
-                  EternumPass
-                </div>
-                <div className="mt-5 text-3xl p-heading">
-                  <div>An Opportunity to Access Digital Assets</div>
-                  <div>and Ownership to Exclusive Content </div>
-                  <div>or services.</div>
-                </div>
-                <div className="mt-5">
-                  <Link href="/eternumPass">
-                    <Button
-                      loading={loading7}
-                      onClick={load7}
-                      label="Launch"
-                      rounded
-                      className="buy-img"
-                      style={{ width: "35%" }}
-                    />
-                  </Link>
-                </div>
+              <div className="signature-series-head p-heading">EternumPass</div>
+              <div className="mt-5 text-3xl p-heading">
+                <div>An Opportunity to Access Digital Assets</div>
+                <div>and Ownership to Exclusive Content </div>
+                <div>or services.</div>
+              </div>
+              <div className="mt-5">
+                <Link href="/eternumPass">
+                  <Button
+                    loading={loading7}
+                    onClick={load7}
+                    label="Launch"
+                    rounded
+                    className="buy-img"
+                    style={{ width: "35%" }}
+                  />
+                </Link>
               </div>
             </div>
           </div>
 
-          <div className="flex">
-            <div style={{ position: "absolute", left: "54%", top: "640%" }}>
-              <img style={{ height: "300px" }} src="image1.png"></img>
-            </div>
+          <div style={{ width: "50%" }}>
+            <img src="eturnumpass.png" className="w-full"></img>
           </div>
         </div>
         <div
           className="flex  "
           style={{
-            marginTop: "130px",
             padding: "70px",
             gap: "50px",
-            marginBottom: "200px",
           }}
         >
-          <div style={{width:'50%'}} >
-          <img style={{width:'90%',height:'80%'}} src='phy.png'></img>
+          <div style={{ width: "50%" }}>
+            <img src="physital.png"></img>
           </div>
 
           <div style={{ width: "50%" }}>
@@ -396,6 +377,101 @@ export default function Launchpad() {
                 style={{ width: "25%" }}
               />
             </div>
+          </div>
+        </div>
+        <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div style={{ width: "50%" }}>
+            <div className="signature-series-head p-heading">EternalSoul</div>
+            <div className="mt-5 text-3xl p-heading">
+              <div>A soulbound token is a non-transferable </div>
+              <div>NFT publicly verifying an individual</div>
+              <div>credentials, affiliations and </div>
+              <div>commitments.</div>
+            </div>
+
+            <div className="mt-5">
+              <Link href="/eturnalsol">
+                <Button
+                  loading={loading5}
+                  onClick={load5}
+                  label="Launch"
+                  rounded
+                  className="buy-img"
+                  style={{ width: "25%" }}
+                />
+              </Link>
+            </div>
+          </div>
+
+          <div style={{ width: "50%" }}>
+            <img src="eternulsol.png"></img>
+          </div>
+        </div>
+        <div
+          className="flex  "
+          style={{
+            padding: "70px",
+            gap: "50px",
+          }}
+        >
+          <div style={{ width: "50%" }}>
+            <img src="accesscontrol.png"></img>
+          </div>
+
+          <div style={{ width: "50%" }}>
+            <div
+              className="signature-series-head p-heading"
+              style={{ textAlign: "end" }}
+            >
+              Access Control
+            </div>
+            <div
+              className="mt-5 text-3xl p-heading"
+              style={{ textAlign: "end" }}
+            >
+              <div>A self-executing contract automatically </div>
+              <div>grants or denies permissions to </div>
+              <div>network participants based on </div>
+              <div>predefined rules.</div>
+            </div>
+
+            <div className="mt-5" style={{ textAlign: "end" }}>
+              <Button
+                loading={loading8}
+                onClick={load8}
+                label="Launch"
+                rounded
+                className="buy-img"
+                style={{ width: "25%" }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
+          <div style={{ width: "50%" }}>
+            <div className="signature-series-head p-heading">TradeHub</div>
+            <div className="mt-5 text-3xl p-heading">
+              <div>A leading NFT marketplace for peer-</div>
+              <div>to-peer buying, selling, and trading of </div>
+              <div>non-fungible tokens (NFTs).</div>
+            </div>
+
+            <div className="mt-5">
+              <Link href="/step1">
+                <Button
+                  loading={loading5}
+                  onClick={load5}
+                  label="Launch"
+                  rounded
+                  className="buy-img"
+                  style={{ width: "25%" }}
+                />
+              </Link>
+            </div>
+          </div>
+
+          <div style={{ width: "50%" }}>
+            <img src="tradhub.png"></img>
           </div>
         </div>
       </Layout>

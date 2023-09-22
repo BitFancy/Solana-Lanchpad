@@ -7,54 +7,49 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Link from "next/link";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function GetAllEternumPassContract() {
+function GetAllEternumPassContract(props) {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
-
   const toast = useRef(null);
-
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While get Eternumpass Data",
-      life: 10000,
-    });
-  };
   useEffect(() => {
-    getAllContarctData();
-  }, []);
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+   getcontractById()
+ }, []);
+
+ const getcontractById = () => {
+   const token = localStorage.getItem("platform_token");
+   axios
+     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+     .then(async (response) => {
+       setLoading(true);
+       if (response?.data?.length > 0) {
+         setContarctData(
+           response.data.filter((sf) => sf.contractName === "EternumPass")
+         );
+       }
+       setLoading(false);
+     })
+
+     .catch((error) => {
+       console.log('error while get contract by id',error)
+     })
+     .finally(() => {
+       setLoading(false);
+     });
+ };
   return (
     <LayoutDashbord
       title="EternumPass Contarct"
       description="Used to Show All EternumPass Contarct Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
 
         <Toast ref={toast} />
         <div
@@ -69,11 +64,11 @@ export default function GetAllEternumPassContract() {
             <div className="font-bold mt-5 text-3xl text-black ml-5">
               EternumPass
             </div>
-            <div className="border-bottom-das"></div>
+            <div className="border-bottom-das" style={{width:'270%'}}></div>
 
             <div
-              className="grid"
-              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+              className="grid cursor-pointer"
+              style={{ gap: "20px", marginLeft: "30px" }}
             >
               {contractData?.length > 0 ? (
               contractData
@@ -119,8 +114,8 @@ export default function GetAllEternumPassContract() {
               ) : loading ? (
                 <Loader />
               ) : (
-                <div className="text-2xl pb-10 font-bold text-center">
-                  You haven&apos;t created any EternumPass Contract.
+                <div className="text-2xl pb-10 font-bold text-center mt-5">
+                  You haven&apos;t created any EternumPass Contract Under this storefront.
                 </div>
               )}
             </div>
@@ -130,3 +125,4 @@ export default function GetAllEternumPassContract() {
     </LayoutDashbord>
   );
 }
+export default withRouter(GetAllEternumPassContract)

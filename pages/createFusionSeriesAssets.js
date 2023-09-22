@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -10,10 +10,17 @@ import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json"
 import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import { Button } from "primereact/button";
 import { useContract, useSigner } from "wagmi";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-import axios from "axios";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
+import { Dropdown } from "primereact/dropdown";
+import { Messages } from "primereact/messages";
+import { NFTStorage } from "nft.storage";
+import { withRouter } from "next/router";
+import Image from "next/image";
+const YOUR_API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
+const client = new NFTStorage({ token: YOUR_API_KEY });
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -27,21 +34,34 @@ const style = {
   px: 4,
   pb: 3,
 };
-const FusionSeriesAddress = process.env.NEXT_PUBLIC_FUSIONSERIES_ADDRESS;
-const tradhubAddress = process.env.NEXT_PUBLIC_TRADEHUB_ADDRESS;
-export default function CreateFusionSeriesNft() {
+ function CreateFusionSeriesNft(props) {
   const { data: signerData } = useSigner();
+  const msgs = useRef(null);
+  const [previewMedia, setpreviewMedia] = useState("");
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [contractFusionSeriesAddress, setContarctFusionSeriesAddress] = useState('');
-  const [contractTradhubAddress, setContarctTradhubAddress] = useState('');
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const { layoutConfig } = useContext(LayoutContext);
+  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const [addImage, setAddImage] = useState(false);
+  const [previewThumbnail, setPreviewThumbnail] = useState("");
+
+  const [mediaHash, setMediaHash] = useState({
+    image: "",
+    audio: "",
+    video: "",
+    animation_url: "",
+    doctype: "",
+  });
+const blockchain = [
+  { name: "Polygon", value: "Polygon" },
+  { name: "Ethereum", value: "Ethereum" },
+];
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -52,29 +72,59 @@ export default function CreateFusionSeriesNft() {
   });
  
 
-  useEffect(() => {
-    getAllContarctData();
-   
-  }, []);
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data[0]?.contractName ==='FusionSeries' && response?.data[0]?.contractName ==='TradeHub') {
-          setContarctFusionSeriesAddress(response.data[0].contractAddress);
-          setContarctTradhubAddress(response.data[0].contractAddress)
-        }
-      })
-      .catch((error) => {
-        console.log("error while get contract data", error);
-      })
-     
-  };
+  const contractFusionSeriesAddress = props.router.query.contractAddress;
+
+  async function uploadBlobGetHash(file) {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {}
+  }
+  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+  async function onChangeThumbnail(e) {
+    const file = e.target.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setMediaHash({ ...mediaHash, image: metaHashURI });
+      setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
+    } catch (error) {}
+  }
+
+
+  async function onChangeMediaType(e) {
+    const file = e.target.files[0];
+    const { name, type } = file;
+    const fileType = type.split("/")[0];
+    const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    const fileData = new File([file], name, {
+      type: type,
+    });
+    if (addImage && fileType == "image") {
+      setAddImage(false);
+    }
+    if (!validImageTypes.includes(type)) {
+      setAddImage(true);
+    }
+    try {
+      const metaHash = await uploadBlobGetHash(fileData);
+      const metaHashURI = getMetaHashURI(metaHash);
+      if (fileType == "audio" || fileType == "video" || fileType == "doctype") {
+        setMediaHash({
+          ...mediaHash,
+          [fileType]: metaHashURI,
+          animation_url: metaHashURI,
+        });
+      } else {
+        setMediaHash({ ...mediaHash, [fileType]: metaHashURI });
+      }
+      setpreviewMedia(URL.createObjectURL(e.target.files[0]));
+    } catch (error) {}
+  }
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -100,17 +150,20 @@ export default function CreateFusionSeriesNft() {
     const data = JSON.stringify({ ...assetData });
     createItem();
   }
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
   const fusionSeriesContarct = useContract({
-    addressOrName: contractFusionSeriesAddress?contractFusionSeriesAddress:FusionSeriesAddress,
+    addressOrName: contractFusionSeriesAddress,
     contractInterface: FusionSeries.abi,
-    signerOrProvider: signerData,
-  });
-  const tradhubContract = useContract({
-    addressOrName: contractTradhubAddress?contractTradhubAddress:tradhubAddress,
-    contractInterface: Tradhub.abi,
-    signerOrProvider: signerData
-  });
+    signerOrProvider: signer,
+  });  
+const tradhubContract = useContract({
+  addressOrName: tradhubAddressData,
+  contractInterface: Tradhub.abi,
+  signerOrProvider: signer
+});
   async function createItem() {
+   
     try {
       const price = ethers.utils.parseUnits(formInput.price, "ether");
       let transaction = await fusionSeriesContarct.createAsset(
@@ -135,6 +188,7 @@ export default function CreateFusionSeriesNft() {
   }
 
   const listItem = async (tokenId, price, forAuction, endTime) => {
+   
     try {
       setmodelmsg("Transaction 2 in progress");
       const transaction = await tradhubContract.listItem(
@@ -226,9 +280,16 @@ export default function CreateFusionSeriesNft() {
   // }
 
   return (
-    <LayoutDashbord title="Assets" description="This is used to create NFTs">
-      <div 
-      className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}
+    <LayoutDashbord
+      title="Create FusionSeries Assets"
+      description="This is used to create FusionSeries Nfts"
+    >
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light"
+            ? "body-back back-image-sig-nft"
+            : "dark"
+        }`}
       >
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
@@ -249,84 +310,176 @@ export default function CreateFusionSeriesNft() {
             <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
           )}
 
-          <div className="font-bold text-4xl easy-way ">
-            <div className="effective-nft-color">Effective Efficient Easy Way To create NFT</div>
+          <div className="effective-nft-color font-bold text-5xl">
+            Effective Efficient Easy
           </div>
-          <div className="flex justify-content-evenly mt-5">
-            <div>
-              <h3 className="text-3xl py-4 font-bold text-center">
-                Create New FusionSeries NFT
-              </h3>
-            </div>
+
+          <div className="flex mt-5" style={{ marginLeft: "230px" }}>
+            <div className="text-5xl font-bold text-center">Create New NFT</div>
           </div>
           <div className="border-bottom-das"></div>
-
           <div
-            className="flex justify-content-center text-white"
+            className="flex justify-content-center p-heading"
             style={{ gap: "50px" }}
           >
             <div className="p-5">
-              <div style={{ width: "500px" }}>
+              <div style={{ width: "700px" }}>
                 <div>
-                  <div className="mt-5">
-                    <div style={{ textAlign: "initial" }}>
-                      FusionSeries Assets Name
+                  <div className="flex justify-content-between">
+                  <div className="font-bold text-4xl"  style={{ textAlign: "initial" }}>
+                  FusionSeries  &gt;  FusionSeries 1
+                  </div>
+                
+                  <div style={{width:'225px'}}>
+                  <Dropdown
+                value={selecteBlockchaine}
+                onChange={(e) => setselectedBlockchaine(e.value)}
+                options={blockchain}
+                optionLabel="name"
+                placeholder="Chains "
+                className="w-full font-bold"
+                style={{borderRadius:'5px'}}
+              />
+                  </div>
+                  </div>
+                  <div style={{marginTop:'65px'}}>
+                    <div className="font-bold" style={{ textAlign: "initial" }}>
+                    FusionSeries Assets Name
                     </div>
-                    <input
-                      required="required"
-                      placeholder="Asset Name"
-                      className="w-full mt-3 p-3 assets-input-back text-white"
-                      onChange={(e) =>
-                        updateFormInput({
-                          ...formInput,
-                          name: e.target.value,
-                        })
-                      }
-                    />
-
-                    <div className="mt-5">
-                      <div style={{ textAlign: "initial" }}>
-                        {" "}
-                        FusionSeries Assets Description
-                      </div>
-
-                      <textarea
-                        type="text"
-                        placeholder="Asset Description"
-                        className="w-full assets-input-back p-3 mt-3 text-white"
+                    <div>
+                      <input
+                        required="required"
+                        placeholder="Asset Name"
+                        className="w-full mt-3 p-3 assets-input-back "
                         onChange={(e) =>
                           updateFormInput({
                             ...formInput,
-                            description: e.target.value,
+                            name: e.target.value,
                           })
                         }
+                        style={{ borderRadius: "5px", border: "none" }}
                       />
                     </div>
-                    <div className="mt-5" style={{ textAlign: "initial" }}>
-                      Creator Royalties
-                      <span className="text-gray-400 text-gray-500 dark:text-white">
+
+                    <div className="mt-5">
+                      <div className="font-bold" style={{ textAlign: "initial" }}>
+                      FusionSeries Assets Description
+                      </div>
+                      <div>
+                        <textarea
+                          type="text"
+                          placeholder="Asset Description"
+                          className="w-full assets-input-back p-3  mt-3"
+                          onChange={(e) =>
+                            updateFormInput({
+                              ...formInput,
+                              description: e.target.value,
+                            })
+                          }
+                          style={{ borderRadius: "5px", border: "none" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                      Royalties
+                      <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
                     </div>
-                    <input
-                      type="number"
-                      value={formInput.royalties} // value * 100
-                      suffix="%"
-                      mode="decimal"
-                      className="mt-2 p-3 w-full assets-input-back text-white "
-                      showButtons
-                      onChange={(e) => {
-                        updateFormInput({
-                          ...formInput,
-                          royalties: e.target.value,
-                        });
-                      }}
-                    />
+                    <div>
+                      <input
+                        type="number"
+                        value={formInput.royalties} // value * 100
+                        suffix="%"
+                        mode="decimal"
+                        className="mt-2 p-3 w-full assets-input-back "
+                        showButtons
+                        onChange={(e) => {
+                          updateFormInput({
+                            ...formInput,
+                            royalties: e.target.value,
+                          });
+                        }}
+                        style={{ borderRadius: "5px", border: "none" }}
+                      />
+                    </div>
                   </div>
+                  <div className="flex">
+                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                      Upload File
+                    </div>
+                  </div>
+                  <div className="flex gap-6 mt-3">
+                    <div
+                      className=" rounded-lg text-center p-3  ...mt-20  w-full"
+                      style={{ borderStyle: "dashed" }}
+                    >
+                      <h1 className="text-lg font-semibold">
+                        Drag File Here to Upload PNG,GIF,WEBP,MP4,or MP3
+                      </h1>
+                      <div>
+                        <br />
+                        <div className="flex text-black mt-3 cursor-pointer rounded-lg bg-slate-300 p-2.5 m-auto w-full">
+                          <input
+                            type="file"
+                            accept="image/png, image/jpeg,.txt,.doc,video/mp4,audio/mpeg,.pdf"
+                            onChange={(e) => onChangeMediaType(e)}
+                            className="assets-input-back "
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {addImage && (
+                    <>
+                      <div className="flex justify-content-between">
+                        <div className="font-bold  mt-5 text-left text-gray-500 ">
+                          Upload Preview Image
+                        </div>
+                        <div className="font-bold  mt-5 text-left text-gray-500 ">
+                          Priview
+                        </div>
+                      </div>
+                      <div className="flex gap-6">
+                        <div className="   rounded-xl border-dashed border-2 border-indigo-600 ... text-center p-3 w-96 ... mt-3">
+                          <h1 className="text-lg font-semibold text-gray-500 ">
+                            Drag File Here to Upload
+                          </h1>
+                          <div className="text-gray-500 ">
+                            PNG, JPG, or GIF
+                            <br />
+                            <div className=" text-black mt-3 cursor-pointer rounded-xl p-2.5 m-auto w-full bg-slate-300">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => onChangeThumbnail(e)}
+                                className="assets-input-back "
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="   rounded-xl border-dashed border-2 border-indigo-600 ... text-center p-3 w-96 ... mt-3">
+                          <div className="text-[#6a6b76]">
+                            <div className=" text-black mt-3 cursor-pointer rounded-xl p-2.5 m-auto w-full ">
+                              {previewThumbnail && (
+                                <Image
+                                  alt="alt"
+                                  width="200"
+                                  height="200"
+                                  src={previewThumbnail}
+                                />
+                              )}
+                              <div />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="w-full py-3">
-                  <div className="flex justify-content-between">
+                  <div className="flex justify-content-between ">
                     <div>
                       <div className="text-lg font-bold mt-6">Properties</div>
                     </div>
@@ -366,7 +519,7 @@ export default function CreateFusionSeriesNft() {
                           </div>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          <div className="text-gray-500 dark:text-white">
+                          <div className="text-gray-500 ">
                             Properties Show Up Underneath Your Item, are
                             Clickable, and Can be Filtered in Your
                             Collection&apos;s Sidebar.
@@ -442,13 +595,14 @@ export default function CreateFusionSeriesNft() {
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
+                        <Messages ref={msgs} />
 
                       </div>
                     </Modal>
                   </div>
-                  <div className="flex mt-5">
+                  <div className="flex mt-5 font-bold">
                     <div style={{ alignItems: "initial" }}>
-                      Alternative Text for NFT(Optipnal)
+                      NFT description in detail
                     </div>
                   </div>
                   <input
@@ -460,41 +614,46 @@ export default function CreateFusionSeriesNft() {
                         alternettext: e.target.value,
                       })
                     }
+                    style={{ borderRadius: "5px", border: "none" }}
                   />
-
-                  <div className="mt-5 flex">
-                    <div style={{ alignItems: "initial" }}>Category</div>
+                </div>
+                <div className="mt-5 flex justify-content-between font-bold">
+                  <div >Category</div>
+                  <div >Tags</div>
+                </div>
+                <div className="flex justify-content-between">
+                  <div style={{width:'300px'}}>
+                    <Multiselect
+                      isObject={false}
+                      onRemove={(event) => {
+                        setCategory(event);
+                      }}
+                      onSelect={(event) => {
+                        setCategory(event);
+                      }}
+                      options={options1}
+                      selectedValues={[]}
+                      showCheckbox
+                      className="assets-input-back mt-3"
+                    />
                   </div>
-                  <Multiselect
-                    isObject={false}
-                    onRemove={(event) => {
-                      setCategory(event);
-                    }}
-                    onSelect={(event) => {
-                      setCategory(event);
-                    }}
-                    options={options1}
-                    selectedValues={[]}
-                    showCheckbox
-                    className="assets-input-back mt-3"
-                  />
+                  <div style={{width:'300px'}}>
+                    <Multiselect
+                      isObject={false}
+                      onRemove={(event) => {
+                        setTags(event);
+                      }}
+                      onSelect={(event) => {
+                        setTags(event);
+                      }}
+                      options={options2}
+                      selectedValues={[]}
+                      showCheckbox
+                      className="assets-input-back mt-3"
+                    />
+                  </div>
                 </div>
-                <div className="mt-3 flex">
-                  <div style={{ alignItems: "initial" }}>Tags</div>
-                </div>
-                <Multiselect
-                  isObject={false}
-                  onRemove={(event) => {
-                    setTags(event);
-                  }}
-                  onSelect={(event) => {
-                    setTags(event);
-                  }}
-                  options={options2}
-                  selectedValues={[]}
-                  showCheckbox
-                  className="assets-input-back mt-3"
-                />
+
                 <div className="flex justify-content-between mt-5">
                   <div className="text-left">
                     <div className="font-bold text-3xl">Put on Tradhub</div>
@@ -514,7 +673,7 @@ export default function CreateFusionSeriesNft() {
                 {toggle && (
                   <div className="flex  justify-content-between">
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3"
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer" 
                       onClick={() => {
                         setAuctionToggle(false);
                         setToggleInput(!toggleinput);
@@ -524,7 +683,7 @@ export default function CreateFusionSeriesNft() {
                       Direct Sale
                     </div>
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3"
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
                       onClick={() => {
                         setToggleInput(false);
                         setAuctionToggle(!auctionToggle);
@@ -539,8 +698,8 @@ export default function CreateFusionSeriesNft() {
                   <div className="flex mt-3 gap-6 ">
                     <input
                       type="number"
-                      className="w-full p-2 assets-input-back"
-                      placeholder="Asset Price in Matic text-white"
+                      className="w-full p-2 assets-input-back "
+                      placeholder="Asset Price in Matic"
                       onChange={(e) =>
                         updateFormInput({
                           ...formInput,
@@ -555,7 +714,7 @@ export default function CreateFusionSeriesNft() {
                   <div className="flex mt-3 gap-6 ">
                     <input
                       type="number"
-                      className="w-full p-2 assets-input-back text-white"
+                      className="w-full p-2 assets-input-back "
                       placeholder="Asset Price in Matic"
                       onChange={(e) =>
                         updateFormInput({
@@ -566,7 +725,7 @@ export default function CreateFusionSeriesNft() {
                     />
 
                     <InputNumber
-                      className="w-full p-2 assets-input-back text-white"
+                      className="w-full p-2 assets-input-back"
                       placeholder="Auction Duration"
                       inputId="expiry"
                       suffix=" minutes"
@@ -577,20 +736,56 @@ export default function CreateFusionSeriesNft() {
                         })
                       }
                       mode="decimal"
-                      showButtons
                       min={0}
                       max={100}
                     />
                   </div>
                 )}
 
-                <div className="flex justify-content-between p-5">
+                <div className="flex justify-content-between p-5 mt-5">
                   <div>
-                    <Button   className="buy-img"onClick={(e) => createMarket(e)}>
+                    <Button
+                      className="buy-img"
+                      onClick={(e) => createMarket(e)}
+                    >
                       Create FusionSeries NFTs
                     </Button>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div
+              className=" rounded-lg text-center p-3" style={{marginTop:'125px'}}
+            >
+              <div className="font-bold">Preview</div>
+              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
+                            style={{ height: "500px", width: "300px", marginTop: "80px" }}
+
+              >
+                {previewMedia ? (
+                  mediaHash?.image && addImage == false ? (
+                    <Image
+                      src={previewMedia}
+                      alt="assets2"
+                      className="w-full object-cover h-72 flex justify-content-center"
+                      width="200"
+                      height="200"
+                    />
+                  ) : mediaHash?.video ? (
+                    <video autoPlay controls>
+                      <source src={previewMedia}></source>
+                    </video>
+                  ) : mediaHash?.audio ? (
+                    <audio autoPlay controls>
+                      <source src={previewMedia}></source>
+                    </audio>
+                  ) : mediaHash?.doctype ? (
+                    <input file={previewMedia} alt="" />
+                  ) : null
+                ) : (
+                  <div />
+                )}
               </div>
             </div>
           </div>
@@ -599,3 +794,4 @@ export default function CreateFusionSeriesNft() {
     </LayoutDashbord>
   );
 }
+export default withRouter(CreateFusionSeriesNft)

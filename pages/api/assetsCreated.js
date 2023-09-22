@@ -1,13 +1,12 @@
 
 import axios from "axios";
  const handler=async(req, res)=> {
-    const endPoint = "http://18.119.142.140:8000/subgraphs/name/kek";
-    
+    const endPoint = "http://3.15.54.199:8000/subgraphs/name/v1/newdeploynn/graphql";
     const headers = {
       "Content-Type": "application/json",
     };
     const AllBuildingQuery = `{
-        assetCreateds(orderBy: id) {
+      signatureSeriesAssetCreateds(orderBy: id) {
             id
             tokenID
             creator
@@ -20,8 +19,8 @@ import axios from "axios";
     `
       ;
     const graphqlQuery = {
-      operationName: "assetCreateds",
-      query:`query assetCreateds ${AllBuildingQuery}`,
+      operationName: "signatureSeriesAssetCreateds",
+      query:`query signatureSeriesAssetCreateds ${AllBuildingQuery}`,
       variables: {},
     };
   

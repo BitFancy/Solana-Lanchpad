@@ -7,11 +7,14 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext, LayoutProvider } from "../layout/context/layoutcontext";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class UpdateMarketPlace extends React.Component {
- 
-  state = {
+  constructor(props) {
+    super(props);
+  this.state = {
     rows: [{}],
+   
     submitClicked: false,
     tradhubFees: "",
     contractAddress: "",
@@ -20,6 +23,7 @@ class UpdateMarketPlace extends React.Component {
       contractAddressError: "",
     },
   };
+}
   handleAddRow = () => {
     const item = {
       fees: "",
@@ -134,7 +138,7 @@ class UpdateMarketPlace extends React.Component {
         title="Update Tradhub"
         description="Used to show updated tradhub information"
       >
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={this.props.router.query.storefrontId}/>
         <div  className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-update-tradhub' : 'dark'} flex`} >
           <div>
             <Sidemenu />
@@ -209,4 +213,4 @@ class UpdateMarketPlace extends React.Component {
   }
 }
 
-export default UpdateMarketPlace;
+export default withRouter(UpdateMarketPlace);

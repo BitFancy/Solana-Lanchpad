@@ -9,10 +9,12 @@ import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-const EternumPass = () => {
+const EternumPass = (props) => {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const [loading4, setLoading4] = useState(false);
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -33,6 +35,7 @@ const EternumPass = () => {
     { name: "Polygon", value: "Polygon" },
     { name: "Ethereum", value: "Ethereum" },
   ];
+   
   const [submitClicked, setSubmitClicked] = useState(false);
   const showSuccess = () => {
     toast.current.show({
@@ -42,20 +45,12 @@ const EternumPass = () => {
       life: 10000,
     });
   };
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While deploying Eternumpass contract",
-      life: 10000,
-    });
-  };
+ 
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
   const eturnumpassContarctData = () => {
     const token = localStorage.getItem("platform_token");
-    const tradhubAddress = localStorage.getItem("tradhubAddress");
-    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
-    const storefrontId = localStorage.getItem("storefrontId");
+    const tradhubAddress = props.router.query.tradhubAddress;
+        const accessmasterAddress = props.router.query.accessmasterAddress;
     const valid = onClickButton();
     if (valid) {
       axios
@@ -75,7 +70,7 @@ const EternumPass = () => {
               param10: tradhubAddress,
             },
             network: "maticmum",
-            storefrontId: storefrontId,
+            storefrontId: props.router.query.storefrontId,
             collectionName:contractName
 
           },
@@ -93,8 +88,8 @@ const EternumPass = () => {
           showSuccess();
         })
 
-        .catch(() => {
-          showError();
+        .catch((error) => {
+          console.log(error)
         })
         .finally(() => {
           setLoading(false);
@@ -127,6 +122,20 @@ const EternumPass = () => {
 
     setTimeout(() => {
       setLoading2(false);
+    }, 2000);
+  };
+  const load4 = () => {
+    setLoading4(true);
+
+    setTimeout(() => {
+      setLoading4(false);
+    }, 2000);
+  };
+  const load3 = () => {
+    setLoading3(true);
+
+    setTimeout(() => {
+      setLoading3(false);
     }, 2000);
   };
   const onClickButton = () => {
@@ -193,6 +202,8 @@ const EternumPass = () => {
                 className="w-full font-bold"
                 style={{borderRadius:'20px'}}
               />
+              {/* <span className="blockchain-label">{storefrontData?.blockchain}</span> */}
+
           </div>
           </div>
 
@@ -201,11 +212,11 @@ const EternumPass = () => {
             <div className="p-heading">Enter EternumPass Name</div>
             <div className="mt-3">
               <InputText
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full "
                 onChange={handleInputName}
                 value={contractName}
               />
-              <p style={{ textAlign: "left", color: "red" }}>
+              <p className="text-left text-red-600 mt-2" >
                 {!contractName ? errors.contractNameError : ""}
               </p>
             </div>
@@ -214,11 +225,11 @@ const EternumPass = () => {
 
             <div className="  mt-3">
               <InputText
-                className="p-2  input-back w-full text-white"
+                className="p-2  input-back w-full "
                 value={contractSymbol}
                 onChange={handleInputSymbol}
               />
-              <p style={{ textAlign: "left", color: "red" }}>
+              <p className="text-left text-red-600 mt-2">
                 {!contractSymbol ? errors.contractSymbolError : ""}
               </p>
             </div>
@@ -227,11 +238,11 @@ const EternumPass = () => {
 
             <div className="  mt-3">
               <InputText
-                className="p-2  input-back w-full text-white"
+                className="p-2  input-back w-full "
                 value={salePrice}
                 onChange={handleInputSalePrice}
               />
-              <p style={{ textAlign: "left", color: "red" }}>
+              <p className="text-left text-red-600 mt-2" >
                 {!salePrice ? errors.salePriceError : ""}
               </p>
             </div>
@@ -242,9 +253,9 @@ const EternumPass = () => {
               <InputText
                 value={platformFeeBasePrice}
                 onChange={handleInputPlatformFee}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full "
               />
-              <p style={{ textAlign: "left", color: "red" }}>
+              <p className="text-left text-red-600 mt-2" style={{ textAlign: "left", color: "red" }}>
                 {!platformFeeBasePrice ? errors.platformFeeBasePriceError : ""}
               </p>
             </div>
@@ -254,7 +265,7 @@ const EternumPass = () => {
               <InputText
                 value={subspricePerMonth}
                 onChange={handleInputSubscriptionPrice}
-                className="p-2  input-back w-full text-white"
+                className="p-2  input-back w-full "
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!subspricePerMonth ? errors.subspricePerMonthError : ""}
@@ -267,7 +278,7 @@ const EternumPass = () => {
               <InputText
                 value={royltybps}
                 onChange={handleInputRoyelty}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!royltybps ? errors.royltybpsError : ""}
@@ -305,8 +316,49 @@ const EternumPass = () => {
                 </div>
               )}
             </div>
+           
           </div>
+         
+         
         </div>
+        <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
+              <div className="text-center mt-5">
+                <Link 
+                
+                href={{
+                  pathname: "/launchSignatureseries",
+                  query: { storefrontId: props?.router?.query?.storefrontId},
+                }}>
+                  <Button
+                    label="Back"
+                    severity="Primary"
+                    rounded
+                    loading={loading3}
+                    onClick={load3}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
+              <div className="text-center mt-5">
+                <Link 
+                  href={{
+                    pathname: "/webappForm",
+                    query: { storefrontId: props?.router?.query?.storefrontId},
+                  }}
+                >
+                  <Button
+                    label="Next"
+                    severity="Primary"
+                    rounded
+                    loading={loading4}
+                    onClick={load4}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
+            </div>
       </div>
     </div>
     </Layout2>

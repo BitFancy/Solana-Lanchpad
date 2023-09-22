@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
-import Layout from "../Components/Layout";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Layout2 from "../Components/Layout2";
-
-export default function LaunchSignatureseries() {
+import { withRouter } from "next/router";
+ function LaunchSignatureseries(props) {
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
-
   const load = () => {
     setLoading(true);
     setTimeout(() => {
@@ -47,7 +45,12 @@ export default function LaunchSignatureseries() {
                       <div>launch SignatureSeries of assets</div>
                     </div>
                     <div>
-                      <Link href="/signatureseries">
+                      <Link 
+                        href={{
+                          pathname: "/signatureseries",
+                          query: { storefrontId: props?.router?.query?.storefrontId},
+                        }}
+                      >
                         <Button
                           label="Launch"
                           severity="Primary"
@@ -70,3 +73,4 @@ export default function LaunchSignatureseries() {
     </Layout2>
   );
 }
+export default withRouter(LaunchSignatureseries)

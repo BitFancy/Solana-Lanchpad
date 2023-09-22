@@ -8,7 +8,7 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
-import { withRouter } from "next/router";
+import {  withRouter } from "next/router";
 import { ethers } from "ethers";
 function GetAllSignatureSeriesSeriesNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
@@ -16,45 +16,52 @@ function GetAllSignatureSeriesSeriesNft(props) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
+  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
+  
   useEffect(() => {
-    getSignetureSeriesAssets();
-  }, []);
-
+    const searchParams = new URLSearchParams(document.location.search)
+     setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
+     if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
+      getSignetureSeriesAssets()
+     }
+  }, [])
+  
   const getSignetureSeriesAssets = async () => {
-    console.log(
-      "Signature series NFT page>>>>",
-      props.router.query.contractAddress,
-      localStorage.getItem("activeGraphQLURL")
-    );
-    const testCTA = props.router.query.contractAddress;
-    const {
-      data: { assetCreateds },
-    } = await axios.get("/api/assetsCreated");
-    console.log("Data>>>", assetCreateds);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    let tranasactionHashArray = assetCreateds?.map(
-      (asset) => asset.transactionHash
-    );
-    const innerContractAddress = [];
-    await Promise?.all(
-      tranasactionHashArray?.map(async (hash) => {
-        const contractAddress = await provider.getTransaction(hash);
-        if (contractAddress.to == testCTA) {
-          console.log(
-            "Condition>>>",
-            contractAddress.to == testCTA,
-            contractAddress.to,
-            testCTA
-          );
-          innerContractAddress.push(
-            assetCreateds.find((asset) => asset.transactionHash === hash)
-          );
-        }
-        setAsseetsData(innerContractAddress);
-      })
-    ).then(() => {
-      console.log("innerContractAddress", innerContractAddress);
-    });
+    try {
+      setLoading(true)
+      const {
+        data: { assetCreateds },
+      } = await axios.get("/api/assetsCreated")
+      console.log("assetCreateds>>>", assetCreateds);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      let tranasactionHashArray = assetCreateds?.map(
+        (asset) => asset.transactionHash
+      ) ?? [];
+      const innerContractAddress = [];
+      console.log("tranasactionHashArray",tranasactionHashArray);
+      if(tranasactionHashArray.length>0){
+      await Promise?.all(
+        tranasactionHashArray?.map(async (hash) => {
+          const gqlcontractAddress = await provider.getTransaction(hash);
+          if (gqlcontractAddress.to == contractAddress) {
+            innerContractAddress.push(
+              assetCreateds.find((asset) => asset.transactionHash === hash)
+            );
+          }
+          setAsseetsData(innerContractAddress);
+        })
+      ).then(() => {
+        console.log("innerContractAddress", innerContractAddress);
+      });
+    }
+    } catch (error) {
+      console.log("Error while fetching assets",error)
+      setLoading(false)
+    }finally{
+      setLoading(false)
+    }
+   
+
   };
 
   const load = () => {
@@ -64,17 +71,14 @@ function GetAllSignatureSeriesSeriesNft(props) {
       setLoading2(false);
     }, 2000);
   };
-
-  const contractAddress = props.router.query.contractAddress;
-  console.log("conttract address in sig series nft", contractAddress);
-
+console.log("contractAddress>>>>",contractAddress);
   return (
     <LayoutDashbord
       title="Signatureseries NFts"
       description="Used to Show All Signatureseries NFTs Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails  id={props.router.query.storefrontId}/>
         <div
           className={`${
             layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
@@ -111,8 +115,8 @@ function GetAllSignatureSeriesSeriesNft(props) {
               style={{ width: "87%", right: "-43px", position: "absolute" }}
             ></div>
             <div
-              className="grid "
-              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+              className="grid cursor-pointer"
+              style={{ gap: "20px",  marginLeft: "30px" }}
             >
               {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {

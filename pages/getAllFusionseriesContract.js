@@ -9,45 +9,48 @@ import LayoutDashbord from "../Components/LayoutDashbord";
 import Link from "next/link";
 import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
- function GetAllFusionseriesContract() {
+ function GetAllFusionseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
   const toast = useRef(null); 
+  console.log('id in getall fusion con',props.router.query.storefrontId)
   useEffect(() => {
-    getAllContarctData();
-  }, []);
+   getcontractById()
+ }, []);
 
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
+ const getcontractById = () => {
+   const token = localStorage.getItem("platform_token");
+   axios
+     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+     .then(async (response) => {
+       setLoading(true);
+       if (response?.data?.length > 0) {
+         setContarctData(
+           response.data.filter((sf) => sf.contractName === "FusionSeries")
+         );
+       }
+       setLoading(false);
+     })
 
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log('error while get fusionseries contract data',error)
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+     .catch((error) => {
+       console.log('error while get contract by id',error)
+     })
+     .finally(() => {
+       setLoading(false);
+     });
+ };
   return (
     <LayoutDashbord
       title="FusionSeries Contarct"
       description="Used to Show All FusionSeries Contarct Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
         <Toast ref={toast} />
         <div
           className={`${
@@ -61,11 +64,11 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
             <div className="font-bold mt-5 ml-5 text-3xl text-black">
               FusionSeries
             </div>
-            <div className="border-bottom-das"></div>
+            <div className="border-bottom-das" style={{width:'270%'}}></div>
 
             <div
-              className="grid"
-              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+              className="grid cursor-pointer"
+              style={{ gap: "20px", marginLeft: "30px" }}
             >
               {contractData?.length > 0 ? (
                   contractData
@@ -114,8 +117,8 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
               ) : loading ? (
                 <Loader />
               ) : (
-                <div className="text-2xl pb-10 font-bold text-center">
-                  You haven&apos;t created any FusionSeries Contract.
+                <div className="text-2xl pb-10 font-bold text-center mt-5">
+                  You haven&apos;t created any FusionSeries Contract Under this storefront.
                 </div>
               )}
             </div>

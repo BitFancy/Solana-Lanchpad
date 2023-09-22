@@ -1,22 +1,21 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import { LayoutContext } from "../layout/context/layoutcontext";
-export default function Sidemenu() {
+import { useRouter, withRouter } from "next/router";
+import React from "react";
+ function Sidemenu(props) {
   const router = useRouter();
-  const [active, setActive] = useState("");
-  const { layoutConfig } = useContext(LayoutContext);
+  console.log("sft id in sidebar", props.router.query.storefrontId);
 
-  const handleClick = (event) => {
-    setActive(event.target.id);
-  };
   return (
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
       <div className="font-bold text-3xl p-heading mt-5">overview</div>
       <div className="ml-5 mt-3 p-heading ">
         <div className="text-2xl"   style={{ marginTop: "30px"}}>
           <Link
-            href="/overview"
+            href={{
+              pathname: "/overview",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
+
             className={router.pathname == "/overview" ? "active" : "p-heading"}
             
           >
@@ -30,10 +29,13 @@ export default function Sidemenu() {
       <div className="ml-5">
         <div className="text-2xl p-heading" style={{ marginTop: "30px",  }}>
           <Link
-            href="/getAllSignatureseriesContract"
             className={
               router.pathname == "/getAllSignatureseriesContract" ? "active" : "p-heading"
             }
+            href={{
+              pathname: "/getAllSignatureseriesContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
           >
             SignatureSeries
           </Link>
@@ -41,7 +43,10 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px"}}>
           <Link
-            href="/getAllFusionseriesContract"
+            href={{
+              pathname: "/getAllFusionseriesContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/getAllFusionseriesContract" ? "active" : "p-heading"}
           >
             FusionSeries
@@ -50,7 +55,10 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAllEternumPassContract"
+            href={{
+              pathname: "/getAllEternumPassContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/getAllEternumPassContract" ? "active" : "p-heading"}
           >
             EternumPass
@@ -59,7 +67,10 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAllInstagenContract"
+            href={{
+              pathname: "/getAllInstagenContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/getAllInstagenContract" ? "active" : "p-heading"}
           >
             Instagen
@@ -67,7 +78,10 @@ export default function Sidemenu() {
         </div>
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/getAlleturnalsolContract"
+            href={{
+              pathname: "/getAlleturnalsolContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/getAlleturnalsolContract" ? "active" : "p-heading"}
           >
             EternalSoul
@@ -79,7 +93,10 @@ export default function Sidemenu() {
       <div className="ml-5">
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/accessMasterRole"
+            href={{
+              pathname: "/accessMasterRole",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/accessMasterRole" ? "active" : "p-heading"}
           >
             AccessMaster
@@ -87,7 +104,10 @@ export default function Sidemenu() {
         </div>
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/updatemarketplace"
+            href={{
+              pathname: "/updatemarketplace",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/updatemarketplace" ? "active" : "p-heading"}
           >
             TradeHub
@@ -96,7 +116,11 @@ export default function Sidemenu() {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
-            href="/markeplaceDetailsForm"
+           
+            href={{
+              pathname: "/markeplaceDetailsForm",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
             className={router.pathname == "/markeplaceDetailsForm" ? "active" : "p-heading"}
           >
              Web App
@@ -108,3 +132,4 @@ export default function Sidemenu() {
     </div>
   );
 }
+export default withRouter(Sidemenu)

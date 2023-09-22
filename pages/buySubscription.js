@@ -36,22 +36,7 @@ export default function BuyNft() {
       life: 10000,
     });
   };
-  const showErrorBasic = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While Basic plan",
-      life: 10000,
-    });
-  };
-  const showErrorpro = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While Pro Plan",
-      life: 10000,
-    });
-  };
+
   const flowSubscriptionContarct = useContract({
     addressOrName: flowSubscriptionAddress,
     contractInterface: subscriptionAbi.abi,
@@ -70,11 +55,11 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading1(false);
         }, 2000);
-        router.push("/subscriptionDashboard");
+        router.push("/storefrontDashboard");
 
       });
     } catch (error) {
-      showErrorpro();
+      console.log(error)
     } finally {
       setLoading1(false);
     }
@@ -85,14 +70,9 @@ export default function BuyNft() {
     setLoading(true);
     axios
       .post(
-        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
+        `${BASE_URL_LAUNCH}api/v1.0/profile/subscribe`,
         {
-          name: "John",
-          plan:'basic',
-          owner: "asd3rfsdaf2334r23",
-          currency: "USD",
-          createdBy: "Admin",
-          updatedBy: "Admin",
+          plan: "basic"
         },
         {
           headers: {
@@ -106,12 +86,12 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-        router.push("/subscriptionDashboard");
+        router.push("/storefrontDashboard");
       })
      
 
-      .catch(() => {
-        showErrorBasic();
+      .catch((error) => {
+        console.log(error)
       })
       .finally(() => {
         setLoading(false);

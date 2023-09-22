@@ -4,7 +4,8 @@ import { Button } from "primereact/button";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
-export default function LaunchEturnulsol() {
+import { withRouter } from "next/router";
+function LaunchEturnulsol(props) {
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
 
@@ -50,7 +51,12 @@ export default function LaunchEturnulsol() {
                   <div>launch EternalSoul of assets</div>
                 </div>
                 <div>
-                  <Link href='/eturnalsol'>
+                  <Link 
+                   href={{
+                    pathname: "/eturnalsol",
+                    query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                  }}
+                  >
                   <Button
                     label="Launch"
                     severity="Primary"
@@ -72,3 +78,4 @@ export default function LaunchEturnulsol() {
     </Layout2>
   );
 }
+export default withRouter(LaunchEturnulsol)

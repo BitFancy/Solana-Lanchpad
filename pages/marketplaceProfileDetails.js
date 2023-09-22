@@ -1,47 +1,23 @@
-import axios from "axios";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useRef, useState } from "react";
-const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function MarketplaceProfileDetails() {
+import { getStorefrontByID } from "../utils/util";
+import { withRouter } from "next/router";
+ function MarketplaceProfileDetails(props) {
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-
-  const [defulatImage, setDefulatImage] = useState(
-    "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
-  );
   useEffect(() => {
-    getStorefrontData();
+    getstorefrontdatabyId()
   }, []);
-  const replaceImage = (error) => {
-    error.target.src = defulatImage;
-  };
-  
-  const getStorefrontData = () => {
-    const token = localStorage.getItem("platform_token");
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setSubscriptionData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.log('error while getting storefront details',error)
-      })
-      .finally(() => {
-        setLoading2(false);
-      });
+  const getstorefrontdatabyId =async () => {
+    const payload = await getStorefrontByID(props.id)
+    setSubscriptionData(payload)
+   console.log("Data",payload);
   };
   const load2 = () => {
     setLoading2(true);
-
     setTimeout(() => {
       setLoading2(false);
     }, 2000);
@@ -55,22 +31,21 @@ export default function MarketplaceProfileDetails() {
             <div>
               <img
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                src={subscriptionData[0]?.image}
-                onError={replaceImage}
+                src={subscriptionData.Image?subscriptionData?.Image:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png'}
               ></img>
             </div>
             <div className="ml-3">
               <div className="flex text-white gap-2">
                 <div className="font-bold">Name :</div>
-                <div>{subscriptionData[0]?.string}</div>
+                <div>{subscriptionData?.name}</div>
               </div>
               <div className="flex text-white gap-2 mt-2">
                 <div>Headline :</div>
-                <div>{subscriptionData[0]?.headline}</div>
+                <div>{subscriptionData.headline}</div>
               </div>
               <div className="flex text-white gap-2 mt-2">
                 <div>Blockchain :</div>
-                <div>{subscriptionData[0]?.blockchain}</div>
+                <div>{subscriptionData.blockchain}</div>
               </div>
             </div>
             </div>
@@ -105,3 +80,4 @@ export default function MarketplaceProfileDetails() {
     </div>
   );
 }
+export default withRouter(MarketplaceProfileDetails)

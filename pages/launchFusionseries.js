@@ -4,7 +4,8 @@ import { Button } from "primereact/button";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
-export default function LaunchFusionseries() {
+import { withRouter } from "next/router";
+ function LaunchFusionseries(props) {
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
 
@@ -48,7 +49,12 @@ export default function LaunchFusionseries() {
                   <div>launch FusionSeries of assets</div>
                 </div>
                 <div>
-                  <Link href='/fusionSeries'>
+                  <Link 
+                  
+                  href={{
+                    pathname: "/fusionSeries",
+                  query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                  }}>
                   <Button
                     label="Launch"
                     severity="Primary"
@@ -70,3 +76,4 @@ export default function LaunchFusionseries() {
     </Layout2>
   );
 }
+export default withRouter(LaunchFusionseries)

@@ -13,6 +13,9 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const Instagen = (props) => {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const [loading4, setLoading4] = useState(false);
+
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -59,9 +62,8 @@ const Instagen = (props) => {
 
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
-    const tradhubAddress = localStorage.getItem("tradhubAddress");
-    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
-    const storefrontId = localStorage.getItem("storefrontId");
+    const tradhubAddress = props.router.query.tradhubAddress;
+    const accessmasterAddress = props.router.query.accessmasterAddress;
     const validation = onClickButton();
     if(validation){
       axios
@@ -82,7 +84,7 @@ const Instagen = (props) => {
               param10: "www.abc.com",
             },
             network: "maticmum",
-            storefrontId: storefrontId,
+            storefrontId: props?.router?.query?.storefrontId,
             collectionName:contractName
 
           },
@@ -132,6 +134,20 @@ const Instagen = (props) => {
     setRoyltybps(e.target.value);
   };
 
+  const load3 = () => {
+    setLoading3(true);
+
+    setTimeout(() => {
+      setLoading3(false);
+    }, 2000);
+  };
+  const load4 = () => {
+    setLoading4(true);
+
+    setTimeout(() => {
+      setLoading4(false);
+    }, 2000);
+  };
   const load = () => {
     setLoading2(true);
 
@@ -341,6 +357,44 @@ const Instagen = (props) => {
               <Toast ref={toast} />
             </div>
           </div>
+          <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
+              <div className="text-center mt-5">
+                <Link 
+                
+                href={{
+                  pathname: "/launchSignatureseries",
+                  query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.contractAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                }}>
+                  <Button
+                    label="Back"
+                    severity="Primary"
+                    rounded
+                    loading={loading3}
+                    onClick={load3}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
+              <div className="text-center mt-5">
+                <Link 
+                 href={{
+                  pathname: "/webappForm",
+                  query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.contractAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                }}
+                >
+                  <Button
+                    label="Next"
+                    severity="Primary"
+                    rounded
+                    loading={loading4}
+                    onClick={load4}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
+            </div>
         </div>
       </div>
     </Layout2>

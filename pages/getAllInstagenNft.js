@@ -103,8 +103,8 @@ import { withRouter } from "next/router";
           </div>
           <div className="border-bottom-das"></div>
           <div
-              className="grid "
-              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+              className="grid cursor-pointer"
+              style={{ gap: "20px",  marginLeft: "30px" }}
             >
               {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {

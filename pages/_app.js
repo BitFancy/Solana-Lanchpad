@@ -61,9 +61,9 @@ export default function MyApp({ Component, pageProps }) {
           <Provider store={store}>
             <Component {...pageProps} />
           </Provider>
-       
       </LayoutProvider>
       </RainbowKitProvider>
+
       </WagmiConfig>
     );
   }

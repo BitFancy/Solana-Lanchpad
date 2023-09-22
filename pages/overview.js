@@ -4,7 +4,8 @@ import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
-export default function Overview() {
+import { withRouter } from "next/router";
+ function Overview(props) {
   const [chartData, setChartData] = useState({});
   const { layoutConfig } = useContext(LayoutContext);
   const [chartOptions, setChartOptions] = useState({});
@@ -36,7 +37,7 @@ export default function Overview() {
     <LayoutDashbord
       title="Overview"
       description="This is use to show information of the overview launchpad"
-    >        <MarketplaceProfileDetails/>
+    >        <MarketplaceProfileDetails id={props?.router?.query?.storefrontId}/>
           <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-overview' : 'dark'} flex`}>
             <div >
             <Sidemenu/>
@@ -69,3 +70,4 @@ export default function Overview() {
     </LayoutDashbord>
   );
 }
+export default withRouter(Overview)

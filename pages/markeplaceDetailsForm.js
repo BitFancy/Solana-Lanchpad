@@ -9,18 +9,18 @@ import Sidemenu from "./sidemenu";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import axios from "axios";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-export default function MarkeplaceDetailsForm() {
+ function MarkeplaceDetailsForm(props) {
+
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [stfName, setStfName] = useState();
   const [stfdescription, setstfdescription] = useState();
   const [stfheadline, setstfheadline] = useState();
-  const [assetsName, setassetsName] = useState();
-  const [assetsDeascription, setassetsDeascription] = useState();
   const [tagline, settagline] = useState();
   const [tagdescription, settagdescription] = useState();
   const [email, setEmail] = useState();
@@ -33,8 +33,6 @@ export default function MarkeplaceDetailsForm() {
     stfNameError: "",
     stfdescriptionError: "",
     stfheadlineError:"",
-    assetsNameError:"",
-    assetsDeascriptionError:"",
     taglineError:"",
     tagdescriptionError:"",
     emailError:"",
@@ -50,6 +48,7 @@ export default function MarkeplaceDetailsForm() {
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
 
   const [uploadImage, setuploadImage] = useState("");
+  console.log('sft id in market de',props)
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -87,14 +86,7 @@ export default function MarkeplaceDetailsForm() {
     setstfheadline(e.target.value);
   };
 
-  const handleInputassetsName = (e) => {
-    setassetsName(e.target.value);
-  };
-
-  const handleInputassetsDescription = (e) => {
-    setassetsDeascription(e.target.value);
-  };
-
+  
   const handleInputtagline = (e) => {
     settagline(e.target.value);
   };
@@ -115,19 +107,13 @@ export default function MarkeplaceDetailsForm() {
   const handleInputinstagram = (e) => {
     setinstagram(e.target.value);
   };
-
- 
-  
- 
   const updateMarketplaceDetails = async (e) => {
     const token = localStorage.getItem("platform_token");
     const username=localStorage.getItem('userName');
-    const storefrontId = localStorage.getItem("storefrontId");
-
     let resultName = username.concat("/", stfName);
     var product={
       name: resultName,
-      storefrontId: storefrontId,
+      storefrontId: props?.router?.query?.storefrontId,
       network: "mumbai",
       protocol: "ethereum",
       tag: "v1",
@@ -136,8 +122,6 @@ export default function MarkeplaceDetailsForm() {
       description: stfdescription,
       profileImage:uploadImageProfile,
       coverImage: uploadImageCover,
-      assetName: assetsName,
-      assetDescription: assetsDeascription,
       personalTagline: tagline,
       personalDescription: tagdescription,
       relevantImage: uploadImageRelavent,
@@ -189,14 +173,6 @@ export default function MarkeplaceDetailsForm() {
       return false;
     } else if (!stfheadline) {
       setErros({ stfheadlineError: "Please Enter Storefront Headline" });
-      return false;
-    } else if (!assetsName) {
-      setErros({ assetsNameError: "Please Enter Assets Name" });
-   
-      return false;
-    } else if (!assetsDeascription) {
-      setErros({ assetsDeascriptionError: "Please Enter Assets Description" });
-
        return false;
     } else if (!tagline) {
       setErros({ taglineError: "Please Enter Tagline" });
@@ -222,7 +198,7 @@ export default function MarkeplaceDetailsForm() {
       return false;
     } 
 
-    else if (stfName && stfdescription && stfheadline && assetsName && assetsDeascription & tagline && tagdescription && email && twitter && discord && instagram) {
+    else if (stfName && stfdescription && stfheadline  && tagline && tagdescription && email && twitter && discord && instagram) {
       setSubmitClicked(true);
       setLoading(true);
       return true;
@@ -236,7 +212,7 @@ export default function MarkeplaceDetailsForm() {
  
   return (
     <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">
-      <MarketplaceProfileDetails />
+      <MarketplaceProfileDetails id={props?.router?.query?.storefrontId}/>
       <div>
         <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-webapp-form' : 'dark'}`}>
          
@@ -298,35 +274,13 @@ export default function MarkeplaceDetailsForm() {
             </p>
               </div>
 
-              <div className="mt-5 text-center font-bold text-3xl">
-                Asset Details
-              </div>
+             
 
-              <div className="mt-5">Enter Asset name:</div>
+              
 
-              <div className=" mt-2">
-                <InputText
-                  value={assetsName}
-                  onChange={handleInputassetsName}
-                  className="p-2 input-back w-full text-white"
-                />
-                  <p style={{ textAlign: "left", color: "red" }}>
-              {!assetsName ? errors.assetsNameError : ""}
-            </p>
-              </div>
+             
 
-              <div className="mt-5">Enter Asset Description:</div>
-
-              <div className="  mt-2">
-                <InputText
-                  value={assetsDeascription}
-                  onChange={handleInputassetsDescription}
-                  className="p-2  input-back w-full text-white"
-                />
-                  <p style={{ textAlign: "left", color: "red" }}>
-              {!assetsDeascription ? errors.assetsDeascriptionError : ""}
-            </p>
-              </div>
+             
 
               <div className="mt-5 text-center text-3xl font-bold">
                 Personal information
@@ -441,3 +395,4 @@ export default function MarkeplaceDetailsForm() {
     </LayoutDashbord>
   );
 }
+export default withRouter(MarkeplaceDetailsForm)

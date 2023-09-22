@@ -9,51 +9,48 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import Link from "next/link";
 import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY; 
-function GetAllInstagenContract() {
+function GetAllInstagenContract(props) {
   const { layoutConfig } = useContext(LayoutContext);
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useRef(null);
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While getting data of the instagen contract",
-      life: 10000,
-    });
-  };
+  console.log('id in getall fusion con',props.router.query.storefrontId)
   useEffect(() => {
-    getAllContarctData();
-  }, []);
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+   getcontractById()
+ }, []);
+
+ const getcontractById = () => {
+   const token = localStorage.getItem("platform_token");
+   axios
+     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+     .then(async (response) => {
+       setLoading(true);
+       if (response?.data?.length > 0) {
+         setContarctData(
+           response.data.filter((sf) => sf.contractName === "InstaGen")
+         );
+       }
+       setLoading(false);
+     })
+
+     .catch((error) => {
+       console.log('error while get contract by id',error)
+     })
+     .finally(() => {
+       setLoading(false);
+     });
+ };
   return (
     <LayoutDashbord
       title="InstaGen Contarct"
       description="Used to Show All InstaGen Contarct Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
         <Toast ref={toast} />
 
         <div
@@ -68,11 +65,11 @@ function GetAllInstagenContract() {
             <div className="font-bold mt-5 text-3xl text-black ml-5">
               InstaGen
             </div>
-            <div className="border-bottom-das"></div>
+            <div className="border-bottom-das" style={{width:'290%'}}></div>
 
             <div
-              className="grid"
-              style={{ gap: "20px", cursor: "pointer", marginLeft: "30px" }}
+              className="grid cursor-pointer"
+              style={{ gap: "20px",  marginLeft: "30px" }}
             >
               {contractData?.length > 0 ? (
                contractData
@@ -122,8 +119,8 @@ function GetAllInstagenContract() {
               ) : loading ? (
                 <Loader />
               ) : (
-                <div className="text-2xl pb-10 font-bold text-center">
-                  You haven&apos;t created any InstaGen Contract.
+                <div className="text-2xl pb-10 font-bold text-center mt-5">
+                  You haven&apos;t created any InstaGen Contract Under this storefront.
                 </div>
               )}
             </div>

@@ -4,7 +4,8 @@ import { Button } from "primereact/button";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
-export default function LaunchInstagen() {
+import { withRouter } from "next/router";
+ function LaunchInstagen(props) {
   const [loading, setLoading] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
 
@@ -49,7 +50,12 @@ export default function LaunchInstagen() {
                   <div>launch InstaGen of assets</div>
                 </div>
                 <div>
-                  <Link href='/instagen'>
+                  <Link 
+                   href={{
+                    pathname: "/instagen",
+                    query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                  }}
+                  >
                   <Button
                     label="Launch"
                     severity="Primary"
@@ -71,3 +77,4 @@ export default function LaunchInstagen() {
     </Layout2>
   );
 }
+export default withRouter(LaunchInstagen)

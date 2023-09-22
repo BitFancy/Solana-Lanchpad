@@ -1,5 +1,5 @@
-import { useContext, useRef, useState } from "react";
-import  { useRouter, withRouter } from "next/router";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useRouter, withRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
@@ -18,7 +18,8 @@ import { useContract } from "wagmi";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { ethers } from "ethers";
-
+import { Dropdown } from "primereact/dropdown";
+import { getTradeHubByStorefrontID } from "../utils/util";
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,7 +33,6 @@ const style = {
   px: 4,
   pb: 3,
 };
-const signetureSeriesAddress=process.env.NEXT_PUBLIC_SIGNATURESERIES_ADDRESS;
 function CreateSignatureSeriesNfts(props) {
   const msgs = useRef(null);
   const [toggle, setToggle] = useState(false);
@@ -42,11 +42,17 @@ function CreateSignatureSeriesNfts(props) {
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
   const [model, setmodel] = useState(false);
+  const [tradhubAddress, setTradhubAddress] = useState("");
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
-  const dynamicContractAddress =  props.router.query.contractAddress
-console.log('signetureseries Address',dynamicContractAddress)
+  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const blockchain = [
+    { name: "Polygon", value: "Polygon" },
+    { name: "Ethereum", value: "Ethereum" },
+  ];
+  const dynamicContractAddress = props.router.query.contractAddress;
+  console.log("signetureseries Address", dynamicContractAddress);
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -71,8 +77,7 @@ console.log('signetureseries Address',dynamicContractAddress)
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
-    } catch (error) {
-    }
+    } catch (error) {}
   }
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
   async function onChangeThumbnail(e) {
@@ -85,8 +90,7 @@ console.log('signetureseries Address',dynamicContractAddress)
       const metaHashURI = getMetaHashURI(metaHash);
       setMediaHash({ ...mediaHash, image: metaHashURI });
       setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   async function onChangeMediaType(e) {
@@ -116,8 +120,7 @@ console.log('signetureseries Address',dynamicContractAddress)
         setMediaHash({ ...mediaHash, [fileType]: metaHashURI });
       }
       setpreviewMedia(URL.createObjectURL(e.target.files[0]));
-    } catch (error) {
-    }
+    } catch (error) {}
   }
   function createMarket(e) {
     e.preventDefault();
@@ -157,28 +160,33 @@ console.log('signetureseries Address',dynamicContractAddress)
       });
     } catch (error) {
       setmodelmsg("Transaction failed");
-    }finally{
-      
+    } finally {
     }
   }
-  const provider = new ethers.providers.Web3Provider(window.ethereum)
-  const signer = provider.getSigner();
+  useEffect(() => {
+    getTradeHubByStorefrontID(props.router.query.storefrontId).then((response)=>{
+      setTradhubAddress(response[0]?.contractAddress);
+    })
+
+    if (typeof window.etherum !== 'undefined') {
+  }[]});
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  const signer = provider.getSigner();  
   const signatureSeriesContract = useContract({
     addressOrName: dynamicContractAddress,
     contractInterface: SignatureSeries.abi,
     signerOrProvider: signer,
   });
- 
-  
   async function createItem(ipfsHash, url) {
     try {
-      let transaction = await signatureSeriesContract.createAsset( 
+      let transaction = await signatureSeriesContract.createAsset(
         url,
         formInput.royalties * 100,
         { gasLimit: "2099999" }
       ); //500 - royalites dynamic
       // let tx = await transaction.wait();
-      console.log('transaction ',transaction)
+      console.log("transaction ", transaction);
       setmodelmsg("Transaction 1 Complete");
       // router.push('/getAllSegnatureSeriesNft')
       // let event = tx.events[0];
@@ -190,14 +198,16 @@ console.log('signetureseries Address',dynamicContractAddress)
 
       // await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
-      console.log('transaction 1' ,e)
+      console.log("transaction 1", e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
-    /* then list the item for sale on the marketplace */
-    // router.push("/explore");
+  
   }
+
+ 
   // const listItem = async (tokenId, price, forAuction, endTime) => {
+   
   //   try {
   //     setmodelmsg("Transaction 2 in progress");
   //     const transaction = await tradhubContract.listItem(
@@ -209,8 +219,8 @@ console.log('signetureseries Address',dynamicContractAddress)
   //       endTime,
   //       { gasLimit: "2099999" }
   //     );
-  //   await transaction.wait();
-  //     router.push('/createFusionSeriesNft')
+  //     await transaction.wait();
+  //     router.push("/createFusionSeriesNft");
   //     setmodelmsg("Transaction 2 Complete !!");
   //   } catch (e) {
   //     setmodelmsg("Transaction 2 failed");
@@ -226,14 +236,7 @@ console.log('signetureseries Address',dynamicContractAddress)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    msgs.current.show([
-      {
-        sticky: true,
-        severity: "success",
-        detail: "Your Trad Details Added Successfully",
-        closable: true,
-      },
-    ]);
+  
   };
 
   const handleChangeInput = (id, event) => {
@@ -272,7 +275,6 @@ console.log('signetureseries Address',dynamicContractAddress)
     }
     setOpen(false);
   };
- 
 
   const [options1, setOptions] = useState([
     "Image",
@@ -291,8 +293,17 @@ console.log('signetureseries Address',dynamicContractAddress)
   const [categories, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
   return (
-    <LayoutDashbord title="Create SignetureSeries Assets" description="This is used to create Signetureseries Nfts">
-      <div  className={`${layoutConfig.colorScheme === 'light' ? 'body-back back-image-sig-nft' : 'dark'}`}>
+    <LayoutDashbord
+      title="Create SignetureSeries Assets"
+      description="This is used to create Signetureseries Nfts"
+    >
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light"
+            ? "body-back back-image-sig-nft"
+            : "dark"
+        }`}
+      >
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -312,95 +323,121 @@ console.log('signetureseries Address',dynamicContractAddress)
             <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
           )}
 
-          
-            <div className="effective-nft-color font-bold text-5xl">Effective Efficient Easy Way To create NFT</div>
-        
-          <div className="flex mt-5 ml-5">
-            
-              <h3 className="text-3xl py-4 font-bold text-center">
-                Create New SignatureSeries NFTs
-              </h3>
-            
+          <div className="effective-nft-color font-bold text-5xl">
+            Effective Efficient Easy
+          </div>
+
+          <div className="flex mt-5" style={{ marginLeft: "230px" }}>
+            <div className="text-5xl font-bold text-center">Create New NFT</div>
           </div>
           <div className="border-bottom-das"></div>
-          <div className="flex justify-content-center text-white" style={{ gap: "50px" }}>
+          <div
+            className="flex justify-content-center p-heading"
+            style={{ gap: "50px" }}
+          >
             <div className="p-5">
-              <div style={{ width: "500px" }}>
+              <div style={{ width: "700px" }}>
                 <div>
-                  <div className="mt-5">
-                    <div style={{ textAlign: "initial" }}>
-                      {" "}
+                  <div className="flex justify-content-between">
+                  <div className="font-bold text-4xl"  style={{ textAlign: "initial" }}>
+                  Signatureseries  &gt;  signatureseries 1
+                  </div>
+                
+                  <div style={{width:'225px'}}>
+                  <Dropdown
+                value={selecteBlockchaine}
+                onChange={(e) => setselectedBlockchaine(e.value)}
+                options={blockchain}
+                optionLabel="name"
+                placeholder="Chains "
+                className="w-full font-bold"
+                style={{borderRadius:'5px'}}
+              />
+                  </div>
+                  </div>
+                  <div style={{marginTop:'65px'}}>
+                    <div className="font-bold" style={{ textAlign: "initial" }}>
                       SignatureSeries Assets Name
                     </div>
-                    <input
-                      required="required"
-                      placeholder="Asset Name"
-                      className="w-full mt-3 p-3 assets-input-back text-white"
-                      onChange={(e) =>
-                        updateFormInput({
-                          ...formInput,
-                          name: e.target.value,
-                        })
-                      }
-                    />
-
-                    <div className="mt-5">
-                      <div style={{ textAlign: "initial" }}>
-                        SignatureSeries Assets Description
-                      </div>
-
-                      <textarea
-                        type="text"
-                        placeholder="Asset Description"
-                        className="w-full assets-input-back p-3 text-white mt-3"
+                    <div>
+                      <input
+                        required="required"
+                        placeholder="Asset Name"
+                        className="w-full mt-3 p-3 assets-input-back "
                         onChange={(e) =>
                           updateFormInput({
                             ...formInput,
-                            description: e.target.value,
+                            name: e.target.value,
                           })
                         }
+                        style={{ borderRadius: "5px", border: "none" }}
                       />
                     </div>
-                    <div className="mt-5" style={{ textAlign: "initial" }}>
-                      Creator Royalties
-                      <span className="text-gray-400 text-gray-500 dark:text-white">
+
+                    <div className="mt-5">
+                      <div className="font-bold" style={{ textAlign: "initial" }}>
+                        SignatureSeries Assets Description
+                      </div>
+                      <div>
+                        <textarea
+                          type="text"
+                          placeholder="Asset Description"
+                          className="w-full assets-input-back p-3  mt-3"
+                          onChange={(e) =>
+                            updateFormInput({
+                              ...formInput,
+                              description: e.target.value,
+                            })
+                          }
+                          style={{ borderRadius: "5px", border: "none" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                      Royalties
+                      <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
                     </div>
-                    <input
-                      type="number"
-                      value={formInput.royalties} // value * 100
-                      suffix="%"
-                      mode="decimal"
-                      className="mt-2 p-3 w-full assets-input-back text-white"
-                      showButtons
-                      onChange={(e) => {
-                        updateFormInput({
-                          ...formInput,
-                          royalties: e.target.value,
-                        });
-                      }}
-                    />
+                    <div>
+                      <input
+                        type="number"
+                        value={formInput.royalties} // value * 100
+                        suffix="%"
+                        mode="decimal"
+                        className="mt-2 p-3 w-full assets-input-back "
+                        showButtons
+                        onChange={(e) => {
+                          updateFormInput({
+                            ...formInput,
+                            royalties: e.target.value,
+                          });
+                        }}
+                        style={{ borderRadius: "5px", border: "none" }}
+                      />
+                    </div>
                   </div>
                   <div className="flex">
-                    <div className="mt-5" style={{ textAlign: "initial" }}>
+                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
                       Upload File
                     </div>
                   </div>
                   <div className="flex gap-6 mt-3">
-                    <div className=" rounded-lg text-center p-3 border-2 border-indigo-600 ...mt-20 text-white-500 w-full">
+                    <div
+                      className=" rounded-lg text-center p-3  ...mt-20  w-full"
+                      style={{ borderStyle: "dashed" }}
+                    >
                       <h1 className="text-lg font-semibold">
-                        Drag File Here to Upload
+                        Drag File Here to Upload PNG,GIF,WEBP,MP4,or MP3
                       </h1>
-                      <div className="text-white">
-                        PNG,GIF,WEBP,MP4,or MP3
+                      <div>
                         <br />
                         <div className="flex text-black mt-3 cursor-pointer rounded-lg bg-slate-300 p-2.5 m-auto w-full">
                           <input
                             type="file"
                             accept="image/png, image/jpeg,.txt,.doc,video/mp4,audio/mpeg,.pdf"
                             onChange={(e) => onChangeMediaType(e)}
-                            className="assets-input-back text-white"
+                            className="assets-input-back "
                           />
                         </div>
                       </div>
@@ -409,19 +446,19 @@ console.log('signetureseries Address',dynamicContractAddress)
                   {addImage && (
                     <>
                       <div className="flex justify-content-between">
-                        <div className="font-bold  mt-5 text-left text-gray-500 dark:text-white">
+                        <div className="font-bold  mt-5 text-left text-gray-500 ">
                           Upload Preview Image
                         </div>
-                        <div className="font-bold  mt-5 text-left text-gray-500 dark:text-white">
+                        <div className="font-bold  mt-5 text-left text-gray-500 ">
                           Priview
                         </div>
                       </div>
                       <div className="flex gap-6">
                         <div className="   rounded-xl border-dashed border-2 border-indigo-600 ... text-center p-3 w-96 ... mt-3">
-                          <h1 className="text-lg font-semibold text-gray-500 dark:text-white">
+                          <h1 className="text-lg font-semibold text-gray-500 ">
                             Drag File Here to Upload
                           </h1>
-                          <div className="text-gray-500 dark:text-white">
+                          <div className="text-gray-500 ">
                             PNG, JPG, or GIF
                             <br />
                             <div className=" text-black mt-3 cursor-pointer rounded-xl p-2.5 m-auto w-full bg-slate-300">
@@ -429,7 +466,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => onChangeThumbnail(e)}
-                                className="assets-input-back text-white"
+                                className="assets-input-back "
                               />
                             </div>
                           </div>
@@ -495,7 +532,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                           </div>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          <div className="text-gray-500 dark:text-white">
+                          <div className="text-gray-500 ">
                             Properties Show Up Underneath Your Item, are
                             Clickable, and Can be Filtered in Your
                             Collection&apos;s Sidebar.
@@ -573,59 +610,63 @@ console.log('signetureseries Address',dynamicContractAddress)
                         </div>
                         <Messages ref={msgs} />
 
-                        {/* </Box> */}
                       </div>
                     </Modal>
                   </div>
-                  <div className="flex mt-5">
+                  <div className="flex mt-5 font-bold">
                     <div style={{ alignItems: "initial" }}>
-                      Alternative Text for NFT(Optipnal)
+                      NFT description in detail
                     </div>
                   </div>
                   <input
                     placeholder="NFT description in details"
-                    className="mt-2 p-3 w-full assets-input-back  text-white"
+                    className="mt-2 p-3 w-full assets-input-back  "
                     onChange={(e) =>
                       updateFormInput({
                         ...formInput,
                         alternettext: e.target.value,
                       })
                     }
+                    style={{ borderRadius: "5px", border: "none" }}
                   />
-
-                  <div className="mt-5 flex">
-                    <div style={{ alignItems: "initial" }}>Category</div>
+                </div>
+                <div className="mt-5 flex justify-content-between font-bold">
+                  <div >Category</div>
+                  <div >Tags</div>
+                </div>
+                <div className="flex justify-content-between">
+                  <div style={{width:'300px'}}>
+                    <Multiselect
+                      isObject={false}
+                      onRemove={(event) => {
+                        setCategory(event);
+                      }}
+                      onSelect={(event) => {
+                        setCategory(event);
+                      }}
+                      options={options1}
+                      selectedValues={[]}
+                      showCheckbox
+                      className="assets-input-back mt-3"
+                    />
                   </div>
-                  <Multiselect
-                    isObject={false}
-                    onRemove={(event) => {
-                      setCategory(event);
-                    }}
-                    onSelect={(event) => {
-                      setCategory(event);
-                    }}
-                    options={options1}
-                    selectedValues={[]}
-                    showCheckbox
-                    className="assets-input-back mt-3"
-                  />
+                  <div style={{width:'300px'}}>
+                    <Multiselect
+                      isObject={false}
+                      onRemove={(event) => {
+                        setTags(event);
+                      }}
+                      onSelect={(event) => {
+                        setTags(event);
+                      }}
+                      options={options2}
+                      selectedValues={[]}
+                      showCheckbox
+                      className="assets-input-back mt-3"
+                    />
+                  </div>
                 </div>
-                <div className="mt-3 flex">
-                  <div style={{ alignItems: "initial" }}>Tags</div>
-                </div>
-                <Multiselect
-                  isObject={false}
-                  onRemove={(event) => {
-                    setTags(event);
-                  }}
-                  onSelect={(event) => {
-                    setTags(event);
-                  }}
-                  options={options2}
-                  selectedValues={[]}
-                  showCheckbox
-                  className="assets-input-back mt-3"
-                />
+
                 <div className="flex justify-content-between mt-5">
                   <div className="text-left">
                     <div className="font-bold text-3xl">Put on Tradhub</div>
@@ -645,7 +686,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                 {toggle && (
                   <div className="flex  justify-content-between">
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3"
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer" 
                       onClick={() => {
                         setAuctionToggle(false);
                         setToggleInput(!toggleinput);
@@ -655,7 +696,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                       Direct Sale
                     </div>
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3"
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
                       onClick={() => {
                         setToggleInput(false);
                         setAuctionToggle(!auctionToggle);
@@ -670,7 +711,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                   <div className="flex mt-3 gap-6 ">
                     <input
                       type="number"
-                      className="w-full p-2 assets-input-back text-white"
+                      className="w-full p-2 assets-input-back "
                       placeholder="Asset Price in Matic"
                       onChange={(e) =>
                         updateFormInput({
@@ -686,7 +727,7 @@ console.log('signetureseries Address',dynamicContractAddress)
                   <div className="flex mt-3 gap-6 ">
                     <input
                       type="number"
-                      className="w-full p-2 assets-input-back text-white"
+                      className="w-full p-2 assets-input-back "
                       placeholder="Asset Price in Matic"
                       onChange={(e) =>
                         updateFormInput({
@@ -716,7 +757,10 @@ console.log('signetureseries Address',dynamicContractAddress)
 
                 <div className="flex justify-content-between p-5 mt-5">
                   <div>
-                    <Button className="buy-img" onClick={(e) => createMarket(e)}>
+                    <Button
+                      className="buy-img"
+                      onClick={(e) => createMarket(e)}
+                    >
                       Create SignatureSeries NFTs
                     </Button>
                   </div>
@@ -725,10 +769,13 @@ console.log('signetureseries Address',dynamicContractAddress)
             </div>
 
             <div
-              className=" rounded-lg text-center p-3 border-2 border-indigo-600 ..."
-              style={{ height: "500px", width: "250px", marginTop: "80px" }}
+              className=" rounded-lg text-center p-3" style={{marginTop:'125px'}}
             >
-              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto w-full">
+              <div className="font-bold">Preview</div>
+              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
+                            style={{ height: "500px", width: "300px", marginTop: "80px" }}
+
+              >
                 {previewMedia ? (
                   mediaHash?.image && addImage == false ? (
                     <Image
@@ -760,4 +807,4 @@ console.log('signetureseries Address',dynamicContractAddress)
     </LayoutDashbord>
   );
 }
-export default withRouter(CreateSignatureSeriesNfts)
+export default withRouter(CreateSignatureSeriesNfts);

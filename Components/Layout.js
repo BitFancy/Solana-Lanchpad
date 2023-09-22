@@ -1,7 +1,6 @@
 import Head from "next/head";
 import AppTopbar from "../layout/AppTopbar";
 import AppFooter from "../layout/AppFooter";
-
 const Layout = ({ children, title ,description}) => {
   return (
     <>

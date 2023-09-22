@@ -9,10 +9,11 @@ import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { ethers } from "ethers";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
-export default function AccessMasterRole() {
+import { withRouter } from "next/router";
+ function AccessMasterRole(props) {
   const { address } = useAccount();
   const { data: ensName } = useEnsName({ address });
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [role, setRole] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
@@ -60,13 +61,16 @@ export default function AccessMasterRole() {
   const handleInputAddress = (e) => {
     setuserAdddress(e.target.value);
   };
+
+
+  
   return (
     <LayoutDashbord
       title="Access Master Role"
       description="Used to Show Access Master Role Information Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
 
         <div
           className={`${
@@ -78,9 +82,9 @@ export default function AccessMasterRole() {
           <div>
             <Sidemenu />
           </div>
-          <div style={{ width: "100%" }}>
+          <div className="w-full">
             <div className="flex justify-content-between">
-              <div style={{ width: "80%", margin: "0 auto" }}>
+              <div  style={{ width: "80%", margin: "0 auto" }}>
                 <div className="font-bold text-3xl mt-5">Manage Your Role</div>
                 <div className=" p-5 card card-role mt-5">
                   <div className="p-heading font-bold text-1xl">
@@ -94,7 +98,7 @@ export default function AccessMasterRole() {
                       onChange={handleInputRole}
                       placeholder="Role"
                       type="text"
-                      style={{ width: "100%" }}
+                      className="w-full"
                     />
                   </div>
                   <div className="mt-5 p-heading">Account (Address)</div>
@@ -104,7 +108,7 @@ export default function AccessMasterRole() {
                       onChange={handleInputAddress}
                       placeholder="Account (Address)"
                       value={userAdddress}
-                      style={{ width: "100%" }}
+                      className="w-full"
                     />
                   </div>
                   <div className="mt-5 text-center">
@@ -127,7 +131,7 @@ export default function AccessMasterRole() {
                     <InputText
                       placeholder="Role"
                       type="text"
-                      style={{ width: "100%" }}
+                      className="w-full"
                     />
                   </div>
                   <div className="mt-5 p-heading">Account (Address)</div>
@@ -136,7 +140,7 @@ export default function AccessMasterRole() {
                       type="text"
                       placeholder="Account (Address)"
                       value={address}
-                      style={{ width: "100%" }}
+                      className="w-full"
                     />
                   </div>
                   <div className="mt-5 text-center">
@@ -158,3 +162,4 @@ export default function AccessMasterRole() {
     </LayoutDashbord>
   );
 }
+export default withRouter(AccessMasterRole)

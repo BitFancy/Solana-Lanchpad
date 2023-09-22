@@ -112,6 +112,8 @@ function Profile() {
   const [discordData, setdiscordData] = useState(null);
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
+  const [planVar, setPlanVar] = useState(null);
+
 
   const [loading3, setLoading3] = useState(false);
   const loadSubscription = () => {
@@ -166,9 +168,14 @@ function Profile() {
       //   alert("Do not leave any field empty!");
       // else {
       var signroledata = JSON.stringify({
-        name: "Alka Rashinkar",
-        country: "India",
-        profilePictureUrl: "https://unsplash.it/500",
+        name: "ghh",
+    email:"testmail@test.com",
+    country: "India",
+    profilePictureUrl: "https://unsplash.it/500",
+    location:"delhi",
+    bio:"test",
+    coverPictureUrl:"https://w.wallhaven.cc/full/l3/wallhaven-l3qpeq.jpg",
+    plan:"basic"
       });
 
       const config = {
@@ -277,6 +284,7 @@ function Profile() {
       localStorage.setItem("platform_token", token);
       getProfile();
       // getRole();
+      router.push('/')
       return true;
     } catch (e) {
       console.log(e);
@@ -301,37 +309,49 @@ function Profile() {
           data: {
             payload: {
               name,
+              email,
+              country,
+              profilePictureUrl,
               location,
               bio,
-              email,
-              profilePictureUrl,
+              coverPictureUrl,
+              plan,
               walletAddress,
-              coverPictureUrl
+
+
+            
             },
           },
         } = res;
 
         console.log(res.data);
-
+        console.log('plan',res.data.payload.plan);
+        setPlanVar(res.data.payload.plan)
         setProfileData({
           ...profileData,
           name,
+          email,
+          country,
+          profilePictureUrl,
           location,
           bio,
-          email,
-          profilePictureUrl,
+          coverPictureUrl,
+          plan,
           walletAddress,
-          coverPictureUrl
+
         });
         setupdateProfile({
           ...profileData,
           name,
+          email,
+          country,
+          profilePictureUrl,
           location,
           bio,
-          email,
-          profilePictureUrl,
+          coverPictureUrl,
+          plan,
           walletAddress,
-          coverPictureUrl
+
         });
         console.log(updateProfile);
         localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
@@ -399,12 +419,14 @@ function Profile() {
 
   const {
     name,
-    location,
-    bio,
-    email,
-    profilePictureUrl,
-    walletAddress,
-    coverPictureUrl
+          email,
+          country,
+          profilePictureUrl,
+          location,
+          bio,
+          coverPictureUrl,
+          plan,
+          walletAddress,
   } = profileData;
 
 
@@ -629,15 +651,7 @@ function Profile() {
         )}
 
 <div className="flex justify-content-end">
-  <Link href='/addProfileDetails'>
-<div style={{ 
-         
-         marginTop: '-70px',
-        marginRight: '20px',
-      }}>
-        <Button label="Add Profile"  rounded />
-      </div>
-      </Link>
+ 
 
 <div style={{ 
          
@@ -844,16 +858,8 @@ function Profile() {
                     <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
                   </div>
                 </div>
-                {/* <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
-                  <div>
-                    <Link href="/subscriptionDashboard">
-                    <Button loading={loading3} onClick={loadSubscription} label="Subscription Details"  rounded />
-                    </Link>
-                  </div>
-                
-                </div> */}
               </div>
-
+              <div className="mt-5 font-bold text-3xl">Selected Plan: {planVar} </div>
               {twitt ? (
                 <>
                   {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}

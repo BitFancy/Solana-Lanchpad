@@ -100,38 +100,33 @@ pre.app-code {
 
 .assets-input-back {
     background: rgba(83, 71, 231, 0.50);
+    border-radius: 5px;
+    border: none;
 }
 .buy-img:hover{
     box-shadow:0px 50px 60px 0px rgba(83, 71, 231, 0.50)
 
 }
-
-
+.deploy-tradhub-conttract{
+background: radial-gradient(66.89% 131.1% at 87.55% 41.38%, rgba(0, 255, 189, 0.50) 0%, rgba(68, 255, 210, 0.00) 100%), #5347E7;
+box-shadow: 3px 3px 2px 0px rgba(83, 71, 231, 0.40);
+}
 
 .back-color{
-    background: rgba(255, 255, 255, 0.30)
+    background: rgba(255, 255, 255, 0.30);
+    border-radius: 10px;
+    width: 50%;
 }
-// .subscribe-modal2 {
-//     padding: 10px;
-//     background-color: rgba(83, 71, 231, 0.95);
-//     color: white;
-//     transition: box-shadow .3s;
-//     height: 560px;
-//     width: 400px;
-//     border: 1px solid;
-  
-//   }
-//   .plan-des{
-//     color: #FFF;
-//   font-family: Open Sans;
-//   font-size: 20px;
-//   font-style: normal;
-//   font-weight: 400;
-//   line-height: normal;
-//   text-transform: capitalize;
-//   line-height: 25px;
-  
-//   }
+.buy-back-image-footer{
+    height: 345px;
+    background: #8FBAFE;
+}
+.blockchain-label{
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 10px 25px 10px 25px;
+    background-color: white;
+}
 .launchpad-back {
     background-image: url("/Rectangle.png");
     height: 1022px;

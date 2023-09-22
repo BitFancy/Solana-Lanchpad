@@ -26,7 +26,7 @@ function SuccessNoteContract(props) {
           your Storefront has been successfully Settled!
         </div>
         <div style={{ marginTop: "35px" }}>
-          <Link href="/subscriptionDashboard">
+          <Link href="/storefrontDashboard">
             <Button className="buy-img" rounded>
               Manage StoreFront
             </Button>

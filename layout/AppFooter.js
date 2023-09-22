@@ -39,48 +39,19 @@ const AppFooter = () => {
             <div>our Revolutionary App Store Explore.</div>
           </div>
         </div>
+        <div className="flex" style={{gap:'150px'}}>
         <div className="p-heading">
           <div className="font-bold text-2xl ">Explore</div>
-          <div>
-            <div className="mt-5 text-sm"></div>
-            All
-          </div>
-          <div>
-            <div className="mt-2 text-sm"></div>
-            Image
-          </div>
-          <div>
-            <div className="mt-2 text-sm"></div>
-            Music
-          </div>
+          <div className="mt-3 cursor-pointer">Signature Series</div>
+          <div className="mt-3 cursor-pointer">Fusion Series</div>
+          <div className="mt-3 cursor-pointer">Instagen</div>
+          <div className="mt-3 cursor-pointer">Eternum Pass</div>
+          <div className="mt-3 cursor-pointer">Phygital NFTs</div>
+          <div className="mt-3 cursor-pointer">Eternnal Soul</div>
+          <div className="mt-3 cursor-pointer">Access Control</div>
+          <div className="mt-3 cursor-pointer">TradeHub</div>
 
-          <div>
-            <div className="mt-2 text-sm"></div>
-            Video
-          </div>
-          <div>
-            <div className="mt-2 text-sm"></div>
-            Document
-          </div>
-        </div>
-
-        <div className="p-heading">
-          <div className="font-bold text-2xl ">Dashboard</div>
-          <div className="mt-5">Created</div>
-          <div className="mt-2">Sold</div>
-          <div className="mt-2">Bought</div>
-          <div className="mt-2">Market</div>
-        </div>
-
-        <div className="p-heading">
-          <div className="font-bold text-2xl ">My profile</div>
-          <div className="mt-5">Create</div>
-          <div className="mt-2">Wishlist</div>
-          <div className="mt-2">Cart</div>
-        </div>
-        <div className="p-heading">
-          <div className="font-bold text-2xl ">Company</div>
-          <div className="mt-5">About</div>
+         
         </div>
         <div className="p-heading">
           <div className="font-bold text-2xl ">Contact Us</div>
@@ -140,6 +111,10 @@ const AppFooter = () => {
             </div>
           </div>
         </div>
+        </div>
+      
+
+      
       </div>
       <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue  p-heading">
         <div className="font-bold text-2xl">

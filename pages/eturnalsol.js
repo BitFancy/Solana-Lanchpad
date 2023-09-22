@@ -7,74 +7,46 @@ import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
+import { getStorefrontByID } from "../utils/util";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
 constructor(props) {
     super(props);
     this.showError = this.showError.bind(this);
-    this.showSuccess = this.showSuccess.bind(this);
-  }
- 
-  showSuccess() {
-    this.toast.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Your Eturnulsol contract has been  successfully deployed",
-      life: 10000,
-    });
-  }
-  showError() {
-    this.toast.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While Deploying EternalSoul Contract",
-      life: 10000,
-    });
-  }
-  state = {
-    rows: [{}],
-    contractName: "",
-    contractSymbol: "",
-    eturnalsolResponse: "",
-    loading: false,
-    loading2:false,
-    submitClicked: false,
-    errors: {
-      contractNameEror: "",
-      symbolError: "",
-    },
-  
-  };
-  handleAddRow = () => {
-    const item = {
-      name: "",
-      symbol: "",
+    this.state = {
+      contractName: "",
+      contractSymbol: "",
+      eturnalsolResponse: "",
+      loading: false,
+      visible:false,
+      loading2:false,
+      loading4:false,
+      submitClicked: false,
+      errors: {
+        contractNameEror: "",
+        symbolError: "",
+      },
+      storefrontData:{}
+    
     };
-    this.setState({
-      rows: [...this.state.rows, item],
-    });
-  };
-  handleRemoveRow = () => {
-    this.setState({
-      rows: this.state.rows.slice(0, -1),
-    });
-  };
-  handleRemoveSpecificRow = (idx) => () => {
-    const rows = [...this.state.rows];
-    rows.splice(idx, 1);
-    this.setState({ rows });
-  };
+    let copyState = this.state
+    delete copyState.storefrontData
+    this.initialState = { ...copyState };
+  }
+  async componentDidMount(){
 
+    const {payload} = await getStorefrontByID("b68284bd-2c23-4f9d-8a4a-85cf816358c7")
+    this.setState({storefrontData: payload})
+   console.log("Data",payload);
+   }
  
-
-
   
-
    eturnulsolData = () => {
     const token = localStorage.getItem("platform_token");
-    const accessmasterAddress = localStorage.getItem("accessMasterAddress");
-    const storefrontId = localStorage.getItem("storefrontId");
-const valid= this.onClickButton();
+    const accessmasterAddress = this.props.router.query.accessmasterAddress;
+   const valid= this.onClickButton();
 if(valid){
   axios
   .post(
@@ -87,7 +59,7 @@ if(valid){
         param4 : accessmasterAddress
     },
      network: "maticmum",
-     storefrontId: storefrontId,
+     storefrontId:this.props?.router?.query?.storefrontId ,
      collectionName:this.state.contractName
 
 
@@ -99,17 +71,15 @@ if(valid){
     }
   )
   .then(async (response) => {
-    this.showSuccess();
+    this.setState({ visible: true });
     setTimeout(() => {
         this.setState({ loading: false });
     }, 2000);
     this.setState({ eturnalsolResponse: response.data.contractAddress });
     this.setState({storefrontId:response.data.storefrontId})
-
-
   })
-  .catch(() => {
-    this.showError();
+  .catch((error) => {
+    console.log(error)
   }).finally(() => {
     this.setState({loading:false});
   });
@@ -118,12 +88,8 @@ if(valid){
   };
 
 
-//   useEffect(() => {
-//     setTradhubContarctAddress(props.router.query.contractAddress);
-//   }, [props.router.query.contractAddress]);
 
-
-  
+    
 load = () => {
   this.setState({loading2:true})
 
@@ -131,15 +97,12 @@ load = () => {
     this.setState({loading2:false})
   }, 2000);
 };
-handleChange = idx => e => {
-  const { name, value } = e.target;
-  const rows = [...this.state.rows];
-  rows[idx] = {
-    [name]: value
-  };
-  this.setState({
-    rows
-  });
+
+load4 = () => {
+  this.setState({ loading4: true });
+  setTimeout(() => {
+    this.setState({ loading4: false });
+  }, 2000);
 };
 
 handleInputName = (e) => {
@@ -177,117 +140,164 @@ static contextType = LayoutContext
     return (
       <Layout2  title="Deploy Eturnalsol"
       description="This is use to show information of the deploy Eturnalsol contract">
-    <div
-     
-    
-      className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-eternal' : 'dark'} `}
-    >
-      <div >
-        <div className=" p-5 font-bold" style={{ borderBottom: "2px solid" }}>
-          Step 2 : Deploy EternalSoul
+      <div
+          className={`${
+            this.context.layoutConfig.colorScheme === "light"
+              ? "buy-back-image"
+              : "dark"
+          } `}
+        >
+          <Dialog
+          visible={this.state.visible}
+          style={{ width: "30vw", height: "18vw" }}
+          onHide={() => this.setState({ visible: false })}
+        >
+          <div className="text-center">
+            <div className="font-bold text-2xl">Step 3 of 3</div>
+            <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+          </div>
+        </Dialog>
+          <div>
+            <div
+              className="flex justify-content-between p-3"
+              style={{ borderBottom: "2px solid" }}
+            >
+              <div className=" p-5 font-bold text-center text-black">
+                Step 2 : Deploy EternalSoul
+              </div>
+              <div className="mt-5">
+                {/* <Dropdown
+                  value={this.state.selecteBlockchaine}
+                  onChange={(e) =>
+                    this.setState({ selecteBlockchaine: e.value })
+                  }
+                  options={this.blockchain}
+                  optionLabel="name"
+                  placeholder="Chains "
+                  className="w-full font-bold"
+                  style={{ borderRadius: "20px" }}
+                /> */}
+               <span className="blockchain-label">{this.state.storefrontData?.blockchain}</span>
 
-        </div>
-        <div className="flex justify-content-center gap-5">
-          <div className="card buy-img mt-5 back-color" style={{ width: "50%" }}>
-            <div className="text-center mt-5 ">
-              {this.state.rows.map((item, idx) => (
-                  <div id="addr0" key={idx} className=" mt-5">
-                    <div className="">
-                      <div>
-                        <div className="text-left">
-                          Enter EternalSoul Name
+              </div>
+            </div>
+            <div className="flex justify-content-center gap-5">
+              <div
+                className="card buy-img mt-5 back-color"
+                style={{ width: "50%" }}
+              >
+                <div className="text-center mt-5">
+                  {!this.state.eturnalsolResponse ? (
+                    <>
+                      <div id="addr0" className=" mt-5">
+                        <div>
+                          <div className="text-left text-black">
+                            Enter  Name
+                          </div>
+                          <InputText
+                            value={this.state.contractName}
+                            onChange={this.handleInputName}
+                            className="p-2 mt-3 input-back w-full "
+                          />
+                          <p style={{ textAlign: "left", color: "red" }}>
+                            {!this.state.contractName
+                              ? this.state.contractNameEror
+                              : ""}
+                          </p>
                         </div>
-
-                        <InputText
-                          value={this.state.rows[idx].ontractName}
-                          onChange={this.handleInputName}                        
-
-                          className="p-2 mt-3 input-back w-full text-white"
-                        />
-                         <p  style={{textAlign:'left',color:'red'}}>
-                          {!this.state.contractName
-                            ? this.state.contractNameEror
-                            : ""}
-                        </p>
-                      </div>
-                      <div>
-                        <div className="mt-3 text-left">
-                          Enter EternalSoul Symbol
-                        </div>
-
-                        <InputText
-                          value={this.state.rows[idx].contractSymbol}
-                          onChange={this.handleInputSymbol}
-                          name="symbol"
-                          className="p-2 mt-3 input-back w-full text-white"
-                          type="text"
-                        />
-                         <p  style={{textAlign:'left',color:'red'}}>
-                          {!this.state.contractSymbol
-                            ? this.state.symbolError
-                            : ""}
-                            </p>
                         <div className="mt-5">
-                          <Button
-                            severity="danger"
-                            icon="pi pi-minus"
-                            onClick={this.handleRemoveSpecificRow(idx)}
-                            className="buy-img"
-                          ></Button>
+                          <div className="text-left">
+                            Enter EternalSoul Symbol
+                          </div>
+
+                          <InputText
+                            value={this.state.contractSymbol}
+                            onChange={this.handleInputSymbol}
+                            className="p-2 mt-3 input-back w-full "
+                          />
+                          <p style={{ textAlign: "left", color: "red" }}>
+                            {!this.state.contractSymbol
+                              ? this.state.symbolError
+                              : ""}
+                          </p>
                         </div>
+                      </div>
+                      <div className="text-center mt-5">
+                        <Button
+                          onClick={this.eturnulsolData}
+                          label="Deploy Eturnulsol"
+                          severity="Primary"
+                          rounded
+                          loading={this.state.loading}
+                          className="buy-img"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                    <div className="flex justify-content-between">
+                      <div className="font-bold">Add another EternalSoul</div>
+                      <div className="font-bold text-left">Choose another contract</div>
+                    </div>
+                    <div className="flex mt-3 justify-content-between text-center">
+
+                      <div style={{border:'1px solid',padding:'20px 130px 25px 130px',height:'70px',borderRadius:'10px'}}>
+                        <i  onClick={this.handleForm} className="pi pi-plus cursor-pointer"></i>
+                      </div>
+                      <div style={{border:'1px solid',padding:'20px 130px 25px 130px',height:'70px',borderRadius:'10px'}}>
+                      <i   onClick={() =>
+                            this.navigateTo("/launchSignatureseries")
+                          } className="pi pi-plus cursor-pointer"></i>
+
                       </div>
                     </div>
-                  </div>
-                ))}
-                <div className="text-center mt-5">
-                  <Button
-                    icon="pi pi-plus"
-                    label="Add Another EternalSoul"
-                    severity="info"
-                    onClick={this.handleAddRow}
-                    className="buy-img"
-                  />
+                      
+                    </>
+                  )}
                 </div>
+              </div>
+              <Toast ref={(el) => (this.toast = el)} />
             </div>
-            <div className="flex justify-content-between mt-5">
-            <div className="text-center mt-5">
-              <Button
-                onClick={this.eturnulsolData}
-                label="Deploy EturnalSoul"
-                className="buy-img"
-                severity="Primary"
-                rounded
-                loading={this.state.loading}
-              />
+            <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
+              <div className="text-center mt-5">
+                <Link 
+                 href={{
+                  pathname: "/launchSignatureseries",
+                  query: { storefrontId: this.props?.router?.query?.storefrontId},
+                }}
+                >
+                  <Button
+                    label="Back"
+                    severity="Primary"
+                    rounded
+                    loading={this.state.loading2}
+                    onClick={this.load}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
+              <div className="text-center mt-5">
+                <Link 
+                 href={{
+                  pathname: "/webappForm",
+                  query: { storefrontId: this.props?.router?.query?.storefrontId},
+                }}
+                >
+                  <Button
+                    label="Next"
+                    severity="Primary"
+                    rounded
+                    loading={this.loading4}
+                    onClick={this.load4}
+                    className=" buy-img"
+                    style={{padding:'10px 60px 10px 60px'}}
+                  />
+                </Link>
+              </div>
             </div>
-            <div >
-              {this.state.eturnalsolResponse &&
-                <div className="text-center mt-5">
-                <Link href='/webappForm'>
-              <Button
-                label="Continue"
-                severity="Primary"
-                rounded
-                loading={this.state.loading2}
-                onClick={this.load}
-                className="buy-img"
-              />
-              </Link>
-            </div>
-              }
-
-          
-            
-            </div>
-           
-            </div>
-            
-            <Toast ref={(el) => (this.toast = el)} />
-
           </div>
         </div>
-      </div>
-    </div>
     </Layout2>
 );
 }

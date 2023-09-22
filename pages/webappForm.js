@@ -8,32 +8,29 @@ import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import axios from "axios";
 import { LayoutContext } from "../layout/context/layoutcontext";
-import Router,{ withRouter } from "next/router";
+import Router,{ useRouter, withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-const WebappForm=()=> {
+function WebappForm(props) {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [stfName, setStfName] = useState();
   const [stfdescription, setstfdescription] = useState();
   const [stfheadline, setstfheadline] = useState();
-  const [assetsName, setassetsName] = useState();
-  const [assetsDeascription, setassetsDeascription] = useState();
   const [tagline, settagline] = useState();
   const [tagdescription, settagdescription] = useState();
   const [email, setEmail] = useState();
   const [twitter, settwitter] = useState();
   const [discord, setdiscord] = useState();
   const [instagram, setinstagram] = useState();
+  const router=useRouter();
   const [errors, setErros] = useState({
     stfNameError: "",
     stfdescriptionError: "",
     stfheadlineError: "",
-    assetsNameError: "",
-    assetsDeascriptionError: "",
     taglineError: "",
     tagdescriptionError: "",
     emailError: "",
@@ -47,34 +44,28 @@ const WebappForm=()=> {
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
 
-  
+  console.log('sft id in webapp',props)
  
   const addMarketplaceDetails = async () => {
-    Router.push({pathname:"/successNoteContract",query:{redirectURL:'http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql'}})
-    return
+    // Router.push({pathname:"/successNoteContract",query:{redirectURL:'http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql'}})
+
     const token = localStorage.getItem("platform_token");
-    const storefrontId = localStorage.getItem("storefrontId");
-   const userName=localStorage.getItem('userName')
     const valid = onClickButton();
-    let result = userName.concat("/", stfName);
     if (valid) {
 
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,
           {
-            name: result,
-            storefrontId: storefrontId,
+            name: stfName,
+            id: props.router.query.storefrontId,
             network: "mumbai",
             protocol: "ethereum",
             tag: "v1",
-            storefrontName: stfName,
             headline: stfheadline,
             description: stfdescription,
             profileImage: uploadImageProfile,
             coverImage: uploadImageCover,
-            assetName: assetsName,
-            assetDescription: assetsDeascription,
             personalTagline: tagline,
             personalDescription: tagdescription,
             relevantImage: uploadImageRelavent,
@@ -95,7 +86,7 @@ const WebappForm=()=> {
           showSuccess();
           setTimeout(() => {
             setLoading(false);
-            Router.push({pathname:"/successNoteContract",query:{redirectURL: finalString}})
+            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,query:{redirectURL: finalString }}})
           }, 2000);
         })
         .catch((error) => {
@@ -125,13 +116,7 @@ const WebappForm=()=> {
     setstfheadline(e.target.value);
   };
 
-  const handleInputassetsName = (e) => {
-    setassetsName(e.target.value);
-  };
-
-  const handleInputassetsDescription = (e) => {
-    setassetsDeascription(e.target.value);
-  };
+ 
 
   const handleInputtagline = (e) => {
     settagline(e.target.value);
@@ -162,14 +147,7 @@ const WebappForm=()=> {
       life: 1000,
     });
   };
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error ",
-      detail: "Storefront Name Must be Unique",
-      life: 1000,
-    });
-  };
+
 
   const onClickButton = () => {
     if (!stfName) {
@@ -180,14 +158,6 @@ const WebappForm=()=> {
       return false;
     } else if (!stfheadline) {
       setErros({ stfheadlineError: "Please Enter Storefront Headline" });
-      return false;
-    } else if (!assetsName) {
-      setErros({ assetsNameError: "Please Enter Assets Name" });
-
-      return false;
-    } else if (!assetsDeascription) {
-      setErros({ assetsDeascriptionError: "Please Enter Assets Description" });
-
       return false;
     } else if (!tagline) {
       setErros({ taglineError: "Please Enter Tagline" });
@@ -211,8 +181,7 @@ const WebappForm=()=> {
       stfName &&
       stfdescription &&
       stfheadline &&
-      assetsName &&
-      assetsDeascription && tagline &&
+       tagline &&
       tagdescription &&
       email &&
       twitter &&
@@ -326,7 +295,7 @@ const WebappForm=()=> {
                 id="stfName"
                 onChange={handleInputContractName}
                 value={stfName}
-                className="p-2  input-back w-full text-white"
+                className="p-2  input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!stfName ? errors.stfNameError : ""}
@@ -339,7 +308,7 @@ const WebappForm=()=> {
               <InputText
                 value={stfdescription}
                 onChange={handleInputDescription}
-                className="p-2  input-back w-full text-white"
+                className="p-2  input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!stfdescription ? errors.stfdescriptionError : ""}
@@ -352,7 +321,7 @@ const WebappForm=()=> {
               <InputText
                 value={stfheadline}
                 onChange={handleInputstfHeadline}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!stfheadline ? errors.stfheadlineError : ""}
@@ -400,55 +369,13 @@ const WebappForm=()=> {
               </div>
             </div>
 
-            <div className="mt-5 text-center font-bold text-3xl">
-              Asset Details
-            </div>
+            
 
-            <div className="mt-5">Enter Asset name:</div>
 
-            <div className=" mt-2">
-              <InputText
-                value={assetsName}
-                onChange={handleInputassetsName}
-                className="p-2 input-back w-full text-white"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!assetsName ? errors.assetsNameError : ""}
-              </p>
-            </div>
+           
 
-            <div className="mt-5">Enter Asset Description:</div>
 
-            <div className="  mt-2">
-              <InputText
-                value={assetsDeascription}
-                onChange={handleInputassetsDescription}
-                className="p-2  input-back w-full text-white"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!assetsDeascription ? errors.assetsDeascriptionError : ""}
-              </p>
-            </div>
-
-            <div className="mt-5">Upload Relavant Image:</div>
-
-            <div
-                className="mt-3"
-                style={{ padding: "20px", border: "1px solid" }}
-              >
-                <FileUpload
-                  type="file"
-                  onSelect={(event) => {
-                    onChangeThumbnailRelavent(event);
-                  }}
-                  uploadHandler={(e) =>
-                    console.log("File upload handler", e.files)
-                  }
-                  value={uploadImageRelavent}
-                  accept="image/*"
-                  maxFileSize={1000000}
-                />
-              </div>
+           
             <div className="mt-5 text-center text-3xl font-bold">
               Personal information
             </div>
@@ -459,7 +386,7 @@ const WebappForm=()=> {
               <InputText
                 value={tagline}
                 onChange={handleInputtagline}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!tagline ? errors.taglineError : ""}
@@ -472,7 +399,7 @@ const WebappForm=()=> {
               <InputText
                 value={tagdescription}
                 onChange={handleInputtagdescription}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!tagdescription ? errors.tagdescriptionError : ""}
@@ -489,7 +416,7 @@ const WebappForm=()=> {
               <InputText
                 value={email}
                 onChange={handleInputEmail}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!email ? errors.emailError : ""}
@@ -506,7 +433,7 @@ const WebappForm=()=> {
               <InputText
                 value={twitter}
                 onChange={handleInputtweeter}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!twitter ? errors.twitterError : ""}
@@ -519,7 +446,7 @@ const WebappForm=()=> {
               <InputText
                 value={discord}
                 onChange={handleInputdiscord}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!discord ? errors.discordError : ""}
@@ -532,7 +459,7 @@ const WebappForm=()=> {
               <InputText
                 value={instagram}
                 onChange={handleInputinstagram}
-                className="p-2 input-back w-full text-white"
+                className="p-2 input-back w-full"
               />
               <p style={{ textAlign: "left", color: "red" }}>
                 {!instagram ? errors.instagramError : ""}

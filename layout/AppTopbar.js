@@ -1,40 +1,38 @@
 import Link from "next/link";
 import { classNames } from "primereact/utils";
 import React, {
-  forwardRef,
   useContext,
   useEffect,
-  useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import AppConfig from "./AppConfig";
-import Router from "next/router";
-import { useAccount, useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-const AppTopbar = forwardRef((props, ref) => {
-  const { address, isConnected } = useAccount();
+import { useRouter, withRouter } from "next/router";
+function AppTopbar(props) {
+  const {  isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ address });
-
   const { layoutConfig, layoutState } = useContext(LayoutContext);
-  const menubuttonRef = useRef(null);
+  const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
-  const topbarmenubuttonRef = useRef(null);
-  useImperativeHandle(ref, () => ({
-    menubutton: menubuttonRef.current,
-    topbarmenu: topbarmenuRef.current,
-    topbarmenubutton: topbarmenubuttonRef.current,
-  }));
-
+  const [plan, setsetPlan] = useState(null);
+  const router = useRouter();
   useEffect(() => {
-    if (!isConnected) {
-      Router.push("/launchpad");
+    setsetPlan(
+      JSON.parse(localStorage.getItem("profiledetails"))?.plan ?? null
+    );
+    if (!localStorage.getItem("wagmi.connected")) {
+      router.push("/");
     }
   }, []);
-
+  const logout=()=>{
+    disconnect,
+    localStorage.clear();
+    router.push("/");
+  }
   return (
     <div className="layout-topbar">
       <Link href="/launchpad" className="layout-topbar-logo">
@@ -55,38 +53,86 @@ const AppTopbar = forwardRef((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link href="/buySubscription">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Launch
-          </span>
+        <Link
+          onClick={() =>
+            isConnected ? null : alert("Please connect to Your wallet")
+          }
+          href={
+            isConnected && !plan ? "/buySubscription" : "/storefrontDashboard"
+          }
+        >
+          <span className="font-bold text-white text-2xl">Launch</span>
         </Link>
 
-        <Link href="/getAllSignatureseriesContract">
-          <span
-            className="text-black"
-            style={{ fontWeight: "bold", fontSize: "16px", color: "white" }}
-          >
-            Dashboard
-          </span>
+        <Link
+          onClick={() =>
+            isConnected ? null : alert("Please connect to Your wallet")
+          }
+          href={isConnected ? "/getAllSignatureseriesContract" : ""}
+        >
+          <span className="font-bold text-white text-2xl">Dashboard</span>
         </Link>
 
         <div>
-          <ConnectButton className="connect-wallet" />
+          <ConnectButton
+            className="connect-wallet"
+          />
         </div>
-        <div>
-          <Link href="/profile">
-            <img style={{ cursor: "pointer" }} src="/profile.png"></img>
-          </Link>
+        <div onClick={() => setToggle(!toggle)}>
+          <img className="cursor-pointer" src="/profile.png"></img>
         </div>
+
+        {toggle && (
+          <div
+            className="profile-drop bg-white p-3"
+            style={{
+              borderRadius: "10px",
+              marginTop: "200px",
+              position: "absolute",
+              right: "60px",
+            }}
+          >
+            <div className="flex gap-2">
+              <div>
+                <i className="pi pi-pencil"></i>
+              </div>
+              <Link style={{ color: "black" }} href="/addProfileDetails">
+                <div>
+                  <div className="font-bold">Create profile</div>
+                </div>
+              </Link>
+            </div>
+            <div className="border-bottom-das"></div>
+
+            <div className="flex gap-2 mt-2">
+              <div>
+                <i className="pi pi-eye"></i>
+              </div>
+              <Link style={{ color: "black" }} href="/profile">
+                <div>
+                  <div className="font-bold">View profile</div>
+                </div>
+              </Link>
+
+            </div>
+            <div className="border-bottom-das"></div>
+
+            <div onClick={logout} style={{ color: "black" }} className="flex gap-2 mt-2 p-heading">
+              <div>
+                <i className="pi pi-sign-out"></i>
+              </div>
+                <div className=" cursor-pointer">
+                  <div className="font-bold ">Logout</div>
+                </div>
+            </div>
+          </div>
+        )}
         <div>
           <AppConfig />
         </div>
       </div>
     </div>
   );
-});
+}
 
-export default AppTopbar;
+export default withRouter(AppTopbar);
