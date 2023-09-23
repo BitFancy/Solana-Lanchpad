@@ -4,9 +4,6 @@ const nextConfig = {
   // basePath: '/launchpad',
   staticPageGenerationTimeout:  100,
  output:"standalone",
- experimental: {
-  outputStandalone: true,
-},   
  images:{
   loader:'akamai',
   path:"",
