@@ -15,10 +15,13 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 import { Dialog } from "primereact/dialog";
 import { NFTStorage } from "nft.storage";
 import { FileUpload } from "primereact/fileupload";
-import { getAccessMasterByStorefrontID, getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
+import {
+  getAccessMasterByStorefrontID,
+  getStorefrontByID,
+  getTradeHubByStorefrontID,
+} from "../utils/util";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class SignatureSeries extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -30,41 +33,46 @@ class SignatureSeries extends React.Component {
       loading: false,
       visible: false,
       loading2: false,
-      accsessmasterAddress:"",
-      tradhubAddress:"",
-      loading4:false,
-     thumbnail:"",
-     uploadImageCover:"",
+      accsessmasterAddress: "",
+      tradhubAddress: "",
+      loading4: false,
+      thumbnail: "",
+      uploadImageCover: "",
       submitClicked: false,
       selecteBlockchaine: null,
       errors: {
         contractNameEror: "",
         symbolError: "",
       },
-      storefrontData:{}
+      storefrontData: {},
     };
-    let copyState = this.state
-    delete copyState.storefrontData
+    let copyState = this.state;
+    delete copyState.storefrontData;
     this.initialState = { ...copyState };
-
   }
 
   blockchain = [
     { name: "Polygon", value: "Polygon" },
     { name: "Ethereum", value: "Ethereum" },
   ];
-  async componentDidMount(){
-   const {payload} = await getStorefrontByID("b68284bd-2c23-4f9d-8a4a-85cf816358c7")
-   this.setState({storefrontData: payload})
-  console.log("Data",payload);
-    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then((response)=>{
-      this.setState({accsessmasterAddress:response[0].contractAddress})
-    })
-    getTradeHubByStorefrontID(this.props.router.query.storefrontId).then((response)=>{
-      this.setState({tradhubAddress:response[0].contractAddress})
-    })
-  };
-  
+  async componentDidMount() {
+    const { payload } = await getStorefrontByID(
+      "b68284bd-2c23-4f9d-8a4a-85cf816358c7"
+    );
+    this.setState({ storefrontData: payload });
+    console.log("Data", payload);
+    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
+      (response) => {
+        this.setState({ accsessmasterAddress: response[0]?.contractAddress });
+      }
+    );
+    getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
+      (response) => {
+        this.setState({ tradhubAddress: response[0]?.contractAddress });
+      }
+    );
+  }
+
   showError() {
     this.toast.show({
       severity: "error",
@@ -73,17 +81,17 @@ class SignatureSeries extends React.Component {
       life: 10000,
     });
   }
-  uploadBlobGetHash=async(file)=> {
+  uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
     } catch (error) {
-      console.log('error while upload image',error)
+      console.log("error while upload image", error);
     }
-  }
-   getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
-   onChangeThumbnail=async(e)=> {
+  };
+  getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+  onChangeThumbnail = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
       type: file.type,
@@ -91,14 +99,13 @@ class SignatureSeries extends React.Component {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      this.setState({thumbnail:metaHashURI})
+      this.setState({ thumbnail: metaHashURI });
     } catch (error) {
-      console.log('error while upload image',error)
+      console.log("error while upload image", error);
+    }
+  };
 
-    } 
-  }
-
-   onChangeThumbnailCover=async(e)=> {
+  onChangeThumbnailCover = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
       type: file.type,
@@ -106,11 +113,11 @@ class SignatureSeries extends React.Component {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      this.setState({uploadImageCover:metaHashURI})
+      this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {
-      console.log('error while upload image',error)
-    } 
-  }
+      console.log("error while upload image", error);
+    }
+  };
   load = () => {
     this.setState({ loading2: true });
     setTimeout(() => {
@@ -125,31 +132,35 @@ class SignatureSeries extends React.Component {
     }, 2000);
   };
 
- 
-   getAllContarctData = async() => {
+  getAllContarctData = async () => {
     const token = localStorage.getItem("platform_token");
-   const{ data} =await axios.get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
+    const { data } = await axios.get(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`,
+      {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-      })
-      return data;
+      }
+    );
+    return data;
   };
-  signatureSeriesdata = async() => {
-    const token = localStorage.getItem("platform_token");                  
+  signatureSeriesdata = async () => {
+    const token = localStorage.getItem("platform_token");
     const valid = this.onClickButton();
     if (valid) {
       const contractName = await this.getAllContarctData();
       if (
         contractName?.find(
-          (sf) => sf.collectionName?.toLowerCase() === this.state.contractName?.toLowerCase()
+          (sf) =>
+            sf.collectionName?.toLowerCase() ===
+            this.state.contractName?.toLowerCase()
         )
       ) {
         alert(
           `Contract name' ${this.state.contractName}' is already exist please enter another name`
         );
         setTimeout(() => {
-         this.setState({loading:false})
+          this.setState({ loading: false });
         }, 2000);
 
         return;
@@ -168,8 +179,8 @@ class SignatureSeries extends React.Component {
             network: "maticmum",
             storefrontId: this.props?.router?.query?.storefrontId,
             collectionName: this.state.contractName,
-            thumbnail:this.state.thumbnail,
-         coverImage:this.state.uploadImageCover
+            thumbnail: this.state.thumbnail,
+            coverImage: this.state.uploadImageCover,
           },
           {
             headers: {
@@ -178,11 +189,10 @@ class SignatureSeries extends React.Component {
           }
         )
         .then(async (response) => {
-         
           setTimeout(() => {
             this.setState({ loading: false, visible: true });
           }, 2000);
-         
+
           this.setState({
             ...this.initialState,
             signatureseriesRespoanse: response.data.contractAddress,
@@ -216,7 +226,6 @@ class SignatureSeries extends React.Component {
     this.setState({ signatureseriesRespoanse: null });
   };
 
-
   onClickButton = () => {
     if (!this.state.contractName) {
       this.setState({
@@ -237,7 +246,7 @@ class SignatureSeries extends React.Component {
   static contextType = LayoutContext;
 
   render() {
-    console.log("initial state",this.initialState);
+    console.log("initial state", this.initialState);
 
     return (
       <Layout2
@@ -270,8 +279,9 @@ class SignatureSeries extends React.Component {
                 Step 2 : Deploy SignatureSeries
               </div>
               <div className="mt-5">
-              
-                <span className="blockchain-label">{this.state.storefrontData?.blockchain}</span>
+                <span className="blockchain-label">
+                  {this.state.storefrontData?.blockchain}
+                </span>
               </div>
             </div>
             <div className="flex justify-content-center gap-5">
@@ -318,39 +328,53 @@ class SignatureSeries extends React.Component {
                           <div>Thumbnail</div>
                           <div>Cover Image</div>
                         </div>
-                        <div className="flex mt-3" style={{gap:'70px'}}>
-                          <div style={{border:'1px solid',padding:'15px',width:'45%'}}>
-                           
-                          <FileUpload
-                  type="file"
-                  onSelect={(event) => {
-                    this.onChangeThumbnail(event);
-                  }}
-                  uploadHandler={(e) =>
-                    console.log("File upload handler", e.files)
-                  }
-                  value={this.state.thumbnail}
-                  accept="image/*"
-                  maxFileSize={1000000}
-                />
+                        <div className="flex mt-3" style={{ gap: "70px" }}>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnail(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.thumbnail}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
                           </div>
-                          <div style={{border:'1px solid',padding:'15px',width:'45%'}}>
-                          <FileUpload
-                  type="file"
-                  onSelect={(event) => {
-                    this.onChangeThumbnailCover(event);
-                  }}
-                  uploadHandler={(e) =>
-                    console.log("File upload handler", e.files)
-                  }
-                  value={this.state.uploadImageCover}
-                  accept="image/*"
-                  maxFileSize={1000000}
-                />
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnailCover(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.uploadImageCover}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
                           </div>
                         </div>
                       </div>
-                      <div className="text-center" style={{marginTop:'60px'}}>
+                      <div
+                        className="text-center"
+                        style={{ marginTop: "60px" }}
+                      >
                         <Button
                           onClick={this.signatureSeriesdata}
                           label="Deploy SignatureSeries"
@@ -407,14 +431,18 @@ class SignatureSeries extends React.Component {
               </div>
               <Toast ref={(el) => (this.toast = el)} />
             </div>
-            <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
+            <div
+              className="flex justify-content-center mt-5"
+              style={{ gap: "445px" }}
+            >
               <div className="text-center mt-5">
                 <Link
-                 href={{
-                  pathname: "/launchSignatureseries",
-                  query: { storefrontId: this.props?.router?.query?.storefrontId},
-                }}
-                
+                  href={{
+                    pathname: "/launchSignatureseries",
+                    query: {
+                      storefrontId: this.props?.router?.query?.storefrontId,
+                    },
+                  }}
                 >
                   <Button
                     label="Back"
@@ -423,16 +451,18 @@ class SignatureSeries extends React.Component {
                     loading={this.state.loading2}
                     onClick={this.load}
                     className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
+                    style={{ padding: "10px 60px 10px 60px" }}
                   />
                 </Link>
               </div>
               <div className="text-center mt-5">
-                <Link 
-                 href={{
-                  pathname: "/webappForm",
-                  query: { storefrontId: this.props?.router?.query?.storefrontId},
-                }}
+                <Link
+                  href={{
+                    pathname: "/webappForm",
+                    query: {
+                      storefrontId: this.props?.router?.query?.storefrontId,
+                    },
+                  }}
                 >
                   <Button
                     label="Next"
@@ -441,7 +471,7 @@ class SignatureSeries extends React.Component {
                     loading={this.loading4}
                     onClick={this.load4}
                     className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
+                    style={{ padding: "10px 60px 10px 60px" }}
                   />
                 </Link>
               </div>

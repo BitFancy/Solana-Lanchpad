@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
 import Layout from "../Components/Layout";
 import Link from "next/link";
-import { LayoutContext } from "../layout/context/layoutcontext";
-import Image from "next/image";
 export default function Launchpad() {
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
@@ -11,7 +9,6 @@ export default function Launchpad() {
   const [loading6, setLoading6] = useState(false);
   const [loading7, setLoading7] = useState(false);
   const [loading8, setLoading8] = useState(false);
-  const { layoutConfig } = useContext(LayoutContext);
 
   const load3 = () => {
     setLoading3(true);
@@ -72,108 +69,7 @@ export default function Launchpad() {
             </div>
           </div>
         </div>
-        {/* <div
-          className="flex justify-content-between gap-3 mt-5"
-          style={{ padding: "70px" }}
-        >
-          <div
-            className="text-center p-heading"
-            style={{
-              width: "400px",
-              height: "500px",
-              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
-              border: "1px solid",
-              borderRadius:'20px'
-            }}
-          >
-            <div className=" " style={{ marginTop: "100px" }}>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "access"
-                    : "Vector"
-                }.svg`}
-                alt="Logo"
-                height="60"
-                width="60"
-                className="mr-2"
-              />
-            </div>
-            <div className="font-bold mt-5 text-2xl p-heading">
-              Access Control
-            </div>
-            <div className="mt-5 text-xl p-heading">
-              <div>A self-executing contract automatically </div>
-              <div>grants or denies permissions to </div>
-              <div>network participants based on </div>
-              <div>predefined rules.</div>
-            </div>
-          </div>
-          <div
-            className=" text-center"
-            style={{
-              width: "400px",
-              height: "500px",
-              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
-              border: "1px solid",
-              borderRadius:'20px'
-
-            }}
-          >
-            <div
-              className="  p-heading"
-              style={{ marginTop: "100px" }}
-            >
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "tradhub"
-                    : "darktradhub"
-                }.svg`}
-                alt="Logo"
-                height="60"
-                width="60"
-                className="mr-2"
-              />
-            </div>
-            <div className="font-bold mt-5 text-2xl p-heading">TradeHub</div>
-            <div className="mt-5 text-xl p-heading">
-              <div>A leading NFT marketplace for peer- </div>
-              <div>to-peer buying, selling, and trading of </div>
-              <div>non-fungible tokens (NFTs).</div>
-            </div>
-          </div>
-          <div
-            className=" text-center"
-            style={{
-              width: "400px",
-              height: "500px",
-              boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
-              border: "1px solid",
-              borderRadius:'20px'
-
-            }}
-          >
-            <div className=" " style={{ marginTop: "100px" }}>
-              <img
-                style={{ width: "60px", height: "60px" }}
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "eternalsoul"
-                    : "eterdark"
-                }.png`}
-              ></img>
-            </div>
-            <div className="font-bold mt-5 text-2xl p-heading">EternalSoul</div>
-            <div className="mt-5 text-xl p-heading">
-              <div>A soulbound token is a non-transferable </div>
-              <div>NFT publicly verifying an individual </div>
-              <div>credentials, affiliations, and </div>
-              <div>commitments.</div>
-            </div>
-          </div>
-        </div> */}
-
+      
         <div
           className="flex "
           style={{ marginTop: "150px", padding: "70px", gap: "50px" }}
@@ -211,7 +107,7 @@ export default function Launchpad() {
 
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
           <div style={{ width: "50%" }}>
-            <img src="fusionseries2.png"></img>
+            <img src="fusionseries.png"></img>
           </div>
 
           <div style={{ width: "50%" }}>
@@ -276,7 +172,7 @@ export default function Launchpad() {
           </div>
 
           <div style={{ width: "50%" }}>
-            <img src="sig.png"></img>
+            <img src="instagen.png"></img>
           </div>
         </div>
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
@@ -339,7 +235,7 @@ export default function Launchpad() {
           </div>
 
           <div style={{ width: "50%" }}>
-            <img src="eturnumpass.png" className="w-full"></img>
+            <img src="eternumpassl.png" className="w-full"></img>
           </div>
         </div>
         <div

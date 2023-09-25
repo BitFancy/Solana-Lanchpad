@@ -149,9 +149,13 @@ function Step1(props) {
         style={{ width: "50vw" }}
         onHide={() => setVisible(false)}
       >
-        <p className="m-0">
+        <div className="text-center">
+        <div className="font-bold">Congrats!</div>
+        <div className="m-0">
           Your Tradhub Contract has been sucessfully Deployed.
-        </p>
+        </div>
+        </div>
+       
       </Dialog>
       <div
         className={`${

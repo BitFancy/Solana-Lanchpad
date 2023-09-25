@@ -9,11 +9,17 @@ import Layout2 from "../Components/Layout2";
 import { Dropdown } from "primereact/dropdown";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
+const YOUR_API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
+const client = new NFTStorage({ token: YOUR_API_KEY });
+
 import {
   getAccessMasterByStorefrontID,
   getStorefrontByID,
   getTradeHubByStorefrontID,
 } from "../utils/util";
+import { FileUpload } from "primereact/fileupload";
+import { NFTStorage } from "nft.storage";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
@@ -26,6 +32,8 @@ class FusionSeries extends React.Component {
       loading: false,
       accsessmasterAddress: "",
       tradhubAddress: "",
+      thumbnail: "",
+      uploadImageCover: "",
       visible: false,
       loading2: false,
       loading4: false,
@@ -62,14 +70,14 @@ class FusionSeries extends React.Component {
     this.setState({ storefrontData: payload });
     console.log("Data", payload);
 
-    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
-        this.setState({ accsessmasterAddress: response[0].contractAddress });
+        this.setState({ accsessmasterAddress: response[0]?.contractAddress });
       }
     );
-    getTradeHubByStorefrontID(props.router.query.storefrontId).then(
+    getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
-        this.setState({ tradhubAddress: response[0].contractAddress });
+        this.setState({ tradhubAddress: response[0]?.contractAddress });
       }
     );
   }
@@ -162,6 +170,47 @@ class FusionSeries extends React.Component {
       return true;
     }
   };
+
+
+
+
+  uploadBlobGetHash = async (file) => {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+  getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+  onChangeThumbnail = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      this.setState({ thumbnail: metaHashURI });
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
+  onChangeThumbnailCover = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      this.setState({ uploadImageCover: metaHashURI });
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
   static contextType = LayoutContext;
 
   render() {
@@ -252,8 +301,57 @@ class FusionSeries extends React.Component {
                               : ""}
                           </p>
                         </div>
+                        <div className="flex justify-content-between mt-5">
+                          <div>Thumbnail</div>
+                          <div>Cover Image</div>
+                        </div>
+                        <div className="flex mt-3" style={{ gap: "70px" }}>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnail(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.thumbnail}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnailCover(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.uploadImageCover}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-center mt-5">
+                      <div className="text-center"
+                      style={{ marginTop: "60px" }}
+                      
+                      >
                         <Button
                           onClick={this.fusionSerisData}
                           label="Deploy FusionSeries"
@@ -319,11 +417,7 @@ class FusionSeries extends React.Component {
                   href={{
                     pathname: "/launchSignatureseries",
                     query: {
-                      storefrontId: this.props?.router?.query?.storefrontId,
-                      tradhubAddress:
-                        this.props?.router?.query?.contractAddress,
-                      accessMasterAddress:
-                        this.props?.router?.query?.accessMasterAddress,
+                      storefrontId: this.props?.router?.query?.storefrontId
                     },
                   }}
                 >

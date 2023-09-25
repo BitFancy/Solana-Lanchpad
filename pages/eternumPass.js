@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
@@ -8,19 +8,32 @@ import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { FileUpload } from "primereact/fileupload";
+import { NFTStorage } from "nft.storage";
+import { getAccessMasterByStorefrontID, getTradeHubByStorefrontID } from "../utils/util";
+import { Dialog } from "primereact/dialog";
+const YOUR_API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
+const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const EternumPass = (props) => {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [contractName, setContractName] = useState("");
   const [contractSymbol, setcontractSymbol] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [platformFeeBasePrice, setplatformFeeBasePrice] = useState("");
   const [subspricePerMonth, setSubspricePerMonth] = useState("");
   const [royltybps, setRoyltybps] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [uploadImageCover, setUploadImageCover] = useState("");
+  const [accsessmasterAddress, setAccessMasterAddress] = useState("");
+  const [tradhubAddress, setTradhubAddress] = useState("");
+
+
   const { layoutConfig } = useContext(LayoutContext);
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -46,11 +59,23 @@ const EternumPass = (props) => {
     });
   };
  
+
+  useEffect(() => {
+    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setAccessMasterAddress({accsessmasterAddress:response[0]?.contractAddress})
+      }
+    );
+    getTradeHubByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setTradhubAddress({tradhubAddress: response[0]?.contractAddress})
+      }
+    );
+    
+  }, []);
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
   const eturnumpassContarctData = () => {
     const token = localStorage.getItem("platform_token");
-    const tradhubAddress = props.router.query.tradhubAddress;
-        const accessmasterAddress = props.router.query.accessmasterAddress;
     const valid = onClickButton();
     if (valid) {
       axios
@@ -66,7 +91,7 @@ const EternumPass = (props) => {
               param5: platformFeeBasePrice,
               param6: subspricePerMonth,
               param7: royltybps,
-              param9: accessmasterAddress,
+              param9: accsessmasterAddress,
               param10: tradhubAddress,
             },
             network: "maticmum",
@@ -86,6 +111,7 @@ const EternumPass = (props) => {
           }, 2000);
           setEturnumpassResponse(response.data.contractAddress);
           showSuccess();
+
         })
 
         .catch((error) => {
@@ -117,13 +143,7 @@ const EternumPass = (props) => {
     setRoyltybps(e.target.value);
   };
 
-  const load = () => {
-    setLoading2(true);
-
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
+  
   const load4 = () => {
     setLoading4(true);
 
@@ -175,6 +195,44 @@ const EternumPass = (props) => {
     }
   };
 
+  const uploadBlobGetHash = async (file) => {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+ const onChangeThumbnail = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setThumbnail({thumbnail:metaHashURI})
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+  
+ const onChangeThumbnailCover = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setUploadImageCover({uploadImageCover:metaHashURI})
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
   return (
     <Layout2  title="Deploy Eternumpass"
     description="This is use to show information of the deploy Eternumpass contract">
@@ -184,6 +242,16 @@ const EternumPass = (props) => {
      
       <Toast ref={toast} />
 
+      <Dialog
+          visible={visible}
+          style={{ width: "30vw", height: "18vw" }}
+          onHide={() => setVisible(false)}
+        >
+          <div className="text-center">
+            <div className="font-bold text-2xl">Step 3 of 3</div>
+            <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+          </div>
+        </Dialog>
       <div >
         <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
           <div
@@ -287,7 +355,54 @@ const EternumPass = (props) => {
 
            
 
-            <div className="flex mt-5 justify-content-between">
+            <div className="flex justify-content-between mt-5">
+                          <div>Thumbnail</div>
+                          <div>Cover Image</div>
+                        </div>
+                        <div className="flex mt-3" style={{ gap: "70px" }}>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                onChangeThumbnail(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={thumbnail}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                onChangeThumbnailCover(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={uploadImageCover}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                        </div>
+
+            <div className="flex mt-5 justify-content-center">
               <div>
                 <Button
                   label="Deploy EternumPass"
@@ -300,21 +415,7 @@ const EternumPass = (props) => {
                   loading={loading}
                 />
               </div>
-              {eturnumpassResponse && (
-                <div>
-                  <Link href="/eturnalsol">
-                    <Button
-                      label="Continue"
-                      severity="Primary"
-                      className=" mt-7 w-full buy-img"
-                      style={{ width: "30%" }}
-                      rounded
-                      loading={loading2}
-                      onClick={load}
-                    />
-                  </Link>
-                </div>
-              )}
+             
             </div>
            
           </div>

@@ -29,7 +29,6 @@ function AddStorefront() {
   const [contractName, setContarctName] = useState("");
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
-  const [storefrontResponase, setstorefrontResponase] = useState();
   const { layoutConfig } = useContext(LayoutContext);
   const [visible, setVisible] = useState(false);
   const [errors, setErros] = useState({
@@ -124,7 +123,6 @@ function AddStorefront() {
           }
         )
         .then(async (response) => {
-          setstorefrontResponase(response.data.storefrontId);
           setTimeout(() => {
             setLoading(false);
           }, 2000);

@@ -16,19 +16,12 @@ function StorefrontDashboard(props) {
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
-  const [loading4, setLoading5] = useState(false);
+  const [loading4, setLoading4] = useState(false);
   const [plan, setsetPlan] = useState(null);
   const toaste = useRef(null);
   const { layoutConfig } = useContext(LayoutContext);
   const { address } = useAccount();
-  const showError = () => {
-    toaste.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While get storefront data",
-      life: 3000,
-    });
-  };
+ 
   useEffect(() => {
     getStorefrontData();
     setsetPlan(
@@ -62,8 +55,8 @@ function StorefrontDashboard(props) {
         setLoading(false);
       })
 
-      .catch(() => {
-        showError();
+      .catch((error) => {
+        console.log('error while storefront data',error)
       })
       .finally(() => {
         setLoading(false);

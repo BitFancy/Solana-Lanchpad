@@ -9,7 +9,13 @@ import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+const YOUR_API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
+const client = new NFTStorage({ token: YOUR_API_KEY });
+
 import { getAccessMasterByStorefrontID, getStorefrontByID } from "../utils/util";
+import { NFTStorage } from "nft.storage";
+import { FileUpload } from "primereact/fileupload";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
 constructor(props) {
@@ -18,9 +24,11 @@ constructor(props) {
       contractName: "",
       contractSymbol: "",
       eturnalsolResponse: "",
-      accessmasterAddress:'',
+      accsessmasterAddress:'',
       loading: false,
       visible:false,
+      thumbnail: "",
+      uploadImageCover: "",
       loading2:false,
       loading4:false,
       submitClicked: false,
@@ -42,9 +50,11 @@ constructor(props) {
    }
 
    async componentDidMount(){
-   const payload=await getAccessMasterByStorefrontID(this.props.router.query.storefrontId);
-   this.setState({accessmasterAddress: payload})
-   console.log("Data accessmaster",payload);
+    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
+      (response) => {
+        this.setState({ accsessmasterAddress: response[0]?.contractAddress });
+      }
+    );
    }
  
   
@@ -61,7 +71,7 @@ if(valid){
         param1 : this.state.contractName,
         param2 : this.state.contractSymbol,
         param3 : "www.xyz.com",
-        param4 : this.state.accessmasterAddress
+        param4 : this.state.accsessmasterAddress
     },
      network: "maticmum",
      storefrontId:this.props?.router?.query?.storefrontId ,
@@ -139,6 +149,44 @@ handleInputSymbol = (e) => {
   }
 };
 
+
+uploadBlobGetHash = async (file) => {
+  try {
+    const blobDataImage = new Blob([file]);
+    const metaHash = await client.storeBlob(blobDataImage);
+    return metaHash;
+  } catch (error) {
+    console.log("error while upload image", error);
+  }
+};
+getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+onChangeThumbnail = async (e) => {
+  const file = e.files[0];
+  const thumbnail = new File([file], file.name, {
+    type: file.type,
+  });
+  try {
+    const metaHash = await uploadBlobGetHash(thumbnail);
+    const metaHashURI = getMetaHashURI(metaHash);
+    this.setState({ thumbnail: metaHashURI });
+  } catch (error) {
+    console.log("error while upload image", error);
+  }
+};
+
+onChangeThumbnailCover = async (e) => {
+  const file = e.files[0];
+  const thumbnail = new File([file], file.name, {
+    type: file.type,
+  });
+  try {
+    const metaHash = await uploadBlobGetHash(thumbnail);
+    const metaHashURI = getMetaHashURI(metaHash);
+    this.setState({ uploadImageCover: metaHashURI });
+  } catch (error) {
+    console.log("error while upload image", error);
+  }
+};
 static contextType = LayoutContext
 
   render() {
@@ -226,8 +274,57 @@ static contextType = LayoutContext
                               : ""}
                           </p>
                         </div>
+
+                        <div className="flex justify-content-between mt-5">
+                          <div>Thumbnail</div>
+                          <div>Cover Image</div>
+                        </div>
+                        <div className="flex mt-3" style={{ gap: "70px" }}>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnail(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.thumbnail}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              border: "1px solid",
+                              padding: "15px",
+                              width: "45%",
+                            }}
+                          >
+                            <FileUpload
+                              type="file"
+                              onSelect={(event) => {
+                                this.onChangeThumbnailCover(event);
+                              }}
+                              uploadHandler={(e) =>
+                                console.log("File upload handler", e.files)
+                              }
+                              value={this.state.uploadImageCover}
+                              accept="image/*"
+                              maxFileSize={1000000}
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-center mt-5">
+                      <div className="text-center"
+                      style={{marginTop:'60px'}}
+                      >
                         <Button
                           onClick={this.eturnulsolData}
                           label="Deploy Eturnulsol"

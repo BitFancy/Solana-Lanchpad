@@ -50,7 +50,6 @@ function WebappForm(props) {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
-
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,

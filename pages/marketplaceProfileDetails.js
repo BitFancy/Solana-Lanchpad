@@ -4,17 +4,32 @@ import { Toast } from "primereact/toast";
 import React, { useEffect, useRef, useState } from "react";
 import { getStorefrontByID } from "../utils/util";
 import { withRouter } from "next/router";
+import axios from "axios";
  function MarketplaceProfileDetails(props) {
-  const [subscriptionData, setSubscriptionData] = useState([]);
+  const [data, setData] = useState([]);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
   useEffect(() => {
     getstorefrontdatabyId()
   }, []);
   const getstorefrontdatabyId =async () => {
-    const payload = await getStorefrontByID(props.id)
-    setSubscriptionData(payload)
-   console.log("Data",payload);
+  //   const payload = await getStorefrontByID(props.id)
+  //   setSubscriptionData(payload)
+  //  console.log("Data",payload);
+
+  const token = localStorage.getItem("platform_token");
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  try {
+  const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    })
+    console.log('data in marketplace form',data,)
+    setData(data.payload)
+  } catch (error) {
+      console.log("error",error);
+  }
   };
   const load2 = () => {
     setLoading2(true);
@@ -31,21 +46,21 @@ import { withRouter } from "next/router";
             <div>
               <img
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                src={subscriptionData.Image?subscriptionData?.Image:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png'}
+                src={data?.Image?data?.Image:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png'}
               ></img>
             </div>
             <div className="ml-3">
               <div className="flex text-white gap-2">
                 <div className="font-bold">Name :</div>
-                <div>{subscriptionData?.name}</div>
+                <div>{data?.name}</div>
               </div>
               <div className="flex text-white gap-2 mt-2">
                 <div>Headline :</div>
-                <div>{subscriptionData.headline}</div>
+                <div>{data?.headline}</div>
               </div>
               <div className="flex text-white gap-2 mt-2">
                 <div>Blockchain :</div>
-                <div>{subscriptionData.blockchain}</div>
+                <div>{data?.blockchain}</div>
               </div>
             </div>
             </div>
