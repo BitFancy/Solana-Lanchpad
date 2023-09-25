@@ -1,25 +1,26 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { useRouter, withRouter } from "next/router";
+import { useContext, useRef, useState } from "react";
+import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
-import { Messages } from "primereact/messages";
 import { InputNumber } from "primereact/inputnumber";
+import FusionSeries from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
+import BuyAsset from "../Components/buyAssetModal";
+import Tradhub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
+import { Alert, Snackbar, Typography, Modal } from "@mui/material";
+import { Button } from "primereact/button";
+import { useContract, useSigner } from "wagmi";
+import { LayoutContext } from "../layout/context/layoutcontext";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { Dropdown } from "primereact/dropdown";
+import { Messages } from "primereact/messages";
+import { NFTStorage } from "nft.storage";
+import { withRouter } from "next/router";
+import Image from "next/image";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
-import BuyAsset from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography, Modal } from "@mui/material";
-import { NFTStorage } from "nft.storage";
-import Image from "next/image";
-import { Button } from "primereact/button";
-import { useContract } from "wagmi";
-import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
-import { ethers } from "ethers";
-import { Dropdown } from "primereact/dropdown";
-import { getTradeHubByStorefrontID } from "../utils/util";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -33,8 +34,10 @@ const style = {
   px: 4,
   pb: 3,
 };
-function CreateSignatureSeriesNfts(props) {
+ function CreateFusionSeriesNft(props) {
+  const { data: signerData } = useSigner();
   const msgs = useRef(null);
+  const [previewMedia, setpreviewMedia] = useState("");
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
   const [auctionToggle, setAuctionToggle] = useState(false);
@@ -42,17 +45,11 @@ function CreateSignatureSeriesNfts(props) {
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
   const [model, setmodel] = useState(false);
-  const [tradhubAddress, setTradhubAddress] = useState("");
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
-  const [previewThumbnail, setPreviewThumbnail] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
   const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
-  const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
-  const dynamicContractAddress = props.router.query.contractAddress;
-  console.log("signetureseries Address", dynamicContractAddress);
+  const [addImage, setAddImage] = useState(false);
+  const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -60,8 +57,10 @@ function CreateSignatureSeriesNfts(props) {
     animation_url: "",
     doctype: "",
   });
-  const [previewMedia, setpreviewMedia] = useState("");
-  const [addImage, setAddImage] = useState(false);
+const blockchain = [
+  { name: "Polygon", value: "Polygon" },
+  { name: "Ethereum", value: "Ethereum" },
+];
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -70,8 +69,10 @@ function CreateSignatureSeriesNfts(props) {
     royalties: 5,
     auctionTime: 2,
   });
+ 
 
-  const router = useRouter();
+  const contractFusionSeriesAddress = props.router.query.contractAddress;
+
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -92,6 +93,7 @@ function CreateSignatureSeriesNfts(props) {
       setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
     } catch (error) {}
   }
+
 
   async function onChangeMediaType(e) {
     const file = e.target.files[0];
@@ -142,101 +144,74 @@ function CreateSignatureSeriesNfts(props) {
       tags,
       auctionTime,
     };
-
-    if (!mediaHash?.image) {
-      setAlertMsg("Image is required to create asset");
-      setOpen(true);
-      return;
-    }
     setmodelmsg("Transaction 1 in  progress");
     setmodel(true);
-    const data = JSON.stringify({ ...assetData, ...mediaHash });
-    const blobData = new Blob([data]);
-    try {
-      client.storeBlob(blobData).then(async (metaHash) => {
-        const ipfsHash = metaHash;
-        const url = `ipfs://${metaHash}`;
-        await createItem(ipfsHash, url);
-      });
-    } catch (error) {
-      setmodelmsg("Transaction failed");
-    } finally {
-    }
+    const data = JSON.stringify({ ...assetData });
+    createItem();
   }
-  useEffect(() => {
-    getTradeHubByStorefrontID(props.router.query.storefrontId).then((response)=>{
-      setTradhubAddress(response[0]?.contractAddress);
-    })
-
-    if (typeof window.etherum !== 'undefined') {
-  }[]});
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-  const signer = provider.getSigner();  
-  const signatureSeriesContract = useContract({
-    addressOrName: dynamicContractAddress,
-    contractInterface: SignatureSeries.abi,
-    signerOrProvider: signer,
-  });
-  async function createItem(ipfsHash, url) {
+  
+  const fusionSeriesContarct = useContract({
+    addressOrName: contractFusionSeriesAddress,
+    contractInterface: FusionSeries.abi,
+    signerOrProvider: signerData,
+  });  
+const tradhubContract = useContract({
+  addressOrName: tradhubAddressData,
+  contractInterface: Tradhub.abi,
+  signerOrProvider: signerData
+});
+  async function createItem() {
+   
     try {
-      let transaction = await signatureSeriesContract.createAsset(
-        url,
-        formInput.royalties * 100,
+      const price = ethers.utils.parseUnits(formInput.price, "ether");
+      let transaction = await fusionSeriesContarct.createAsset(
+        price,
+        11111,
+        "www.facebook.com",
         { gasLimit: "2099999" }
-      ); //500 - royalites dynamic
-      // let tx = await transaction.wait();
-      console.log("transaction ", transaction);
+      );
+      let tx = await transaction.wait();
       setmodelmsg("Transaction 1 Complete");
-      // router.push('/getAllSegnatureSeriesNft')
-      // let event = tx.events[0];
-      // let value = event.args[2];
-      // let tokenId = value.toNumber();
-      // const price = 1;
-      // const forAuction = false,
-      //   endTime = 0;
+      let event = tx.events[0];
+      let value = event.args[3];
+      let tokenId = value.toNumber();
+      const forAuction = false,
+        endTime = 0;
 
-      // await listItem(tokenId, price, forAuction, endTime); //Putting item to sale
+      await listItem(tokenId, price, forAuction, endTime);
     } catch (e) {
-      console.log("transaction 1", e);
       setmodelmsg("Transaction 1 failed");
       return;
     }
-  
   }
 
- 
-  // const listItem = async (tokenId, price, forAuction, endTime) => {
+  const listItem = async (tokenId, price, forAuction, endTime) => {
    
-  //   try {
-  //     setmodelmsg("Transaction 2 in progress");
-  //     const transaction = await tradhubContract.listItem(
-  //       signatureSeriesAddress,
-  //       tokenId,
-  //       price,
-  //       1,
-  //       forAuction,
-  //       endTime,
-  //       { gasLimit: "2099999" }
-  //     );
-  //     await transaction.wait();
-  //     router.push("/createFusionSeriesNft");
-  //     setmodelmsg("Transaction 2 Complete !!");
-  //   } catch (e) {
-  //     setmodelmsg("Transaction 2 failed");
-  //   } finally {
-  //     setpreviewMedia("");
-  //     setAddImage("");
-  //     setPreviewThumbnail("");
-  //   }
-  // };
+    try {
+      setmodelmsg("Transaction 2 in progress");
+      const transaction = await tradhubContract.listItem(
+        contractFusionSeriesAddress,
+        tokenId,
+        price,
+        1,
+        forAuction,
+        endTime,
+        { gasLimit: "2099999" }
+      );
+      // await transaction.wait();
+      router.push('/getAllFusionseriesContract')
+      console.log("transaction 2 is completed", transaction);
+      setmodelmsg("Transaction 2 Complete !!");
+    } catch (e) {
+      setmodelmsg("Transaction 2 failed");
+    } 
+  };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
   ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
   };
 
   const handleChangeInput = (id, event) => {
@@ -276,6 +251,9 @@ function CreateSignatureSeriesNfts(props) {
     setOpen(false);
   };
 
+  
+ 
+
   const [options1, setOptions] = useState([
     "Image",
     "Music",
@@ -292,10 +270,17 @@ function CreateSignatureSeriesNfts(props) {
   ]);
   const [categories, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
+
+  // if (!hasRole) {
+  //    setTimeout(() => {
+  //     router.push("/profile");
+  //   }, 1000);
+  // }
+
   return (
     <LayoutDashbord
-      title="Create SignetureSeries Assets"
-      description="This is used to create Signetureseries Nfts"
+      title="Create FusionSeries Assets"
+      description="This is used to create FusionSeries Nfts"
     >
       <div
         className={`${
@@ -340,7 +325,7 @@ function CreateSignatureSeriesNfts(props) {
                 <div>
                   <div className="flex justify-content-between">
                   <div className="font-bold text-4xl"  style={{ textAlign: "initial" }}>
-                  Signatureseries  &gt;  signatureseries 1
+                  FusionSeries  &gt;  FusionSeries 1
                   </div>
                 
                   <div style={{width:'225px'}}>
@@ -357,7 +342,7 @@ function CreateSignatureSeriesNfts(props) {
                   </div>
                   <div style={{marginTop:'65px'}}>
                     <div className="font-bold" style={{ textAlign: "initial" }}>
-                      SignatureSeries Assets Name
+                    FusionSeries Assets Name
                     </div>
                     <div>
                       <input
@@ -376,7 +361,7 @@ function CreateSignatureSeriesNfts(props) {
 
                     <div className="mt-5">
                       <div className="font-bold" style={{ textAlign: "initial" }}>
-                        SignatureSeries Assets Description
+                      FusionSeries Assets Description
                       </div>
                       <div>
                         <textarea
@@ -761,7 +746,7 @@ function CreateSignatureSeriesNfts(props) {
                       className="buy-img"
                       onClick={(e) => createMarket(e)}
                     >
-                      Create SignatureSeries NFTs
+                      Create FusionSeries NFTs
                     </Button>
                   </div>
                 </div>
@@ -807,4 +792,4 @@ function CreateSignatureSeriesNfts(props) {
     </LayoutDashbord>
   );
 }
-export default withRouter(CreateSignatureSeriesNfts);
+export default withRouter(CreateFusionSeriesNft)

@@ -3,7 +3,6 @@ import { useRouter, withRouter } from "next/router";
 import React from "react";
  function Sidemenu(props) {
   const router = useRouter();
-  console.log("sft id in sidebar", props.router.query.storefrontId);
 
   return (
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">

@@ -82,7 +82,6 @@ useEffect(() => {
   setFlowcontractAddress(props.router.query.contractAddressFlowAccess)
 }, [props.router.query.contractAddressFlowAccess])
 
-  console.log("Address in step 2", props.router.query.contractAddress, props.router.query.contractAddressFlowAccess);
   return (
     <Layout title="Step 2" description="Step 2 of the launchpad">
 

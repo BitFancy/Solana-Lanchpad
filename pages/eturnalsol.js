@@ -9,16 +9,16 @@ import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { getStorefrontByID } from "../utils/util";
+import { getAccessMasterByStorefrontID, getStorefrontByID } from "../utils/util";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
 constructor(props) {
     super(props);
-    this.showError = this.showError.bind(this);
     this.state = {
       contractName: "",
       contractSymbol: "",
       eturnalsolResponse: "",
+      accessmasterAddress:'',
       loading: false,
       visible:false,
       loading2:false,
@@ -36,16 +36,21 @@ constructor(props) {
     this.initialState = { ...copyState };
   }
   async componentDidMount(){
-
     const {payload} = await getStorefrontByID("b68284bd-2c23-4f9d-8a4a-85cf816358c7")
     this.setState({storefrontData: payload})
    console.log("Data",payload);
+   }
+
+   async componentDidMount(){
+   const payload=await getAccessMasterByStorefrontID(this.props.router.query.storefrontId);
+   this.setState({accessmasterAddress: payload})
+   console.log("Data accessmaster",payload);
    }
  
   
    eturnulsolData = () => {
     const token = localStorage.getItem("platform_token");
-    const accessmasterAddress = this.props.router.query.accessmasterAddress;
+
    const valid= this.onClickButton();
 if(valid){
   axios
@@ -56,7 +61,7 @@ if(valid){
         param1 : this.state.contractName,
         param2 : this.state.contractSymbol,
         param3 : "www.xyz.com",
-        param4 : accessmasterAddress
+        param4 : this.state.accessmasterAddress
     },
      network: "maticmum",
      storefrontId:this.props?.router?.query?.storefrontId ,

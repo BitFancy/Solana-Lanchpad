@@ -97,7 +97,7 @@ console.log("contractAddress>>>>",contractAddress);
               <div className="mt-5 ml-5">
                 <Link
                   href={{
-                    pathname: "/createSignatureSeriesAssets",
+                    pathname: "/CreateSignatureSeriesAssets",
                     query: { contractAddress: contractAddress },
                   }}
                 >

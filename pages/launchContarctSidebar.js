@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { withRouter } from "next/router";
 function LaunchContarctSidebar(props) {
-  console.log("sft id in sidebar", props.router.query.storefrontId);
   return (
     <div
       className="bg-blue-600 text-white p-5"

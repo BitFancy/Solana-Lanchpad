@@ -238,7 +238,6 @@ class SignatureSeries extends React.Component {
 
   render() {
     console.log("initial state",this.initialState);
-    console.log('sft id in sig' ,this.props?.router?.query?.storefrontId)
 
     return (
       <Layout2

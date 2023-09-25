@@ -18,7 +18,6 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
     super(props);
-    this.showError = this.showError.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
     this.state = {
       contractName: "",

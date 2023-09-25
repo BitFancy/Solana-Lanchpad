@@ -48,7 +48,6 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
 
   const [uploadImage, setuploadImage] = useState("");
-  console.log('sft id in market de',props)
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);

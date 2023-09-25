@@ -43,8 +43,6 @@ function WebappForm(props) {
   const [uploadImageCover, setuploadImageCover] = useState("");
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
-
-  console.log('sft id in webapp',props)
  
   const addMarketplaceDetails = async () => {
     // Router.push({pathname:"/successNoteContract",query:{redirectURL:'http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql'}})

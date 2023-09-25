@@ -90,7 +90,7 @@ function GetAllFusionSeriesNft(props) {
               <div className="mt-5 ml-5">
                 <Link
                   href={{
-                    pathname: "/createFusionSeriesAssets",
+                    pathname: "/CreateFusionSeriesAssets",
                     query: { contractAddress: contractAddress },
                   }}
                 >

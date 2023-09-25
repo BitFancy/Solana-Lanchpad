@@ -42,7 +42,7 @@ jobs:
           path: |
             .next
             public
-            .env
+            .env.local
           retention-days: 0 # artifact retention duration, can be upto 30 days
   ghcr-push:
     name:

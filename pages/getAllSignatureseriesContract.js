@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import Link from "next/link";
@@ -24,8 +23,6 @@ function GetAllSignatureseriesContract(props) {
     setContarctData(payload)
    console.log("Data",payload);
   };
-
-  // const getcontractById = () => {
   //   const token = localStorage.getItem("platform_token");
   //   axios
   //     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {

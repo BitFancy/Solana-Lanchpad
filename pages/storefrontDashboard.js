@@ -21,7 +21,6 @@ function StorefrontDashboard(props) {
   const toaste = useRef(null);
   const { layoutConfig } = useContext(LayoutContext);
   const { address } = useAccount();
-  console.log("sft id in stdashboard", props);
   const showError = () => {
     toaste.current.show({
       severity: "error",
