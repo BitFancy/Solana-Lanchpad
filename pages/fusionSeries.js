@@ -34,6 +34,7 @@ class FusionSeries extends React.Component {
       tradhubAddress: "",
       thumbnail: "",
       uploadImageCover: "",
+      
       visible: false,
       loading2: false,
       loading4: false,
@@ -116,6 +117,8 @@ class FusionSeries extends React.Component {
             network: "maticmum",
             storefrontId: this.props?.router?.query?.storefrontId,
             collectionName: this.state.contractName,
+            thumbnail: this.state.thumbnail,
+            coverImage: this.state.uploadImageCover,
           },
           {
             headers: {
@@ -190,7 +193,7 @@ class FusionSeries extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
       this.setState({ thumbnail: metaHashURI });
     } catch (error) {
@@ -204,7 +207,7 @@ class FusionSeries extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
       this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {

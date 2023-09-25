@@ -56,7 +56,7 @@ import { withRouter } from "next/router";
                   <Link 
                     href={{
                       pathname: "/eternumPass",
-                      query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                      query: { storefrontId: props?.router?.query?.storefrontId},
                     }}>
                   
                   <Button

@@ -97,7 +97,7 @@ class SignatureSeries extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
       this.setState({ thumbnail: metaHashURI });
     } catch (error) {
@@ -111,7 +111,7 @@ class SignatureSeries extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
       this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {
@@ -215,10 +215,7 @@ class SignatureSeries extends React.Component {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
   };
 
-  handleInputThumbnail = (e) => {
-    this.setState({ contractSymbol: e.target.value, symbolError: "" });
-  };
-
+ 
   navigateTo = (nav) => {
     Router.push(nav);
   };

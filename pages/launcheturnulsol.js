@@ -54,7 +54,7 @@ function LaunchEturnulsol(props) {
                   <Link 
                    href={{
                     pathname: "/eturnalsol",
-                    query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                    query: { storefrontId: props?.router?.query?.storefrontId},
                   }}
                   >
                   <Button

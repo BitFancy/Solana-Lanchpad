@@ -53,7 +53,7 @@ import { withRouter } from "next/router";
                   
                   href={{
                     pathname: "/fusionSeries",
-                  query: { storefrontId: props?.router?.query?.storefrontId, tradhubAddress:props?.router?.query?.tradhubAddress,accessMasterAddress:props?.router?.query?.accessMasterAddress},
+                  query: { storefrontId: props?.router?.query?.storefrontId},
                   }}>
                   <Button
                     label="Launch"

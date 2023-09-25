@@ -178,7 +178,7 @@ function AddStorefront() {
         <Dialog
           header="Header"
           visible={visible}
-          style={{ width: "50vw" }}
+          style={{ width: "30vw", height: "18vw" }}
           onHide={() => setVisible(false)}
         >
           <p className="m-0">

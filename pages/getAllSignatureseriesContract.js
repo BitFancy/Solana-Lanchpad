@@ -8,6 +8,7 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import { getcontractById } from "../utils/util";
+import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function GetAllSignatureseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
@@ -17,36 +18,39 @@ function GetAllSignatureseriesContract(props) {
    console.log('id in getall sig con',props.router.query.storefrontId)
    useEffect(() => {
     getallcontractbyId();
+    getallsigseriesContract();
   }, []);
   const getallcontractbyId =async () => {
     const payload = await getcontractById(props.router.query.storefrontId)
     setContarctData(payload)
    console.log("Data",payload);
   };
-  //   const token = localStorage.getItem("platform_token");
-  //   axios
-  //     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then(async (response) => {
-  //       setLoading(true);
-  //       if (response?.data?.length > 0) {
-  //         setContarctData(
-  //           response.data.filter((sf) => sf.contractName === "SignatureSeries")
-  //         );
-  //       }
-  //       setLoading(false);
-  //     })
+  const getallsigseriesContract=()=>{
+    const token = localStorage.getItem("platform_token");
+    axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        setLoading(true);
+        if (response?.data?.length > 0) {
+          setContarctData(
+            response.data.filter((sf) => sf.contractName === "SignatureSeries")
+          );
+        }
+        setLoading(false);
+      })
 
-  //     .catch((error) => {
-  //       console.log('error while get contract by id',error)
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
+      .catch((error) => {
+        console.log('error while get contract by id',error)
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+   
  
   return (
     <LayoutDashbord
