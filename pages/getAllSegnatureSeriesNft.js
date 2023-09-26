@@ -10,6 +10,7 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
 import {  withRouter } from "next/router";
 import { ethers } from "ethers";
+import Homecomp from "../Components/HomeCompo";
 function GetAllSignatureSeriesSeriesNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
   const { layoutConfig } = useContext(LayoutContext);
@@ -30,11 +31,11 @@ function GetAllSignatureSeriesSeriesNft(props) {
     try {
       setLoading(true)
       const {
-        data: { assetCreateds },
+        data: { signatureSeriesAssetCreateds },
       } = await axios.get("/api/assetsCreated")
-      console.log("assetCreateds>>>", assetCreateds);
+      console.log("assetCreateds>>>", signatureSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray = assetCreateds?.map(
+      let tranasactionHashArray = signatureSeriesAssetCreateds?.map(
         (asset) => asset.transactionHash
       ) ?? [];
       const innerContractAddress = [];
@@ -45,7 +46,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
           const gqlcontractAddress = await provider.getTransaction(hash);
           if (gqlcontractAddress.to == contractAddress) {
             innerContractAddress.push(
-              assetCreateds.find((asset) => asset.transactionHash === hash)
+              signatureSeriesAssetCreateds.find((asset) => asset.transactionHash === hash)
             );
           }
           setAsseetsData(innerContractAddress);
@@ -71,6 +72,9 @@ function GetAllSignatureSeriesSeriesNft(props) {
       setLoading2(false);
     }, 2000);
   };
+
+ 
+      
 console.log("contractAddress>>>>",contractAddress);
   return (
     <LayoutDashbord
@@ -98,7 +102,7 @@ console.log("contractAddress>>>>",contractAddress);
                 <Link
                   href={{
                     pathname: "/createSignatureSeriesAssets",
-                    query: { contractAddress: contractAddress },
+                    query: { contractAddress: contractAddress,storefrontId:props.router.query.storefrontId },
                   }}
                 >
                   <Button
@@ -115,62 +119,26 @@ console.log("contractAddress>>>>",contractAddress);
               style={{ width: "87%", right: "-43px", position: "absolute" }}
             ></div>
             <div
-              className="grid cursor-pointer"
+              className="grid cursor-pointer mt-5"
               style={{ gap: "20px",  marginLeft: "30px" }}
             >
               {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {
                   return (
-                    <Link key={1} 
+                    <Link key={asset.tokenID} 
                     href={{
                       pathname: "/singleSignatureSeriesNFT",
-                      query: { contractAddress: contractAddress },
+                      query: { contractAddress: contractAddress,id:asset.tokenID},
                     }}
                     >
                       <div
                         className="col-12 lg:col-6 xl:col-3"
                         style={{ width: "285px" }}
-                      >
-                        <div
-                          className="p-3 gap-5 back-contract mt-5"
-                          style={{
-                            marginBottom: "0px",
-                            width: "100%",
-                            height: "350px",
-                            borderRadius: "20px",
-                          }}
-                        >
-                          <div className="text-center">
-                            <img
-                              className="dash-img-size"
-                              style={{
-                                width: "200px",
-                                height: "200px",
-                                background: "#CFCDCD",
-                              }}
-                              src="garden.png"
-                            ></img>
-                          </div>
 
-                          <div className="mt-5 " style={{ color: "black" }}>
-                            Token Id :{" "}
-                            <span style={{ color: "blue" }}>
-                              <>{asset.tokenID}</>
-                            </span>
-                          </div>
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Price:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Last Sale:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
-                        </div>
+                      >
+                      <Homecomp uri={asset ? asset.metaDataURI : ""} />
+
+                       
                       </div>
                     </Link>
                   );

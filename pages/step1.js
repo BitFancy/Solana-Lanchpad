@@ -102,9 +102,9 @@ function Step1(props) {
         .then(async (response) => {
           setTimeout(() => {
             setLoading(false);
+            setVisible(true);
           }, 2000);
           settradhubResponse(response.data.contractAddress);
-          setVisible(true);
           router.push({
             pathname: "/launchSignatureseries",
             query: { storefrontId: props?.router?.query?.storefrontId},
@@ -139,7 +139,6 @@ function Step1(props) {
       return true;
     }
   };
-  console.log("Logging",props.router);
   return (
     <Layout2 title="Tradhub Setup" description="First Deploy Tradhub">
       <Toast ref={toast} />
@@ -165,7 +164,7 @@ function Step1(props) {
         }`}
       >
         <div>
-          <div className="font-bold p-3 mb-5 text-black ml-5 p-heading p-5">
+          <div className="font-bold p-3 mb-5 text-3xl text-black ml-5 p-heading p-5">
             Step1: Setup TradeHub
           </div>
           <div className="border-bottom-das"></div>
@@ -220,6 +219,8 @@ function Step1(props) {
             <div className="flex mt-5 justify-content-between"></div>
           </div>
 
+
+        {tradhubResponse &&
           <Link 
               href={{
                 pathname: "/launchSignatureseries",
@@ -230,6 +231,7 @@ function Step1(props) {
               <Button label="Continue"></Button>
             </div>
           </Link>
+        }  
         </div>
       </div>
     </Layout2>

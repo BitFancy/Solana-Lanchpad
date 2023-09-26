@@ -18,10 +18,10 @@ function GetAllFusionSeriesNft(props) {
   const toast = useRef(null);
  
   useEffect(() => {
-    getSignetureSeriesAssets();
+    getallfusionSeriesAssets();
   }, []);
 
-  const getSignetureSeriesAssets = async () => {
+  const getallfusionSeriesAssets = async () => {
     console.log(
       " fusion series NFT page>>>>",
       props.router.query.contractAddress,
@@ -30,7 +30,7 @@ function GetAllFusionSeriesNft(props) {
     const testCTA = props.router.query.contractAddress;
     const {
       data: { assetCreateds },
-    } = await axios.get("/api/assetsCreated");
+    } = await axios.get("/api/fusionseriesAssets");
     console.log("Data>>>", assetCreateds);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     let tranasactionHashArray = assetCreateds?.map(
@@ -72,7 +72,7 @@ function GetAllFusionSeriesNft(props) {
       description="Used to Show All FusionSeries NFTs Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
         <div
           className={`${
             layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
@@ -90,8 +90,8 @@ function GetAllFusionSeriesNft(props) {
               <div className="mt-5 ml-5">
                 <Link
                   href={{
-                    pathname: "/CreateFusionSeriesAssets",
-                    query: { contractAddress: contractAddress },
+                    pathname: "/createFusionSeriesAssets",
+                    query: { contractAddress: contractAddress,storefrontId:props.router.query.storefrontId },
                   }}
                 >
                   <Button

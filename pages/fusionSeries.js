@@ -12,7 +12,6 @@ import { Dialog } from "primereact/dialog";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-
 import {
   getAccessMasterByStorefrontID,
   getStorefrontByID,
@@ -34,7 +33,7 @@ class FusionSeries extends React.Component {
       tradhubAddress: "",
       thumbnail: "",
       uploadImageCover: "",
-      
+
       visible: false,
       loading2: false,
       loading4: false,
@@ -174,9 +173,6 @@ class FusionSeries extends React.Component {
     }
   };
 
-
-
-
   uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
@@ -194,7 +190,7 @@ class FusionSeries extends React.Component {
     });
     try {
       const metaHash = await this.uploadBlobGetHash(thumbnail);
-      const metaHashURI = getMetaHashURI(metaHash);
+      const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ thumbnail: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
@@ -208,7 +204,7 @@ class FusionSeries extends React.Component {
     });
     try {
       const metaHash = await this.uploadBlobGetHash(thumbnail);
-      const metaHashURI = getMetaHashURI(metaHash);
+      const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
@@ -351,9 +347,9 @@ class FusionSeries extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="text-center"
-                      style={{ marginTop: "60px" }}
-                      
+                      <div
+                        className="text-center"
+                        style={{ marginTop: "60px" }}
                       >
                         <Button
                           onClick={this.fusionSerisData}
@@ -420,7 +416,7 @@ class FusionSeries extends React.Component {
                   href={{
                     pathname: "/launchSignatureseries",
                     query: {
-                      storefrontId: this.props?.router?.query?.storefrontId
+                      storefrontId: this.props?.router?.query?.storefrontId,
                     },
                   }}
                 >
@@ -435,26 +431,28 @@ class FusionSeries extends React.Component {
                   />
                 </Link>
               </div>
-              <div className="text-center mt-5">
-                <Link
-                  href={{
-                    pathname: "/webappForm",
-                    query: {
-                      storefrontId: this.props?.router?.query?.storefrontId,
-                    },
-                  }}
-                >
-                  <Button
-                    label="Next"
-                    severity="Primary"
-                    rounded
-                    loading={this.loading4}
-                    onClick={this.load4}
-                    className=" buy-img"
-                    style={{ padding: "10px 60px 10px 60px" }}
-                  />
-                </Link>
-              </div>
+              {this.state.fusionseriesResponse && (
+                <div className="text-center mt-5">
+                  <Link
+                    href={{
+                      pathname: "/webappForm",
+                      query: {
+                        storefrontId: this.props?.router?.query?.storefrontId,
+                      },
+                    }}
+                  >
+                    <Button
+                      label="Next"
+                      severity="Primary"
+                      rounded
+                      loading={this.loading4}
+                      onClick={this.load4}
+                      className=" buy-img"
+                      style={{ padding: "10px 60px 10px 60px" }}
+                    />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

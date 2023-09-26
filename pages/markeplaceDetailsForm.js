@@ -225,7 +225,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
             <div
               className=" p-5 mt-5  back-color  gap-5"
-              style={{ width: "80%", margin: "0 auto" }}
+              style={{ width: "65%", margin: "0 auto" }}
             >
                <div className="font-bold text-3xl p-5 text-centerp-heading text-center">
             Make Your Marketplace Shine
@@ -240,7 +240,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                   id="stfName"
                   onChange={handleInputContractName}
                   value={stfName}
-                  className="p-2  input-back w-full text-white"
+                  className="p-2  input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!stfName ? errors.stfNameError : ""}
@@ -253,7 +253,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={stfdescription}
                   onChange={handleInputDescription}
-                  className="p-2  input-back w-full text-white"
+                  className="p-2  input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!stfdescription ? errors.stfdescriptionError : ""}
@@ -266,7 +266,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={stfheadline}
                   onChange={handleInputstfHeadline}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!stfheadline ? errors.stfheadlineError : ""}
@@ -291,7 +291,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={tagline}
                   onChange={handleInputtagline}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!tagline ? errors.taglineError : ""}
@@ -304,7 +304,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={tagdescription}
                   onChange={handleInputtagdescription}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!tagdescription ? errors.tagdescriptionError : ""}
@@ -321,7 +321,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={email}
                   onChange={handleInputEmail}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!email ? errors.emailError : ""}
@@ -338,7 +338,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={twitter}
                   onChange={handleInputtweeter}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!twitter ? errors.twitterError : ""}
@@ -351,7 +351,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={discord}
                   onChange={handleInputdiscord}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!discord ? errors.discordError : ""}
@@ -364,7 +364,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   value={instagram}
                   onChange={handleInputinstagram}
-                  className="p-2 input-back w-full text-white"
+                  className="p-2 input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
               {!instagram ? errors.instagramError : ""}

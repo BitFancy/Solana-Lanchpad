@@ -14,7 +14,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
 import { Dialog } from "primereact/dialog";
 import { NFTStorage } from "nft.storage";
-import { FileUpload } from "primereact/fileupload";
+import { FileUpload } from "primereact/fileupload";p
 import {
   getAccessMasterByStorefrontID,
   getStorefrontByID,
@@ -69,6 +69,7 @@ class SignatureSeries extends React.Component {
     getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
         this.setState({ tradhubAddress: response[0]?.contractAddress });
+        console.log('tradhub',response[0]?.contractAddress)
       }
     );
   }
@@ -98,7 +99,7 @@ class SignatureSeries extends React.Component {
     });
     try {
       const metaHash = await this.uploadBlobGetHash(thumbnail);
-      const metaHashURI = getMetaHashURI(metaHash);
+      const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ thumbnail: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
@@ -112,7 +113,7 @@ class SignatureSeries extends React.Component {
     });
     try {
       const metaHash = await this.uploadBlobGetHash(thumbnail);
-      const metaHashURI = getMetaHashURI(metaHash);
+      const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
@@ -452,26 +453,30 @@ class SignatureSeries extends React.Component {
                   />
                 </Link>
               </div>
-              <div className="text-center mt-5">
-                <Link
-                  href={{
-                    pathname: "/webappForm",
-                    query: {
-                      storefrontId: this.props?.router?.query?.storefrontId,
-                    },
-                  }}
-                >
-                  <Button
-                    label="Next"
-                    severity="Primary"
-                    rounded
-                    loading={this.loading4}
-                    onClick={this.load4}
-                    className=" buy-img"
-                    style={{ padding: "10px 60px 10px 60px" }}
-                  />
-                </Link>
-              </div>
+
+              {this.state.signatureseriesRespoanse && 
+               <div className="text-center mt-5">
+               <Link
+                 href={{
+                   pathname: "/webappForm",
+                   query: {
+                     storefrontId: this.props?.router?.query?.storefrontId,
+                   },
+                 }}
+               >
+                 <Button
+                   label="Next"
+                   severity="Primary"
+                   rounded
+                   loading={this.loading4}
+                   onClick={this.load4}
+                   className=" buy-img"
+                   style={{ padding: "10px 60px 10px 60px" }}
+                 />
+               </Link>
+             </div>
+              }
+             
             </div>
           </div>
         </div>

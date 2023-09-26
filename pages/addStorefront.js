@@ -125,8 +125,10 @@ function AddStorefront() {
         .then(async (response) => {
           setTimeout(() => {
             setLoading(false);
-          }, 2000);
             setVisible(true);
+          }, 2000);
+          
+       
           router.push({
             pathname: "/step1",
             query: { storefrontId: response.data.storefrontId},            
@@ -181,10 +183,10 @@ function AddStorefront() {
           style={{ width: "30vw", height: "18vw" }}
           onHide={() => setVisible(false)}
         >
-          <p className="m-0">
+          <div className="text-center">
             You have assumed the role of administrator.The deployment of Flow
             access master has been completed successfully.
-          </p>
+          </div>
         </Dialog>
         <div
           className={`${

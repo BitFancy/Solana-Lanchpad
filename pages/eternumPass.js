@@ -10,7 +10,10 @@ import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
-import { getAccessMasterByStorefrontID, getTradeHubByStorefrontID } from "../utils/util";
+import {
+  getAccessMasterByStorefrontID,
+  getTradeHubByStorefrontID,
+} from "../utils/util";
 import { Dialog } from "primereact/dialog";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -33,7 +36,6 @@ const EternumPass = (props) => {
   const [accsessmasterAddress, setAccessMasterAddress] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
 
-
   const { layoutConfig } = useContext(LayoutContext);
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -48,7 +50,7 @@ const EternumPass = (props) => {
     { name: "Polygon", value: "Polygon" },
     { name: "Ethereum", value: "Ethereum" },
   ];
-   
+
   const [submitClicked, setSubmitClicked] = useState(false);
   const showSuccess = () => {
     toast.current.show({
@@ -58,20 +60,20 @@ const EternumPass = (props) => {
       life: 10000,
     });
   };
- 
 
   useEffect(() => {
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setAccessMasterAddress({accsessmasterAddress:response[0]?.contractAddress})
+        setAccessMasterAddress({
+          accsessmasterAddress: response[0]?.contractAddress,
+        });
       }
     );
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress({tradhubAddress: response[0]?.contractAddress})
+        setTradhubAddress({ tradhubAddress: response[0]?.contractAddress });
       }
     );
-    
   }, []);
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
   const eturnumpassContarctData = () => {
@@ -96,8 +98,7 @@ const EternumPass = (props) => {
             },
             network: "maticmum",
             storefrontId: props.router.query.storefrontId,
-            collectionName:contractName
-
+            collectionName: contractName,
           },
           {
             headers: {
@@ -111,11 +112,10 @@ const EternumPass = (props) => {
           }, 2000);
           setEturnumpassResponse(response.data.contractAddress);
           showSuccess();
-
         })
 
         .catch((error) => {
-          console.log(error)
+          console.log(error);
         })
         .finally(() => {
           setLoading(false);
@@ -143,7 +143,6 @@ const EternumPass = (props) => {
     setRoyltybps(e.target.value);
   };
 
-  
   const load4 = () => {
     setLoading4(true);
 
@@ -205,7 +204,7 @@ const EternumPass = (props) => {
     }
   };
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
- const onChangeThumbnail = async (e) => {
+  const onChangeThumbnail = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
       type: file.type,
@@ -213,13 +212,13 @@ const EternumPass = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setThumbnail({thumbnail:metaHashURI})
+      setThumbnail({ thumbnail: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
     }
   };
-  
- const onChangeThumbnailCover = async (e) => {
+
+  const onChangeThumbnailCover = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
       type: file.type,
@@ -227,22 +226,25 @@ const EternumPass = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setUploadImageCover({uploadImageCover:metaHashURI})
+      setUploadImageCover({ uploadImageCover: metaHashURI });
     } catch (error) {
       console.log("error while upload image", error);
     }
   };
 
   return (
-    <Layout2  title="Deploy Eternumpass"
-    description="This is use to show information of the deploy Eternumpass contract">
-    <div
-     className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}
+    <Layout2
+      title="Deploy Eternumpass"
+      description="This is use to show information of the deploy Eternumpass contract"
     >
-     
-      <Toast ref={toast} />
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+        }`}
+      >
+        <Toast ref={toast} />
 
-      <Dialog
+        <Dialog
           visible={visible}
           style={{ width: "30vw", height: "18vw" }}
           onHide={() => setVisible(false)}
@@ -252,200 +254,204 @@ const EternumPass = (props) => {
             <div className="mt-3 text-xl">Deploying storefront Webapp</div>
           </div>
         </Dialog>
-      <div >
-        <div className="flex justify-content-between p-3" style={{ borderBottom: "2px solid" }}>
+        <div>
           <div
-            className=" p-5 font-bold text-center p-heading"
-            
+            className="flex justify-content-between p-3"
+            style={{ borderBottom: "2px solid" }}
           >
-           Step 2 : Deploy EternumPass
-          </div>
-          <div className="mt-5">
-          <Dropdown
+            <div className=" p-5 font-bold text-center p-heading">
+              Step 2 : Deploy EternumPass
+            </div>
+            <div className="mt-5">
+              <Dropdown
                 value={selecteBlockchaine}
                 onChange={(e) => setselectedBlockchaine(e.value)}
                 options={blockchain}
                 optionLabel="name"
                 placeholder="Chains "
                 className="w-full font-bold"
-                style={{borderRadius:'20px'}}
+                style={{ borderRadius: "20px" }}
               />
               {/* <span className="blockchain-label">{storefrontData?.blockchain}</span> */}
-
+            </div>
           </div>
-          </div>
 
-        <div className="flex justify-content-center gap-5 mt-5">
-          <div className="back-color p-5 buy-img" style={{ width: "50%" }}>
-            <div className="p-heading">Enter EternumPass Name</div>
-            <div className="mt-3">
-              <InputText
-                className="p-2 input-back w-full "
-                onChange={handleInputName}
-                value={contractName}
-              />
-              <p className="text-left text-red-600 mt-2" >
-                {!contractName ? errors.contractNameError : ""}
-              </p>
-            </div>
-
-            <div className="mt-5 p-heading">Enter EternumPass Symbol</div>
-
-            <div className="  mt-3">
-              <InputText
-                className="p-2  input-back w-full "
-                value={contractSymbol}
-                onChange={handleInputSymbol}
-              />
-              <p className="text-left text-red-600 mt-2">
-                {!contractSymbol ? errors.contractSymbolError : ""}
-              </p>
-            </div>
-
-            <div className="mt-5 p-heading">Enter Public SalePrice</div>
-
-            <div className="  mt-3">
-              <InputText
-                className="p-2  input-back w-full "
-                value={salePrice}
-                onChange={handleInputSalePrice}
-              />
-              <p className="text-left text-red-600 mt-2" >
-                {!salePrice ? errors.salePriceError : ""}
-              </p>
-            </div>
-
-            <div className="mt-5">Enter Platform Fees Base Price</div>
-
-            <div className=" mt-3">
-              <InputText
-                value={platformFeeBasePrice}
-                onChange={handleInputPlatformFee}
-                className="p-2 input-back w-full "
-              />
-              <p className="text-left text-red-600 mt-2" style={{ textAlign: "left", color: "red" }}>
-                {!platformFeeBasePrice ? errors.platformFeeBasePriceError : ""}
-              </p>
-            </div>
-            <div className="mt-5 p-heading">Enter Subscription Price Per month</div>
-
-            <div className=" mt-3">
-              <InputText
-                value={subspricePerMonth}
-                onChange={handleInputSubscriptionPrice}
-                className="p-2  input-back w-full "
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!subspricePerMonth ? errors.subspricePerMonthError : ""}
-              </p>
-            </div>
-
-            <div className="mt-5 p-heading">Enter Royalty BPS</div>
-
-            <div className=" mt-3">
-              <InputText
-                value={royltybps}
-                onChange={handleInputRoyelty}
-                className="p-2 input-back w-full"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!royltybps ? errors.royltybpsError : ""}
-              </p>
-            </div>
-
-           
-
-            <div className="flex justify-content-between mt-5">
-                          <div>Thumbnail</div>
-                          <div>Cover Image</div>
-                        </div>
-                        <div className="flex mt-3" style={{ gap: "70px" }}>
-                          <div
-                            style={{
-                              border: "1px solid",
-                              padding: "15px",
-                              width: "45%",
-                            }}
-                          >
-                            <FileUpload
-                              type="file"
-                              onSelect={(event) => {
-                                onChangeThumbnail(event);
-                              }}
-                              uploadHandler={(e) =>
-                                console.log("File upload handler", e.files)
-                              }
-                              value={thumbnail}
-                              accept="image/*"
-                              maxFileSize={1000000}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              border: "1px solid",
-                              padding: "15px",
-                              width: "45%",
-                            }}
-                          >
-                            <FileUpload
-                              type="file"
-                              onSelect={(event) => {
-                                onChangeThumbnailCover(event);
-                              }}
-                              uploadHandler={(e) =>
-                                console.log("File upload handler", e.files)
-                              }
-                              value={uploadImageCover}
-                              accept="image/*"
-                              maxFileSize={1000000}
-                            />
-                          </div>
-                        </div>
-
-            <div className="flex mt-5 justify-content-center">
-              <div>
-                <Button
-                  label="Deploy EternumPass"
-                  onClick={eturnumpassContarctData}
-                  severity="Primary"
-                  className=" mt-7 w-full buy-img"
-                  style={{ width: "30%" }}
-                  rounded
-                  type="submit"
-                  loading={loading}
+          <div className="flex justify-content-center gap-5 mt-5">
+            <div className="back-color p-5 buy-img" style={{ width: "50%" }}>
+              <div className="p-heading">Enter EternumPass Name</div>
+              <div className="mt-3">
+                <InputText
+                  className="p-2 input-back w-full "
+                  onChange={handleInputName}
+                  value={contractName}
                 />
+                <p className="text-left text-red-600 mt-2">
+                  {!contractName ? errors.contractNameError : ""}
+                </p>
               </div>
-             
+
+              <div className="mt-5 p-heading">Enter EternumPass Symbol</div>
+
+              <div className="  mt-3">
+                <InputText
+                  className="p-2  input-back w-full "
+                  value={contractSymbol}
+                  onChange={handleInputSymbol}
+                />
+                <p className="text-left text-red-600 mt-2">
+                  {!contractSymbol ? errors.contractSymbolError : ""}
+                </p>
+              </div>
+
+              <div className="mt-5 p-heading">Enter Public SalePrice</div>
+
+              <div className="  mt-3">
+                <InputText
+                  className="p-2  input-back w-full "
+                  value={salePrice}
+                  onChange={handleInputSalePrice}
+                />
+                <p className="text-left text-red-600 mt-2">
+                  {!salePrice ? errors.salePriceError : ""}
+                </p>
+              </div>
+
+              <div className="mt-5">Enter Platform Fees Base Price</div>
+
+              <div className=" mt-3">
+                <InputText
+                  value={platformFeeBasePrice}
+                  onChange={handleInputPlatformFee}
+                  className="p-2 input-back w-full "
+                />
+                <p
+                  className="text-left text-red-600 mt-2"
+                  style={{ textAlign: "left", color: "red" }}
+                >
+                  {!platformFeeBasePrice
+                    ? errors.platformFeeBasePriceError
+                    : ""}
+                </p>
+              </div>
+              <div className="mt-5 p-heading">
+                Enter Subscription Price Per month
+              </div>
+
+              <div className=" mt-3">
+                <InputText
+                  value={subspricePerMonth}
+                  onChange={handleInputSubscriptionPrice}
+                  className="p-2  input-back w-full "
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!subspricePerMonth ? errors.subspricePerMonthError : ""}
+                </p>
+              </div>
+
+              <div className="mt-5 p-heading">Enter Royalty BPS</div>
+
+              <div className=" mt-3">
+                <InputText
+                  value={royltybps}
+                  onChange={handleInputRoyelty}
+                  className="p-2 input-back w-full"
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!royltybps ? errors.royltybpsError : ""}
+                </p>
+              </div>
+
+              <div className="flex justify-content-between mt-5">
+                <div>Thumbnail</div>
+                <div>Cover Image</div>
+              </div>
+              <div className="flex mt-3" style={{ gap: "70px" }}>
+                <div
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    width: "45%",
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnail(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={thumbnail}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+                <div
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    width: "45%",
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnailCover(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={uploadImageCover}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+              </div>
+
+              <div className="flex mt-5 justify-content-center">
+                <div>
+                  <Button
+                    label="Deploy EternumPass"
+                    onClick={eturnumpassContarctData}
+                    severity="Primary"
+                    className=" mt-7 w-full buy-img"
+                    style={{ width: "30%" }}
+                    rounded
+                    type="submit"
+                    loading={loading}
+                  />
+                </div>
+              </div>
             </div>
-           
           </div>
-         
-         
-        </div>
-        <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
-              <div className="text-center mt-5">
-                <Link 
-                
+          <div
+            className="flex justify-content-center mt-5"
+            style={{ gap: "445px" }}
+          >
+            <div className="text-center mt-5">
+              <Link
                 href={{
                   pathname: "/launchSignatureseries",
-                  query: { storefrontId: props?.router?.query?.storefrontId},
-                }}>
-                  <Button
-                    label="Back"
-                    severity="Primary"
-                    rounded
-                    loading={loading3}
-                    onClick={load3}
-                    className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
-                  />
-                </Link>
-              </div>
+                  query: { storefrontId: props?.router?.query?.storefrontId },
+                }}
+              >
+                <Button
+                  label="Back"
+                  severity="Primary"
+                  rounded
+                  loading={loading3}
+                  onClick={load3}
+                  className=" buy-img"
+                  style={{ padding: "10px 60px 10px 60px" }}
+                />
+              </Link>
+            </div>
+            {eturnumpassResponse && (
               <div className="text-center mt-5">
-                <Link 
+                <Link
                   href={{
                     pathname: "/webappForm",
-                    query: { storefrontId: props?.router?.query?.storefrontId},
+                    query: { storefrontId: props?.router?.query?.storefrontId },
                   }}
                 >
                   <Button
@@ -455,13 +461,14 @@ const EternumPass = (props) => {
                     loading={loading4}
                     onClick={load4}
                     className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
+                    style={{ padding: "10px 60px 10px 60px" }}
                   />
                 </Link>
               </div>
-            </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
     </Layout2>
   );
 };

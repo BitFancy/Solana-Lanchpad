@@ -11,7 +11,10 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import { NFTStorage } from "nft.storage";
 import { FileUpload } from "primereact/fileupload";
 import { Dialog } from "primereact/dialog";
-import { getAccessMasterByStorefrontID, getTradeHubByStorefrontID } from "../utils/util";
+import {
+  getAccessMasterByStorefrontID,
+  getTradeHubByStorefrontID,
+} from "../utils/util";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -34,7 +37,6 @@ const Instagen = (props) => {
   const [visible, setVisible] = useState(false);
   const [accsessmasterAddress, setAccessMasterAddress] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
-
   const [errors, setErros] = useState({
     contractNameError: "",
     contractSymbolError: "",
@@ -60,32 +62,25 @@ const Instagen = (props) => {
       life: 10000,
     });
   };
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While deploying Instagen contract",
-      life: 10000,
-    });
-  };
-
+ 
   useEffect(() => {
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setAccessMasterAddress({accsessmasterAddress:response[0]?.contractAddress})
+        setAccessMasterAddress({
+          accsessmasterAddress: response[0]?.contractAddress,
+        });
       }
     );
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress({tradhubAddress: response[0]?.contractAddress})
+        setTradhubAddress({ tradhubAddress: response[0]?.contractAddress });
       }
     );
-    
   }, []);
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const validation = onClickButton();
-    if(validation){
+    if (validation) {
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -105,8 +100,7 @@ const Instagen = (props) => {
             },
             network: "maticmum",
             storefrontId: props?.router?.query?.storefrontId,
-            collectionName:contractName
-
+            collectionName: contractName,
           },
           {
             headers: {
@@ -122,8 +116,8 @@ const Instagen = (props) => {
           showSuccess();
         })
 
-        .catch(() => {
-          showError();
+        .catch((error) => {
+         console.log('error',error)
         })
         .finally(() => {
           setLoading(false);
@@ -168,7 +162,6 @@ const Instagen = (props) => {
       setLoading4(false);
     }, 2000);
   };
- 
 
   const onClickButton = () => {
     if (!contractName) {
@@ -201,89 +194,105 @@ const Instagen = (props) => {
       contractSymbol &&
       salePrice &&
       saleprePrice &&
-      countdownTime && maxSupply &&
+      countdownTime &&
+      maxSupply &&
       royltybps
     ) {
       setSubmitClicked(true);
       setLoading(true);
       return true;
-    }else{
-      false
+    } else {
+      false;
     }
   };
 
-
+  uploadBlobGetHash = async (file) => {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
   const onChangeThumbnail = async (e) => {
-     const file = e.files[0];
-     const thumbnail = new File([file], file.name, {
-       type: file.type,
-     });
-     try {
-       const metaHash = await uploadBlobGetHash(thumbnail);
-       const metaHashURI = getMetaHashURI(metaHash);
-       setThumbnail({thumbnail:metaHashURI})
-     } catch (error) {
-       console.log("error while upload image", error);
-     }
-   };
-   
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setThumbnail({ thumbnail: metaHashURI });
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
   const onChangeThumbnailCover = async (e) => {
-     const file = e.files[0];
-     const thumbnail = new File([file], file.name, {
-       type: file.type,
-     });
-     try {
-       const metaHash = await uploadBlobGetHash(thumbnail);
-       const metaHashURI = getMetaHashURI(metaHash);
-       setUploadImageCover({uploadImageCover:metaHashURI})
-     } catch (error) {
-       console.log("error while upload image", error);
-     }
-   };
- 
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setUploadImageCover({ uploadImageCover: metaHashURI });
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
   return (
     <Layout2
       title="Deploy InstaGen"
       description="This is use to show information of the deploy InstaGen contract"
     >
-        <Dialog
-          visible={visible}
-          style={{ width: "30vw", height: "18vw" }}
-          onHide={() => setVisible(false)}
-        >
-          <div className="text-center">
-            <div className="font-bold text-2xl">Step 3 of 3</div>
-            <div className="mt-3 text-xl">Deploying storefront Webapp</div>
-          </div>
-        </Dialog>
-      <div 
-      className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-instagen' : 'dark'}`}
-       >
+      <Dialog
+        visible={visible}
+        style={{ width: "30vw", height: "18vw" }}
+        onHide={() => setVisible(false)}
+      >
+        <div className="text-center">
+          <div className="font-bold text-2xl">Step 3 of 3</div>
+          <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+        </div>
+      </Dialog>
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light"
+            ? "buy-back-image-instagen"
+            : "dark"
+        }`}
+      >
         <div>
-        <div className="flex justify-content-between p-3" style={{ borderBottom: "1px solid" }}>
           <div
-            className="p-5 font-bold text-center p-heading"
-            
+            className="flex justify-content-between p-3"
+            style={{ borderBottom: "1px solid" }}
           >
-           Step 2 : Deploy InstaGen
-          </div>
-          <div className="mt-5">
-          <Dropdown
+            <div className="p-5 font-bold text-center p-heading">
+              Step 2 : Deploy InstaGen
+            </div>
+            <div className="mt-5">
+              <Dropdown
                 value={selecteBlockchaine}
                 onChange={(e) => setselectedBlockchaine(e.value)}
                 options={blockchain}
                 optionLabel="name"
                 placeholder="Chains "
                 className="w-full font-bold"
-                style={{borderRadius:'20px'}}
+                style={{ borderRadius: "20px" }}
               />
-          </div>
+            </div>
           </div>
 
           <div className="flex justify-content-center gap-5">
-            <div className="p-5 back-color buy-img mt-5" style={{ width: "50%" }}>
-              <div className="p-heading" >Enter InstaGen Name</div>
+            <div
+              className="p-5 back-color buy-img mt-5"
+              style={{ width: "50%" }}
+            >
+              <div className="p-heading">Enter InstaGen Name</div>
               <div className="mt-3">
                 <InputText
                   id="contractName"
@@ -301,7 +310,6 @@ const Instagen = (props) => {
                 <InputText
                   value={contractSymbol}
                   className="p-2 input-back w-full"
-                  
                   onChange={handleInputSymbol}
                 />
                 <p style={{ textAlign: "left", color: "red" }}>
@@ -379,52 +387,51 @@ const Instagen = (props) => {
                 </p>
               </div>
               <div className="flex justify-content-between mt-5">
-                          <div>Thumbnail</div>
-                          <div>Cover Image</div>
-                        </div>
-                        <div className="flex mt-3" style={{ gap: "70px" }}>
-                          <div
-                            style={{
-                              border: "1px solid",
-                              padding: "15px",
-                              width: "45%",
-                            }}
-                          >
-                            <FileUpload
-                              type="file"
-                              onSelect={(event) => {
-                                onChangeThumbnail(event);
-                              }}
-                              uploadHandler={(e) =>
-                                console.log("File upload handler", e.files)
-                              }
-                              value={thumbnail}
-                              accept="image/*"
-                              maxFileSize={1000000}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              border: "1px solid",
-                              padding: "15px",
-                              width: "45%",
-                            }}
-                          >
-                            <FileUpload
-                              type="file"
-                              onSelect={(event) => {
-                                onChangeThumbnailCover(event);
-                              }}
-                              uploadHandler={(e) =>
-                                console.log("File upload handler", e.files)
-                              }
-                              value={uploadImageCover}
-                              accept="image/*"
-                              maxFileSize={1000000}
-                            />
-                          </div>
-                        </div>
-
+                <div>Thumbnail</div>
+                <div>Cover Image</div>
+              </div>
+              <div className="flex mt-3" style={{ gap: "70px" }}>
+                <div
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    width: "45%",
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnail(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={thumbnail}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+                <div
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    width: "45%",
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnailCover(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={uploadImageCover}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+              </div>
 
               <div className="flex mt-5 justify-content-center">
                 <div>
@@ -438,38 +445,41 @@ const Instagen = (props) => {
                     loading={loading}
                   />
                 </div>
-                
               </div>
 
               <Toast ref={toast} />
             </div>
           </div>
 
-          <div className="flex justify-content-center mt-5" style={{gap:'445px'}}>
-              <div className="text-center mt-5">
-                <Link 
-                
+          <div
+            className="flex justify-content-center mt-5"
+            style={{ gap: "445px" }}
+          >
+            <div className="text-center mt-5">
+              <Link
                 href={{
                   pathname: "/launchSignatureseries",
-                  query: { storefrontId: props?.router?.query?.storefrontId},
-                }}>
-                  <Button
-                    label="Back"
-                    severity="Primary"
-                    rounded
-                    loading={loading3}
-                    onClick={load3}
-                    className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
-                  />
-                </Link>
-              </div>
-              <div className="text-center mt-5">
-                <Link 
-                 href={{
-                  pathname: "/webappForm",
-                  query: { storefrontId: props?.router?.query?.storefrontId},
+                  query: { storefrontId: props?.router?.query?.storefrontId },
                 }}
+              >
+                <Button
+                  label="Back"
+                  severity="Primary"
+                  rounded
+                  loading={loading3}
+                  onClick={load3}
+                  className=" buy-img"
+                  style={{ padding: "10px 60px 10px 60px" }}
+                />
+              </Link>
+            </div>
+            {instagenResponse && (
+              <div className="text-center mt-5">
+                <Link
+                  href={{
+                    pathname: "/webappForm",
+                    query: { storefrontId: props?.router?.query?.storefrontId },
+                  }}
                 >
                   <Button
                     label="Next"
@@ -478,11 +488,12 @@ const Instagen = (props) => {
                     loading={loading4}
                     onClick={load4}
                     className=" buy-img"
-                    style={{padding:'10px 60px 10px 60px'}}
+                    style={{ padding: "10px 60px 10px 60px" }}
                   />
                 </Link>
               </div>
-            </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout2>
