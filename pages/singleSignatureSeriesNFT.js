@@ -90,7 +90,7 @@ console.log('props')
               {assetsData?.length > 0 && (
                 assetsData?.filter((cd) => cd.id === tokenId).map((asset) => {
                     return (
-                     <Homecomp uri={asset ? asset.metaDataURI : ""}/>
+                     <Homecomp key={1} uri={asset ? asset.metaDataURI : ""}/>
                     );
                   })
               )}
