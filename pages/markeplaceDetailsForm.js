@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { NFTStorage } from "nft.storage";
-import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Sidemenu from "./sidemenu";
@@ -10,6 +9,7 @@ import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import axios from "axios";
 import { withRouter } from "next/router";
+import { Dialog } from "primereact/dialog";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -28,7 +28,9 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
   const [discord, setdiscord] = useState();
   const [instagram, setinstagram] = useState();
   const { layoutConfig } = useContext(LayoutContext);
-  const [webappData, setWebappData] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  const [webappData, setWebappData] = useState('');
   const [errors, setErros] = useState({
     stfNameError: "",
     stfdescriptionError: "",
@@ -76,138 +78,119 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
   
   const handleInputContractName = (e) => {
     setStfName(e.target.value);
+    setWebappData(e.target.value)
   };
 
   const handleInputDescription = (e) => {
     setstfdescription(e.target.value);
+    setWebappData(e.target.value)
+
   };
   const handleInputstfHeadline = (e) => {
     setstfheadline(e.target.value);
+    setWebappData(e.target.value)
+
   };
 
   
   const handleInputtagline = (e) => {
     settagline(e.target.value);
+    setWebappData(e.target.value)
+
   };
   const handleInputtagdescription = (e) => {
     settagdescription(e.target.value);
+    setWebappData(e.target.value)
+
   };
 
   const handleInputEmail = (e) => {
     setEmail(e.target.value);
+    setWebappData(e.target.value)
+
   };
 
   const handleInputtweeter = (e) => {
     settwitter(e.target.value);
+    setWebappData(e.target.value)
+
   };
   const handleInputdiscord = (e) => {
     setdiscord(e.target.value);
+    setWebappData(e.target.value)
+
   };
   const handleInputinstagram = (e) => {
     setinstagram(e.target.value);
-  };
-  const updateMarketplaceDetails = async (e) => {
-    const token = localStorage.getItem("platform_token");
-    const username=localStorage.getItem('userName');
-    let resultName = username.concat("/", stfName);
-    var product={
-      name: resultName,
-      storefrontId: props?.router?.query?.storefrontId,
-      network: "mumbai",
-      protocol: "ethereum",
-      tag: "v1",
-      storefrontName: stfName,
-      headline: stfheadline,
-      description: stfdescription,
-      profileImage:uploadImageProfile,
-      coverImage: uploadImageCover,
-      personalTagline: tagline,
-      personalDescription: tagdescription,
-      relevantImage: uploadImageRelavent,
-      mailId: email,
-      twitter: twitter,
-      discord: discord,
-      instagram: instagram
-    }
-    const config = {
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-   const responseData= axios.patch( `${BASE_URL_LAUNCH}api/v1.0/storefront`, product, { config })
-      .then(response => {
-        console.log('data', response)
-      });
-      console.log('data', responseData)
-  };
- 
+    setWebappData(e.target.value)
 
-  const getWebappData= () => {
+  };
+
+  useEffect(() => {
+    getallsigseriesContract();
+  }, []);
+
+  const getallsigseriesContract=()=>{
     const token = localStorage.getItem("platform_token");
     axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront/myStorefronts`, {
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setWebappData(response.data)
+       console.log('response',response.data.payload)
+       setWebappData(response.data.payload)
+      })
 
-      //  setStorefrontId(response.data[response.data.length-1].id)
+      .catch((error) => {
+        console.log('error while get storefront by id',error)
+      })
+      
+      
+  }
+   
+  const updateMarketplaceDetails = async () => {
+        const token = localStorage.getItem("platform_token");
+       
+      axios.put(
+        `${BASE_URL_LAUNCH}api/v1.0/storefront`,
+        {
+          name: stfName,
+          id: props?.router?.query?.storefrontId,
+          updatedBy:"",
+          headline: stfheadline,
+          description: stfdescription,
+          profileImage:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
+          coverImage: 'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
+          personalTagline: tagline,
+          personalDescription: tagdescription,
+          relevantImage: 'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
+          mailId: email,
+          twitter: twitter,
+          discord: discord,
+          instagram: instagram
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+
+      )
+      .then(async (response) => {
+        setLoading(false)
+       setVisible(true)
       })
-      .catch(() => {
+
+      .catch((error) => {
+        console.log('error while profile create',error)
       })
+    
+  
   };
-
-  const onClickButton = () => {
-    if (!stfName) {
-      setErros({ stfNameError: "Please Enter Storefront Name" });
-      return false;
-    } else if (!stfdescription) {
-      setErros({ stfdescriptionError: "Please Enter Storefront Description" });
-      return false;
-    } else if (!stfheadline) {
-      setErros({ stfheadlineError: "Please Enter Storefront Headline" });
-       return false;
-    } else if (!tagline) {
-      setErros({ taglineError: "Please Enter Tagline" });
-      return false;
-    } else if (!tagdescription) {
-      setErros({ tagdescriptionError: "Please Enter Tagline Description" });
-      return false;
-    } 
-    else if (!email) {
-      setErros({ emailError: "Please Enter Correct Email" });
-      return false;
-    } 
-    else if (!twitter) {
-      setErros({ twitterError: "Please Enter Tweeter Id" });
-      return false;
-    } 
-    else if (!discord) {
-      setErros({ discordError: "Please Enter Discord Id" });
-      return false;
-    } 
-    else if (!instagram) {
-      setErros({ instagramError: "Please Enter Instagram Id" });
-      return false;
-    } 
-
-    else if (stfName && stfdescription && stfheadline  && tagline && tagdescription && email && twitter && discord && instagram) {
-      setSubmitClicked(true);
-      setLoading(true);
-      return true;
-    }
-  };
-
-  useEffect(() => {
-    getWebappData();
-    updateMarketplaceDetails();
-  }, []);
+ 
+  
  
   return (
     <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">
@@ -222,7 +205,15 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
             <div>
               <Sidemenu />
             </div>
-
+            <Dialog
+          visible={visible}
+          style={{ width: "25vw", height: "15vw" }}
+          onHide={() => setVisible(false)}
+        >
+          <div className="text-center">
+            <div className="mt-3 text-xl">Your Webapp is successfully Updated</div>
+          </div>
+        </Dialog>
             <div
               className=" p-5 mt-5  back-color  gap-5"
               style={{ width: "65%", margin: "0 auto" }}
@@ -239,7 +230,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                 <InputText
                   id="stfName"
                   onChange={handleInputContractName}
-                  value={stfName}
+                  value={webappData.name?webappData.name:stfName}
                   className="p-2  input-back w-full"
                 />
                   <p style={{ textAlign: "left", color: "red" }}>
@@ -251,7 +242,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="  mt-2">
                 <InputText
-                  value={stfdescription}
+                  value={webappData.description?webappData.description:stfdescription}
                   onChange={handleInputDescription}
                   className="p-2  input-back w-full"
                 />
@@ -264,7 +255,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="  mt-2">
                 <InputText
-                  value={stfheadline}
+                  value={webappData.headline?webappData.headline:stfheadline}
                   onChange={handleInputstfHeadline}
                   className="p-2 input-back w-full"
                 />
@@ -272,15 +263,6 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
               {!stfheadline ? errors.stfheadlineError : ""}
             </p>
               </div>
-
-             
-
-              
-
-             
-
-             
-
               <div className="mt-5 text-center text-3xl font-bold">
                 Personal information
               </div>
@@ -289,7 +271,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="  mt-2">
                 <InputText
-                  value={tagline}
+                  value={webappData.personalTagline?webappData.personalTagline:tagline}
                   onChange={handleInputtagline}
                   className="p-2 input-back w-full"
                 />
@@ -302,7 +284,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="mt-2">
                 <InputText
-                  value={tagdescription}
+                  value={webappData.personalDescription?webappData.personalDescription:tagdescription}
                   onChange={handleInputtagdescription}
                   className="p-2 input-back w-full"
                 />
@@ -319,7 +301,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="mt-2">
                 <InputText
-                  value={email}
+                  value={webappData.mailId?webappData.mailId:email}
                   onChange={handleInputEmail}
                   className="p-2 input-back w-full"
                 />
@@ -336,7 +318,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="mt-2">
                 <InputText
-                  value={twitter}
+                  value={webappData.twitter?webappData.twitter:twitter}
                   onChange={handleInputtweeter}
                   className="p-2 input-back w-full"
                 />
@@ -349,7 +331,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="mt-2">
                 <InputText
-                  value={discord}
+                  value={webappData.discord?webappData.discord:discord}
                   onChange={handleInputdiscord}
                   className="p-2 input-back w-full"
                 />
@@ -362,7 +344,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
               <div className="mt-2">
                 <InputText
-                  value={instagram}
+                  value={webappData.instagram}
                   onChange={handleInputinstagram}
                   className="p-2 input-back w-full"
                 />
@@ -377,15 +359,11 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
                   <Button
                     type="submit"
                     loading={loading}
-                    // onClick={addMarketplaceDetails}
+                    onClick={updateMarketplaceDetails}
                     label="Submit"
                   ></Button>
                 </div>
-                <div className="mt-5 ">
-                  <Link href="/successNoteContract">
-                    <Button loading={loading} label="Continue"></Button>
-                  </Link>
-                </div>
+              
               </div>
             </div>
           </div>

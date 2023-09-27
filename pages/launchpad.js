@@ -6,7 +6,6 @@ export default function Launchpad() {
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
   const [loading5, setLoading5] = useState(false);
-  const [loading6, setLoading6] = useState(false);
   const [loading7, setLoading7] = useState(false);
   const [loading8, setLoading8] = useState(false);
 
@@ -31,13 +30,7 @@ export default function Launchpad() {
       setLoading5(false);
     }, 2000);
   };
-  const load6 = () => {
-    setLoading6(true);
-
-    setTimeout(() => {
-      setLoading6(false);
-    }, 2000);
-  };
+ 
   const load7 = () => {
     setLoading7(true);
 
@@ -64,10 +57,12 @@ export default function Launchpad() {
               className="text-center font-bold mt-16 text-white "
               style={{ top: "300px", position: "relative", fontSize: "50px" }}
             >
-              <div> Launching Your Favorites</div>
+              <div> Launching Your Favorite</div>
               <div>NFTs in just few steps</div>
             </div>
           </div>
+        
+
         </div>
       
         <div
@@ -76,15 +71,14 @@ export default function Launchpad() {
         >
           <div style={{ width: "50%" }}>
             <div className="signature-series-head p-heading">
-              SignatureSeries
+              Signature Series
             </div>
             <div className="mt-5 text-3xl p-heading">
-              <div>Dive Into SignatureSeries, An Exclusive NFT </div>
-              <div>Collection Built On ERC-721, Featuring One-of-a-</div>
-              <div>Kind Digital Masterpieces. Immerse Yourself in</div>
-              <div>the World of Unique, Non-Fungible Tokens, Each </div>
-              <div>Possessing a Distinct, Unreplicable Signature of </div>
-              <div>Authenticity</div>
+              <div> Delve into Signature Series, an exclusive </div>
+              <div>assortment of ERC-721 NFTs, showcasing </div>
+              <div>incomparable digital artworks, each imbued</div>
+              <div>with a unique, unmistakable mark of </div>
+              <div>authenticity</div>
             </div>
             <div className="mt-5">
               <Link href="/signatureseries">
@@ -101,7 +95,7 @@ export default function Launchpad() {
           </div>
 
           <div style={{ width: "50%" }}>
-            <img style={{ width: "100%", height: "100%" }} src="sig.png"></img>
+            <img style={{ width: "100%" }} src="image.png"></img>
           </div>
         </div>
 
@@ -115,21 +109,20 @@ export default function Launchpad() {
               className="signature-series-head p-heading"
               style={{ textAlign: "end" }}
             >
-              FusionSeries
+              Fusion Series
             </div>
             <div
               className="mt-5 text-3xl p-heading"
               style={{ textAlign: "end" }}
             >
-              <div>Explore FusionSeries, a Unique NFT Collection </div>
-              <div>Leveraging ERC-1155 Power, Creating </div>
-              <div>a Seamless Blend of Unique and</div>
-              <div>Interchangeable Digital Assets. Experience </div>
-              <div>the Future of Digital Art, with Bundled </div>
-              <div>Collections and Rich Metadata that</div>
-              <div>add Unprecedented Depth and</div>
-              <div>Flexibility to Your NFT Experience</div>
+              <div>Explore Fusion Series, an ERC-1155 NFT</div>
+              <div>collection merging unique digital assets  </div>
+              <div>with rich metadata for an enhanced</div>
+              <div>NFT experience </div>
             </div>
+             
+
+ 
 
             <div className="mt-5" style={{ textAlign: "end" }}>
               <Link href="/fusionSeries">
@@ -149,14 +142,16 @@ export default function Launchpad() {
           <div style={{ width: "50%" }}>
             <div className="signature-series-head p-heading">Instagen</div>
             <div className="mt-5 text-3xl p-heading">
-              <div>Discover InstaGen, an Innovative NFT Collection </div>
-              <div>Underpinned by the ERC-721A Protocol,</div>
-              <div>Offering Unique, Indivisible, and Limited-</div>
-              <div>Edition Digital Assets. Each Piece Stands as a </div>
-              <div>Testament to Rarity and Uniqueness, </div>
-              <div>Enhancing the Value and Exclusivity of Your</div>
-              <div>Digital Art Portfolio</div>
+              <div>Explore InstaGen: an ERC-721A NFT collection </div>
+              <div>with unique, indivisible, and limited-edition </div>
+              <div>digital assets, elevating your digital art</div>
+              <div>portfolio's rarity and exclusivity </div>
+           
             </div>
+           
+
+ 
+
             <div className="mt-5">
               <Link href="/instagen">
                 <Button
@@ -187,7 +182,7 @@ export default function Launchpad() {
               className="signature-series-head p-heading"
               style={{ textAlign: "end" }}
             >
-              DynamicRealms
+              Dynamic Realms
             </div>
             <div
               className="mt-5 text-3xl p-heading"
@@ -198,14 +193,8 @@ export default function Launchpad() {
               <div>Contract are Based on Conditions.</div>
             </div>
             <div className="mt-5" style={{ textAlign: "end" }}>
-              <Button
-                loading={loading6}
-                onClick={load6}
-                label="Launch"
-                rounded
-                className="buy-img"
-                style={{ width: "25%" }}
-              />
+            <div className="font-bold p-heading text-3xl">Coming soon...</div>
+
             </div>
           </div>
         </div>
@@ -213,12 +202,19 @@ export default function Launchpad() {
         <div className="flex   mt-5" style={{ padding: "70px", gap: "50px" }}>
           <div style={{ width: "50%" }}>
             <div>
-              <div className="signature-series-head p-heading">EternumPass</div>
+              <div className="signature-series-head p-heading">Eternum Pass</div>
               <div className="mt-5 text-3xl p-heading">
-                <div>An Opportunity to Access Digital Assets</div>
-                <div>and Ownership to Exclusive Content </div>
-                <div>or services.</div>
+                <div>Eternum pass offers a unique subscription model </div>
+                <div>through its NFTs, enabling users to access </div>
+                <div>premium content and services for a set</div>
+                <div>duration, benefiting content creators and</div>
+                <div>providers</div>
               </div>
+               
+
+ 
+ 
+
               <div className="mt-5">
                 <Link href="/eternumPass">
                   <Button
@@ -260,30 +256,31 @@ export default function Launchpad() {
               className="mt-5 text-3xl p-heading"
               style={{ textAlign: "end" }}
             >
-              <div>Experience both the Phygital and </div>
-              <div>Digital Worlds with Myriadflow</div>
+              <div> Phygital NFTs redefine the boundary </div>
+              <div>between the tangible and digital universes,</div>
+              <div>seamlessly uniting physical assets with </div>
+              <div>blockchain technology</div>
             </div>
+           
+ 
+
+
             <div className="mt-5" style={{ textAlign: "end" }}>
-              <Button
-                loading={loading8}
-                onClick={load8}
-                label="Launch"
-                rounded
-                className="buy-img"
-                style={{ width: "25%" }}
-              />
+             
+              <div className="font-bold p-heading text-3xl">Coming soon...</div>
             </div>
           </div>
         </div>
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
           <div style={{ width: "50%" }}>
-            <div className="signature-series-head p-heading">EternalSoul</div>
+            <div className="signature-series-head p-heading">Eternal Soul</div>
             <div className="mt-5 text-3xl p-heading">
-              <div>A soulbound token is a non-transferable </div>
-              <div>NFT publicly verifying an individual</div>
-              <div>credentials, affiliations and </div>
-              <div>commitments.</div>
+              <div>An NFT that cannot be transferred and serves</div>
+              <div>as a public verification of an individual</div>
+              <div>credentials, affiliations, and commitments</div>
             </div>
+             
+
 
             <div className="mt-5">
               <Link href="/eturnalsol">
@@ -325,11 +322,14 @@ export default function Launchpad() {
               className="mt-5 text-3xl p-heading"
               style={{ textAlign: "end" }}
             >
-              <div>A self-executing contract automatically </div>
-              <div>grants or denies permissions to </div>
-              <div>network participants based on </div>
-              <div>predefined rules.</div>
+              <div>The Access Master contract empowers the</div>
+              <div>storefront creator to assign roles, handle </div>
+              <div>finances, and manage all contracts within </div>
+              <div>the storefront</div>
             </div>
+            
+
+
 
             <div className="mt-5" style={{ textAlign: "end" }}>
               <Button

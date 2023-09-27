@@ -45,6 +45,15 @@ function Step1(props) {
       life: 2000,
     });
   };
+  const showErrorTradhub = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail:
+        "Error While deploying tradhub contract",
+      life: 2000,
+    });
+  };
 
   const getAllContarctData = async () => {
     const token = localStorage.getItem("platform_token");
@@ -112,6 +121,7 @@ function Step1(props) {
         })
         .catch(() => {
           showError();
+          showErrorTradhub();
         })
         .finally(() => {
           setLoading(false);
@@ -220,7 +230,6 @@ function Step1(props) {
           </div>
 
 
-        {tradhubResponse &&
           <Link 
               href={{
                 pathname: "/launchSignatureseries",
@@ -231,7 +240,6 @@ function Step1(props) {
               <Button label="Continue"></Button>
             </div>
           </Link>
-        }  
         </div>
       </div>
     </Layout2>

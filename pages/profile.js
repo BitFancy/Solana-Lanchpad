@@ -1,26 +1,34 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import React, { useState, useEffect, useContext } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
-import { FaUserCircle, FaMapMarkerAlt, FaWallet, FaEnvelope } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaMapMarkerAlt,
+  FaWallet,
+  FaEnvelope,
+} from "react-icons/fa";
 import { IoLogoInstagram, IoLogoTwitter, IoLogoDiscord } from "react-icons/io5";
 import { convertUtf8ToHex } from "@walletconnect/utils";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 import axios from "axios";
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Avatar } from 'primereact/avatar';
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { Avatar } from "primereact/avatar";
 import Link from "next/link";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import Loader from "../Components/LoadingSpinner";
 import { removePrefix } from "../utils/ipfsUtil";
 import { useAccount } from "wagmi";
 
-import { generateCodeVerifier, generateCodeChallenge } from '../utils/pkceUtils';
+import {
+  generateCodeVerifier,
+  generateCodeChallenge,
+} from "../utils/pkceUtils";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { InputText } from "primereact/inputtext";
@@ -28,10 +36,8 @@ import AppConfig from "../layout/AppConfig";
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
-
 // twitter oauth Url constructor
 const getTwitterOauthUrl = async () => {
-
   try {
     const response = await fetch("/api/oauth/twitter"); // Send a request to the server-side API route
     const data = await response.json();
@@ -39,14 +45,14 @@ const getTwitterOauthUrl = async () => {
     // Redirect the user to the Twitter authorization URL
     window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${oauth_token}`;
   } catch (error) {
-    console.error('Failed to initiate Twitter OAuth:', error);
+    console.error("Failed to initiate Twitter OAuth:", error);
     // Handle error, show error message, etc.
   }
-}
+};
 
 const getUserDataFromLocalStorage = () => {
-  if (typeof window !== 'undefined') {
-    const userData = localStorage.getItem('twitterData');
+  if (typeof window !== "undefined") {
+    const userData = localStorage.getItem("twitterData");
     return userData ? JSON.parse(userData) : null;
   }
   return null;
@@ -54,7 +60,6 @@ const getUserDataFromLocalStorage = () => {
 
 const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
 
 function Profile() {
   const { layoutConfig } = useContext(LayoutContext);
@@ -66,26 +71,24 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    const cookieUserData = Cookies.get('discordUserData');
+    const cookieUserData = Cookies.get("discordUserData");
     console.log(cookieUserData);
     if (cookieUserData) {
       const parsedUserData = JSON.parse(cookieUserData);
       setdiscordData(parsedUserData);
-      console.log('User data', parsedUserData);
+      console.log("User data", parsedUserData);
     }
   }, []);
 
-  
   useEffect(() => {
-    const cookieinstaUserData = Cookies.get('instaData');
+    const cookieinstaUserData = Cookies.get("instaData");
     console.log(cookieinstaUserData);
     if (cookieinstaUserData) {
       const parsedData = JSON.parse(cookieinstaUserData);
       setinstaData(parsedData);
-      console.log('insta User data', parsedData);
+      console.log("insta User data", parsedData);
     }
   }, []);
-
 
   const profile = {
     name: "",
@@ -94,9 +97,8 @@ function Profile() {
     email: "",
     profilePictureUrl: "",
     walletAddress: "",
-    coverPictureUrl: ""
+    coverPictureUrl: "",
   };
-
 
   const walletAddr = useSelector(selectUser);
   var wallet = walletAddr ? walletAddr[0] : "";
@@ -113,7 +115,6 @@ function Profile() {
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
   const [planVar, setPlanVar] = useState(null);
-
 
   const [loading3, setLoading3] = useState(false);
   const loadSubscription = () => {
@@ -169,13 +170,13 @@ function Profile() {
       // else {
       var signroledata = JSON.stringify({
         name: "ghh",
-    email:"testmail@test.com",
-    country: "India",
-    profilePictureUrl: "https://unsplash.it/500",
-    location:"delhi",
-    bio:"test",
-    coverPictureUrl:"https://w.wallhaven.cc/full/l3/wallhaven-l3qpeq.jpg",
-    plan:"basic"
+        email: "testmail@test.com",
+        country: "India",
+        profilePictureUrl: "https://unsplash.it/500",
+        location: "delhi",
+        bio: "test",
+        coverPictureUrl: "https://w.wallhaven.cc/full/l3/wallhaven-l3qpeq.jpg",
+        plan: "basic",
       });
 
       const config = {
@@ -284,7 +285,7 @@ function Profile() {
       localStorage.setItem("platform_token", token);
       getProfile();
       // getRole();
-      router.push('/')
+      router.push("/");
       return true;
     } catch (e) {
       console.log(e);
@@ -317,16 +318,13 @@ function Profile() {
               coverPictureUrl,
               plan,
               walletAddress,
-
-
-            
             },
           },
         } = res;
 
         console.log(res.data);
-        console.log('plan',res.data.payload.plan);
-        setPlanVar(res.data.payload.plan)
+        console.log("plan", res.data.payload.plan);
+        setPlanVar(res.data.payload.plan);
         setProfileData({
           ...profileData,
           name,
@@ -338,7 +336,6 @@ function Profile() {
           coverPictureUrl,
           plan,
           walletAddress,
-
         });
         setupdateProfile({
           ...profileData,
@@ -351,12 +348,14 @@ function Profile() {
           coverPictureUrl,
           plan,
           walletAddress,
-
         });
         console.log(updateProfile);
-        localStorage.setItem("profiledetails", JSON.stringify(res.data.payload));
+        localStorage.setItem(
+          "profiledetails",
+          JSON.stringify(res.data.payload)
+        );
         setprofileDetails(res.data.payload);
-        localStorage.setItem('userName',res.data.payload.name)
+        localStorage.setItem("userName", res.data.payload.name);
         setLoading(true);
       })
       .catch((error) => {
@@ -367,18 +366,17 @@ function Profile() {
       });
   };
 
-
   //----------------------------insta auth -----------------------------------------//
 
   const handleInstagramAuth = () => {
-    const redirectUri = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_REDIRECT_URL;
+    const redirectUri =
+      process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_REDIRECT_URL;
 
     const clientId = process.env.NEXT_PUBLIC_MYRIADFLOW_INSTAGRAM_CLIENT_ID;
     const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media,instagram_graph_user_profile&response_type=code`;
 
     window.location.href = authUrl;
   };
-
 
   // -------------------       discord auth        ------------------------------------------//
 
@@ -403,7 +401,6 @@ function Profile() {
         const parsed = JSON.parse(profiledt);
         setprofileDetails(parsed);
         // console.log(profiledt);
-
       } else {
         authorize();
       }
@@ -416,19 +413,17 @@ function Profile() {
     asyncFn();
   }, []);
 
-
   const {
     name,
-          email,
-          country,
-          profilePictureUrl,
-          location,
-          bio,
-          coverPictureUrl,
-          plan,
-          walletAddress,
+    email,
+    country,
+    profilePictureUrl,
+    location,
+    bio,
+    coverPictureUrl,
+    plan,
+    walletAddress,
   } = profileData;
-
 
   return (
     <LayoutDashbord
@@ -437,572 +432,665 @@ function Profile() {
     >
       {loading && <Loader />}
 
-
-
-
       {visible ? (
         <>
-
-          <Dialog header="Connect to your social media accounts" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+          <Dialog
+            header="Connect to your social media accounts"
+            visible={visible}
+            style={{ width: "50vw" }}
+            onHide={() => setVisible(false)}
+          >
             <div className="flex flex-wrap justify-content-center gap-2">
-
               <div className="card flex justify-content-center">
-                <Card title="Instagram Account"
+                <Card
+                  title="Instagram Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      {
-                        instaData ? (
-                          <>
-                            <Button label="Connected" icon="pi pi-check" />
-                          </>
-                        ) : (
-                          <>
-                            <Button onClick={handleInstagramAuth} label="Connect" icon="pi pi-check" />
-                          </>
-                        )
-                      }
-                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                      {instaData ? (
+                        <>
+                          <Button label="Connected" icon="pi pi-check" />
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={handleInstagramAuth}
+                            label="Connect"
+                            icon="pi pi-check"
+                          />
+                        </>
+                      )}
+                      <Button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-secondary"
+                      />
                     </div>
                   }
                   header={<img alt="Card" src="insta.png" />}
-
-                  className="md:w-20rem">
-                </Card>
+                  className="md:w-20rem"
+                ></Card>
               </div>
 
               <div className="card flex justify-content-center">
-                <Card title="Discord Account"
+                <Card
+                  title="Discord Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      {
-                        discordData ? (
-                          <>
-                            <Button label="Connected" icon="pi pi-check" />
-                          </>
-                        ) : (
-                          <>
-                            <Button onClick={handleLogin} label="Connect" icon="pi pi-check" />
-                          </>
-                        )
-                      }
-                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                      {discordData ? (
+                        <>
+                          <Button label="Connected" icon="pi pi-check" />
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={handleLogin}
+                            label="Connect"
+                            icon="pi pi-check"
+                          />
+                        </>
+                      )}
+                      <Button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-secondary"
+                      />
                     </div>
                   }
                   header={<img alt="Card" src="Discord.jpg" />}
-
-                  className="md:w-20rem">
-                </Card>
+                  className="md:w-20rem"
+                ></Card>
               </div>
 
               <div className="card flex justify-content-center">
-                <Card title="Facebook Account"
+                <Card
+                  title="Facebook Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      {
-                        fb ? (
-                          <>
-                            <Button label="Connected" icon="pi pi-check" />
-                          </>
-                        ) : (
-                          <>
-                            <Button label="Connect" icon="pi pi-check" />
-                          </>
-                        )
-                      }
-                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                      {fb ? (
+                        <>
+                          <Button label="Connected" icon="pi pi-check" />
+                        </>
+                      ) : (
+                        <>
+                          <Button label="Connect" icon="pi pi-check" />
+                        </>
+                      )}
+                      <Button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-secondary"
+                      />
                     </div>
                   }
                   header={<img alt="Card" src="Facebook.jpg" />}
-
-                  className="md:w-20rem">
-                </Card>
+                  className="md:w-20rem"
+                ></Card>
               </div>
 
               <div className="card flex justify-content-center">
-                <Card title="Twitter Account"
+                <Card
+                  title="Twitter Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
-                      {
-                        twitt ? (
-                          <>
-                            <Button label="Connected" icon="pi pi-check" />
-                          </>
-                        ) : (
-                          <>
-                            <Button onClick={getTwitterOauthUrl} label="Connect" icon="pi pi-check" />
-                          </>
-                        )
-                      }
-                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                      {twitt ? (
+                        <>
+                          <Button label="Connected" icon="pi pi-check" />
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={getTwitterOauthUrl}
+                            label="Connect"
+                            icon="pi pi-check"
+                          />
+                        </>
+                      )}
+                      <Button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-secondary"
+                      />
                     </div>
                   }
                   header={<img alt="Card" src="twitter.png" />}
-
-                  className="md:w-20rem">
-                </Card>
+                  className="md:w-20rem"
+                ></Card>
               </div>
 
               <div className="card flex justify-content-center">
-                <Card title="Telegram Account"
+                <Card
+                  title="Telegram Account"
                   footer={
                     <div className="flex flex-wrap justify-content-start gap-2">
                       <Button label="Connect" icon="pi pi-check" />
-                      <Button label="Cancel" icon="pi pi-times" className="p-button-outlined p-button-secondary" />
+                      <Button
+                        label="Cancel"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-secondary"
+                      />
                     </div>
                   }
                   header={<img alt="Card" src="telegram.webp" />}
-                  className="md:w-20rem">
-                </Card>
+                  className="md:w-20rem"
+                ></Card>
               </div>
             </div>
           </Dialog>
-
         </>
       ) : null}
 
-
-
-
-
       <div>
-
         {profileDetails?.coverPictureUrl ? (
           <div
-            className="" style={{
-              backgroundImage: `url(${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(profileDetails?.coverPictureUrl)})`,
-              width: '100%',
+            className=""
+            style={{
+              backgroundImage: `url(${
+                process.env.NEXT_PUBLIC_IPFS_GATEWAY
+              }/${removePrefix(profileDetails?.coverPictureUrl)})`,
+              width: "100%",
               height: "300px",
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-            }}>
-
-          </div>
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></div>
         ) : (
           <div
-             style={{
-              backgroundImage: `url("")`, width: '100%',
+            style={{
+              backgroundImage: `url("")`,
+              width: "100%",
               height: "250px",
-              objectFit: 'cover',
-              backgroundColor: '#D9D9D9',
-            }}>
-          
-
-
-          </div>
+              objectFit: "cover",
+              backgroundColor: "#D9D9D9",
+            }}
+          ></div>
         )}
 
         {profileDetails?.profilePictureUrl ? (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'start',
-            marginTop: '-100px',
-            marginLeft: '50px',
-          }}>
-
-            <div style={{
-              width: '200px',
-              height: '200px',
-              borderRadius: '50%',
-              // border: '1px solid black',
-              backgroundColor: 'gray',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Avatar image={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
-                profileDetails?.profilePictureUrl
-              )}`} size="xlarge" shape="circle" style={{ borderRadius: '50%', width: '200px', height: '200px' }} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "start",
+              marginTop: "-100px",
+              marginLeft: "50px",
+            }}
+          >
+            <div
+              style={{
+                width: "200px",
+                height: "200px",
+                borderRadius: "50%",
+                // border: '1px solid black',
+                backgroundColor: "gray",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar
+                image={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
+                  profileDetails?.profilePictureUrl
+                )}`}
+                size="xlarge"
+                shape="circle"
+                style={{ borderRadius: "50%", width: "200px", height: "200px" }}
+              />
               {/* <Image src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
                 profilePictureUrl
               )}`} alt="Image" width="200" style={{borderRadius:'50%', width: '200px', height: '200px' }}/> */}
             </div>
           </div>
         ) : (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'start',
-            marginTop: '-100px',
-            marginLeft: '50px',
-          }}>
-            <div style={{
-              width: '200px',
-              height: '200px',
-              borderRadius: '50%',
-              border: '1px solid black',
-              backgroundColor: 'gray',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "start",
+              marginTop: "-100px",
+              marginLeft: "50px",
+            }}
+          >
+            <div
+              style={{
+                width: "200px",
+                height: "200px",
+                borderRadius: "50%",
+                border: "1px solid black",
+                backgroundColor: "gray",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <FaUserCircle
                 style={{
-                  fontSize: '24px',
+                  fontSize: "24px",
                   // color: 'gray',
-                  width: '200px',
-                  height: '200px',
+                  width: "200px",
+                  height: "200px",
                 }}
               />
             </div>
           </div>
-
         )}
 
-<div className="flex justify-content-end">
- 
+        <div className="flex justify-content-end">
+          <div
+            style={{
+              marginTop: "-70px",
+              marginRight: "20px",
+            }}
+          >
+            <Button label="Upgrade plan" rounded />
+          </div>
 
-<div style={{ 
-         
-           marginTop: '-70px',
-          marginRight: '20px',
-        }}>
-          <Button label="Upgrade plan"  rounded />
+          <div
+            style={{
+              marginTop: "-70px",
+              marginRight: "20px",
+            }}
+          >
+            <Button
+              label="Edit Profile"
+              onClick={() => setmodal(true)}
+              rounded
+            />
+          </div>
         </div>
 
-        <div style={{
-          marginTop: '-70px',
-          marginRight: '20px',
-         
-        }}>
-          <Button label="Edit Profile" 
-         onClick={() => setmodal(true)} rounded />
-        </div>
-</div>
+        <Dialog
+          visible={modal}
+          onHide={() => setmodal(false)}
+          style={{ width: "50vw" }}
+          breakpoints={{ "960px": "75vw", "641px": "100vw" }}
+        >
+          <div
+            className="flex justify-content-between p-3"
+            style={{
+              background: "blue",
+              top: "0px",
+              width: "695px",
+              position: "absolute",
+              width: "715px",
+              left: "0px",
+            }}
+          >
+            <div className="text-white text-2xl font-bold">Edit profile</div>
 
+            <AppConfig />
+          </div>
 
-        <Dialog visible={modal} onHide={() => setmodal(false)}
-
-          style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-            <div className="flex justify-content-between p-3" style={{background:'blue',top:'0px',width:'695px',position:'absolute',width:'715px',left:'0px'}}>
-             
-             
-              <div className="text-white text-2xl font-bold">Edit profile</div>
-              
-              <div>
-                <Button className="save-profile" label="Save" rounded></Button>
-              </div>
-             
-              <AppConfig />
-            </div>
-          
-            <div>
+          {/* <div>
             <Avatar
-           
-               size="xlarge" shape="circle" style={{ borderRadius: '50%', width: '150px', height: '150px' }} />
-            </div>
-            {/* <div  style={{position: 'absolute',background: '#ffff',width: '754px',height: '135px',top: '65px',left: '0px'}}></div> */}
-          <div className="back-color-profile-update">
-          <form  style={{marginTop:'135px'}} onSubmit={updateData}>
-            <div className="md-form mb-3">
-              <InputText
-                type="text"
-                id="form1Example13"
-                className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
-                value={updateProfile.name}
-                name="name"
-                onChange={(e) => onUpdateProfile(e)}
-                placeholder="Name"
-                style={{height:'65px'}}
-              />
-            </div>
-
-            <div className="md-form mb-3">
-              <InputText
-                type="text"
-                id="form1Example15"
-                className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
-                value={updateProfile.location}
-                name="location"
-                onChange={(e) => onUpdateProfile(e)}
-                placeholder="Location"
-                style={{height:'65px'}}
-              />
-            </div>
-
-            <div className="md-form mb-3">
-              <InputText
-                type="text"
-                id="form1Example16"
-                className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
-                value={updateProfile.bio}
-                name="bio"
-                onChange={(e) => onUpdateProfile(e)}
-                placeholder="Bio"
-                style={{height:'65px'}}
-
-              />
-            </div>
-
-            <div className="md-form mb-3">
-              <InputText
-                type="text"
-                id="form1Example17"
-                className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
-                value={updateProfile.email}
-                name="email"
-                onChange={(e) => onUpdateProfile(e)}
-                placeholder="Email"
-                style={{height:'65px'}}
-
-              />
-            </div>
-
-            {loading && <Loader />}
-
-            <div>Upload profile image</div>
-            <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
-              {updateProfile?.profilePictureUrl && (
-                <img
-                  alt="alt"
-                  src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY
-                    }/${removePrefix(
-                      updateProfile?.profilePictureUrl
-                    )}`}
-                  className="img-fluid w-6/12 grow"
-                  width="200"
-                  height="200"
+              size="xlarge"
+              shape="circle"
+              style={{ borderRadius: "50%", width: "150px", height: "150px" }}
+            />
+          </div> */}
+          <div
+            className="back-color-profile-update"
+            style={{ marginTop: "-115px" }}
+          >
+            <form style={{ marginTop: "135px" }} onSubmit={updateData}>
+              <div className="md-form mb-3">
+                <InputText
+                  type="text"
+                  id="form1Example13"
+                  className=" mt-2 form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
+                  value={updateProfile.name}
+                  name="name"
+                  onChange={(e) => onUpdateProfile(e)}
+                  placeholder="Name"
+                  style={{ height: "65px" }}
                 />
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="btn btn-primary btn-md mb-5 mt-5"
-                name="profilePic"
-                onChange={(e) => uploadImage(e)}
-              />
-            </div>
-
-            <div>Upload image for the cover</div>
-            <div className="col-md-8 col-lg-7 col-xl-6 text-center justify-center align-center flex-col">
-              {updateProfile?.coverPictureUrl && (
-                <img
-                  alt="alt"
-                  src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY
-                    }/${removePrefix(
-                      updateProfile?.coverPictureUrl
-                    )}`}
-                  className="img-fluid w-6/12 grow"
-                  width="200"
-                  height="200"
-                />
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="btn btn-primary btn-md  mb-5 mt-5"
-                name="coverPic"
-                onChange={(e) => uploadcover(e)}
-              />
-            </div>
-
-            <div className="flex gap-6">
-              <div>
-                {" "}
-                <button
-                  type="submit"
-                  className="cursor-pointer bg-blue-800 text-black-500 dark:text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                >
-                  Update Profile
-                </button>
               </div>
-            </div>
-          </form>
+              <div className="md-form mb-3 mt-2">
+                <InputText
+                  type="text"
+                  id="form1Example15"
+                  className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
+                  value={updateProfile.location}
+                  name="location"
+                  onChange={(e) => onUpdateProfile(e)}
+                  placeholder="Location"
+                  style={{ height: "65px" }}
+                />
+              </div>
+              <div className="md-form mb-3 mt-2">
+                <InputText
+                  type="text"
+                  id="form1Example16"
+                  className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
+                  value={updateProfile.bio}
+                  name="bio"
+                  onChange={(e) => onUpdateProfile(e)}
+                  placeholder="Bio"
+                  style={{ height: "65px" }}
+                />
+              </div>
+              <div className="md-form mb-3">
+                <InputText
+                  type="text"
+                  id="form1Example17"
+                  className="form-control form-control-lg px-2 py-2 pl-2 bg-black w-full text-gray-500 dark:text-white"
+                  value={updateProfile.email}
+                  name="email"
+                  onChange={(e) => onUpdateProfile(e)}
+                  placeholder="Email"
+                  style={{ height: "65px" }}
+                />
+              </div>
+
+              {loading && <Loader />}
+              <div className="flex justify-content-between mt-5">
+                <div>Upload profile image</div>
+                <div>Upload image for the cover</div>
+              </div>
+              <div className="flex justify-content-between mt-3">
+                <div  className="p-3" style={{border:'1px solid'}}>
+                  {updateProfile?.profilePictureUrl && (
+                    <img
+                      alt="alt"
+                      src={`${
+                        process.env.NEXT_PUBLIC_IPFS_GATEWAY
+                      }/${removePrefix(updateProfile?.profilePictureUrl)}`}
+                      className="img-fluid w-6/12 grow"
+                      width="200"
+                      height="200"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="btn btn-primary btn-md mb-5 mt-5"
+                    name="profilePic"
+                    onChange={(e) => uploadImage(e)}
+                  />
+                </div>
+                <div className="p-3" style={{border:'1px solid'}}>
+                  {updateProfile?.coverPictureUrl && (
+                    <img
+                      alt="alt"
+                      src={`${
+                        process.env.NEXT_PUBLIC_IPFS_GATEWAY
+                      }/${removePrefix(updateProfile?.coverPictureUrl)}`}
+                      className="img-fluid w-6/12 grow"
+                      width="200"
+                      height="200"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="btn btn-primary btn-md  mb-5 mt-5"
+                    name="coverPic"
+                    onChange={(e) => uploadcover(e)}
+                  />
+                </div>
+              </div>
+
+              <div className=" text-center" style={{marginTop:'80px'}}>
+                <Button type="submit" className="cursor-pointer   font-bold">
+                  Update Profile
+                </Button>
+              </div>
+            </form>
           </div>
         </Dialog>
-<div className={`${layoutConfig.colorScheme === 'light' ? 'body-back-back-profile' : 'dark'}`}>
-        <div style={{
-          margin: '2px',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'start',
-          
-        }}>
-
-          <div style={{
-            marginTop: '50px', // Use '24px' in md viewports and '10px' in lg viewports
-            marginLeft: '60px',
-          }}>
-            <div>
-              <p className="text-2xl font-bold">{profileDetails ? profileDetails.name : null}</p>
-            </div>
-            <div>
-              <p className="mt-12 text-xl">{profileDetails ? profileDetails.bio : null}</p>
-
-              <div className="flex lg:flex-row md:flex-row flex-col mt-4">
-                <div className="flex">
-                  <FaMapMarkerAlt style={{ color: 'grey', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: 'grey' }}>{profileDetails ? profileDetails.location : null}</p>
-                </div>
-                <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
-                  <FaWallet style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.walletAddress : null}</p>
-                </div>
-
+        <div
+          className={`${
+            layoutConfig.colorScheme === "light"
+              ? "body-back-back-profile"
+              : "dark"
+          }`}
+        >
+          <div
+            style={{
+              margin: "2px",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "start",
+            }}
+          >
+            <div
+              style={{
+                marginTop: "50px", // Use '24px' in md viewports and '10px' in lg viewports
+                marginLeft: "60px",
+              }}
+            >
+              <div>
+                <p className="text-2xl font-bold">
+                  {profileDetails ? profileDetails.name : null}
+                </p>
               </div>
+              <div>
+                <p className="mt-12 text-xl">
+                  {profileDetails ? profileDetails.bio : null}
+                </p>
 
-              <div className="flex lg:flex-row md:flex-row flex-col mt-6">
-                <div className="flex">
-                  <FaEnvelope style={{ color: '', marginTop: 6 }} />
-                  <p className="text-xl ml-2" style={{ color: '' }}>{profileDetails ? profileDetails.email : null}</p>
-                </div>
-                <div className="flex lg:ml-12 md:ml-12 text-xl" style={{ marginLeft: 20 }}>
-                  <IoLogoInstagram style={{ color: '', marginTop: 6, marginRight: 8 }} />
-                  <IoLogoTwitter style={{ color: '', marginTop: 6, marginRight: 8 }} />
-                  <IoLogoDiscord style={{ color: '', marginTop: 6 }} />
-                </div>
-                <div className="flex flex-wrap gap-4 -mt-2" style={{ marginLeft: 20 }}>
-                  <div>
-                    <Button label="Connect to social media" onClick={() => setVisible(true)} rounded />
+                <div className="flex lg:flex-row md:flex-row flex-col mt-4">
+                  <div className="flex">
+                    <FaMapMarkerAlt style={{ color: "grey", marginTop: 6 }} />
+                    <p className="text-xl ml-2" style={{ color: "grey" }}>
+                      {profileDetails ? profileDetails.location : null}
+                    </p>
+                  </div>
+                  <div className="flex md:ml-12" style={{ marginLeft: 20 }}>
+                    <FaWallet style={{ color: "", marginTop: 6 }} />
+                    <p className="text-xl ml-2" style={{ color: "" }}>
+                      {profileDetails ? profileDetails.walletAddress : null}
+                    </p>
                   </div>
                 </div>
+
+                <div className="flex lg:flex-row md:flex-row flex-col mt-6">
+                  <div className="flex">
+                    <FaEnvelope style={{ color: "", marginTop: 6 }} />
+                    <p className="text-xl ml-2" style={{ color: "" }}>
+                      {profileDetails ? profileDetails.email : null}
+                    </p>
+                  </div>
+                  <div
+                    className="flex lg:ml-12 md:ml-12 text-xl"
+                    style={{ marginLeft: 20 }}
+                  >
+                    <IoLogoInstagram
+                      style={{ color: "", marginTop: 6, marginRight: 8 }}
+                    />
+                    <IoLogoTwitter
+                      style={{ color: "", marginTop: 6, marginRight: 8 }}
+                    />
+                    <IoLogoDiscord style={{ color: "", marginTop: 6 }} />
+                  </div>
+                  <div
+                    className="flex flex-wrap gap-4 -mt-2"
+                    style={{ marginLeft: 20 }}
+                  >
+                    <div>
+                      <Button
+                        label="Connect to social media"
+                        onClick={() => setVisible(true)}
+                        rounded
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 font-bold text-3xl">
+                  Selected Plan: {planVar}{" "}
+                </div>
+                {twitt ? (
+                  <>
+                    {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}
+                    <div
+                      className="p-card mt-8 p-mb-3 p-shadow-3"
+                      style={{
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "72%",
+                      }}
+                    >
+                      <div className="p-card-body">
+                        <div className="flex justify-content-around">
+                          <div>
+                            <img
+                              style={{ height: "150px", borderRadius: "50%" }}
+                              src={twitt.profile_image_url_https}
+                            ></img>
+                          </div>
+                          <div className="flex text-xl mt-2">
+                            <div className="ml-5 dark:text-white font-bold">
+                              <Link
+                                href={`https://twitter.com/${twitt.screen_name}`}
+                                target="_blank"
+                                className="text-2xl"
+                              >
+                                Twitter profile
+                              </Link>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span>{" "}
+                                {twitt.screen_name}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">
+                                  Screen Name :
+                                </span>{" "}
+                                {twitt.name}
+                              </p>
+                              {/* <p>Joined on: {new Date(parseInt(twitt.createdAt)).toDateString()}</p> */}
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">
+                                  Joined on :
+                                </span>{" "}
+                                {new Date(twitt.created_at).toLocaleString(
+                                  "default",
+                                  { month: "long" }
+                                )}{" "}
+                                {new Date(twitt.created_at).getFullYear()}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">Bio :</span>{" "}
+                                {twitt.description}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">
+                                  Followers :
+                                </span>{" "}
+                                {twitt.followers_count}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">
+                                  Following :
+                                </span>{" "}
+                                {twitt.friends_count}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
+
+                {discordData ? (
+                  <>
+                    <div
+                      className="p-card mt-8 p-mb-3 p-shadow-3"
+                      style={{
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <div className="p-card-body">
+                        <div className="flex justify-content-around">
+                          <div>
+                            <img
+                              style={{ height: "150px", borderRadius: "50%" }}
+                              src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}
+                            ></img>
+                          </div>
+                          <div className="flex text-xl mt-2 ml-5 dark:text-white font-bold">
+                            <div className="">
+                              <Link
+                                href={`https://discord.com/users/${discordData.id}`}
+                                target="_blank"
+                                className="text-2xl"
+                              >
+                                Discord Profile
+                              </Link>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span>{" "}
+                                {discordData.username}
+                              </p>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">
+                                  Screen Name :
+                                </span>{" "}
+                                {discordData.global_name}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
+
+                {instaData ? (
+                  <>
+                    <div
+                      className="p-card mt-8 p-mb-3 p-shadow-3"
+                      style={{
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <div className="p-card-body">
+                        <div className="flex justify-content-around">
+                          <div>
+                          </div>
+                          <div className="flex text-xl mt-2">
+                            <div className="ml-5 font-bold dark:text-white">
+                              <Link
+                                href={`https://www.instagram.com/${instaData.username}/`}
+                                target="_blank"
+                                className="text-2xl"
+                              >
+                                Instagram profile
+                              </Link>
+                              <p className="mt-4 text-secondary">
+                                <span className="text-gray-900">User ID :</span>{" "}
+                                {instaData.username}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </div>
-              <div className="mt-5 font-bold text-3xl">Selected Plan: {planVar} </div>
-              {twitt ? (
-                <>
-                  {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}
-                  <div className="p-card mt-8 p-mb-3 p-shadow-3"
-
-                    style={{
-                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                      borderRadius: '8px',
-                      padding: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '72%'
-                    }}
-
-                  >
-                    <div className="p-card-body">
-                      <div className="flex justify-content-around">
-                        <div>
-                          <img style={{ height: "150px", borderRadius: '50%' }} src={twitt.profile_image_url_https}></img>
-                        </div>
-                        <div className="flex text-xl mt-2">
-                          <div className="ml-5 dark:text-white font-bold">
-                            <Link href={`https://twitter.com/${twitt.screen_name}`} target="_blank" className="text-2xl">
-                              Twitter profile
-                            </Link>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">User ID :</span> {twitt.screen_name}
-                            </p>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Screen Name :</span> {twitt.name}
-                            </p>
-                            {/* <p>Joined on: {new Date(parseInt(twitt.createdAt)).toDateString()}</p> */}
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Joined on :</span> {new Date(twitt.created_at).toLocaleString('default', { month: 'long' })} {new Date(twitt.created_at).getFullYear()}
-                            </p>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Bio :</span> {twitt.description}
-                            </p>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Followers :</span> {twitt.followers_count}
-                            </p>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Following :</span> {twitt.friends_count}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : null}
-
-
-              {discordData ? (
-                <>
-                  <div className="p-card mt-8 p-mb-3 p-shadow-3"
-
-                    style={{
-                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                      borderRadius: '8px',
-                      padding: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '100%'
-                    }}
-
-                  >
-                    <div className="p-card-body">
-                      <div className="flex justify-content-around">
-                        <div>
-                          <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img>
-                        </div>
-                        <div className="flex text-xl mt-2 ml-5 dark:text-white font-bold">
-                          <div className="">
-                            <Link href={`https://discord.com/users/${discordData.id}`} target="_blank" className="text-2xl">
-                              Discord Profile
-                            </Link>
-                            {/* <p className="mt-5">User ID : {discordData.username} </p> */}
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">User ID :</span> {discordData.username}
-                            </p>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">Screen Name :</span> {discordData.global_name}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : null}
-
-
-              {instaData ? (
-                <>
-                  {/* <p className="flex p-5 justify-content-around">Insta account connected</p> */}
-                  <div className="p-card mt-8 p-mb-3 p-shadow-3"
-
-                    style={{
-                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                      borderRadius: '8px',
-                      padding: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '100%'
-                    }}
-
-                  >
-                    <div className="p-card-body">
-                      <div className="flex justify-content-around">
-                        <div>
-                          {/* <img style={{ height: "150px", borderRadius: '50%' }} src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}></img> */}
-                        </div>
-                        <div className="flex text-xl mt-2">
-                          <div className="ml-5 font-bold dark:text-white">
-                            <Link href={`https://www.instagram.com/${instaData.username}/`} target="_blank" className="text-2xl">
-                              Instagram profile
-                            </Link>
-                            <p className="mt-4 text-secondary">
-                              <span className="text-gray-900">User ID :</span> {instaData.username}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : null}
-
-            </div>
-            <div>
+              <div></div>
             </div>
           </div>
 
-        </div>
-
-
-        <div className="flex p-5 justify-content-around mt-5">
-          {/* <p>Joined on: {new Date(parseInt(fb.reloadUserInfo.createdAt)).toDateString()}</p> */}
+          <div className="flex p-5 justify-content-around mt-5">
+          </div>
         </div>
       </div>
-      </div>
-    </LayoutDashbord >
+    </LayoutDashbord>
   );
 }
 export default Profile;

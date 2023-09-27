@@ -8,31 +8,23 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext, LayoutProvider } from "../layout/context/layoutcontext";
 import { withRouter } from "next/router";
+import { Dialog } from "primereact/dialog";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class UpdateMarketPlace extends React.Component {
   constructor(props) {
     super(props);
-  this.state = {
-    rows: [{}],
-   
+  this.state = {   
     submitClicked: false,
     tradhubFees: "",
     contractAddress: "",
+    visible:false,
     errors: {
       tradhubFeesError: "",
       contractAddressError: "",
     },
   };
 }
-  handleAddRow = () => {
-    const item = {
-      fees: "",
-      address: "",
-    };
-    this.setState({
-      rows: [...this.state.rows, item],
-    });
-  };
+ 
   showSuccess() {
     this.toast.show({
       severity: "success",
@@ -49,23 +41,15 @@ class UpdateMarketPlace extends React.Component {
       life: 10000,
     });
   }
-  handleRemoveRow = () => {
-    this.setState({
-      rows: this.state.rows.slice(0, -1),
-    });
-  };
-  handleRemoveSpecificRow = (idx) => () => {
-    const rows = [...this.state.rows];
-    rows.splice(idx, 1);
-    this.setState({ rows });
-  };
+ 
+ 
 
   handleInputFee = (e) => {
     this.setState({ tradhubFees: e.target.value, tradhubFeesError: "" });
   };
   handleInputAddress = (e) => {
     this.setState({
-      ContractAddress: e.target.value,
+      contractAddress: e.target.value,
       contractAddressError: "",
     });
   };
@@ -73,44 +57,46 @@ class UpdateMarketPlace extends React.Component {
   updateMarketplaceData = () => {
     const token = localStorage.getItem("platform_token");
    const valid= this.onClickButton();
-   if(valid){
-    axios
-    .post(
-      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-      {
-        contractName: "SignatureSeries",
-        constructorParams: {
-          param1: this.state.tradhubFees,
-          param2: this.state.contractAddress,
-          param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-          param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-        },
-        network: "maticmum",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    .then(async (response) => {
-      this.showSuccess();
+  //  if(valid){
+  //   axios
+  //   .post(
+  //     `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
+  //     {
+  //       contractName: "SignatureSeries",
+  //       constructorParams: {
+  //         param1: this.state.tradhubFees,
+  //         param2: this.state.contractAddress,
+  //         param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
+  //         param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
+  //       },
+  //       network: "maticmum",
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   )
+  //   .then(async (response) => {
+  //     this.showSuccess();
 
-      setTimeout(() => {
-        this.setState({ loading: false });
-      }, 2000);
-      this.setState({
-        signatureseriesRespoanse: response.data.contractAddress,
-      });
-    })
+  //     setTimeout(() => {
+  //       this.setState({ loading: false });
+  //     }, 2000);
+  //     this.setState({
+  //       signatureseriesRespoanse: response.data.contractAddress,
+  //     });
+  //   })
 
-    .catch(() => {
-      this.showError();
-    })
-    .finally(() => {
-      this.setState({ loading: false });
-    });
-   }
+  //   .catch(() => {
+  //     this.showError();
+  //   })
+  //   .finally(() => {
+  //     this.setState({ loading: false });
+  //   });
+  //  }
+  this.setState({ visible: true });
+
    
   };
 
@@ -146,15 +132,23 @@ class UpdateMarketPlace extends React.Component {
           </div>
           <div style={{ margin: "0 auto", width: "70%" }}>
             <div className=" p-5 font-bold text-3xl mt-5">Manage Your TradeHub</div>
-            {this.state.rows.map((item, idx) => (
-              <div  id="addr0" key={idx} className="mt-5 back-color p-5">
+            <Dialog
+          visible={this.state.visible}
+          style={{ width: "25vw", height: "15vw" }}
+          onHide={() => this.setState({ visible: false })}
+        >
+          <div className="text-center">
+            <div className="mt-3 text-xl">Your Tradehub is successfully updated</div>
+          </div>
+        </Dialog>
+              <div   key={1} className="mt-5 back-color p-5">
                 <div >
                   <div >
-                    <div className="text-left">Enter new TradeHub fee</div>
+                    <div className="text-left p-heading">Enter new TradeHub fee</div>
 
                     <InputText
-                      value={this.state.rows[idx].tradhubFees}
-                      className="p-2 mt-3 input-back w-full text-white"
+                      value={this.state.tradhubFees}
+                      className="p-2 mt-3 input-back w-full"
                       type="number"
                       onChange={this.handleInputFee}
                     />
@@ -168,8 +162,8 @@ class UpdateMarketPlace extends React.Component {
                     <div className="mt-5">Enter payout address</div>
 
                     <InputText
-                      value={this.state.rows[idx].contractAddress}
-                      className="p-2 mt-3 input-back w-full text-white"
+                      value={this.state.contractAddress}
+                      className="p-2 mt-3 input-back w-full"
                       type="text"
                       onChange={this.handleInputAddress}
                     />
@@ -179,31 +173,18 @@ class UpdateMarketPlace extends React.Component {
                         : ""}
                     </p>
                   </div>
-                  <div className="mt-5">
-                    <Button
-                      severity="danger"
-                      icon="pi pi-minus"
-                      onClick={this.handleRemoveSpecificRow(idx)}
-                    ></Button>
-                  </div>
+                 
                 </div>
               </div>
-            ))}
-            <div className="text-center mt-5">
-              <Button
-                icon="pi pi-plus"
-                label="Add Another Admin"
-                severity="info"
-                onClick={this.handleAddRow}
-                className="buy-img"
-              />
-            </div>
-            <div className="text-center mt-5">
+          
+           
+            <div className="text-center"style={{marginTop:'80px'}}>
               <Button
                 label="Update"
-                severity="info"
+               rounded
                 onClick={this.updateMarketplaceData}
                 className="buy-img"
+                style={{width:'20%'}}
               />
             </div>
           </div>

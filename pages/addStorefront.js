@@ -40,7 +40,14 @@ function AddStorefront() {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
   
- 
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While creating storefront",
+      life: 10000,
+    });
+  };
  
   async function uploadBlobGetHash(file) {
     try {
@@ -136,6 +143,7 @@ function AddStorefront() {
         })
         .catch((error) => {
           console.log(error)
+          showError();
         })
         .finally(() => {
           setLoading(false);
@@ -199,9 +207,7 @@ function AddStorefront() {
           >
             Add StoreFront Details
           </div>
-          <div className="ml-5 text-3xl mt-5 text-center font-bold">
-            Your storefronts in testnet
-          </div>
+        
           <div
             className=" p-5 mt-5 font-bold card flex gap-5 buy-img back-color"
             style={{ width: "80%", margin: "0 auto" }}

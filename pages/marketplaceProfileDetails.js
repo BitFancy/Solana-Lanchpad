@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useRef, useState } from "react";
-import { getStorefrontByID } from "../utils/util";
 import { withRouter } from "next/router";
 import axios from "axios";
  function MarketplaceProfileDetails(props) {
@@ -10,13 +9,11 @@ import axios from "axios";
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
   useEffect(() => {
-    getstorefrontdatabyId()
-  }, []);
-  const getstorefrontdatabyId =async () => {
-  //   const payload = await getStorefrontByID(props.id)
-  //   setSubscriptionData(payload)
-  //  console.log("Data",payload);
+    getstorefrontdatabyId();
 
+  }, []);
+  console.log('id in marketprofile',props.router.query.storefrontId)
+  const getstorefrontdatabyId =async () => {
   const token = localStorage.getItem("platform_token");
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   try {
@@ -66,7 +63,12 @@ import axios from "axios";
             </div>
             <div className="flex gap-5" style={{marginTop:'85px'}}>
             <div>
-            <Link href="/addStorefront">
+            <Link 
+              href={{
+                pathname: "/launchSignatureseries",
+                query: { storefrontId: props?.router?.query?.storefrontId },
+              }}
+            >
               <Button
                 className="w-full"
                 loading={loading2}

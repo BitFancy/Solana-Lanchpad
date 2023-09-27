@@ -23,6 +23,8 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class Eturnulsol extends React.Component {
   constructor(props) {
     super(props);
+    this.showError = this.showError.bind(this);
+
     this.state = {
       contractName: "",
       contractSymbol: "",
@@ -60,7 +62,14 @@ class Eturnulsol extends React.Component {
       }
     );
   }
-
+  showError() {
+    this.toast.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While deploying eturnalsol  contract",
+      life: 10000,
+    });
+  }
   eturnulsolData = () => {
     const token = localStorage.getItem("platform_token");
 
@@ -97,6 +106,7 @@ class Eturnulsol extends React.Component {
         })
         .catch((error) => {
           console.log(error);
+          this.showError();
         })
         .finally(() => {
           this.setState({ loading: false });

@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { InputText } from "primereact/inputtext";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Button } from "primereact/button";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Toast } from "primereact/toast";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function AddProfileDetails() {
@@ -21,6 +22,8 @@ export default function AddProfileDetails() {
     const [submitClicked, setSubmitClicked] = useState(false);
     const [loading, setLoading] = useState(false);
    const router=useRouter();
+   const toast = useRef(null);
+
     const [errors, setErros] = useState({
       nameErrro: "",
       bioError: "",
@@ -33,6 +36,14 @@ export default function AddProfileDetails() {
       discord_idError: "",
       
     });
+    const showError = () => {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error While creating profile",
+        life: 10000,
+      });
+    };
     const addProfile = async () => {
       const token = localStorage.getItem("platform_token");
       const valid = onClickButton();
@@ -67,10 +78,13 @@ export default function AddProfileDetails() {
           router.push('/profile')
 
           })
-  
           .catch((error) => {
             console.log('error while profile create',error)
-          })
+            showError();
+
+          }).finally(() => {
+            setLoading(false);
+          });
       }
     };
     const handleInputName = (e) => {
@@ -150,6 +164,8 @@ export default function AddProfileDetails() {
             viewBox="0 0 200 200"
             fill="none"
           >
+                      <Toast ref={toast} />
+
             <circle cx="100" cy="100" r="99.5" fill="#D9D9D9" stroke="black" />
           </svg>
         </div>

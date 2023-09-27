@@ -60,7 +60,15 @@ const EternumPass = (props) => {
       life: 10000,
     });
   };
-
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail:
+        "Error While deploying Eternumpass contract",
+      life: 2000,
+    });
+  };
   useEffect(() => {
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
@@ -116,6 +124,8 @@ const EternumPass = (props) => {
 
         .catch((error) => {
           console.log(error);
+          showError();
+
         })
         .finally(() => {
           setLoading(false);
