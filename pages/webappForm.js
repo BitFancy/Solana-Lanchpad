@@ -140,7 +140,7 @@ function WebappForm(props) {
     toast.current.show({
       severity: "success",
       summary: "Success",
-      detail: "Marketplace Deials added successfully",
+      detail: "Marketplace Details added successfully",
       life: 1000,
     });
   };

@@ -85,7 +85,6 @@ const blockchain = [
  
 
   const contractFusionSeriesAddress = props.router.query.contractAddress;
-
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -211,8 +210,8 @@ const blockchain = [
         endTime,
         { gasLimit: "2099999" }
       );
-      // await transaction.wait();
-      router.push('/getAllFusionseriesContract')
+      await transaction.wait();
+      router.push('/getAllFusionSeriesNft')
       console.log("transaction 2 is completed", transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {

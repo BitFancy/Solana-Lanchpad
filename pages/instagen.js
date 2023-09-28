@@ -209,7 +209,7 @@ const Instagen = (props) => {
       life: 2000,
     });
   };
-  uploadBlobGetHash = async (file) => {
+  const  uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);

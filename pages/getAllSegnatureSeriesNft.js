@@ -58,11 +58,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
     } catch (error) {
       console.log("Error while fetching assets",error)
       setLoading(false)
-    }finally{
-      setLoading(false)
     }
-   
-
   };
 
   const load = () => {

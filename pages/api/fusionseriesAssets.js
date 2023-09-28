@@ -1,12 +1,12 @@
 
 import axios from "axios";
  const handler=async(req, res)=> {
-    const endPoint = "http://3.15.54.199:8000/subgraphs/name/v1/xsc";
+    const endPoint = "http://3.15.54.199:8000/subgraphs/name/v1/sdssss";
     const headers = {
       "Content-Type": "application/json",
     };
     const AllBuildingQuery = `{
-      signatureSeriesAssetCreateds(orderBy: id) {
+      fusionSeriesAssetCreateds() {
         id
         creator
         metaDataURI
@@ -18,8 +18,8 @@ import axios from "axios";
     `
       ;
     const graphqlQuery = {
-      operationName: "signatureSeriesAssetCreateds",
-      query:`query signatureSeriesAssetCreateds ${AllBuildingQuery}`,
+      operationName: "fusionSeriesAssetCreateds",
+      query:`query fusionSeriesAssetCreateds ${AllBuildingQuery}`,
       variables: {},
     };
   

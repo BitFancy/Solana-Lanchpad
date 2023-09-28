@@ -16,46 +16,49 @@ function GetAllFusionSeriesNft(props) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
+  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
+
  
   useEffect(() => {
-    getallfusionSeriesAssets();
-  }, []);
+    const searchParams = new URLSearchParams(document.location.search)
+     setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
+     if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
+      getallfusionSeriesAssets()
+     }
+  }, [])
 
   const getallfusionSeriesAssets = async () => {
-    console.log(
-      " fusion series NFT page>>>>",
-      props.router.query.contractAddress,
-      localStorage.getItem("activeGraphQLURL")
-    );
-    const testCTA = props.router.query.contractAddress;
-    const {
-      data: { assetCreateds },
-    } = await axios.get("/api/fusionseriesAssets");
-    console.log("Data>>>", assetCreateds);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    let tranasactionHashArray = assetCreateds?.map(
-      (asset) => asset.transactionHash
-    );
-    const innerContractAddress = [];
-    await Promise.all(
-      tranasactionHashArray?.map(async (hash) => {
-        const contractAddress = await provider.getTransaction(hash);
-        if (contractAddress.to == testCTA) {
-          console.log(
-            "Condition>>>",
-            contractAddress.to == testCTA,
-            contractAddress.to,
-            testCTA
-          );
-          innerContractAddress.push(
-            assetCreateds.find((asset) => asset.transactionHash === hash)
-          );
-        }
-        setAsseetsData(innerContractAddress);
-      })
-    ).then(() => {
-      console.log("innerContractAddress", innerContractAddress);
-    });
+    try {
+      setLoading(true)
+      const {
+        data: { fusionSeriesAssetCreateds },
+      } = await axios.get("/api/fusionseriesAssets")
+      console.log("assetCreateds>>>", fusionSeriesAssetCreateds);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      let tranasactionHashArray = fusionSeriesAssetCreateds?.map(
+        (asset) => asset.transactionHash
+      ) ?? [];
+      const innerContractAddress = [];
+      console.log("tranasactionHashArray",tranasactionHashArray);
+      if(tranasactionHashArray.length>0){
+      await Promise?.all(
+        tranasactionHashArray?.map(async (hash) => {
+          const gqlcontractAddress = await provider.getTransaction(hash);
+          if (gqlcontractAddress.to == contractAddress) {
+            innerContractAddress.push(
+              fusionSeriesAssetCreateds.find((asset) => asset.transactionHash === hash)
+            );
+          }
+          setAsseetsData(innerContractAddress);
+        })
+      ).then(() => {
+        console.log("innerContractAddress", innerContractAddress);
+      });
+    }
+    } catch (error) {
+      console.log("Error while fetching assets",error)
+      setLoading(false)
+    }
   };
   const load = () => {
     setLoading2(true);
@@ -64,7 +67,6 @@ function GetAllFusionSeriesNft(props) {
       setLoading2(false);
     }, 2000);
   };
-  const contractAddress = props.router.query.contractAddress;
 
   return (
     <LayoutDashbord

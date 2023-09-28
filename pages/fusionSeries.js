@@ -116,7 +116,7 @@ class FusionSeries extends React.Component {
         )
       ) {
         const showSuccessPro = () => {
-          toast.current.show({
+          this.toast.show({
             severity: "warn",
             detail: `Contract name' ${this.state.contractName}' is already exist please enter another name`,
             life: 10000,

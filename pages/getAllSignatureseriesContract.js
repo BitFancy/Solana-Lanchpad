@@ -7,7 +7,6 @@ import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
-import { getcontractById } from "../utils/util";
 import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function GetAllSignatureseriesContract(props) {
@@ -15,16 +14,10 @@ function GetAllSignatureseriesContract(props) {
   const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
   const toast = useRef(null);
-   console.log('id in getall sig con',props.router.query.storefrontId)
    useEffect(() => {
-    getallcontractbyId();
     getallsigseriesContract();
   }, []);
-  const getallcontractbyId =async () => {
-    const payload = await getcontractById(props.router.query.storefrontId)
-    setContarctData(payload)
-   console.log("Data",payload);
-  };
+  
   const getallsigseriesContract=()=>{
     const token = localStorage.getItem("platform_token");
     axios
