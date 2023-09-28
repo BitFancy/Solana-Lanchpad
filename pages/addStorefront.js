@@ -95,19 +95,22 @@ function AddStorefront() {
     const valid = onClickButton();
     if (valid) {
       const storefronts = await getStorefrontData();
-
       if (
         storefronts?.find(
           (sf) => sf.name?.toLowerCase() === contractName?.toLowerCase()
         )
       ) {
-        alert(
-          `Storefront name'${contractName}'is already exist Please Enter Anather name`
-        );
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail: `Storefront name '${contractName}' is already exist Please Enter Another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-
         return;
       }
 

@@ -73,7 +73,7 @@ function GetAllSignatureseriesContract(props) {
             <div className="font-bold mt-5 ml-5  text-3xl text-black">
               SignatureSeries
             </div>
-            <div className="border-bottom-das" style={{width:'400%'}}></div>
+            <div className="border-bottom-das" style={{width:'136%'}}></div>
 
             <div
               className="grid cursor-pointer"

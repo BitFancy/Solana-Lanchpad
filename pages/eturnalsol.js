@@ -70,11 +70,45 @@ class Eturnulsol extends React.Component {
       life: 10000,
     });
   }
-  eturnulsolData = () => {
-    const token = localStorage.getItem("platform_token");
 
+  getAllContarctData = async () => {
+    const token = localStorage.getItem("platform_token");
+    const { data } = await axios.get(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  };
+  eturnulsolData = async() => {
+    const token = localStorage.getItem("platform_token");
     const valid = this.onClickButton();
     if (valid) {
+      const contractName = await this.getAllContarctData();
+      if (
+        contractName?.find(
+          (sf) =>
+            sf.collectionName?.toLowerCase() ===
+            this.state.contractName?.toLowerCase()
+        )
+      ) {
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail: `Contract name' ${this.state.contractName}' is already exist please enter another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
+        setTimeout(() => {
+          this.setState({ loading: false });
+        }, 2000);
+
+        return;
+      }
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -97,9 +131,9 @@ class Eturnulsol extends React.Component {
           }
         )
         .then(async (response) => {
-          this.setState({ visible: true });
+        
           setTimeout(() => {
-            this.setState({ loading: false });
+            this.setState({ loading: false ,visible:true});
           }, 2000);
           this.setState({ eturnalsolResponse: response.data.contractAddress });
           this.setState({ storefrontId: response.data.storefrontId });
@@ -113,10 +147,8 @@ class Eturnulsol extends React.Component {
         });
     }
   };
-
   load = () => {
     this.setState({ loading2: true });
-
     setTimeout(() => {
       this.setState({ loading2: false });
     }, 2000);
@@ -223,7 +255,7 @@ class Eturnulsol extends React.Component {
               className="flex justify-content-between p-3"
               style={{ borderBottom: "2px solid" }}
             >
-              <div className=" p-5 font-bold text-center text-black">
+              <div className=" p-5 font-bold text-3xl text-center text-black">
                 Step 2 : Deploy EternalSoul
               </div>
               <div className="mt-5">

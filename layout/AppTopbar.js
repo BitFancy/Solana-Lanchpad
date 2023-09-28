@@ -1,20 +1,25 @@
 import Link from "next/link";
 import { classNames } from "primereact/utils";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import AppConfig from "./AppConfig";
 import { useAccount, useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter, withRouter } from "next/router";
+import { toast } from "react-toastify";
 function AppTopbar(props) {
-  const { isConnected } = useAccount();
+  const {  isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { layoutConfig, layoutState } = useContext(LayoutContext);
   const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
   const [plan, setsetPlan] = useState(null);
-
   const router = useRouter();
   useEffect(() => {
     setsetPlan(
@@ -24,10 +29,14 @@ function AppTopbar(props) {
       router.push("/");
     }
   }, []);
-  const logout = () => {
-    disconnect, localStorage.clear();
+  const logout=()=>{
+    disconnect,
+    localStorage.clear();
     router.push("/");
-  };
+  }
+  const notify = ()=>{
+    toast.TYPE.WARNING;
+  }
   return (
     <div className="layout-topbar">
       <Link href="/launchpad" className="layout-topbar-logo">
@@ -50,17 +59,15 @@ function AppTopbar(props) {
       >
         <Link
           onClick={() =>
-            isConnected
-              ? null
-              : setmodelmsg("Please connect your Wallet")
+            isConnected ? null : 'Please Connect to Your wallet'
           }
-          href={isConnected && !plan ? "/buySubscription" : "/storefrontDashboard"}
+          href={
+            isConnected && !plan ? "/buySubscription" : "/storefrontDashboard"
+          }
         >
           <span className="font-bold text-white text-2xl">Launch</span>
         </Link>
-        {model && (
-            <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
-          )}
+
         {/* <Link
           onClick={() =>
             isConnected ? null : alert("Please connect to Your wallet")
@@ -71,7 +78,9 @@ function AppTopbar(props) {
         </Link> */}
 
         <div>
-          <ConnectButton className="connect-wallet" />
+          <ConnectButton
+            className="connect-wallet"
+          />
         </div>
         <div onClick={() => setToggle(!toggle)}>
           <img className="cursor-pointer" src="/profile.png"></img>
@@ -99,7 +108,7 @@ function AppTopbar(props) {
             </div>
             <div className="border-bottom-das"></div>
 
-            <div style={{ color: "black" }} className="flex gap-2 mt-2 ">
+            <div  style={{ color: "black" }} className="flex gap-2 mt-2 ">
               <div>
                 <i className="pi pi-eye"></i>
               </div>
@@ -108,25 +117,23 @@ function AppTopbar(props) {
                   <div className="font-bold">View profile</div>
                 </div>
               </Link>
+
             </div>
             <div className="border-bottom-das"></div>
 
-            <div
-              onClick={logout}
-              style={{ color: "black" }}
-              className="flex gap-2 mt-2 p-heading"
-            >
+            <div onClick={logout} style={{ color: "black" }} className="flex gap-2 mt-2 p-heading">
               <div>
                 <i className="pi pi-sign-out"></i>
               </div>
-              <div className=" cursor-pointer">
-                <div className="font-bold ">Logout</div>
-              </div>
+                <div className=" cursor-pointer">
+                  <div className="font-bold ">Logout</div>
+                </div>
             </div>
           </div>
         )}
         <div>
           <AppConfig />
+          {/* <DarkTheme/> */}
         </div>
       </div>
     </div>

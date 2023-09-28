@@ -23,7 +23,8 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class FusionSeries extends React.Component {
   constructor(props) {
     super(props);
-    this.showSuccess = this.showSuccess.bind(this);
+    this.showError = this.showError.bind(this);
+
     this.state = {
       contractName: "",
       contractSymbol: "",
@@ -49,14 +50,7 @@ class FusionSeries extends React.Component {
     delete copyState.storefrontData;
     this.initialState = { ...copyState };
   }
-  showSuccess() {
-    this.toast.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Your FusionSeries contract has been  successfully deployed",
-      life: 10000,
-    });
-  }
+ 
 
   blockchain = [
     { name: "Polygon", value: "Polygon" },
@@ -97,10 +91,44 @@ class FusionSeries extends React.Component {
     }, 2000);
   };
 
-  fusionSerisData = () => {
+  getAllContarctData = async () => {
+    const token = localStorage.getItem("platform_token");
+    const { data } = await axios.get(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  };
+  fusionSerisData = async() => {
     const token = localStorage.getItem("platform_token");
     const valid = this.onClickButton();
     if (valid) {
+      const contractName = await this.getAllContarctData();
+      if (
+        contractName?.find(
+          (sf) =>
+            sf.collectionName?.toLowerCase() ===
+            this.state.contractName?.toLowerCase()
+        )
+      ) {
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail: `Contract name' ${this.state.contractName}' is already exist please enter another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
+        setTimeout(() => {
+          this.setState({ loading: false });
+        }, 2000);
+
+        return;
+      }
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -110,8 +138,8 @@ class FusionSeries extends React.Component {
               param1: "www.xyz.com",
               param2: this.state.contractName,
               param3: this.state.contractSymbol,
-              param3: this.state.tradhubAddress,
-              param4: this.state.accsessmasterAddress,
+              param4: this.state.tradhubAddress,
+              param5: this.state.accsessmasterAddress,
             },
             network: "maticmum",
             storefrontId: this.props?.router?.query?.storefrontId,
@@ -127,10 +155,10 @@ class FusionSeries extends React.Component {
         )
 
         .then(async (response) => {
-          this.setState({ visible: true });
 
           setTimeout(() => {
-            this.setState({ loading: false });
+            this.setState({ loading: false,visible:true });
+
           }, 2000);
           this.setState({
             fusionseriesResponse: response.data.contractAddress,
@@ -138,6 +166,8 @@ class FusionSeries extends React.Component {
         })
         .catch((error) => {
           console.log(error);
+          this.showError();
+
         })
         .finally(() => {
           this.setState({ loading: false });
@@ -173,6 +203,14 @@ class FusionSeries extends React.Component {
     }
   };
 
+  showError() {
+    this.toast.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error While deploying fusion series contract",
+      life: 10000,
+    });
+  }
   uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
@@ -240,7 +278,7 @@ class FusionSeries extends React.Component {
               className="flex justify-content-between p-3"
               style={{ borderBottom: "2px solid" }}
             >
-              <div className=" p-5 font-bold text-center text-black">
+              <div className=" p-5 font-bold text-3xl text-center text-black">
                 Step 2 : Deploy FusionSeries
               </div>
               <div className="mt-5">

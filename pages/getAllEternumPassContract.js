@@ -64,7 +64,7 @@ function GetAllEternumPassContract(props) {
             <div className="font-bold mt-5 text-3xl text-black ml-5">
               EternumPass
             </div>
-            <div className="border-bottom-das" style={{width:'270%'}}></div>
+            <div className="border-bottom-das" style={{width:'182%'}}></div>
 
             <div
               className="grid cursor-pointer"

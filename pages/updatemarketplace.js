@@ -141,7 +141,7 @@ class UpdateMarketPlace extends React.Component {
             <div className="mt-3 text-xl">Your Tradehub is successfully updated</div>
           </div>
         </Dialog>
-              <div   key={1} className="mt-5 back-color p-5">
+              <div   key={1} className="mt-5 back-color-update p-5">
                 <div >
                   <div >
                     <div className="text-left p-heading">Enter new TradeHub fee</div>

@@ -82,7 +82,7 @@ console.log('props')
             <div className=" text-3xl mt-5 font-bold">
               SignatureSeries &gt; SignatureSeries 1 &gt; Asset 1 (Token ID)
             </div>
-            <div className="border-bottom-das" style={{ width: "171%" }}></div>
+            <div className="border-bottom-das" style={{ width: "200%" }}></div>
             <div
               className="grid cursor-pointer"
               style={{ gap: "20px", marginLeft: "30px" }}

@@ -17,7 +17,7 @@ const AppFooterDashboard = () => {
         }}
         className={`${
           layoutConfig.colorScheme === "light" ? "buy-back-image-footer" : "dark"
-        } layout-footer mt-5`}
+        } layout-footer justify-content-between`}
 
       >
         <div>
@@ -42,22 +42,20 @@ const AppFooterDashboard = () => {
             <div>our Revolutionary App Store Explore.</div>
           </div>
         </div>
-        <div className="flex" style={{gap:'150px'}}>
         <div className="p-heading">
-          <div className="font-bold text-2xl ">Explore</div>
-          <div className="mt-3 cursor-pointer">Signature Series</div>
-          <div className="mt-3 cursor-pointer">Fusion Series</div>
-          <div className="mt-3 cursor-pointer">Instagen</div>
-          <div className="mt-3 cursor-pointer">Eternum Pass</div>
-          <div className="mt-3 cursor-pointer">Phygital NFTs</div>
-          <div className="mt-3 cursor-pointer">Eternnal Soul</div>
-          <div className="mt-3 cursor-pointer">Access Control</div>
-          <div className="mt-3 cursor-pointer">TradeHub</div>
+          <div className="font-bold text-3xl ">Explore</div>
+          <div className="mt-3 cursor-pointer text-2xl">Signature Series</div>
+          <div className="mt-3 cursor-pointer text-2xl">Fusion Series</div>
+          <div className="mt-3 cursor-pointer text-2xl">Instagen</div>
+          <div className="mt-3 cursor-pointer text-2xl">Eternum Pass</div>
+          <div className="mt-3 cursor-pointer text-2xl">Phygital NFTs</div>
+          <div className="mt-3 cursor-pointer text-2xl">Eternnal Soul</div>
+          <div className="mt-3 cursor-pointer text-2xl">TradeHub</div>
 
          
         </div>
         <div className="p-heading">
-          <div className="font-bold text-2xl ">Contact Us</div>
+          <div className="font-bold text-3xl ">Contact Us</div>
 
           <div className="flex gap-3 items-center mt-5">
             <div className="mt-2">
@@ -69,10 +67,10 @@ const AppFooterDashboard = () => {
                     : "teliwhite"
                 }.svg`}
                 alt="Logo"
-                height="30"
-                width="30"
+                height="50"
+                width="50"
                 className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                style={{padding:'12px'}}
               />
               </Link>
             </div>
@@ -87,10 +85,10 @@ const AppFooterDashboard = () => {
                     : "tweewhite"
                 }.svg`}
                 alt="Logo"
-                height="30"
-                width="30"
+                height="50"
+                width="50"
                 className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                style={{padding:'12'}}
               />
               </Link>
               
@@ -105,15 +103,14 @@ const AppFooterDashboard = () => {
                     : "diswhite"
                 }.svg`}
                 alt="Logo"
-                height="30"
-                width="30"
+                height="50"
+                width="50"
                 className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                style={{padding:'12px'}}
               />
               </Link>
             </div>
           </div>
-        </div>
         </div>
       
 

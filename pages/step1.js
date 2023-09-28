@@ -36,25 +36,6 @@ function Step1(props) {
   },[]);
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail:
-        "Tradhub Already Deployed Please continue to deploy Next contract",
-      life: 2000,
-    });
-  };
-  const showErrorTradhub = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail:
-        "Error While deploying tradhub contract",
-      life: 2000,
-    });
-  };
-
   const getAllContarctData = async () => {
     const token = localStorage.getItem("platform_token");
     const { data } = await axios.get(
@@ -79,13 +60,17 @@ function Step1(props) {
             cn.collectionName?.toLowerCase() === contractName?.toLowerCase()
         )
       ) {
-        alert(
-          `Contract name' ${contractName}' is already exist please Enter another name`
-        );
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail:  `Contract name' ${contractName}' is already exist please Enter another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-
         return;
       }
       axios
@@ -120,8 +105,15 @@ function Step1(props) {
           });
         })
         .catch(() => {
+          const showError = () => {
+            toast.current.show({
+              severity: "error",
+              summary: "Error",
+              detail:`Tradhub with id ${props?.router?.query?.storefrontId}'  is already exist Please continue to deploy Next contract`,
+              life: 2000,
+            });
+          };
           showError();
-          showErrorTradhub();
         })
         .finally(() => {
           setLoading(false);

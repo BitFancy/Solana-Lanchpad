@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
 import { InputText } from "primereact/inputtext";
-const accessMaterAddress = process.env.NEXT_PUBLIC_FLOW_ACCESS_Master_ADDRESS;
 import { useAccount, useEnsName } from "wagmi";
 import { Button } from "primereact/button";
 import Sidemenu from "./sidemenu";
@@ -10,27 +9,36 @@ import { ethers } from "ethers";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
+import { getAccessMasterByStorefrontID } from "../utils/util";
  function AccessMasterRole(props) {
   const { address } = useAccount();
   const { data: ensName } = useEnsName({ address });
 const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [role, setRole] = useState("");
+  const [accessMasterAddress, setAccessMasterAddress] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
+  const [userAdddress, setuserAdddress] = useState('0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f');
 
-  const [userAdddress, setuserAdddress] = useState(address);
+  useEffect(() => {
+    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setAccessMasterAddress(response[0]?.contractAddress);
+      }
+    );
+   
+  }, []);
   const revokeRoleData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log("provider", provider);
     const signer = provider.getSigner();
     const accessmasterContarct = new ethers.Contract(
-      accessMaterAddress,
+      accessMasterAddress,
       accessMasterAbi.abi,
       signer
     );
     setLoading1(true);
     const revokerole = await accessmasterContarct.revokeRole(
-      await accessmasterContarct.FLOW_CREATOR_ROLE(),
+      await accessmasterContarct.FLOW_ADMIN_ROLE(),
       address
     );
     setTimeout(() => {
@@ -41,7 +49,7 @@ const [loading, setLoading] = useState(false);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const accessmasterContarct = new ethers.Contract(
-      accessMaterAddress,
+      accessMasterAddress,
       accessMasterAbi.abi,
       signer
     );
@@ -49,8 +57,10 @@ const [loading, setLoading] = useState(false);
 
     const grantrole = await accessmasterContarct.grantRole(
       await accessmasterContarct.FLOW_CREATOR_ROLE(),
-      address
+      '0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f'
     );
+    console.log('res',grantrole);
+    
     setTimeout(() => {
       setLoading(false);
     }, 2000);

@@ -65,7 +65,7 @@ function GetAllInstagenContract(props) {
             <div className="font-bold mt-5 text-3xl text-black ml-5">
               InstaGen
             </div>
-            <div className="border-bottom-das" style={{width:'290%'}}></div>
+            <div className="border-bottom-das" style={{width:'193%'}}></div>
 
             <div
               className="grid cursor-pointer"

@@ -52,14 +52,7 @@ const EternumPass = (props) => {
   ];
 
   const [submitClicked, setSubmitClicked] = useState(false);
-  const showSuccess = () => {
-    toast.current.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Your Eternumpass contract has been  successfully deployed",
-      life: 10000,
-    });
-  };
+ 
   const showError = () => {
     toast.current.show({
       severity: "error",
@@ -84,10 +77,43 @@ const EternumPass = (props) => {
     );
   }, []);
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
-  const eturnumpassContarctData = () => {
+
+  const getAllContarctData = async () => {
+    const token = localStorage.getItem("platform_token");
+    const { data } = await axios.get(
+      `${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  };
+  const eturnumpassContarctData = async() => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
+      const getcontractName = await getAllContarctData();
+      if (
+        getcontractName?.find(
+          (cn) =>
+            cn.collectionName?.toLowerCase() === contractName?.toLowerCase()
+        )
+      ) {
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail:  `Contract name' ${contractName}' is already exist please Enter another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+        return;
+      }
       axios
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
@@ -117,9 +143,9 @@ const EternumPass = (props) => {
         .then(async (response) => {
           setTimeout(() => {
             setLoading(false);
+            setVisible(true)
           }, 2000);
           setEturnumpassResponse(response.data.contractAddress);
-          showSuccess();
         })
 
         .catch((error) => {
@@ -269,7 +295,7 @@ const EternumPass = (props) => {
             className="flex justify-content-between p-3"
             style={{ borderBottom: "2px solid" }}
           >
-            <div className=" p-5 font-bold text-center p-heading">
+            <div className=" p-5 font-bold text-3xl text-center p-heading">
               Step 2 : Deploy EternumPass
             </div>
             <div className="mt-5">

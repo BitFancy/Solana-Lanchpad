@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
 import React, { useState, useEffect, useContext } from "react";
-import { useRouter } from "next/router";
+
+ import { useRouter } from "next/router";
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
 import {
@@ -614,6 +615,7 @@ function Profile() {
               justifyContent: "start",
               marginTop: "-100px",
               marginLeft: "50px",
+              position:'absolute',
             }}
           >
             <div
@@ -649,6 +651,7 @@ function Profile() {
               justifyContent: "start",
               marginTop: "-100px",
               marginLeft: "50px",
+              position:'absolute'
             }}
           >
             <div
@@ -672,14 +675,17 @@ function Profile() {
                 }}
               />
             </div>
+          
           </div>
+         
         )}
 
-        <div className="flex justify-content-end">
+<div className="flex justify-content-end">
           <div
             style={{
-              marginTop: "-70px",
-              marginRight: "20px",
+              marginTop: "23px",
+              marginRight: "135px",
+              position:'absolute'
             }}
           >
             <Button label="Upgrade plan" rounded />
@@ -687,14 +693,16 @@ function Profile() {
 
           <div
             style={{
-              marginTop: "-70px",
+              marginTop: "23px",
               marginRight: "20px",
+              position:'absolute'
             }}
           >
             <Button
               label="Edit Profile"
               onClick={() => setmodal(true)}
               rounded
+              style={{border:'1px solid',background:'none'}}
             />
           </div>
         </div>
@@ -847,7 +855,6 @@ function Profile() {
         >
           <div
             style={{
-              margin: "2px",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
@@ -856,7 +863,7 @@ function Profile() {
           >
             <div
               style={{
-                marginTop: "50px", // Use '24px' in md viewports and '10px' in lg viewports
+                marginTop: "135px",
                 marginLeft: "60px",
               }}
             >
@@ -918,11 +925,10 @@ function Profile() {
                   </div>
                 </div>
                 <div className="mt-5 font-bold text-3xl">
-                  Selected Plan: {planVar}{" "}
+                  Selected Plan : {planVar}{" "}
                 </div>
                 {twitt ? (
                   <>
-                    {/* <p className="flex p-5 justify-content-around">Twitter account connected</p> */}
                     <div
                       className="p-card mt-8 p-mb-3 p-shadow-3"
                       style={{

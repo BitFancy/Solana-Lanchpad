@@ -63,7 +63,7 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
           <div className="font-bold mt-5 text-3xl text-black ml-5">
             EternalSoul
           </div>
-          <div className="border-bottom-das" style={{width:'280%'}}></div>
+          <div className="border-bottom-das" style={{width:'185%'}}></div>
 
           <div
             className="grid cursor-pointer"

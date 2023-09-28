@@ -10,6 +10,9 @@ import { Provider } from "react-redux";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import "../styles/demo/LoadingSpinner.css";
+// import 'react-toastify/dist/ReactToastify.css';
+import '../node_modules/react-toastify/dist/ReactToastify.css'
+
 
 import store from "../store";
 import {

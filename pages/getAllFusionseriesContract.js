@@ -11,18 +11,16 @@ import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
  function GetAllFusionseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { layoutConfig } = useContext(LayoutContext);
   const toast = useRef(null); 
-  console.log('id in getall fusion con',props.router.query.storefrontId)
   useEffect(() => {
    getcontractById()
  }, []);
 
  const getcontractById = () => {
    const token = localStorage.getItem("platform_token");
-   axios
-     .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
+   axios.get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts/${props.router.query.storefrontId}`, {
        headers: {
          Authorization: `Bearer ${token}`,
        },
@@ -36,7 +34,6 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
        }
        setLoading(false);
      })
-
      .catch((error) => {
        console.log('error while get contract by id',error)
      })
@@ -46,34 +43,35 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
  };
   return (
     <LayoutDashbord
-      title="FusionSeries Contarct"
-      description="Used to Show All FusionSeries Contarct Details"
-    >
-      <div>
-        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
-        <Toast ref={toast} />
-        <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex`}
-        >
-          <div>
-            <Sidemenu />
-          </div>
-          <div>
-            <div className="font-bold mt-5 ml-5 text-3xl text-black">
-              FusionSeries
-            </div>
-            <div className="border-bottom-das" style={{width:'270%'}}></div>
+    title="Fusion Series Contarct"
+    description="Used to Show All Fusion Series Contarct Details"
+  >
+    <div>
+      <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
+      <Toast ref={toast} />
 
-            <div
-              className="grid cursor-pointer"
-              style={{ gap: "20px", marginLeft: "30px" }}
-            >
-              {contractData?.length > 0 ? (
-                  contractData
-                  .filter((cd) => cd.contractName === "FusionSeries")
-                  .map((contract) => {
+      <div
+        className={`${
+          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
+        } flex`}
+      >
+        <div>
+          <Sidemenu />
+        </div>
+        <div>
+          <div className="font-bold mt-5 ml-5  text-3xl text-black">
+            Fusion Series
+          </div>
+          <div className="border-bottom-das" style={{width:'84%',position:'absolute'}}></div>
+
+          <div
+            className="grid cursor-pointer"
+            style={{ gap: "20px", marginLeft: "30px" }}
+          >
+            {contractData?.length > 0 ? (
+              contractData
+                .filter((cd) => cd.contractName === "FusionSeries")
+                .map((contract) => {
                   return (
                     <Link
                       style={{ color: "black" }}
@@ -87,45 +85,43 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
                         className="col-12 lg:col-6 xl:col-3   mt-5"
                         style={{ width: "285px" }}
                       >
-                     
-                          <div
-                            className="back-contract gap-5 p-5"
-                            style={{
-                              marginBottom: "0px",
-                              height: "300px",
-                            }}
-                          >
-                            <div className="text-center">
-                              <img
-                                className="dash-img-size"
-                                style={{ width: "200px", height: "200px" }}
-                                src="garden.png"
-                              ></img>
-                            </div>
-                            <div className="mt-5">
-                              Contract Name :{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
-                            </div>
+                        <div
+                          className="back-contract gap-5 p-5"
+                          style={{
+                            marginBottom: "0px",
+                            height: "300px",
+                          }}
+                        >
+                          <div className="text-center">
+                            <img
+                              className="dash-img-size"
+                              style={{ width: "200px", height: "200px" }}
+                              src="garden.png"
+                            ></img>
                           </div>
-                      
+                          <div className="mt-5">
+                            Contract Name :{" "}
+                            <span style={{ color: "blue" }}>
+                              <>{contract.contractName}</>
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </Link>
                   );
                 })
-              ) : loading ? (
-                <Loader />
-              ) : (
-                <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any FusionSeries Contract Under this storefront.
-                </div>
-              )}
-            </div>
+            ) : loading ? (
+              <Loader />
+            ) : (
+              <div className="text-2xl pb-10 font-bold text-center mt-5">
+                You haven&apos;t created any SignatureSeries Contract Under this storefront.
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </LayoutDashbord>
+    </div>
+  </LayoutDashbord>
   );
 }
 export default withRouter(GetAllFusionseriesContract)

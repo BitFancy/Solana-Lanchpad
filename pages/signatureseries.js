@@ -14,7 +14,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 
 import { Dialog } from "primereact/dialog";
 import { NFTStorage } from "nft.storage";
-import { FileUpload } from "primereact/fileupload";p
+import { FileUpload } from "primereact/fileupload";
 import {
   getAccessMasterByStorefrontID,
   getStorefrontByID,
@@ -56,9 +56,7 @@ class SignatureSeries extends React.Component {
     { name: "Ethereum", value: "Ethereum" },
   ];
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(
-      "b68284bd-2c23-4f9d-8a4a-85cf816358c7"
-    );
+    const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
     this.setState({ storefrontData: payload });
     console.log("Data", payload);
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
@@ -69,7 +67,7 @@ class SignatureSeries extends React.Component {
     getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
         this.setState({ tradhubAddress: response[0]?.contractAddress });
-        console.log('tradhub',response[0]?.contractAddress)
+        console.log("tradhub", response[0]?.contractAddress);
       }
     );
   }
@@ -157,9 +155,14 @@ class SignatureSeries extends React.Component {
             this.state.contractName?.toLowerCase()
         )
       ) {
-        alert(
-          `Contract name' ${this.state.contractName}' is already exist please enter another name`
-        );
+        const showSuccessPro = () => {
+          toast.current.show({
+            severity: "warn",
+            detail: `Contract name' ${this.state.contractName}' is already exist please enter another name`,
+            life: 10000,
+          });
+        };
+       showSuccessPro();
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
@@ -200,8 +203,9 @@ class SignatureSeries extends React.Component {
           });
         })
 
-        .catch(() => {
+        .catch((error) => {
           this.showError();
+          console.log(error);
         })
         .finally(() => {
           this.setState({ loading: false });
@@ -216,7 +220,6 @@ class SignatureSeries extends React.Component {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
   };
 
- 
   navigateTo = (nav) => {
     Router.push(nav);
   };
@@ -252,6 +255,7 @@ class SignatureSeries extends React.Component {
         description="This is use to show information of the deploy signatureSeries contract"
       >
         <Dialog
+          header="Header"
           visible={this.state.visible}
           style={{ width: "30vw", height: "18vw" }}
           onHide={() => this.setState({ visible: false })}
@@ -273,7 +277,7 @@ class SignatureSeries extends React.Component {
               className="flex justify-content-between p-3"
               style={{ borderBottom: "2px solid" }}
             >
-              <div className=" p-5 font-bold text-center text-black">
+              <div className=" p-5 font-bold text-3xl text-center text-black">
                 Step 2 : Deploy SignatureSeries
               </div>
               <div className="mt-5">
@@ -454,29 +458,28 @@ class SignatureSeries extends React.Component {
                 </Link>
               </div>
 
-              {this.state.signatureseriesRespoanse && 
-               <div className="text-center mt-5">
-               <Link
-                 href={{
-                   pathname: "/webappForm",
-                   query: {
-                     storefrontId: this.props?.router?.query?.storefrontId,
-                   },
-                 }}
-               >
-                 <Button
-                   label="Next"
-                   severity="Primary"
-                   rounded
-                   loading={this.loading4}
-                   onClick={this.load4}
-                   className=" buy-img"
-                   style={{ padding: "10px 60px 10px 60px" }}
-                 />
-               </Link>
-             </div>
-              }
-             
+              {this.state.signatureseriesRespoanse && (
+                <div className="text-center mt-5">
+                  <Link
+                    href={{
+                      pathname: "/webappForm",
+                      query: {
+                        storefrontId: this.props?.router?.query?.storefrontId,
+                      },
+                    }}
+                  >
+                    <Button
+                      label="Next"
+                      severity="Primary"
+                      rounded
+                      loading={this.loading4}
+                      onClick={this.load4}
+                      className=" buy-img"
+                      style={{ padding: "10px 60px 10px 60px" }}
+                    />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

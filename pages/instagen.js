@@ -54,14 +54,7 @@ const Instagen = (props) => {
 
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
-  const showSuccess = () => {
-    toast.current.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Your Instagen contract has been  successfully deployed",
-      life: 10000,
-    });
-  };
+ 
  
   useEffect(() => {
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
@@ -111,13 +104,14 @@ const Instagen = (props) => {
         .then(async (response) => {
           setTimeout(() => {
             setLoading(false);
+            setVisible(true);
           }, 2000);
           setinstagenResponse(response.data.contractAddress);
-          showSuccess();
         })
 
         .catch((error) => {
          console.log('error',error)
+         showError();
         })
         .finally(() => {
           setLoading(false);
@@ -206,6 +200,15 @@ const Instagen = (props) => {
     }
   };
 
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail:
+        "Error While deploying Instagen contract",
+      life: 2000,
+    });
+  };
   uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
@@ -271,7 +274,7 @@ const Instagen = (props) => {
             className="flex justify-content-between p-3"
             style={{ borderBottom: "1px solid" }}
           >
-            <div className="p-5 font-bold text-center p-heading">
+            <div className="p-5 font-bold text-3xl text-center p-heading">
               Step 2 : Deploy InstaGen
             </div>
             <div className="mt-5">

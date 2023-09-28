@@ -48,10 +48,7 @@ const AppFooter = () => {
           <div className="mt-3 cursor-pointer">Eternum Pass</div>
           <div className="mt-3 cursor-pointer">Phygital NFTs</div>
           <div className="mt-3 cursor-pointer">Eternnal Soul</div>
-          <div className="mt-3 cursor-pointer">Access Control</div>
           <div className="mt-3 cursor-pointer">TradeHub</div>
-
-         
         </div>
         <div className="p-heading">
           <div className="font-bold text-2xl ">Contact Us</div>

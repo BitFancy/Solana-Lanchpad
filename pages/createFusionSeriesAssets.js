@@ -14,13 +14,12 @@ import LayoutDashbord from "../Components/LayoutDashbord";
 import { Dropdown } from "primereact/dropdown";
 import { Messages } from "primereact/messages";
 import { NFTStorage } from "nft.storage";
-import { withRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 import Image from "next/image";
 import { getTradeHubByStorefrontID } from "../utils/util";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -36,6 +35,8 @@ const style = {
 };
  function CreateFusionSeriesNft(props) {
   const msgs = useRef(null);
+  const router=useRouter();
+
   const [previewMedia, setpreviewMedia] = useState("");
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
@@ -177,7 +178,7 @@ const blockchain = [
       console.log('tx',tx)
       setmodelmsg("Transaction 1 Complete");
       let event = tx.events[0];
-      let value = event.args[2];
+      let value = event.args[3];
       let tokenId = value.toNumber();
       let forAuction = false;
       let endTime=0;

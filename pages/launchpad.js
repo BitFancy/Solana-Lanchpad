@@ -145,7 +145,7 @@ export default function Launchpad() {
               <div>Explore InstaGen: an ERC-721A NFT collection </div>
               <div>with unique, indivisible, and limited-edition </div>
               <div>digital assets, elevating your digital art</div>
-              <div>portfolio's rarity and exclusivity </div>
+              <div>portfolio rarity and exclusivity </div>
            
             </div>
            

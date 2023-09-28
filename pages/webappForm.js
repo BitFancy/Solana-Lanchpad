@@ -473,7 +473,7 @@ function WebappForm(props) {
                   className="buy-img"
                 ></Button>
               </div>
-              <div className="mt-5 ">
+              {/* <div className="mt-5 ">
                 <Link href="/successNoteContract">
                   <Button
                     className="buy-img"
@@ -482,7 +482,7 @@ function WebappForm(props) {
                     label="Continue"
                   ></Button>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
