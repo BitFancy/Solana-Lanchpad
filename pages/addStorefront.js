@@ -20,8 +20,8 @@ function AddStorefront() {
   const router = useRouter();
   const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
   const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
+    { name: "Mumbai", value: "Mumbai" },
+    { name: "Sepolia", value: "Sepolia" },
   ];
   const { address } = useAccount();
   const toast = useRef(null);
@@ -39,7 +39,7 @@ function AddStorefront() {
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
-  
+
   const showError = () => {
     toast.current.show({
       severity: "error",
@@ -48,14 +48,14 @@ function AddStorefront() {
       life: 10000,
     });
   };
- 
+
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);
       return metaHash;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
@@ -69,8 +69,7 @@ function AddStorefront() {
       const metaHashURI = getMetaHashURI(metaHash);
       setuploadImage(metaHashURI);
     } catch (error) {
-      console.log(error)
-
+      console.log(error);
     }
   }
   const getStorefrontData = async () => {
@@ -86,11 +85,12 @@ function AddStorefront() {
       );
       return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const addStorefront = async () => {
+
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
@@ -107,7 +107,7 @@ function AddStorefront() {
             life: 10000,
           });
         };
-       showSuccessPro();
+        showSuccessPro();
         setTimeout(() => {
           setLoading(false);
         }, 2000);
@@ -124,7 +124,7 @@ function AddStorefront() {
             headline: headline,
             description: description,
             blockchain: selecteBlockchaine,
-            network:"testnet"
+            network: "testnet",
           },
           {
             headers: {
@@ -137,15 +137,14 @@ function AddStorefront() {
             setLoading(false);
             setVisible(true);
           }, 2000);
-          
-       
+
           router.push({
             pathname: "/step1",
-            query: { storefrontId: response.data.storefrontId},            
+            query: { storefrontId: response.data.storefrontId },
           });
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           showError();
         })
         .finally(() => {
@@ -162,7 +161,6 @@ function AddStorefront() {
   const handleInputHeadline = (e) => {
     setHeadline(e.target.value);
   };
-  
 
   const onClickButton = () => {
     if (!contractName) {
@@ -189,30 +187,37 @@ function AddStorefront() {
         <Toast ref={toast} />
 
         <Dialog
-          header="Header"
           visible={visible}
           style={{ width: "30vw", height: "18vw" }}
           onHide={() => setVisible(false)}
         >
           <div className="text-center">
-            You have assumed the role of administrator.The deployment of Flow
-            access master has been completed successfully.
+            <div className="font-bold mt-5 text-2xl">Well Done !</div>
+            <div className="mt-5 text-xl">
+            <div>You have assumed the role of administrator.</div>
+            <div>The deployment of Flow access master</div>
+            <div>has been completed successfully.</div>
+            </div>
+          
           </div>
         </Dialog>
-        <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          }`}
-        >
+        <div>
           <div
             className="font-bold text-4xl p-5 text-black p-heading"
             style={{ borderBottom: "1px solid #aba2a2" }}
           >
             Add StoreFront Details
           </div>
-        
+          <div className="text-center text-3xl font-bold mt-5">
+            Enter storefront Details in testnet
+          </div>
+
           <div
-            className=" p-5 mt-5 font-bold card flex gap-5 buy-img back-color"
+            className={`${
+              layoutConfig.colorScheme === "light"
+                ? "back-color"
+                : "back-color-black"
+            }  p-5 mt-5 font-bold  flex gap-5`}
             style={{ width: "80%", margin: "0 auto" }}
           >
             <div style={{ width: "445px" }}>
@@ -254,7 +259,7 @@ function AddStorefront() {
                   options={blockchain}
                   optionLabel="name"
                   placeholder="Select Blockchain "
-                  className="w-full input-back"
+                  className="w-full "
                 />
               </div>
 
@@ -295,6 +300,15 @@ function AddStorefront() {
                     rounded
                     type="submit"
                     loading={loading}
+                  />
+                </div>
+                <div>
+                  <Button
+                    label="Cancel"
+                    severity="Primary"
+                    className=" mt-7 w-full buy-img"
+                    rounded
+                    type="submit"
                   />
                 </div>
               </div>

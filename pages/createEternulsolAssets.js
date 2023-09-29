@@ -241,11 +241,7 @@ function CreateEternulsolAssets(props) {
       description="This is used to create EternalSoul Nfts"
     >
       <div
-        className={`${
-          layoutConfig.colorScheme === "light"
-            ? "body-back back-image-sig-nft"
-            : "dark"
-        }`}
+       
       >
         <div className="dark:bg-gray-800 kumbh text-center">
           <Snackbar

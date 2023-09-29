@@ -55,9 +55,7 @@ function GetAllSignatureseriesContract(props) {
         <Toast ref={toast} />
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex`}
+         className="flex"
         >
           <div>
             <Sidemenu />
@@ -66,7 +64,7 @@ function GetAllSignatureseriesContract(props) {
             <div className="font-bold mt-5 ml-5  text-3xl text-black">
               SignatureSeries
             </div>
-            <div className="border-bottom-das" style={{width:'136%'}}></div>
+            <div className="border-bottom-das" style={{width:'180%'}}></div>
 
             <div
               className="grid cursor-pointer"

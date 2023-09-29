@@ -196,7 +196,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
     <LayoutDashbord title="Web App " description="Used to Show Details of the Web App">
       <MarketplaceProfileDetails id={props?.router?.query?.storefrontId}/>
       <div>
-        <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-webapp-form' : 'dark'}`}>
+        <div>
          
           <Toast ref={toast} />
 
@@ -215,7 +215,7 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
           </div>
         </Dialog>
             <div
-              className=" p-5 mt-5  back-color  gap-5"
+              className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5 gap-5`}
               style={{ width: "65%", margin: "0 auto" }}
             >
                <div className="font-bold text-3xl p-5 text-centerp-heading text-center">

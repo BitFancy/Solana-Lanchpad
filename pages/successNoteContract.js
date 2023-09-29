@@ -16,9 +16,7 @@ function SuccessNoteContract(props) {
     <div>
       <AppTopbar />
       <div
-        className={`${
-          layoutConfig.colorScheme === "light" ? "back-img-sig" : "dark"
-        } text-center text-3xl`}
+       className="text-center text-3xl"
         style={{ marginTop: "100px" }}
       >
         <div className="font-bold">Congratulations</div>

@@ -259,15 +259,11 @@ const Instagen = (props) => {
       >
         <div className="text-center">
           <div className="font-bold text-2xl">Step 3 of 3</div>
-          <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+          <div className="mt-5 text-xl">Deploying storefront Webapp</div>
         </div>
       </Dialog>
       <div
-        className={`${
-          layoutConfig.colorScheme === "light"
-            ? "buy-back-image-instagen"
-            : "dark"
-        }`}
+      
       >
         <div>
           <div
@@ -292,7 +288,8 @@ const Instagen = (props) => {
 
           <div className="flex justify-content-center gap-5">
             <div
-              className="p-5 back-color buy-img mt-5"
+              className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
+
               style={{ width: "50%" }}
             >
               <div className="p-heading">Enter InstaGen Name</div>

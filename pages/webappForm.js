@@ -270,7 +270,7 @@ function WebappForm(props) {
   return (
     <div>
       <AppTopbar />
-      <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-webapp-form' : 'dark'}`}>
+      <div >
         <div className="font-bold text-3xl p-5 text-center">
           Make Your Marketplace Shine
         </div>
@@ -279,7 +279,8 @@ function WebappForm(props) {
         <hr></hr>
         <div className="flex">
           <div
-            className=" p-5 mt-5 back-color  gap-5"
+            className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
+
             style={{ width: "80%", margin: "0 auto" }}
           >
             <div className="mt-5 text-center font-bold text-3xl">

@@ -101,7 +101,7 @@ export default function BuyNft() {
  
   return (
     <Layout2 title="Buy Subscription" description="Used to Subscribe the NFTs">
-      <div   className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-subsc' : 'dark'}`}>
+      <div >
         <div className="font-bold text-4xl p-5 text-black">
           Buy Subscription
         </div>

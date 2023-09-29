@@ -83,11 +83,7 @@ const [loading, setLoading] = useState(false);
         <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light"
-              ? "buy-back-image-access"
-              : "dark"
-          } flex justify-content-between `}
+          className="flex justify-content-between"
         >
           <div>
             <Sidemenu />

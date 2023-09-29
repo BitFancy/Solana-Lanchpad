@@ -141,11 +141,7 @@ function StorefrontDashboard(props) {
           </div>
         </div>
         <div
-          className={`${
-            layoutConfig.colorScheme === "light"
-              ? "buy-back-image-storefront-dashboard"
-              : "dark"
-          }`}
+         
         >
           <hr></hr>
 

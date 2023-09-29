@@ -16,8 +16,8 @@ const AppFooterDashboard = () => {
           borderTop: "1px solid #bcb2b2",
         }}
         className={`${
-          layoutConfig.colorScheme === "light" ? "buy-back-image-footer" : "dark"
-        } layout-footer justify-content-between`}
+          layoutConfig.colorScheme === "light" ? "white" : "dark"
+        } layout-footer justify-content-between mt-5`}
 
       >
         <div>

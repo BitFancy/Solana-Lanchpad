@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Toast } from "primereact/toast";
+import { Dialog } from "primereact/dialog";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 export default function AddProfileDetails() {
@@ -21,6 +22,8 @@ export default function AddProfileDetails() {
     const [discord_id, setdiscord_id] = useState();
     const [submitClicked, setSubmitClicked] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+
    const router=useRouter();
    const toast = useRef(null);
 
@@ -74,9 +77,9 @@ export default function AddProfileDetails() {
            console.log('profile created',response)
            setTimeout(() => {
             setLoading(false);
+            setVisible(true);
           }, 2000);
           router.push('/profile')
-
           })
           .catch((error) => {
             console.log('error while profile create',error)
@@ -168,10 +171,23 @@ export default function AddProfileDetails() {
 
             <circle cx="100" cy="100" r="99.5" fill="#D9D9D9" stroke="black" />
           </svg>
+          <Dialog
+        visible={visible}
+        style={{ width: "30vw", height: "18vw" }}
+        onHide={() => setVisible(false)}
+      >
+        <div className="text-center">
+        <div className="font-bold">Congrats!</div>
+        <div className="m-0">
+          Your Profile is created Successfully
+        </div>
+        </div>
+       
+      </Dialog>
         </div>
       </div>
-      <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image' : 'dark'}`}>
-      <div className="back-color p-5" style={{width:'70%',margin:'0 auto',marginTop:'60px'}} >
+      <div >
+      <div  className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5`} style={{width:'70%',margin:'0 auto',marginTop:'60px'}} >
         <div className="font-bold text-2xl">Add profile details</div>
         <div className="mt-5">Enter name</div>
 

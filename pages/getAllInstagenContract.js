@@ -54,9 +54,7 @@ function GetAllInstagenContract(props) {
         <Toast ref={toast} />
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex`}
+          className="flex"
         >
           <div>
             <Sidemenu />

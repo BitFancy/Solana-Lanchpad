@@ -21,7 +21,6 @@ import { withRouter } from "next/router";
     description="This is use to show deployed FusionSeries">
       <div>
       <div 
-      className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-launch' : 'dark'}`}
       >
 
         <div className="flex justify-content-center">

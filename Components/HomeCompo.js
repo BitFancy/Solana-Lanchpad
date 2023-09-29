@@ -49,10 +49,7 @@ const Homecomp = ({ uri }) => {
         <div style={{ color: "black" }}>{response.name}</div>
         <div style={{ color: "black" }}>{response.description}</div>
       </div>
-      <div className="flex font-bold justify-content-between mt-3 ">
-        <div style={{ color: "black" }}>Price</div>
-        <div style={{ color: "black" }}>{response.price}</div>
-      </div>
+    
     </div>
   );
 };

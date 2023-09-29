@@ -58,9 +58,7 @@ export default function SingleFusionseriesNft() {
         <Toast ref={toast} />
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex gap-5`}
+         className="flex gap-5"
         >
           <div>
             <Sidemenu />
@@ -93,28 +91,9 @@ export default function SingleFusionseriesNft() {
                     <div className=" text-xl">Description:</div>
                     <div className="text-xl">dd</div>
                   </div>
-                  <div className="flex mt-5">
-                    <div className=" text-xl">Price:</div>
-                    <div className="text-xl">00</div>
-                  </div>
-
-                  <div className="mt-3">
-                    <InputText type="number" className="w-full" />
-                  </div>
-                  <div
-                    className="flex mt-3 gap-5"
-                    style={{ justifyContent: "end" }}
-                  >
-                    <div className="font-bold text-2xl">
-                      Rental Availability
-                    </div>
-                    <div>
-                      <img
-                        style={{ width: "95px", height: "65px" }}
-                        src="/Toggle.png"
-                      ></img>
-                    </div>
-                  </div>
+                
+               
+                 
                 </div>
               </div>
             </div>

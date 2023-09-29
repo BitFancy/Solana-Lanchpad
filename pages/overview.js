@@ -38,7 +38,7 @@ import { withRouter } from "next/router";
       title="Overview"
       description="This is use to show information of the overview launchpad"
     >        <MarketplaceProfileDetails id={props?.router?.query?.storefrontId}/>
-          <div  className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-overview' : 'dark'} flex`}>
+          <div  className="flex">
             <div >
             <Sidemenu/>
             </div>

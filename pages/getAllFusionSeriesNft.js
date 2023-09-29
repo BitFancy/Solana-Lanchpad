@@ -76,9 +76,7 @@ function GetAllFusionSeriesNft(props) {
       <div>
         <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex `}
+         className="flex"
         >
           <div>
             <Sidemenu />
@@ -151,12 +149,7 @@ function GetAllFusionSeriesNft(props) {
                               <>{asset.tokenID}</>
                             </span>
                           </div>
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Price:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
+                        
                           <div className="mt-2 " style={{ color: "black" }}>
                             Last Sale:{" "}
                             <span style={{ color: "blue" }}>

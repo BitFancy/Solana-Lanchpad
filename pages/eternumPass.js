@@ -127,8 +127,8 @@ const EternumPass = (props) => {
               param5: platformFeeBasePrice,
               param6: subspricePerMonth,
               param7: royltybps,
-              param9: accsessmasterAddress,
-              param10: tradhubAddress,
+              param8: accsessmasterAddress,
+              param9: tradhubAddress,
             },
             network: "maticmum",
             storefrontId: props.router.query.storefrontId,
@@ -274,9 +274,7 @@ const EternumPass = (props) => {
       description="This is use to show information of the deploy Eternumpass contract"
     >
       <div
-        className={`${
-          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-        }`}
+       
       >
         <Toast ref={toast} />
 
@@ -287,7 +285,7 @@ const EternumPass = (props) => {
         >
           <div className="text-center">
             <div className="font-bold text-2xl">Step 3 of 3</div>
-            <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+            <div className="mt-5 text-xl">Deploying storefront Webapp</div>
           </div>
         </Dialog>
         <div>
@@ -313,7 +311,10 @@ const EternumPass = (props) => {
           </div>
 
           <div className="flex justify-content-center gap-5 mt-5">
-            <div className="back-color p-5 buy-img" style={{ width: "50%" }}>
+            <div style={{ width: "50%" }}
+             className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
+
+            >
               <div className="p-heading">Enter EternumPass Name</div>
               <div className="mt-3">
                 <InputText

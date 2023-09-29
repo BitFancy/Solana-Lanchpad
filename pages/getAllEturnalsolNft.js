@@ -70,9 +70,7 @@ import { withRouter } from "next/router";
       <div>
         <MarketplaceProfileDetails />
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex `}
+        className="flex"
           
         >
           <div>
@@ -146,12 +144,7 @@ import { withRouter } from "next/router";
                               <>{asset.tokenID}</>
                             </span>
                           </div>
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Price:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
+                      
                           <div className="mt-2 " style={{ color: "black" }}>
                             Last Sale:{" "}
                             <span style={{ color: "blue" }}>

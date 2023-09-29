@@ -50,9 +50,7 @@ export default function SingleEturnalsolNft() {
         <Toast ref={toast} />
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex gap-5`}
+         className="flex gap-5"
         >
           <div>
             <Sidemenu />
@@ -85,11 +83,7 @@ export default function SingleEturnalsolNft() {
                     <div className=" text-xl">Description:</div>
                     <div className="text-xl">dd</div>
                   </div>
-                  <div className="flex mt-5">
-                    <div className=" text-xl">Price:</div>
-                    <div className="text-xl">00</div>
-                  </div>
-
+               
                  
                 </div>
               </div>

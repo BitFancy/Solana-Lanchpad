@@ -71,9 +71,7 @@ console.log('props')
         <Toast ref={toast} />
 
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex gap-5`}
+         className="flex gap-5"
         >
           <div>
             <Sidemenu />

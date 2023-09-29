@@ -234,11 +234,7 @@ class Eturnulsol extends React.Component {
         description="This is use to show information of the deploy Eturnalsol contract"
       >
         <div
-          className={`${
-            this.context.layoutConfig.colorScheme === "light"
-              ? "buy-back-image"
-              : "dark"
-          } `}
+         
         >
           <Dialog
             visible={this.state.visible}
@@ -247,7 +243,7 @@ class Eturnulsol extends React.Component {
           >
             <div className="text-center">
               <div className="font-bold text-2xl">Step 3 of 3</div>
-              <div className="mt-3 text-xl">Deploying storefront Webapp</div>
+              <div className="mt-5 text-xl">Deploying storefront Webapp</div>
             </div>
           </Dialog>
           <div>
@@ -277,7 +273,8 @@ class Eturnulsol extends React.Component {
             </div>
             <div className="flex justify-content-center gap-5">
               <div
-                className="card buy-img mt-5 back-color"
+                className={`${this.context.layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  mt-5 p-5`} 
+
                 style={{ width: "50%" }}
               >
                 <div className="text-center mt-5">

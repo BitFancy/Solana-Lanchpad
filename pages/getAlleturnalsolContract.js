@@ -52,9 +52,7 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
       <Toast ref={toast} />
 
       <div
-        className={`${
-          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-        } flex`}
+      className="flex"
       >
         <div>
           <Sidemenu />

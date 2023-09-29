@@ -80,9 +80,7 @@ console.log("contractAddress>>>>",contractAddress);
       <div>
         <MarketplaceProfileDetails  id={props.router.query.storefrontId}/>
         <div
-          className={`${
-            layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-          } flex `}
+         className="flex"
         >
           <div>
             <Sidemenu />

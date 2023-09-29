@@ -7638,3 +7638,8 @@ line-height: 25px;
   background-color: white;
   color: black;
 }
+.back-color{
+  background: #AECDFE;
+  border-radius: 10px;
+  width: 50%;
+}

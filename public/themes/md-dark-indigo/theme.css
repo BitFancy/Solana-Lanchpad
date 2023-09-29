@@ -7615,6 +7615,11 @@ line-height: 25px;
   background-color: black;
   color: white;
 }
+.back-color-black{
+  background: rgba(255, 255, 255, 0.30);
+  border-radius: 10px;
+  width: 50%;
+}
 .subscription-back-part {
   background-color: #D9D9D9;
   height: 145px;

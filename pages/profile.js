@@ -847,11 +847,7 @@ function Profile() {
           </div>
         </Dialog>
         <div
-          className={`${
-            layoutConfig.colorScheme === "light"
-              ? "body-back-back-profile"
-              : "dark"
-          }`}
+         
         >
           <div
             style={{

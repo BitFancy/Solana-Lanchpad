@@ -51,9 +51,7 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
       <Toast ref={toast} />
 
       <div
-        className={`${
-          layoutConfig.colorScheme === "light" ? "buy-back-image" : "dark"
-        } flex`}
+       className="flex"
       >
         <div>
           <Sidemenu />
@@ -114,7 +112,7 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
               <Loader />
             ) : (
               <div className="text-2xl pb-10 font-bold text-center mt-5">
-                You haven&apos;t created any SignatureSeries Contract Under this storefront.
+                You haven&apos;t created any FusionSeries Contract Under this storefront.
               </div>
             )}
           </div>

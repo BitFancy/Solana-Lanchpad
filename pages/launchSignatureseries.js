@@ -18,7 +18,7 @@ import { withRouter } from "next/router";
     <Layout2 title="Deploy SignatureSeries"
     description="This is use to show information of the deploy signatureSeries contract">
       <div>
-        <div className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-launch' : 'dark'}`}>
+        <div >
           <div className="flex justify-content-center">
             <div className="flex buy-img" style={{ marginTop: "100px" }}>
               <div>

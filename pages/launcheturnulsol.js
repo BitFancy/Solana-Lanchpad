@@ -21,7 +21,6 @@ function LaunchEturnulsol(props) {
     description="This is use to show information of the deploy Eturnalsol contract">
       <div>
       <div 
-            className={`${layoutConfig.colorScheme === 'light' ? 'buy-back-image-launch' : 'dark'}`}
 
       >
 
