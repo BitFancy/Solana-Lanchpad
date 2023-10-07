@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
 import Link from "next/link";
@@ -11,14 +10,16 @@ import Loader from "../Components/LoadingSpinner";
 import {  withRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
+import request, { gql } from "graphql-request";
 function GetAllSignatureSeriesSeriesNft(props) {
+  console.log('props',props.router.query.redirectURL)
   const [assetsData, setAsseetsData] = useState([]);
   const { layoutConfig } = useContext(LayoutContext);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
+  const [graphqlURL, setGraphqlURL] = useState("")
   const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
-  
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
      setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
@@ -27,12 +28,36 @@ function GetAllSignatureSeriesSeriesNft(props) {
      }
   }, [])
   
+
+  useEffect(() => {
+    setGraphqlURL(props.router.query.redirectURL);
+  }, [props.router.query.redirectURL]);
+
   const getSignetureSeriesAssets = async () => {
     try {
       setLoading(true)
-      const {
-        data: { signatureSeriesAssetCreateds },
-      } = await axios.get("/api/assetsCreated")
+
+
+      setLoading(true)
+      const query = gql`
+      query Query($where:signatureSeriesAssetCreated_filter) {
+        signatureSeriesAssetCreateds(first:100){
+          id
+          transactionHash
+          blockNumber
+          tokenID
+          amount
+          creator
+          
+           }
+            }
+            `;
+      const result = await request(graphqlURL, query);
+      // const {
+      //   data: { signatureSeriesAssetCreateds },
+      // } = await axios.get("/api/assetsCreated")
+      setAsseetsData(result.fusionSeriesAssetCreateds);
+
       console.log("assetCreateds>>>", signatureSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       let tranasactionHashArray = signatureSeriesAssetCreateds?.map(
@@ -122,7 +147,7 @@ console.log("contractAddress>>>>",contractAddress);
                     <Link key={asset.tokenID} 
                     href={{
                       pathname: "/singleSignatureSeriesNFT",
-                      query: { contractAddress: contractAddress,id:asset.tokenID},
+                      query: { contractAddress: contractAddress,data:JSON.stringify(asset)},
                     }}
                     >
                       <div

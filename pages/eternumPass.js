@@ -3,7 +3,6 @@ import { InputText } from "primereact/inputtext";
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { withRouter } from "next/router";
 import axios from "axios";
-import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
@@ -12,6 +11,7 @@ import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import {
   getAccessMasterByStorefrontID,
+  getStorefrontByID,
   getTradeHubByStorefrontID,
 } from "../utils/util";
 import { Dialog } from "primereact/dialog";
@@ -35,6 +35,9 @@ const EternumPass = (props) => {
   const [uploadImageCover, setUploadImageCover] = useState("");
   const [accsessmasterAddress, setAccessMasterAddress] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
+  const [storefrontData, setstorefrontData] = useState("");
+  const [zipfile, setZipFile] = useState("");
+
 
   const { layoutConfig } = useContext(LayoutContext);
   const [errors, setErros] = useState({
@@ -45,11 +48,6 @@ const EternumPass = (props) => {
     subspricePerMonthError: "",
     royltybpsError: "",
   });
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
-  const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
 
   const [submitClicked, setSubmitClicked] = useState(false);
  
@@ -63,19 +61,24 @@ const EternumPass = (props) => {
     });
   };
   useEffect(() => {
+    getBlocchain();
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setAccessMasterAddress({
-          accsessmasterAddress: response[0]?.contractAddress,
-        });
+        setAccessMasterAddress(response[0]?.contractAddress,);
       }
     );
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress({ tradhubAddress: response[0]?.contractAddress });
+        setTradhubAddress(response[0]?.contractAddress);
       }
     );
   }, []);
+
+
+  const getBlocchain=async()=>{
+    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload)
+  }
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
 
   const getAllContarctData = async () => {
@@ -248,12 +251,26 @@ const EternumPass = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setThumbnail({ thumbnail: metaHashURI });
+      setThumbnail(metaHashURI);
     } catch (error) {
       console.log("error while upload image", error);
     }
   };
 
+
+  const onChangeZipFile = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setZipFile(metaHashURI);
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
   const onChangeThumbnailCover = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
@@ -262,7 +279,7 @@ const EternumPass = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setUploadImageCover({ uploadImageCover: metaHashURI });
+      setUploadImageCover(metaHashURI);
     } catch (error) {
       console.log("error while upload image", error);
     }
@@ -297,23 +314,13 @@ const EternumPass = (props) => {
               Step 2 : Deploy EternumPass
             </div>
             <div className="mt-5">
-              <Dropdown
-                value={selecteBlockchaine}
-                onChange={(e) => setselectedBlockchaine(e.value)}
-                options={blockchain}
-                optionLabel="name"
-                placeholder="Chains "
-                className="w-full font-bold"
-                style={{ borderRadius: "20px" }}
-              />
-              {/* <span className="blockchain-label">{storefrontData?.blockchain}</span> */}
+              <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
             </div>
           </div>
 
           <div className="flex justify-content-center gap-5 mt-5">
             <div style={{ width: "50%" }}
              className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
-
             >
               <div className="p-heading">Enter EternumPass Name</div>
               <div className="mt-3">
@@ -444,6 +451,29 @@ const EternumPass = (props) => {
                   />
                 </div>
               </div>
+
+
+              <div className="mt-5 p-heading">Upload Zip File</div>
+              <div className="mt-3"
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeZipFile(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={zipfile}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
 
               <div className="flex mt-5 justify-content-center">
                 <div>

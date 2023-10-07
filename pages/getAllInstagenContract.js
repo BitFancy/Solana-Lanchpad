@@ -14,7 +14,6 @@ function GetAllInstagenContract(props) {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useRef(null);
-  console.log('id in getall fusion con',props.router.query.storefrontId)
   useEffect(() => {
    getcontractById()
  }, []);

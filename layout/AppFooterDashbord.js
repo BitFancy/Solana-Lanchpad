@@ -17,14 +17,14 @@ const AppFooterDashboard = () => {
         }}
         className={`${
           layoutConfig.colorScheme === "light" ? "white" : "dark"
-        } layout-footer justify-content-between mt-5`}
+        } layout-footer  mt-5`}
 
       >
         <div>
           <div>
             <Image
               src={`./${
-                layoutConfig.colorScheme === "light" ? "dark" : "white"
+                layoutConfig.colorScheme === "dark" ? "dark" : "Rectangle"
               }.svg`}
               alt="Logo"
               height="60"

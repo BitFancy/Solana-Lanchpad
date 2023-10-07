@@ -1,18 +1,21 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
-import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
+import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-export default function SingleFusionseriesNft() {
-  const [contractData, setContarctData] = useState([]);
+ function SingleFusionseriesNft(props) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
-
+  const [contractData, setContarctData] = useState(()=>JSON.parse(props.router.query.data))
+  useEffect(() => {
+    setContarctData(JSON.parse(props.router.query.data))
+  }, [])
+const data=JSON.parse(props.router.query.data);
+console.log('data',data)
   const toast = useRef(null);
   const showError = () => {
     toast.current.show({
@@ -22,39 +25,10 @@ export default function SingleFusionseriesNft() {
       life: 10000,
     });
   };
-  useEffect(() => {
-    getAllContarctData();
-  }, []);
-
-  const getAllContarctData = () => {
-    const token = localStorage.getItem("platform_token");
-    setLoading(true);
-    axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/launchpad/contracts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (response) => {
-        if (response?.data?.length > 0) {
-          setContarctData(response.data);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        showError();
-      });
-  };
-  const load = () => {
-    setLoading2(true);
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
   return (
     <LayoutDashbord>
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails storefrontId={props.router.query.storefrontId}/>
         <Toast ref={toast} />
 
         <div
@@ -65,9 +39,9 @@ export default function SingleFusionseriesNft() {
           </div>
           <div>
             <div className=" text-3xl mt-5 font-bold">
-              FusionSeries &gt; FusionSeries 1 &gt; Asset 1 (Token ID)
+              FusionSeries &gt; FusionSeries {contractData.tokenID} &gt; Asset {contractData.tokenID}
             </div>
-            <div className="border-bottom-das" style={{ width: "171%" }}></div>
+            <div className="border-bottom-das" style={{ width: "134%" }}></div>
             <div>
               <div className="flex gap-5 mt-5">
                 <div>
@@ -78,22 +52,20 @@ export default function SingleFusionseriesNft() {
                   ></img>
                 </div>
                 <div>
-                  <div className="flex">
-                    <div className="font-bold text-2xl">Assets Name : </div>
-                    <div className="text-2xl">demo</div>
+                <div className="flex mt-5 gap-5">
+                    <div className="font-bold text-xl">Asset Name: </div>
+                    {/* <div className="text-xl"> {contractData.creator}</div> */}
                   </div>
-                  <div className="flex mt-5">
-                    <div className=" text-xl">wallet address:</div>
-                    <div className="text-xl">000000000000000000000</div>
+                  <div className="flex mt-5 gap-5">
+                    <div className=" text-xl">Owned by: </div>
+                    <div className="text-xl"> {contractData.creator}</div>
                   </div>
 
-                  <div className="flex mt-5">
+                  <div className="flex mt-5 gap-5">
                     <div className=" text-xl">Description:</div>
-                    <div className="text-xl">dd</div>
+                    {/* <div className="text-xl">{contractData.amount}</div> */}
                   </div>
                 
-               
-                 
                 </div>
               </div>
             </div>
@@ -103,3 +75,4 @@ export default function SingleFusionseriesNft() {
     </LayoutDashbord>
   );
 }
+export default withRouter(SingleFusionseriesNft)

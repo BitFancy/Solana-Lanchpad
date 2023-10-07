@@ -21,7 +21,7 @@ const AppFooter = () => {
           <div>
             <Image
               src={`./${
-                layoutConfig.colorScheme === "light" ? "dark" : "white"
+                layoutConfig.colorScheme === "dark" ? "dark" : "Rectangle"
               }.svg`}
               alt="Logo"
               height="60"

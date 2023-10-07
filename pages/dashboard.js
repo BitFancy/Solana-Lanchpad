@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "../Components/LoadingSpinner";
 import { Toast } from "primereact/toast";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { useAccount } from "wagmi";
 import { withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
-function StorefrontDashboard(props) {
+function StorefrontDashboard() {
   const [storefrontData, setStorefrontData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(false);
@@ -19,9 +17,7 @@ function StorefrontDashboard(props) {
   const [loading4, setLoading4] = useState(false);
   const [plan, setsetPlan] = useState(null);
   const toaste = useRef(null);
-  const { layoutConfig } = useContext(LayoutContext);
   const { address } = useAccount();
- 
   useEffect(() => {
     getStorefrontData();
     setsetPlan(
@@ -29,13 +25,7 @@ function StorefrontDashboard(props) {
     );
   }, []);
 
-  const loadsetup = () => {
-    setLoadingsetup(true);
-
-    setTimeout(() => {
-      setLoadingsetup(false);
-    }, 2000);
-  };
+  
 
   const getStorefrontData = () => {
     const token = localStorage.getItem("platform_token");
@@ -225,7 +215,7 @@ function StorefrontDashboard(props) {
                           <div className="mt-5">
                             <Link
                               href={{
-                                pathname: "/accessMasterRole",
+                                pathname: "/overview",
                                 query: { storefrontId: storefront.id },
                               }}
                             >

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -9,14 +9,12 @@ import BuyAsset from "../Components/buyAssetModal";
 import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import TradeHub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import { Button } from "primereact/button";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { Dropdown } from "primereact/dropdown";
 import { Messages } from "primereact/messages";
 import { NFTStorage } from "nft.storage";
 import { useRouter, withRouter } from "next/router";
 import Image from "next/image";
-import { getTradeHubByStorefrontID } from "../utils/util";
+import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -45,13 +43,14 @@ const style = {
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
   const [tradhubAddress, setTradhubAddress] = useState("");
+  const contractFusionSeriesAddress = props.router.query.contractAddress;
 
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
-  const { layoutConfig } = useContext(LayoutContext);
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
   const [addImage, setAddImage] = useState(false);
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const [storefrontData, setstorefrontData] = useState("");
+
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -59,32 +58,31 @@ const style = {
     animation_url: "",
     doctype: "",
   });
-const blockchain = [
-  { name: "Polygon", value: "Polygon" },
-  { name: "Ethereum", value: "Ethereum" },
-];
-
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
     description: "",
     alternettext: "",
-    royalties: 5,
+    quantity: 1,
     auctionTime: 2,
   });
  
   useEffect(() => {
+    getBlocchain();
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
         setTradhubAddress(response[0]?.contractAddress)
-        console.log('tradhub address',response[0]?.contractAddress)
       }
     );
     
   }, []);
+
+  const getBlocchain=async()=>{
+    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload)
+  }
  
 
-  const contractFusionSeriesAddress = props.router.query.contractAddress;
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -174,7 +172,6 @@ const blockchain = [
         { gasLimit: "2099999" }
       );
       let tx = await transaction.wait();
-      console.log('tx',tx)
       setmodelmsg("Transaction 1 Complete");
       let event = tx.events[0];
       let value = event.args[3];
@@ -212,7 +209,6 @@ const blockchain = [
       );
       await transaction.wait();
       router.push('/getAllFusionSeriesNft')
-      console.log("transaction 2 is completed", transaction);
       setmodelmsg("Transaction 2 Complete !!");
     } catch (e) {
       setmodelmsg("Transaction 2 failed");
@@ -338,15 +334,9 @@ const blockchain = [
                   </div>
                 
                   <div style={{width:'225px'}}>
-                  <Dropdown
-                value={selecteBlockchaine}
-                onChange={(e) => setselectedBlockchaine(e.value)}
-                options={blockchain}
-                optionLabel="name"
-                placeholder="Chains "
-                className="w-full font-bold"
-                style={{borderRadius:'5px'}}
-              />
+                 
+                <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+
                   </div>
                   </div>
                   <div style={{marginTop:'65px'}}>
@@ -388,7 +378,7 @@ const blockchain = [
                       </div>
                     </div>
                     <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
-                      Royalties
+                    Quantity
                       <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
@@ -396,7 +386,7 @@ const blockchain = [
                     <div>
                       <input
                         type="number"
-                        value={formInput.royalties} // value * 100
+                        value={formInput.quantity}
                         suffix="%"
                         mode="decimal"
                         className="mt-2 p-3 w-full assets-input-back "
@@ -404,7 +394,7 @@ const blockchain = [
                         onChange={(e) => {
                           updateFormInput({
                             ...formInput,
-                            royalties: e.target.value,
+                            quantity: e.target.value,
                           });
                         }}
                         style={{ borderRadius: "5px", border: "none" }}
@@ -749,7 +739,7 @@ const blockchain = [
                   </div>
                 )}
 
-                <div className="flex justify-content-between p-5 mt-5">
+                <div className="flex justify-content-center p-5 mt-5">
                   <div>
                     <Button
                       className="buy-img"

@@ -42,7 +42,7 @@ function AppTopbar(props) {
       <Link href="/launchpad" className="layout-topbar-logo">
         <Image
           src={`./${
-            layoutConfig.colorScheme !== "light" ? "white" : "dark"
+            layoutConfig.colorScheme !== "light" ? "dark" : "Rectangle"
           }.svg`}
           width="60"
           height="60"
@@ -62,20 +62,20 @@ function AppTopbar(props) {
             isConnected ? null : 'Please Connect to Your wallet'
           }
           href={
-            isConnected && !plan ? "/buySubscription" : "/storefrontDashboard"
+            isConnected && !plan ? "/buySubscription" : "/profile"
           }
         >
           <span className="font-bold text-white text-2xl">Launch</span>
         </Link>
 
-        {/* <Link
+        <Link
           onClick={() =>
             isConnected ? null : alert("Please connect to Your wallet")
           }
-          href={isConnected ? "/getAllSignatureseriesContract" : ""}
+          href={isConnected ? "/dashboard" : ""}
         >
           <span className="font-bold text-white text-2xl">Dashboard</span>
-        </Link> */}
+        </Link>
 
         <div>
           <ConnectButton
@@ -94,9 +94,10 @@ function AppTopbar(props) {
               marginTop: "200px",
               position: "absolute",
               right: "60px",
+              border:'1px solid'
             }}
           >
-            <div style={{ color: "black" }} className="flex gap-2">
+            {/* <div style={{ color: "black" }} className="flex gap-2">
               <div>
                 <i className="pi pi-pencil"></i>
               </div>
@@ -105,8 +106,8 @@ function AppTopbar(props) {
                   <div className="font-bold">Create profile</div>
                 </div>
               </Link>
-            </div>
-            <div className="border-bottom-das"></div>
+            </div> */}
+            {/* <div className="border-bottom-das"></div> */}
 
             <div  style={{ color: "black" }} className="flex gap-2 mt-2 ">
               <div>

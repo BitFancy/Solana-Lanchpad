@@ -18,8 +18,7 @@ import { Button } from "primereact/button";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { ethers } from "ethers";
-import { Dropdown } from "primereact/dropdown";
-import { getTradeHubByStorefrontID } from "../utils/util";
+import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
 const style = {
   position: "absolute",
   top: "50%",
@@ -46,13 +45,7 @@ function CreateSignatureSeriesNfts(props) {
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
-
-  const { layoutConfig } = useContext(LayoutContext);
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
-  const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
+  const [storefrontData, setstorefrontData] = useState("");
   const dynamicContractAddress = props.router.query.contractAddress;
   const [mediaHash, setMediaHash] = useState({
     image: "",
@@ -165,14 +158,21 @@ function CreateSignatureSeriesNfts(props) {
 
 
   useEffect(() => {
+    getBlocchain();
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
         setTradhubAddress(response[0]?.contractAddress)
-        console.log('tradhub address',response[0]?.contractAddress)
       }
     );
     
   }, []);
+
+
+  const getBlocchain=async()=>{
+    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload)
+  }
+ 
  
   async function createItem(ipfsHash, url) {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -185,7 +185,6 @@ function CreateSignatureSeriesNfts(props) {
         { gasLimit: "2099999" }
       ); 
       let tx = await transaction.wait();
-      console.log("transaction ", tx);
       setmodelmsg("Transaction 1 Complete");
       setmodelmsg("Transaction 1 failed");
       let event = tx.events[0];
@@ -220,7 +219,6 @@ function CreateSignatureSeriesNfts(props) {
         endTime
       );
      let tx = await transaction.wait();
-      console.log("transaction completed",tx);
       setmodelmsg("Transaction 2 Complete !!");
       router.push('/getAllSegnatureSeriesNft')
     } catch (e) {
@@ -338,15 +336,8 @@ function CreateSignatureSeriesNfts(props) {
                   </div>
                 
                   <div style={{width:'225px'}}>
-                  <Dropdown
-                value={selecteBlockchaine}
-                onChange={(e) => setselectedBlockchaine(e.value)}
-                options={blockchain}
-                optionLabel="name"
-                placeholder="Chains "
-                className="w-full font-bold"
-                style={{borderRadius:'5px'}}
-              />
+                  <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+
                   </div>
                   </div>
                   <div style={{marginTop:'65px'}}>
@@ -749,7 +740,7 @@ function CreateSignatureSeriesNfts(props) {
                   </div>
                 )}
 
-                <div className="flex justify-content-between p-5 mt-5">
+                <div className="flex justify-content-center p-5 mt-5">
                   <div>
                     <Button
                       className="buy-img"

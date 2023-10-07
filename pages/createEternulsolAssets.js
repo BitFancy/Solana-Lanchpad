@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import EternalSoul from "../artifacts/contracts/eternalsoul/EternalSoul.sol/EternalSoul.json";
@@ -9,7 +9,6 @@ import { useAccount } from "wagmi";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { ethers } from "ethers";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { Dropdown } from "primereact/dropdown";
 import { Messages } from "primereact/messages";
 import Multiselect from "multiselect-react-dropdown";
 import Image from "next/image";
@@ -18,6 +17,7 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 import { NFTStorage } from "nft.storage";
 import { withRouter } from "next/router";
+import { getStorefrontByID } from "../utils/util";
 const style = {
   position: "absolute",
   top: "50%",
@@ -39,11 +39,10 @@ function CreateEternulsolAssets(props) {
   const handleShow = () => setShow(true);
   const [model, setmodel] = useState(false);
   const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
-  const { layoutConfig } = useContext(LayoutContext);
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
   const [addImage, setAddImage] = useState(false);
   const [previewMedia, setpreviewMedia] = useState("");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const [storefrontData, setstorefrontData] = useState("");
 
   const [mediaHash, setMediaHash] = useState({
     image: "",
@@ -53,11 +52,6 @@ function CreateEternulsolAssets(props) {
     doctype: "",
   });
   const dynamicContractAddress = props.router.query.contractAddress;
-
-  const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
@@ -66,7 +60,14 @@ function CreateEternulsolAssets(props) {
     walletAddress: address,
     auctionTime: 2,
   });
-
+  useEffect(() => {
+    getBlocchain();
+  }, []);
+  const getBlocchain=async()=>{
+    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload)
+  }
+ 
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -283,15 +284,8 @@ function CreateEternulsolAssets(props) {
                     </div>
 
                     <div style={{ width: "225px" }}>
-                      <Dropdown
-                        value={selecteBlockchaine}
-                        onChange={(e) => setselectedBlockchaine(e.value)}
-                        options={blockchain}
-                        optionLabel="name"
-                        placeholder="Chains "
-                        className="w-full font-bold"
-                        style={{ borderRadius: "5px" }}
-                      />
+                    <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+
                     </div>
                   </div>
                   <div style={{ marginTop: "65px" }}>
@@ -601,7 +595,7 @@ function CreateEternulsolAssets(props) {
                   </div>
                 </div>
 
-                <div className="flex justify-content-between p-5 mt-5">
+                <div className="flex justify-content-center p-5 mt-5">
                   <div>
                     <Button
                       className="buy-img"

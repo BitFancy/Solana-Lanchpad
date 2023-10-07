@@ -6,7 +6,7 @@ import React from "react";
 
   return (
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
-      <div className="font-bold text-3xl p-heading mt-5">overview</div>
+      <div className="font-bold text-3xl p-heading mt-5">Analytics</div>
       <div className="ml-5 mt-3 p-heading ">
         <div className="text-2xl"   style={{ marginTop: "30px"}}>
           <Link
@@ -18,7 +18,7 @@ import React from "react";
             className={router.pathname == "/overview" ? "active" : "p-heading"}
             
           >
-            Overview
+            Analytics
           </Link>
         </div>
       </div>

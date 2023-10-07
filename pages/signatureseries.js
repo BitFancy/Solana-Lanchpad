@@ -39,7 +39,6 @@ class SignatureSeries extends React.Component {
       thumbnail: "",
       uploadImageCover: "",
       submitClicked: false,
-      selecteBlockchaine: null,
       errors: {
         contractNameEror: "",
         symbolError: "",
@@ -51,14 +50,10 @@ class SignatureSeries extends React.Component {
     this.initialState = { ...copyState };
   }
 
-  blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
+  
   async componentDidMount() {
     const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
     this.setState({ storefrontData: payload });
-    console.log("Data", payload);
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
         this.setState({ accsessmasterAddress: response[0]?.contractAddress });
@@ -67,7 +62,6 @@ class SignatureSeries extends React.Component {
     getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
         this.setState({ tradhubAddress: response[0]?.contractAddress });
-        console.log("tradhub", response[0]?.contractAddress);
       }
     );
   }
@@ -247,8 +241,6 @@ class SignatureSeries extends React.Component {
   static contextType = LayoutContext;
 
   render() {
-    console.log("initial state", this.initialState);
-
     return (
       <Layout2
         title="Deploy SignatureSeries"

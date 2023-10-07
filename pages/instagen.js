@@ -6,13 +6,13 @@ import axios from "axios";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import Layout2 from "../Components/Layout2";
-import { Dropdown } from "primereact/dropdown";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { NFTStorage } from "nft.storage";
 import { FileUpload } from "primereact/fileupload";
 import { Dialog } from "primereact/dialog";
 import {
   getAccessMasterByStorefrontID,
+  getStorefrontByID,
   getTradeHubByStorefrontID,
 } from "../utils/util";
 const YOUR_API_KEY =
@@ -34,9 +34,12 @@ const Instagen = (props) => {
   const { layoutConfig } = useContext(LayoutContext);
   const [uploadImageCover, setUploadImageCover] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [zipfile, setZipFile] = useState("");
   const [visible, setVisible] = useState(false);
   const [accsessmasterAddress, setAccessMasterAddress] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
+  const [storefrontData, setstorefrontData] = useState("");
+
   const [errors, setErros] = useState({
     contractNameError: "",
     contractSymbolError: "",
@@ -46,30 +49,29 @@ const Instagen = (props) => {
     maxSupplyError: "",
     royltybpsError: "",
   });
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
-  const blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
 
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
  
  
   useEffect(() => {
+    getBlocchain();
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setAccessMasterAddress({
-          accsessmasterAddress: response[0]?.contractAddress,
-        });
+        setAccessMasterAddress(response[0]?.contractAddress);
       }
     );
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress({ tradhubAddress: response[0]?.contractAddress });
+        setTradhubAddress(response[0]?.contractAddress);
       }
     );
   }, []);
+
+  const getBlocchain=async()=>{
+    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload)
+  }
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const validation = onClickButton();
@@ -227,7 +229,7 @@ const Instagen = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setThumbnail({ thumbnail: metaHashURI });
+      setThumbnail(metaHashURI);
     } catch (error) {
       console.log("error while upload image", error);
     }
@@ -241,7 +243,22 @@ const Instagen = (props) => {
     try {
       const metaHash = await uploadBlobGetHash(thumbnail);
       const metaHashURI = getMetaHashURI(metaHash);
-      setUploadImageCover({ uploadImageCover: metaHashURI });
+      setUploadImageCover(metaHashURI);
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
+
+  const onChangeZipFile = async (e) => {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setZipFile(metaHashURI);
     } catch (error) {
       console.log("error while upload image", error);
     }
@@ -274,15 +291,9 @@ const Instagen = (props) => {
               Step 2 : Deploy InstaGen
             </div>
             <div className="mt-5">
-              <Dropdown
-                value={selecteBlockchaine}
-                onChange={(e) => setselectedBlockchaine(e.value)}
-                options={blockchain}
-                optionLabel="name"
-                placeholder="Chains "
-                className="w-full font-bold"
-                style={{ borderRadius: "20px" }}
-              />
+            
+              <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+
             </div>
           </div>
 
@@ -432,7 +443,27 @@ const Instagen = (props) => {
                   />
                 </div>
               </div>
-
+              <div className="mt-5 p-heading">Upload Zip File</div>
+              <div className="mt-3"
+                  style={{
+                    border: "1px solid",
+                    padding: "15px",
+                    
+                  }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeZipFile(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={zipfile}
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
               <div className="flex mt-5 justify-content-center">
                 <div>
                   <Button
@@ -446,7 +477,7 @@ const Instagen = (props) => {
                   />
                 </div>
               </div>
-
+             
               <Toast ref={toast} />
             </div>
           </div>

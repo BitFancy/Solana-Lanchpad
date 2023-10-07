@@ -55,7 +55,7 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading1(false);
         }, 2000);
-        router.push("/storefrontDashboard");
+        router.push("/dashboard");
 
       });
     } catch (error) {
@@ -86,7 +86,7 @@ export default function BuyNft() {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
-        router.push("/storefrontDashboard");
+        router.push("/dashboard");
       })
      
 

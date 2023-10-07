@@ -39,7 +39,6 @@ class FusionSeries extends React.Component {
       loading2: false,
       loading4: false,
       submitClicked: false,
-      selecteBlockchaine: null,
       errors: {
         contractNameEror: "",
         symbolError: "",
@@ -52,17 +51,11 @@ class FusionSeries extends React.Component {
   }
  
 
-  blockchain = [
-    { name: "Polygon", value: "Polygon" },
-    { name: "Ethereum", value: "Ethereum" },
-  ];
+ 
 
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(
-      "b68284bd-2c23-4f9d-8a4a-85cf816358c7"
-    );
+    const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
     this.setState({ storefrontData: payload });
-    console.log("Data", payload);
 
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
@@ -278,17 +271,6 @@ class FusionSeries extends React.Component {
                 Step 2 : Deploy FusionSeries
               </div>
               <div className="mt-5">
-                {/* <Dropdown
-                  value={this.state.selecteBlockchaine}
-                  onChange={(e) =>
-                    this.setState({ selecteBlockchaine: e.value })
-                  }
-                  options={this.blockchain}
-                  optionLabel="name"
-                  placeholder="Chains "
-                  className="w-full font-bold"
-                  style={{ borderRadius: "20px" }}
-                /> */}
                 <span className="blockchain-label">
                   {this.state.storefrontData?.blockchain}
                 </span>

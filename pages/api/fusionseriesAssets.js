@@ -1,15 +1,13 @@
 
 import axios from "axios";
  const handler=async(req, res)=> {
-    const endPoint = "http://3.15.54.199:8000/subgraphs/name/v1/sdssss";
+    const endPoint = "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/hgsggsa/graphql";
     const headers = {
       "Content-Type": "application/json",
     };
     const AllBuildingQuery = `{
-      fusionSeriesAssetCreateds() {
+      fusionSeriesAssetCreateds(orderBy: id) {
         id
-        creator
-        metaDataURI
         transactionHash
         blockNumber
         tokenID
@@ -31,6 +29,7 @@ import axios from "axios";
         headers: headers,
       });
       res.status(200).json(response.data.data);
+      
     } catch (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log('error',err)

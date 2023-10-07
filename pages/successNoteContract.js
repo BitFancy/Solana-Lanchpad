@@ -3,15 +3,16 @@ import { Button } from "primereact/button";
 import React, { useContext, useEffect, useState } from "react";
 import AppTopbar from "../layout/AppTopbar";
 import { LayoutContext } from "../layout/context/layoutcontext";
-import { withRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 function SuccessNoteContract(props) {
+  const router=useRouter();
   const { layoutConfig } = useContext(LayoutContext);
   const [graphqlURL, setGraphqlURL] = useState("")
   useEffect(() => {
-    console.log(">>>>>>>>>>>>>>",props.router.query.redirectURL);
     setGraphqlURL(props.router.query.redirectURL);
-    localStorage.setItem('activeGraphQLURL',props.router.query.redirectURL)
+    router.push({pathname:"/getAllSegnatureSeriesNft",query:{redirectURL:props.router.query.redirectURL}})
   }, [props.router.query.redirectURL]);
+
   return (
     <div>
       <AppTopbar />
@@ -24,14 +25,19 @@ function SuccessNoteContract(props) {
           your Storefront has been successfully Settled!
         </div>
         <div style={{ marginTop: "35px" }}>
-          <Link href="/storefrontDashboard">
+          <Link href="/dashboard">
             <Button className="buy-img" rounded>
               Manage StoreFront
             </Button>
           </Link>
         </div>
         <div className="mt-3 p-heading">
-          <Link href="/getAllSignatureseriesContract">
+          <Link 
+            href={{
+              pathname: "/getAllSignatureseriesContract",
+              query: { redirectURL: props?.router?.query?.redirectURL },
+            }}
+          >
             <Button
               className="buy-img"
               rounded
@@ -41,7 +47,7 @@ function SuccessNoteContract(props) {
             </Button>
           </Link>
         </div>
-        <div className="mt-3 p-heading">
+        {/* <div className="mt-3 p-heading">
           <a target="_blank" href={graphqlURL}>
             <Button
               className="buy-img"
@@ -51,7 +57,8 @@ function SuccessNoteContract(props) {
              Redirect to graphql
             </Button>
           </a>
-        </div>
+        </div> */}
+
       </div>
     </div>
   );

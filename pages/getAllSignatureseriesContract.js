@@ -17,7 +17,7 @@ function GetAllSignatureseriesContract(props) {
    useEffect(() => {
     getallsigseriesContract();
   }, []);
-  
+  console.log('props in sig con',props.router.query.redirectURL)
   const getallsigseriesContract=()=>{
     const token = localStorage.getItem("platform_token");
     axios

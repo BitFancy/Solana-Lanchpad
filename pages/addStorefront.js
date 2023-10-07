@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { NFTStorage } from "nft.storage";
 import { Dropdown } from "primereact/dropdown";
-import { useAccount } from "wagmi";
 import { Toast } from "primereact/toast";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import Layout2 from "../Components/Layout2";
@@ -23,7 +22,6 @@ function AddStorefront() {
     { name: "Mumbai", value: "Mumbai" },
     { name: "Sepolia", value: "Sepolia" },
   ];
-  const { address } = useAccount();
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [contractName, setContarctName] = useState("");
@@ -119,7 +117,6 @@ function AddStorefront() {
           `${BASE_URL_LAUNCH}api/v1.0/storefront`,
           {
             name: contractName,
-            owner: address,
             image: uploadImage,
             headline: headline,
             description: description,

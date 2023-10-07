@@ -324,7 +324,6 @@ function Profile() {
         } = res;
 
         console.log(res.data);
-        console.log("plan", res.data.payload.plan);
         setPlanVar(res.data.payload.plan);
         setProfileData({
           ...profileData,
@@ -356,7 +355,6 @@ function Profile() {
           JSON.stringify(res.data.payload)
         );
         setprofileDetails(res.data.payload);
-        localStorage.setItem("userName", res.data.payload.name);
         setLoading(true);
       })
       .catch((error) => {
@@ -396,20 +394,14 @@ function Profile() {
   useEffect(() => {
     const asyncFn = async () => {
       const token = localStorage.getItem("platform_token");
-      // connectweb();
       if (token) {
         const profiledt = localStorage.getItem("profiledetails");
         const parsed = JSON.parse(profiledt);
         setprofileDetails(parsed);
-        // console.log(profiledt);
       } else {
         authorize();
       }
-      // authorize();
-      // const accessmaterContarct = await etherContract(accessmasterAddress, AccessMaster.abi)
-      // setHasRole(
-      //     await accessmaterContarct.hasRole(await accessmaterContarct.FLOW_CREATOR_ROLE(), wallet)
-      // );
+   
     };
     asyncFn();
   }, []);
@@ -702,7 +694,6 @@ function Profile() {
               label="Edit Profile"
               onClick={() => setmodal(true)}
               rounded
-              style={{border:'1px solid',background:'none'}}
             />
           </div>
         </div>
@@ -737,7 +728,7 @@ function Profile() {
             />
           </div> */}
           <div
-            className="back-color-profile-update"
+            
             style={{ marginTop: "-115px" }}
           >
             <form style={{ marginTop: "135px" }} onSubmit={updateData}>
@@ -791,7 +782,7 @@ function Profile() {
               </div>
 
               {loading && <Loader />}
-              <div className="flex justify-content-between mt-5">
+              <div className="flex justify-content-between mt-5 p-heading">
                 <div>Upload profile image</div>
                 <div>Upload image for the cover</div>
               </div>
@@ -1019,7 +1010,7 @@ function Profile() {
                               src={`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`}
                             ></img>
                           </div>
-                          <div className="flex text-xl mt-2 ml-5 dark:text-white font-bold">
+                          <div className="flex text-xl mt-2 ml-5 font-bold">
                             <div className="">
                               <Link
                                 href={`https://discord.com/users/${discordData.id}`}

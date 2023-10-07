@@ -12,7 +12,6 @@ import axios from "axios";
     getstorefrontdatabyId();
 
   }, []);
-  console.log('id in marketprofile',props.router.query.storefrontId)
   const getstorefrontdatabyId =async () => {
   const token = localStorage.getItem("platform_token");
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
@@ -22,7 +21,6 @@ import axios from "axios";
         Authorization: `Bearer ${token}`
       },
     })
-    console.log('data in marketplace form',data,)
     setData(data.payload)
   } catch (error) {
       console.log("error",error);

@@ -8,7 +8,6 @@ import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
-import { Dropdown } from "primereact/dropdown";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -48,20 +47,16 @@ class Eturnulsol extends React.Component {
     this.initialState = { ...copyState };
   }
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(
-      "b68284bd-2c23-4f9d-8a4a-85cf816358c7"
-    );
+    const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
     this.setState({ storefrontData: payload });
-    console.log("Data", payload);
-  }
-
-  async componentDidMount() {
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
         this.setState({ accsessmasterAddress: response[0]?.contractAddress });
       }
     );
   }
+
+  
   showError() {
     this.toast.show({
       severity: "error",
@@ -255,17 +250,7 @@ class Eturnulsol extends React.Component {
                 Step 2 : Deploy EternalSoul
               </div>
               <div className="mt-5">
-                {/* <Dropdown
-                  value={this.state.selecteBlockchaine}
-                  onChange={(e) =>
-                    this.setState({ selecteBlockchaine: e.value })
-                  }
-                  options={this.blockchain}
-                  optionLabel="name"
-                  placeholder="Chains "
-                  className="w-full font-bold"
-                  style={{ borderRadius: "20px" }}
-                /> */}
+              
                 <span className="blockchain-label">
                   {this.state.storefrontData?.blockchain}
                 </span>

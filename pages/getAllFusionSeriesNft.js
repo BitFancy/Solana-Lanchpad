@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
 import { withRouter } from "next/router";
 import { ethers } from "ethers";
+import request, { gql } from "graphql-request";
+const graphqlAPI = 'https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/hgsggsa'
 function GetAllFusionSeriesNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
-  const { layoutConfig } = useContext(LayoutContext);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
@@ -30,10 +29,21 @@ function GetAllFusionSeriesNft(props) {
   const getallfusionSeriesAssets = async () => {
     try {
       setLoading(true)
-      const {
-        data: { fusionSeriesAssetCreateds },
-      } = await axios.get("/api/fusionseriesAssets")
-      console.log("assetCreateds>>>", fusionSeriesAssetCreateds);
+        const query = gql`
+        query Query($where:FusionSeriesAssetCreated_filter) {
+          fusionSeriesAssetCreateds(first:100){
+            id
+            transactionHash
+            blockNumber
+            tokenID
+            amount
+            creator
+            
+             }
+              }
+              `;
+        const result = await request(graphqlAPI, query);
+        setAsseetsData(result.fusionSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       let tranasactionHashArray = fusionSeriesAssetCreateds?.map(
         (asset) => asset.transactionHash
@@ -103,7 +113,7 @@ function GetAllFusionSeriesNft(props) {
                 </Link>
               </div>
             </div>
-            <div className="border-bottom-das"></div>
+            <div className="border-bottom-das" style={{width:'224%'}}></div>
             <div
               className="grid cursor-pointer"
               style={{ gap: "20px", marginLeft: "30px" }}
@@ -115,7 +125,7 @@ function GetAllFusionSeriesNft(props) {
                       key={1}
                       href={{
                         pathname: "/singleFusionSeriesNFT",
-                        query: { contractAddress: asset.contractAddress },
+                        query: { contractAddress: contractAddress ,data:JSON.stringify(asset),storefrontId:props.router.query.storefrontId },
                       }}
                     >
                       <div
@@ -150,12 +160,7 @@ function GetAllFusionSeriesNft(props) {
                             </span>
                           </div>
                         
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Last Sale:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
+                         
                         </div>
                       </div>
                     </Link>

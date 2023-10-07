@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import React, { useContext, useRef, useState } from "react";
@@ -16,8 +15,11 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 function WebappForm(props) {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [stfName, setStfName] = useState();
+  const [sftregion, setsftRegion] = useState();
+  const [sfttype, setStType] = useState();
+  const [sftcategory, setStfCategory] = useState();
+  const [stftag, setStfTag] = useState();
   const [stfdescription, setstfdescription] = useState();
   const [stfheadline, setstfheadline] = useState();
   const [tagline, settagline] = useState();
@@ -37,6 +39,10 @@ function WebappForm(props) {
     twitterError: "",
     discordError: "",
     instagramError: "",
+    stfcategoryError:"",
+    stftagError:"",
+    stftypeError:"",
+    stfregionError:"",
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImageProfile, setuploadImageProfile] = useState("");
@@ -79,11 +85,11 @@ function WebappForm(props) {
         )
         .then(async (response) => {
           const str = response.data.payload.graphUrl
-          const finalString =str.slice(0,str.indexOf("graphql"))+"graphql"
+          const finalString =str.slice(0,str.indexOf("graphql"))
           showSuccess();
           setTimeout(() => {
             setLoading(false);
-            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,query:{redirectURL: finalString }}})
+            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,redirectURL: finalString}})
           }, 2000);
         })
         .catch((error) => {
@@ -93,14 +99,6 @@ function WebappForm(props) {
           setLoading(false);
         });
     }
-  };
-
-  const load2 = () => {
-    setLoading2(true);
-
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
   };
   const handleInputContractName = (e) => {
     setStfName(e.target.value);
@@ -136,6 +134,22 @@ function WebappForm(props) {
     setinstagram(e.target.value);
   };
 
+  const handleInputstfregion = (e) => {
+    setsftRegion(e.target.value);
+
+  };
+  const handleInputstftype = (e) => {
+    setStType(e.target.value);
+
+  };
+  const handleInputstftag = (e) => {
+    setStfTag(e.target.value);
+
+  };
+  const handleInputstfcategory = (e) => {
+    setStfCategory(e.target.value);
+
+  };
   const showSuccess = () => {
     toast.current.show({
       severity: "success",
@@ -325,6 +339,60 @@ function WebappForm(props) {
                 {!stfheadline ? errors.stfheadlineError : ""}
               </p>
             </div>
+            <div className="flex mt-5 justify-content-between">
+              <div>Region</div>
+              <div>Type</div>
+            </div>
+            <div className="flex justify-content-between">
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sftregion}
+                onChange={handleInputstfregion}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sftregion ? errors.stfregionError : ""}
+              </p>
+            </div>
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sfttype}
+                onChange={handleInputstftype}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sfttype ? errors.stftypeError : ""}
+              </p>
+            </div>
+            </div>
+            <div className="flex mt-5 justify-content-between">
+              <div>Category</div>
+              <div>tag</div>
+            </div>
+            <div className="flex justify-content-between ">
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sftcategory}
+                onChange={handleInputstfcategory}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sftcategory ? errors.stfcategoryError : ""}
+              </p>
+            </div>
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={stftag}
+                onChange={handleInputstftag}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!stftag ? errors.stftagError : ""}
+              </p>
+            </div>
+            </div>
+
+
             <div className="flex justify-content-between">
               <div className="mt-5">Upload Profile Image:</div>
               <div className="mt-5">Upload Cover Image:</div>

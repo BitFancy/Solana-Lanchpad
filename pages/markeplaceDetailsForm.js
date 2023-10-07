@@ -19,6 +19,10 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [stfName, setStfName] = useState();
+  const [sftregion, setsftRegion] = useState();
+  const [sfttype, setStType] = useState();
+  const [sftcategory, setStfCategory] = useState();
+  const [stftag, setStfTag] = useState();
   const [stfdescription, setstfdescription] = useState();
   const [stfheadline, setstfheadline] = useState();
   const [tagline, settagline] = useState();
@@ -41,6 +45,10 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
     twitterError:"",
     discordError:"",
     instagramError:"",
+    stfcategoryError:"",
+    stftagError:"",
+    stftypeError:"",
+    stfregionError:"",
   });
 
   
@@ -88,6 +96,26 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
   };
   const handleInputstfHeadline = (e) => {
     setstfheadline(e.target.value);
+    setWebappData(e.target.value)
+
+  };
+  const handleInputstfregion = (e) => {
+    setsftRegion(e.target.value);
+    setWebappData(e.target.value)
+
+  };
+  const handleInputstftype = (e) => {
+    setStType(e.target.value);
+    setWebappData(e.target.value)
+
+  };
+  const handleInputstftag = (e) => {
+    setStfTag(e.target.value);
+    setWebappData(e.target.value)
+
+  };
+  const handleInputstfcategory = (e) => {
+    setStfCategory(e.target.value);
     setWebappData(e.target.value)
 
   };
@@ -251,6 +279,8 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
             </p>
               </div>
 
+
+
               <div className="mt-5">Enter Headline:</div>
 
               <div className="  mt-2">
@@ -263,6 +293,61 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
               {!stfheadline ? errors.stfheadlineError : ""}
             </p>
               </div>
+
+
+              <div className="flex mt-5 justify-content-between">
+              <div>Region</div>
+              <div>Type</div>
+            </div>
+            <div className="flex justify-content-between">
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sftregion}
+                onChange={handleInputstfregion}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sftregion ? errors.stfregionError : ""}
+              </p>
+            </div>
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sfttype}
+                onChange={handleInputstftype}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sfttype ? errors.stftypeError : ""}
+              </p>
+            </div>
+            </div>
+            <div className="flex mt-5 justify-content-between">
+              <div>Category</div>
+              <div>tag</div>
+            </div>
+            <div className="flex justify-content-between ">
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={sftcategory}
+                onChange={handleInputstfcategory}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!sftcategory ? errors.stfcategoryError : ""}
+              </p>
+            </div>
+            <div className="  mt-2" style={{width:'45%'}}>
+              <InputText
+                value={stftag}
+                onChange={handleInputstftag}
+                className="p-2 input-back w-full"
+              />
+              <p style={{ textAlign: "left", color: "red" }}>
+                {!stftag ? errors.stftagError : ""}
+              </p>
+            </div>
+            </div>
+
               <div className="mt-5 text-center text-3xl font-bold">
                 Personal information
               </div>

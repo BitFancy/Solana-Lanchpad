@@ -74,7 +74,6 @@ export default function AddProfileDetails() {
             }
           )
           .then(async (response) => {
-           console.log('profile created',response)
            setTimeout(() => {
             setLoading(false);
             setVisible(true);

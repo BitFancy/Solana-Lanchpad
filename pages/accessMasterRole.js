@@ -59,7 +59,6 @@ const [loading, setLoading] = useState(false);
       await accessmasterContarct.FLOW_CREATOR_ROLE(),
       '0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f'
     );
-    console.log('res',grantrole);
     
     setTimeout(() => {
       setLoading(false);
