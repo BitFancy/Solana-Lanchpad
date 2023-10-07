@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import axios from "axios";
@@ -12,7 +11,6 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function GetAllSignatureseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { layoutConfig } = useContext(LayoutContext);
   const toast = useRef(null);
    useEffect(() => {
     getallsigseriesContract();
