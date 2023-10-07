@@ -4,7 +4,7 @@ import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
  function SingleFusionseriesNft(props) {
-  const [contractData, setContarctData] = useState(()=>JSON.parse(props?.router?.query?.data))
+  const [contractData, setContarctData] = useState('')
   useEffect(() => {
     setContarctData(JSON.parse(props?.router?.query?.data))
   }, [])
