@@ -66,7 +66,7 @@ export default function SingleEturnalsolNft() {
                   <img
                     className="dash-img-size"
                     style={{ width: "400px", height: "350px" }}
-                    src="garden.png"
+                    src="fusionseries.png"
                   ></img>
                 </div>
                 <div>

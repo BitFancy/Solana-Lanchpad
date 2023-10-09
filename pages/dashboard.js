@@ -7,8 +7,9 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { useAccount } from "wagmi";
 import { withRouter } from "next/router";
+import ReactSwitch from "react-switch";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-function StorefrontDashboard() {
+function StorefrontDashboard(props) {
   const [storefrontData, setStorefrontData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(false);
@@ -16,8 +17,16 @@ function StorefrontDashboard() {
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
   const [plan, setsetPlan] = useState(null);
+  const [checked, setChecked] = useState(false);
+  const [network, setNetwork] = useState([]);
+
+  const [marketpalceUrl, setmarketplaceUrl] = useState("");
+  useEffect(() => {
+    setmarketplaceUrl(props.router.query.newMarketplaceUrl);
+  }, [props.router.query.newMarketplaceUrl]);
   const toaste = useRef(null);
   const { address } = useAccount();
+  console.log("redirectmarketplaceUrl", props.router.query.newMarketplaceUrl);
   useEffect(() => {
     getStorefrontData();
     setsetPlan(
@@ -25,8 +34,16 @@ function StorefrontDashboard() {
     );
   }, []);
 
-  
-
+  const handleChange = (val) => {
+    console.log("value", val);
+    setChecked(val);
+    const networkData = [...network];
+    if (val) {
+      setStorefrontData(networkData.filter((sf) => sf.network === "mainnet"));
+    } else {
+      setStorefrontData(networkData.filter((sf) => sf.network === "testnet"));
+    }
+  };
   const getStorefrontData = () => {
     const token = localStorage.getItem("platform_token");
     axios
@@ -41,12 +58,17 @@ function StorefrontDashboard() {
           setStorefrontData(
             response.data.filter((sf) => sf.walletAddress === address)
           );
+          setNetwork(response.data.filter((sf) => sf.network === "testnet"));
+          console.log(
+            "net",
+            response.data.filter((sf) => sf.network === "testnet")
+          );
         }
         setLoading(false);
       })
 
       .catch((error) => {
-        console.log('error while storefront data',error)
+        console.log("error while storefront data", error);
       })
       .finally(() => {
         setLoading(false);
@@ -91,11 +113,9 @@ function StorefrontDashboard() {
           <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
             <div className="text-white text-2xl">Testnet</div>
             <div>
-              <img
-                style={{ width: "95px", height: "65px" }}
-                src="/Toggle.png"
-              ></img>
+              <ReactSwitch checked={checked} onChange={handleChange} />
             </div>
+
             <div className="text-white text-2xl">Mainnet</div>
           </div>
           <div className="flex justify-content-end gap-5">
@@ -130,18 +150,24 @@ function StorefrontDashboard() {
             </div>
           </div>
         </div>
-        <div
-         
-        >
+        <div>
           <hr></hr>
-
-          <div style={{ width: "85%", margin: "0 auto" }}>
+          {storefrontData[0]?.network === "testnet" && (
             <div className="text-center">
               <div className="font-bold text-4xl p-5">
-                Your storefronts in testnet
+                Your storefronts in Testnet
               </div>
             </div>
+          )}
+          {storefrontData[0]?.network === "mainnet" && (
+            <div className="text-center">
+              <div className="font-bold text-4xl p-5">
+                Your storefronts in Testnet
+              </div>
+            </div>
+          )}
 
+          <div style={{ width: "85%", margin: "0 auto" }}>
             <hr></hr>
             {storefrontData?.length > 0 ? (
               storefrontData.map((storefront) => {
@@ -175,63 +201,60 @@ function StorefrontDashboard() {
                             </div>
                           </div>
                         </div>
-                        {storefront.deployed===false &&   <div>
-                        <Link
-                          href={{
-                            pathname: "/step1",
-                            query: { storefrontId: storefront.id },
-                          }}
-                        >
-                          <div>
-                            <Button
-                              loading={loading1}
-                              onClick={load1}
-                              label="Setup"
-                              className=" buy-back-color"
-                            ></Button>
-                          </div>
-                        </Link>
-                      </div>
-              }
-                      
-                        {storefront.deployed===true && <div>
+                        {storefront.deployed === false && (
                           <div>
                             <Link
                               href={{
-                                pathname: "/getAllSignatureseriesContract",
+                                pathname: "/step1",
                                 query: { storefrontId: storefront.id },
                               }}
                             >
                               <div>
+                                <Button
+                                  loading={loading1}
+                                  onClick={load1}
+                                  label="Setup"
+                                  className=" buy-back-color"
+                                ></Button>
+                              </div>
+                            </Link>
+                          </div>
+                        )}
+
+                        {storefront.deployed === true && (
+                          <div>
+                            <div>
+                              <a target="_blank" href={marketpalceUrl}>
                                 <Button
                                   loading={loading3}
                                   onClick={load3}
                                   label="View"
                                   className=" buy-back-color"
                                 ></Button>
-                              </div>
-                            </Link>
+                              </a>
+                            </div>
+                            <div className="mt-5">
+                              <Link
+                                href={{
+                                  pathname: "/overview",
+                                  query: {
+                                    storefrontId: storefront.id,
+                                    redirectURL: props.router.query.redirectURL,
+                                  },
+                                }}
+                              >
+                                <div>
+                                  <Button
+                                    loading={loading4}
+                                    onClick={load4}
+                                    label="Manage"
+                                    className="buy-back-color"
+                                  ></Button>
+                                </div>
+                              </Link>
+                            </div>
                           </div>
-                          <div className="mt-5">
-                            <Link
-                              href={{
-                                pathname: "/overview",
-                                query: { storefrontId: storefront.id },
-                              }}
-                            >
-                              <div>
-                                <Button
-                                  loading={loading4}
-                                  onClick={load4}
-                                  label="Manage"
-                                  className="buy-back-color"
-                                ></Button>
-                              </div>
-                            </Link>
-                          </div>
-                        </div>
-                        }
-                      
+                        )}
                       </div>
                     }
                   </div>

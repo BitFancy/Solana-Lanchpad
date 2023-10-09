@@ -26,9 +26,9 @@ import { withRouter } from "next/router";
               </div>
 
               <div className="bg-blue-100 p-5" style={{ height: "435px",borderRadius:'10px' }}>
-                <div className="text-center">
+                <div className="text-center" style={{marginTop:'35px'}}>
                   <img
-                    src="garden.png"
+                    src="image.png"
                     style={{ width: "200px", height: "185px" }}
                     alt="garden"
                     className="buy-img"
@@ -36,7 +36,7 @@ import { withRouter } from "next/router";
                   ></img>
                 </div>
                 <div>
-                  <div className="flex gap-5 p-5" style={{marginTop:'75px'}}>
+                  <div className="flex gap-5 p-5" style={{marginTop:'40px'}}>
                     <div style={{color:'black'}}>
                       <div className="font-bold text-2xl">
                         Launch SignatureSeries

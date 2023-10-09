@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/userSlice";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
- import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
 import {
@@ -31,9 +31,9 @@ import {
   generateCodeChallenge,
 } from "../utils/pkceUtils";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import { InputText } from "primereact/inputtext";
 import AppConfig from "../layout/AppConfig";
+import { Modal } from "@mui/material";
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
@@ -63,8 +63,6 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 function Profile() {
-  const { layoutConfig } = useContext(LayoutContext);
-
   const { address } = useAccount();
   useEffect(() => {
     const userData = getUserDataFromLocalStorage();
@@ -110,21 +108,17 @@ function Profile() {
   const [profileDetails, setprofileDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modal, setmodal] = useState(false);
+  const handleClos = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [show, setShow] = useState(false);
+
   const router = useRouter();
   const [twitt, settwitt] = useState(null);
   const [discordData, setdiscordData] = useState(null);
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
   const [planVar, setPlanVar] = useState(null);
-
-  const [loading3, setLoading3] = useState(false);
-  const loadSubscription = () => {
-    setLoading3(true);
-
-    setTimeout(() => {
-      setLoading3(false);
-    }, 2000);
-  };
   async function uploadImage(e) {
     e.preventDefault();
     try {
@@ -163,12 +157,6 @@ function Profile() {
     e.preventDefault();
     const token = localStorage.getItem("platform_token");
     try {
-      // if (
-      //   !updateProfile.name.trim() ||
-      //   !updateProfile.location.trim()
-      // )
-      //   alert("Do not leave any field empty!");
-      // else {
       var signroledata = JSON.stringify({
         name: "ghh",
         email: "testmail@test.com",
@@ -399,9 +387,8 @@ function Profile() {
         const parsed = JSON.parse(profiledt);
         setprofileDetails(parsed);
       } else {
-        authorize();
+        // authorize();
       }
-   
     };
     asyncFn();
   }, []);
@@ -423,6 +410,40 @@ function Profile() {
       title="Launchpad Profile Page"
       description="Use to show metamask Profile details of the users"
     >
+     
+      <Modal
+        style={{
+          margin: "0 auto",
+          width: "300px",
+          height: "200px",
+          marginTop: "200px",
+          textAlign: "center",
+          background: "white",
+          borderRadius: "20px",
+        }}
+        open={show}
+        onClose={handleClos}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div>
+          <div
+            className="text-3xl"
+            style={{ color: "black", marginTop: "60px" }}
+          >
+            Do You Want to login
+          </div>
+          <div className="flex gap-5 mt-5  justify-content-center">
+            <div>
+              <Button onClick={authorize} label="Login"></Button>
+            </div>
+            <div>
+              <Button label="Cancel"></Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
       {loading && <Loader />}
 
       {visible ? (
@@ -607,7 +628,7 @@ function Profile() {
               justifyContent: "start",
               marginTop: "-100px",
               marginLeft: "50px",
-              position:'absolute',
+              position: "absolute",
             }}
           >
             <div
@@ -643,7 +664,7 @@ function Profile() {
               justifyContent: "start",
               marginTop: "-100px",
               marginLeft: "50px",
-              position:'absolute'
+              position: "absolute",
             }}
           >
             <div
@@ -667,17 +688,24 @@ function Profile() {
                 }}
               />
             </div>
-          
           </div>
-         
         )}
 
-<div className="flex justify-content-end">
+        <div className="flex justify-content-end">
+        <div
+            style={{
+              marginTop: "23px",
+              marginRight: "290px",
+              position: "absolute",
+            }}
+          >
+            <Button    onClick={handleShow} label="Login" rounded />
+          </div>
           <div
             style={{
               marginTop: "23px",
-              marginRight: "135px",
-              position:'absolute'
+              marginRight: "145px",
+              position: "absolute",
             }}
           >
             <Button label="Upgrade plan" rounded />
@@ -687,7 +715,7 @@ function Profile() {
             style={{
               marginTop: "23px",
               marginRight: "20px",
-              position:'absolute'
+              position: "absolute",
             }}
           >
             <Button
@@ -727,10 +755,7 @@ function Profile() {
               style={{ borderRadius: "50%", width: "150px", height: "150px" }}
             />
           </div> */}
-          <div
-            
-            style={{ marginTop: "-115px" }}
-          >
+          <div style={{ marginTop: "-115px" }}>
             <form style={{ marginTop: "135px" }} onSubmit={updateData}>
               <div className="md-form mb-3">
                 <InputText
@@ -787,7 +812,7 @@ function Profile() {
                 <div>Upload image for the cover</div>
               </div>
               <div className="flex justify-content-between mt-3">
-                <div  className="p-3" style={{border:'1px solid'}}>
+                <div className="p-3" style={{ border: "1px solid" }}>
                   {updateProfile?.profilePictureUrl && (
                     <img
                       alt="alt"
@@ -807,7 +832,7 @@ function Profile() {
                     onChange={(e) => uploadImage(e)}
                   />
                 </div>
-                <div className="p-3" style={{border:'1px solid'}}>
+                <div className="p-3" style={{ border: "1px solid" }}>
                   {updateProfile?.coverPictureUrl && (
                     <img
                       alt="alt"
@@ -829,7 +854,7 @@ function Profile() {
                 </div>
               </div>
 
-              <div className=" text-center" style={{marginTop:'80px'}}>
+              <div className=" text-center" style={{ marginTop: "80px" }}>
                 <Button type="submit" className="cursor-pointer   font-bold">
                   Update Profile
                 </Button>
@@ -837,9 +862,7 @@ function Profile() {
             </form>
           </div>
         </Dialog>
-        <div
-         
-        >
+        <div>
           <div
             style={{
               display: "flex",
@@ -1052,8 +1075,7 @@ function Profile() {
                     >
                       <div className="p-card-body">
                         <div className="flex justify-content-around">
-                          <div>
-                          </div>
+                          <div></div>
                           <div className="flex text-xl mt-2">
                             <div className="ml-5 font-bold dark:text-white">
                               <Link
@@ -1079,8 +1101,7 @@ function Profile() {
             </div>
           </div>
 
-          <div className="flex p-5 justify-content-around mt-5">
-          </div>
+          <div className="flex p-5 justify-content-around mt-5"></div>
         </div>
       </div>
     </LayoutDashbord>

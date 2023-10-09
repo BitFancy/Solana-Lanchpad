@@ -96,7 +96,7 @@ function GetAllSignatureseriesContract(props) {
                               <img
                                 className="dash-img-size"
                                 style={{ width: "200px", height: "200px" }}
-                                src="garden.png"
+                                src="fusionseries.png"
                               ></img>
                             </div>
                             <div className="mt-5">

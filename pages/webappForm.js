@@ -85,11 +85,12 @@ function WebappForm(props) {
         )
         .then(async (response) => {
           const str = response.data.payload.graphUrl
+          const marketplaceUrl=response.data.payload.storefrontUrl
           const finalString =str.slice(0,str.indexOf("graphql"))
           showSuccess();
           setTimeout(() => {
             setLoading(false);
-            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,redirectURL: finalString}})
+            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,redirectURL: finalString,newMarketplaceUrl:marketplaceUrl}})
           }, 2000);
         })
         .catch((error) => {

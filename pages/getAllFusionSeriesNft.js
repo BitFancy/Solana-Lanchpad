@@ -149,7 +149,7 @@ function GetAllFusionSeriesNft(props) {
                                 height: "200px",
                                 background: "#CFCDCD",
                               }}
-                              src="garden.png"
+                              src="fusionseries.png"
                             ></img>
                           </div>
 
