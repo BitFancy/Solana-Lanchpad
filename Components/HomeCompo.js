@@ -19,7 +19,6 @@ const Homecomp = ({ uri }) => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     metadata();
   }, [uri]);

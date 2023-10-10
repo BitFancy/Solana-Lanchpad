@@ -7,7 +7,6 @@ function SuccessNoteContract(props) {
   const [graphqlURL, setGraphqlURL] = useState("")
   useEffect(() => {
     setGraphqlURL(props.router.query.redirectURL);
-    // router.push({pathname:"/getAllSegnatureSeriesNft",query:{redirectURL:props.router.query.redirectURL}})
   }, [props.router.query.redirectURL]);
 
   return (
@@ -32,7 +31,6 @@ function SuccessNoteContract(props) {
           <Link 
             href={{
               pathname: "/dashboard",
-              query: { redirectURL: props?.router?.query?.redirectURL,newMarketplaceUrl:props.router.query.newMarketplaceUrl },
             }}
           >
             <Button

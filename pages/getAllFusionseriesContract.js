@@ -76,7 +76,7 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
                       key={1}
                       href={{
                         pathname: "/getAllFusionSeriesNft",
-                        query: { contractAddress: contract.contractAddress,storefrontId:props.router.query.storefrontId },
+                        query: { contractAddress: contract.contractAddress,storefrontId:props.router.query.storefrontId,redirectURL:props.router.query.redirectURL },
                       }}
                     >
                       <div

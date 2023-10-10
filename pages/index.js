@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Router from "next/router";
-import { useDispatch } from "react-redux";
 import Launchpad from "./launchpad";
 import BuyNft from "./buySubscription";
 export default function Home() {
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [authToken, setAuthToken] = useState("");
   const [session, setSession] = useState(null);

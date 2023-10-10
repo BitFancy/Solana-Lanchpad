@@ -1,7 +1,4 @@
-import { useSelector } from "react-redux";
-import { selectUser } from "../slices/userSlice";
 import React, { useState, useEffect } from "react";
-
 import { useRouter } from "next/router";
 const Web3 = require("web3");
 import { NFTStorage } from "nft.storage";
@@ -33,7 +30,6 @@ import {
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { InputText } from "primereact/inputtext";
 import AppConfig from "../layout/AppConfig";
-import { Modal } from "@mui/material";
 const codeVerifier = generateCodeVerifier();
 const codeChallenge = generateCodeChallenge(codeVerifier);
 
@@ -99,8 +95,6 @@ function Profile() {
     coverPictureUrl: "",
   };
 
-  const walletAddr = useSelector(selectUser);
-  var wallet = walletAddr ? walletAddr[0] : "";
   const [hasRole, setHasRole] = useState(true);
   const [visible, setVisible] = useState(false);
   const [profileData, setProfileData] = useState({ ...profile });
@@ -110,6 +104,7 @@ function Profile() {
   const [modal, setmodal] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [getplan, setpaln] = useState('');
 
   const [show, setShow] = useState(false);
 
@@ -136,6 +131,20 @@ function Profile() {
     }
   }
 
+
+  const getPlan=async()=>{
+    const token = localStorage.getItem("platform_token");
+    const { data } = await axios.get(
+      `${BASE_URL}api/v1.0/profile/subscribe`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setpaln(data.payload.plan);
+  };
+  
   async function uploadcover(e) {
     e.preventDefault();
     try {
@@ -195,55 +204,54 @@ function Profile() {
     }
   };
 
-  const user = useSelector(selectUser);
-  const getRole = async () => {
-    const token = localStorage.getItem("platform_token");
-    const role_id = localStorage.getItem("platform_roleid");
+  // const getRole = async () => {
+  //   const token = localStorage.getItem("platform_token");
+  //   const role_id = localStorage.getItem("platform_roleid");
 
-    const config1 = {
-      url: `${BASE_URL}/api/v1.0/roleId/${role_id}`,
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    let roledata;
-    try {
-      roledata = await axios(config1);
-    } catch (e) {
-      console.log(e);
-    }
+  //   const config1 = {
+  //     url: `${BASE_URL}/api/v1.0/roleId/${role_id}`,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+  //   let roledata;
+  //   try {
+  //     roledata = await axios(config1);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
 
-    let web3 = new Web3(Web3.givenProvider);
-    let completemsg = roledata.data.payload.eula + roledata.data.payload.flowId;
-    const hexMsg = convertUtf8ToHex(completemsg);
-    const result = await web3.eth.personal.sign(hexMsg, wallet);
+  //   let web3 = new Web3(Web3.givenProvider);
+  //   let completemsg = roledata.data.payload.eula + roledata.data.payload.flowId;
+  //   const hexMsg = convertUtf8ToHex(completemsg);
+  //   const result = await web3.eth.personal.sign(hexMsg, wallet);
 
-    var signroledata = JSON.stringify({
-      flowId: roledata.data.payload.flowId,
-      signature: result,
-    });
-    //This is used to create a role/generate the flowid and signature
-    const config = {
-      url: `${BASE_URL}/api/v1.0/claimrole`,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: signroledata,
-    };
+  //   var signroledata = JSON.stringify({
+  //     flowId: roledata.data.payload.flowId,
+  //     signature: result,
+  //   });
+  //   //This is used to create a role/generate the flowid and signature
+  //   const config = {
+  //     url: `${BASE_URL}/api/v1.0/claimrole`,
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     data: signroledata,
+  //   };
 
-    try {
-      const response = await axios(config);
-      const msg = await response?.data?.message;
-      setHasRole(true);
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-  };
+  //   try {
+  //     const response = await axios(config);
+  //     const msg = await response?.data?.message;
+  //     setHasRole(true);
+  //     return true;
+  //   } catch (e) {
+  //     console.log(e);
+  //     return false;
+  //   }
+  // };
   //use to generate the hex msg and
   const authorize = async () => {
     // const mywallet = localStorage.getItem("platform_wallet")
@@ -380,6 +388,7 @@ function Profile() {
   };
 
   useEffect(() => {
+    getPlan();
     const asyncFn = async () => {
       const token = localStorage.getItem("platform_token");
       if (token) {
@@ -411,38 +420,7 @@ function Profile() {
       description="Use to show metamask Profile details of the users"
     >
      
-      <Modal
-        style={{
-          margin: "0 auto",
-          width: "300px",
-          height: "200px",
-          marginTop: "200px",
-          textAlign: "center",
-          background: "white",
-          borderRadius: "20px",
-        }}
-        open={show}
-        onClose={handleClos}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div>
-          <div
-            className="text-3xl"
-            style={{ color: "black", marginTop: "60px" }}
-          >
-            Do You Want to login
-          </div>
-          <div className="flex gap-5 mt-5  justify-content-center">
-            <div>
-              <Button onClick={authorize} label="Login"></Button>
-            </div>
-            <div>
-              <Button label="Cancel"></Button>
-            </div>
-          </div>
-        </div>
-      </Modal>
+      
 
       {loading && <Loader />}
 
@@ -699,7 +677,7 @@ function Profile() {
               position: "absolute",
             }}
           >
-            <Button    onClick={handleShow} label="Login" rounded />
+            <Button    onClick={authorize} label="Login" rounded />
           </div>
           <div
             style={{
@@ -708,7 +686,18 @@ function Profile() {
               position: "absolute",
             }}
           >
-            <Button label="Upgrade plan" rounded />
+           
+
+
+            <Link 
+              href={{
+                pathname: "/buySubscription",
+                
+              }}
+            >
+              <Button label="Upgrade plan" rounded />
+            </Link>
+
           </div>
 
           <div
@@ -935,7 +924,7 @@ function Profile() {
                   </div>
                 </div>
                 <div className="mt-5 font-bold text-3xl">
-                  Selected Plan : {planVar}{" "}
+                  Selected Plan : {getplan}{" "}
                 </div>
                 {twitt ? (
                   <>

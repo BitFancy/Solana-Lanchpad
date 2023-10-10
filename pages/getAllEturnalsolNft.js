@@ -1,38 +1,49 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
 import { ethers } from "ethers";
 import { withRouter } from "next/router";
- function GetAllEternalSoulNft(props) {
+import Homecomp from "../Components/HomeCompo";
+import axios from "axios";
+import { getAllEternulsolNfts } from "./api/eternulsolAssets";
+function GetAllEternalSoulNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
-  const { layoutConfig } = useContext(LayoutContext);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [graphqlAPI, setgraphqlAPI] = useState("");
   const toast = useRef(null);
   useEffect(() => {
-    getSignetureSeriesAssets();
+    getEturnulsolAssets();
+    getstorefrontdatabyId();
   }, []);
-
-  const getSignetureSeriesAssets = async () => {
-    console.log(
-      " fusion series NFT page>>>>",
-      props.router.query.contractAddress,
-      localStorage.getItem("activeGraphQLURL")
-    );
-    const testCTA = props.router.query.contractAddress;
-    const {
-      data: { assetCreateds },
-    } = await axios.get("/api/assetsCreated");
-    console.log("Data>>>", assetCreateds);
+  const testCTA = props.router.query.contractAddress;
+  const getstorefrontdatabyId =async () => {
+    const token = localStorage.getItem("platform_token");
+    const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+    try {
+    const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      const finalString = data?.payload?.subgraphUrl?.slice(0,data?.payload?.subgraphUrl?.indexOf("/graphql"))
+      setgraphqlAPI(finalString)
+      console.log('data in alleturnulsol',finalString)
+    } catch (error) {
+        console.log("error",error);
+    }
+    };
+  const getEturnulsolAssets = async () => {
+    const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
+    const {assetIssueds} = await getAllEternulsolNfts({endPoint: endPoint})
+    setAsseetsData(assetIssueds);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    let tranasactionHashArray = assetCreateds?.map(
+    let tranasactionHashArray = assetIssueds?.map(
       (asset) => asset.transactionHash
     );
     const innerContractAddress = [];
@@ -40,16 +51,11 @@ import { withRouter } from "next/router";
       tranasactionHashArray?.map(async (hash) => {
         const contractAddress = await provider.getTransaction(hash);
         if (contractAddress.to == testCTA) {
-          console.log(
-            "Condition>>>",
-            contractAddress.to == testCTA,
-            contractAddress.to,
-            testCTA
-          );
           innerContractAddress.push(
-            assetCreateds.find((asset) => asset.transactionHash === hash)
+            assetIssueds.find((asset) => asset.transactionHash === hash)
           );
         }
+         
         setAsseetsData(innerContractAddress);
       })
     ).then(() => {
@@ -66,92 +72,62 @@ import { withRouter } from "next/router";
   const contractAddress = props.router.query.contractAddress;
 
   return (
-    <LayoutDashbord title="EternalSoul NFts" description="Used to Show All EternalSoul NFTs Details">
+    <LayoutDashbord
+      title="EternalSoul NFts"
+      description="Used to Show All EternalSoul NFTs Details"
+    >
       <div>
         <MarketplaceProfileDetails />
-        <div
-        className="flex"
-          
-        >
+        <div className="flex">
           <div>
             <Sidemenu />
           </div>
           <div>
-          <div className="flex ml-5 justify-content-around" >
-            <div className="font-bold mt-5 text-3xl text-black ">
-            EternalSoul &gt;  EternalSoul 1
-            </div>
+            <div className="flex ml-5 justify-content-around">
+              <div className="font-bold mt-5 text-3xl text-black ">
+                EternalSoul &gt; EternalSoul 1
+              </div>
 
-            <div className="mt-5 ml-5">
-              <Link 
-                href={{
-                  pathname: "/createEternulsolAssets",
-                  query: { contractAddress: contractAddress },
-                }}
-              >
-                <Button
-                  className="buy-img"
-                  loading={loading2}
-                  onClick={load}
-                  label="Create EternalSoul NFT"
-                ></Button>
-              </Link>
+              <div className="mt-5 ml-5">
+                <Link
+                  href={{
+                    pathname: "/createEternulsolAssets",
+                    query: { contractAddress: contractAddress },
+                  }}
+                >
+                  <Button
+                    className="buy-img"
+                    loading={loading2}
+                    onClick={load}
+                    label="Create EternalSoul NFT"
+                  ></Button>
+                </Link>
+              </div>
             </div>
-           
-          </div>
-          <div className="border-bottom-das"></div>
-          <div
+            <div className="border-bottom-das" style={{ width: "230%" }}></div>
+            <div
               className="grid cursor-pointer"
               style={{ gap: "20px", marginLeft: "30px" }}
             >
               {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {
                   return (
-                    <Link key={1}
-                    href={{
-                      pathname: "/singleEturnalsolNFT",
-                      query: { contractAddress: asset.contractAddress },
-                    }}
+                    <Link
+                      key={1}
+                      href={{
+                        pathname: "/singleEturnalsolNFT",
+                        query: {
+                          contractAddress: contractAddress,
+                          data: JSON.stringify(asset),
+                          storefrontId:props.router.query.storefrontId
+                        },
+                      }}
                     >
-                     <div
+                      <div
                         className="col-12 lg:col-6 xl:col-3"
                         style={{ width: "285px" }}
                       >
-                        <div
-                          className="p-3 gap-5 back-contract mt-5"
-                          style={{
-                            marginBottom: "0px",
-                            width: "100%",
-                            height: "350px",
-                            borderRadius: "20px",
-                          }}
-                        >
-                          <div className="text-center">
-                            <img
-                              className="dash-img-size"
-                              style={{
-                                width: "200px",
-                                height: "200px",
-                                background: "#CFCDCD",
-                              }}
-                              src="garden.png"
-                            ></img>
-                          </div>
-
-                          <div className="mt-5 " style={{ color: "black" }}>
-                            Token Id :{" "}
-                            <span style={{ color: "blue" }}>
-                              <>{asset.tokenID}</>
-                            </span>
-                          </div>
-                      
-                          <div className="mt-2 " style={{ color: "black" }}>
-                            Last Sale:{" "}
-                            <span style={{ color: "blue" }}>
-                              {/* <>{asset.contractName}</> */}
-                            </span>
-                          </div>
-                        </div>
+                        <Homecomp uri={asset ? asset.metaDataURI : ""} />
                       </div>
                     </Link>
                   );
@@ -165,14 +141,10 @@ import { withRouter } from "next/router";
               )}
             </div>
           </div>
-         
-         
-          
-         
           <Toast ref={toast} />
         </div>
       </div>
     </LayoutDashbord>
   );
 }
-export default withRouter(GetAllEternalSoulNft)
+export default withRouter(GetAllEternalSoulNft);

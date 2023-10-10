@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import FusionSeries from "../artifacts/contracts/fusionseries/FusionSeries.sol/FusionSeries.json";
-import BuyAsset from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import TradeHub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import { Button } from "primereact/button";
 import LayoutDashbord from "../Components/LayoutDashbord";
@@ -15,6 +13,9 @@ import { NFTStorage } from "nft.storage";
 import { useRouter, withRouter } from "next/router";
 import Image from "next/image";
 import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
+import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
+
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -34,6 +35,7 @@ const style = {
  function CreateFusionSeriesNft(props) {
   const msgs = useRef(null);
   const router=useRouter();
+  const toast = useRef(null);
 
   const [previewMedia, setpreviewMedia] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -46,11 +48,58 @@ const style = {
   const contractFusionSeriesAddress = props.router.query.contractAddress;
 
   const [model, setmodel] = useState(false);
-  const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [addImage, setAddImage] = useState(false);
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
+  const showProgress = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction in progress!",
+      life: 30000,
+    });
+  };
+  const transactionCompleate = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 1 Complete",
+      life: 10000,
+    });
+  };
+  const transactionFailed = () => {
+    toast.current.show({
+      severity:'error',
+      summary: 'Error',
+      detail: "Transaction 1 failed",
+      life: 10000,
+    });
+  };
 
+  const transaction2Progress = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 2 in progress",
+      life: 10000,
+    });
+  };
+  const transaction2Complete = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 2 Complete !!",
+      life: 10000,
+    });
+  };
+  const transaction2failed = () => {
+    toast.current.show({
+      severity:'error',
+      summary: 'Error',
+      detail: "Transaction 2 failed",
+      life: 10000,
+    });
+  };
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -140,8 +189,6 @@ const style = {
     const { name, description, price, alternettext, auctionTime } = formInput;
     let assetData = {};
     if (!name || !description || !price) {
-      setAlertMsg("Please Fill All Fields");
-      setOpen(true);
       return;
     }
     assetData = {
@@ -154,12 +201,26 @@ const style = {
       tags,
       auctionTime,
     };
-    setmodelmsg("Transaction 1 in  progress");
+
+    if (!mediaHash?.image) {
+      return;
+    }
+    showProgress()
     setmodel(true);
-    const data = JSON.stringify({ ...assetData });
-    createItem();
+    const data = JSON.stringify({ ...assetData, ...mediaHash });
+    const blobData = new Blob([data]);
+    try {
+      client.storeBlob(blobData).then(async (metaHash) => {
+        const ipfsHash = metaHash;
+        const url = `ipfs://${metaHash}`;
+        await createItem(ipfsHash, url);
+      });
+    } catch (error) {
+      setmodelmsg("Transaction failed");
+    } finally {
+    }
   }
-  async function createItem() {
+  async function createItem(ipfsHash, url) {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner();
     const fusionSeriesContarct = new ethers.Contract(contractFusionSeriesAddress, FusionSeries.abi, signer)
@@ -168,11 +229,11 @@ const style = {
       let transaction = await fusionSeriesContarct.createAsset(
         price,
         11111,
-        "www.facebook.com",
+        url,
         { gasLimit: "2099999" }
       );
       let tx = await transaction.wait();
-      setmodelmsg("Transaction 1 Complete");
+      transactionCompleate();
       let event = tx.events[0];
       let value = event.args[3];
       let tokenId = value.toNumber();
@@ -180,7 +241,7 @@ const style = {
       let endTime=0;
       await listItem(fusionSeriesContarct,tokenId, price, forAuction, endTime);
     } catch (e) {
-      setmodelmsg("Transaction 1 failed");
+      transactionFailed();
       console.log(e)
       return;
     }
@@ -191,27 +252,27 @@ const style = {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner();
-      setmodelmsg("Transaction 2 in progress");
+      transaction2Progress();
     let  tradhubContract = new ethers.Contract(
         tradhubAddress,
         TradeHub.abi,
         signer
       );
-      setmodelmsg("Transaction 2 in progress");
       let transaction = await tradhubContract.listItem(
         contractFusionSeriesAddress,
         tokenId,
         price,
-        1,
+        formInput.quantity,
         forAuction,
         endTime,
         { gasLimit: "2099999" }
       );
       await transaction.wait();
-      router.push('/getAllFusionSeriesNft')
-      setmodelmsg("Transaction 2 Complete !!");
+      transaction2Complete();
+      router.push({pathname:"/getAllFusionSeriesNft",query:{storefrontId:props.router.query.storefrontId}})
+
     } catch (e) {
-      setmodelmsg("Transaction 2 failed");
+      transaction2failed();
       console.log(e)
     } 
   };
@@ -251,8 +312,6 @@ const style = {
   };
 
   const [open, setOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -280,39 +339,18 @@ const style = {
   const [categories, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
 
-  // if (!hasRole) {
-  //    setTimeout(() => {
-  //     router.push("/profile");
-  //   }, 1000);
-  // }
+ 
 
   return (
     <LayoutDashbord
       title="Create FusionSeries Assets"
       description="This is used to create FusionSeries Nfts"
     >
+          <Toast ref={toast} />
       <div
        
       >
         <div className="dark:bg-gray-800 kumbh text-center">
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              {alertMsg}
-            </Alert>
-          </Snackbar>
-          {model && (
-            <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
-          )}
-
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
           </div>
@@ -489,7 +527,7 @@ const style = {
                       Add Properties
                     </Button>
 
-                    <Modal
+                    <Dialog
                       open={show}
                       onClose={handleClos}
                       aria-labelledby="modal-modal-title"
@@ -499,7 +537,7 @@ const style = {
                         sx={style}
                         className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6] p-5 add-properties"
                       >
-                        <Typography
+                        <div
                           id="modal-modal-title"
                           variant="h6"
                           component="h2"
@@ -514,8 +552,8 @@ const style = {
                               ></i>
                             </div>
                           </div>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        </div>
+                        <div id="modal-modal-description" sx={{ mt: 2 }}>
                           <div className="text-gray-500 ">
                             Properties Show Up Underneath Your Item, are
                             Clickable, and Can be Filtered in Your
@@ -588,14 +626,14 @@ const style = {
                               </div>
                             ))}
                           </form>
-                        </Typography>
+                        </div>
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
 
                       </div>
-                    </Modal>
+                    </Dialog>
                   </div>
                   <div className="flex mt-5 font-bold">
                     <div style={{ alignItems: "initial" }}>

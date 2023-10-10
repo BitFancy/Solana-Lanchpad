@@ -76,6 +76,10 @@ function WebappForm(props) {
             twitter: twitter,
             discord: discord,
             instagram: instagram,
+            // "region": "us01",
+            // "type": "marketplace",
+            // "category": "nft",
+            // "tags": "digital store"
           },
           {
             headers: {

@@ -137,7 +137,13 @@ function StorefrontDashboard(props) {
             </div>
             <div>
               {plan === "basic" && (
-                <Button
+                <Link 
+                href={{
+                  pathname: "/buySubscription",
+                  query: { storefrontId: props?.router?.query?.storefrontId },
+                }}
+              >
+            <Button
                   rounded
                   style={{
                     border: "1px solid white",
@@ -146,6 +152,8 @@ function StorefrontDashboard(props) {
                   label="Upgrade"
                   className="buy-img"
                 ></Button>
+
+              </Link>
               )}
             </div>
           </div>
@@ -224,14 +232,19 @@ function StorefrontDashboard(props) {
                         {storefront.deployed === true && (
                           <div>
                             <div>
-                              <a target="_blank" href={marketpalceUrl}>
+                            <Link
+                           target="_blank"
+                           href={{
+                             pathname: `https://${storefront.webappUrl}`,
+                           }}
+                            >
                                 <Button
                                   loading={loading3}
                                   onClick={load3}
                                   label="View"
                                   className=" buy-back-color"
                                 ></Button>
-                              </a>
+                            </Link>
                             </div>
                             <div className="mt-5">
                               <Link
@@ -239,7 +252,7 @@ function StorefrontDashboard(props) {
                                   pathname: "/overview",
                                   query: {
                                     storefrontId: storefront.id,
-                                    redirectURL: props.router.query.redirectURL,
+                                    redirectURL: storefront.subgraphUrl,
                                   },
                                 }}
                               >

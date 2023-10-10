@@ -12,19 +12,19 @@ import AppConfig from "./AppConfig";
 import { useAccount, useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter, withRouter } from "next/router";
-import { toast } from "react-toastify";
-function AppTopbar(props) {
+import axios from "axios";
+function AppTopbar() {
   const {  isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { layoutConfig, layoutState } = useContext(LayoutContext);
   const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
-  const [plan, setsetPlan] = useState(null);
+  const [getplan, setpaln] = useState('');
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
   const router = useRouter();
   useEffect(() => {
-    setsetPlan(
-      JSON.parse(localStorage.getItem("profiledetails"))?.plan ?? null
-    );
+    getPlan();
     if (!localStorage.getItem("wagmi.connected")) {
       router.push("/");
     }
@@ -34,9 +34,19 @@ function AppTopbar(props) {
     localStorage.clear();
     router.push("/");
   }
-  const notify = ()=>{
-    toast.TYPE.WARNING;
-  }
+  const getPlan=async()=>{
+    const token = localStorage.getItem("platform_token");
+    const { data } = await axios.get(
+      `${BASE_URL_LAUNCH}api/v1.0/profile/subscribe`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setpaln(data.payload.plan);
+  };
+  
   return (
     <div className="layout-topbar">
       <Link href="/launchpad" className="layout-topbar-logo">
@@ -62,7 +72,7 @@ function AppTopbar(props) {
             isConnected ? null : 'Please Connect to Your wallet'
           }
           href={
-            isConnected && !plan ? "/buySubscription" : "/profile"
+            isConnected && !getplan ? "/buySubscription" : "/profile"
           }
         >
           <span className="font-bold text-white text-2xl">Launch</span>

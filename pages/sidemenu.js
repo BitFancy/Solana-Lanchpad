@@ -3,7 +3,7 @@ import { useRouter, withRouter } from "next/router";
 import React from "react";
  function Sidemenu(props) {
   const router = useRouter();
-
+console.log('props in over',props)
   return (
     <div className=" p-5 overflow-y-auto ... overflow-dashboard-left">
       <div className="font-bold text-3xl p-heading mt-5">Analytics</div>
@@ -33,7 +33,7 @@ import React from "react";
             }
             href={{
               pathname: "/getAllSignatureseriesContract",
-              query: { storefrontId: props.router.query.storefrontId },
+              query: { storefrontId: props.router.query.storefrontId,redirectURL:props.router.query.redirectURL },
             }}
           >
             SignatureSeries
@@ -44,7 +44,7 @@ import React from "react";
           <Link
             href={{
               pathname: "/getAllFusionseriesContract",
-              query: { storefrontId: props.router.query.storefrontId },
+              query: { storefrontId: props.router.query.storefrontId,redirectURL:props.router.query.redirectURL },
             }}
             className={router.pathname == "/getAllFusionseriesContract" ? "active" : "p-heading"}
           >
@@ -79,7 +79,7 @@ import React from "react";
           <Link
             href={{
               pathname: "/getAlleturnalsolContract",
-              query: { storefrontId: props.router.query.storefrontId },
+              query: { storefrontId: props.router.query.storefrontId,redirectURL:props.router.query.redirectURL },
             }}
             className={router.pathname == "/getAlleturnalsolContract" ? "active" : "p-heading"}
           >

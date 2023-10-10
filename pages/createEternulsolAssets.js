@@ -1,12 +1,9 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import EternalSoul from "../artifacts/contracts/eternalsoul/EternalSoul.sol/EternalSoul.json";
-import BuyAsset from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography, Modal, Box } from "@mui/material";
 import { Button } from "primereact/button";
 import { useAccount } from "wagmi";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import { ethers } from "ethers";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { Messages } from "primereact/messages";
@@ -18,6 +15,8 @@ const client = new NFTStorage({ token: YOUR_API_KEY });
 import { NFTStorage } from "nft.storage";
 import { withRouter } from "next/router";
 import { getStorefrontByID } from "../utils/util";
+import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
 const style = {
   position: "absolute",
   top: "50%",
@@ -38,11 +37,11 @@ function CreateEternulsolAssets(props) {
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
   const [model, setmodel] = useState(false);
-  const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [addImage, setAddImage] = useState(false);
   const [previewMedia, setpreviewMedia] = useState("");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
+  const toast = useRef(null);
 
   const [mediaHash, setMediaHash] = useState({
     image: "",
@@ -89,6 +88,28 @@ function CreateEternulsolAssets(props) {
     } catch (error) {}
   }
 
+
+  const showProgress = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction in progress!",
+      life: 30000,
+    });
+  };
+ 
+  const transactionFailed = () => {
+    toast.current.show({
+      severity:'error',
+      summary: 'Error',
+      detail: "Transaction 1 failed",
+      life: 10000,
+    });
+  };
+
+ 
+ 
+ 
   async function onChangeMediaType(e) {
     const file = e.target.files[0];
     const { name, type } = file;
@@ -124,7 +145,6 @@ function CreateEternulsolAssets(props) {
     const { name, description, price, alternettext, auctionTime } = formInput;
     let assetData = {};
     if (!name || !description || !price) {
-      setAlertMsg("Please Fill All Fields");
       setOpen(true);
       return;
     }
@@ -139,12 +159,9 @@ function CreateEternulsolAssets(props) {
       auctionTime,
     };
     if (!mediaHash?.image) {
-      setAlertMsg("Image is required to create asset");
-      setOpen(true);
       return;
     }
-    setmodelmsg("Transaction 1 in  progress");
-    setmodel(true);
+    showProgress();
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
     try {
@@ -154,7 +171,7 @@ function CreateEternulsolAssets(props) {
         await createItem(ipfsHash, url);
       });
     } catch (error) {
-      setmodelmsg("Transaction failed");
+      transactionFailed();
     } finally {
     }
   }
@@ -174,7 +191,7 @@ function CreateEternulsolAssets(props) {
     } catch (error) {
       console.log("error while eturnulsole nft creation", error);
     }
-    setmodelmsg("Transaction 1 is  failed");
+    transactionFailed();
     setmodel(false);
   }
   const [attributes, setInputFields] = useState([
@@ -213,13 +230,10 @@ function CreateEternulsolAssets(props) {
   };
 
   const [open, setOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
   };
 
   const [options1, setOptions] = useState([
@@ -241,28 +255,13 @@ function CreateEternulsolAssets(props) {
       title="Create EternalSoul Assets"
       description="This is used to create EternalSoul Nfts"
     >
+                <Toast ref={toast} />
+
       <div
        
       >
         <div className="dark:bg-gray-800 kumbh text-center">
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              {alertMsg}
-            </Alert>
-          </Snackbar>
-          {model && (
-            <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
-          )}
-
+        
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
           </div>
@@ -436,7 +435,7 @@ function CreateEternulsolAssets(props) {
                       Add Properties
                     </Button>
 
-                    <Modal
+                    <Dialog
                       open={show}
                       onClose={handleClos}
                       aria-labelledby="modal-modal-title"
@@ -446,7 +445,7 @@ function CreateEternulsolAssets(props) {
                         sx={style}
                         className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6] p-5 add-properties"
                       >
-                        <Typography
+                        <div
                           id="modal-modal-title"
                           variant="h6"
                           component="h2"
@@ -461,8 +460,8 @@ function CreateEternulsolAssets(props) {
                               ></i>
                             </div>
                           </div>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        </div>
+                        <div id="modal-modal-description" sx={{ mt: 2 }}>
                           <div className="text-gray-500 ">
                             Properties Show Up Underneath Your Item, are
                             Clickable, and Can be Filtered in Your
@@ -535,13 +534,13 @@ function CreateEternulsolAssets(props) {
                               </div>
                             ))}
                           </form>
-                        </Typography>
+                        </div>
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
                       </div>
-                    </Modal>
+                    </Dialog>
                   </div>
                   <div className="flex mt-5 font-bold">
                     <div className="text-left">NFT description in detail</div>

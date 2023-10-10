@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { useRouter, withRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -10,15 +10,14 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
 import TradeHub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
-import BuyAsset from "../Components/buyAssetModal";
-import { Alert, Snackbar, Typography, Modal } from "@mui/material";
 import { NFTStorage } from "nft.storage";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import { ethers } from "ethers";
 import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
+import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
 const style = {
   position: "absolute",
   top: "50%",
@@ -41,12 +40,12 @@ function CreateSignatureSeriesNfts(props) {
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [model, setmodel] = useState(false);
-  const [modelmsg, setmodelmsg] = useState("Transaction in progress!");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
   const dynamicContractAddress = props.router.query.contractAddress;
+  const toast = useRef(null);
+
   const [mediaHash, setMediaHash] = useState({
     image: "",
     audio: "",
@@ -54,6 +53,58 @@ function CreateSignatureSeriesNfts(props) {
     animation_url: "",
     doctype: "",
   });
+
+
+
+  const showProgress = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction in progress!",
+      life: 30000,
+    });
+  };
+  const transactionCompleate = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 1 Complete",
+      life: 10000,
+    });
+  };
+  const transactionFailed = () => {
+    toast.current.show({
+      severity:'error',
+      summary: 'Error',
+      detail: "Transaction 1 failed",
+      life: 10000,
+    });
+  };
+
+  const transaction2Progress = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 2 in progress",
+      life: 10000,
+    });
+  };
+  const transaction2Complete = () => {
+    toast.current.show({
+      severity:'success',
+      summary: 'Success',
+      detail: "Transaction 2 Complete !!",
+      life: 10000,
+    });
+  };
+  const transaction2failed = () => {
+    toast.current.show({
+      severity:'error',
+      summary: 'Error',
+      detail: "Transaction 2 failed",
+      life: 10000,
+    });
+  };
   const [previewMedia, setpreviewMedia] = useState("");
   const [addImage, setAddImage] = useState(false);
   const [formInput, updateFormInput] = useState({
@@ -120,8 +171,6 @@ function CreateSignatureSeriesNfts(props) {
     const { name, description, price, alternettext, auctionTime } = formInput;
     let assetData = {};
     if (!name || !description || !price) {
-      setAlertMsg("Please Fill All Fields");
-      setOpen(true);
       return;
     }
     assetData = {
@@ -136,12 +185,10 @@ function CreateSignatureSeriesNfts(props) {
     };
 
     if (!mediaHash?.image) {
-      setAlertMsg("Image is required to create asset");
       setOpen(true);
       return;
     }
-    setmodelmsg("Transaction 1 in  progress");
-    setmodel(true);
+    showProgress();
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
     try {
@@ -151,7 +198,7 @@ function CreateSignatureSeriesNfts(props) {
         await createItem(ipfsHash, url);
       });
     } catch (error) {
-      setmodelmsg("Transaction failed");
+      transactionFailed()
     } finally {
     }
   }
@@ -185,8 +232,7 @@ function CreateSignatureSeriesNfts(props) {
         { gasLimit: "2099999" }
       ); 
       let tx = await transaction.wait();
-      setmodelmsg("Transaction 1 Complete");
-      setmodelmsg("Transaction 1 failed");
+      transactionCompleate()
       let event = tx.events[0];
       let value = event.args[2];
       let tokenId = value.toNumber();
@@ -196,7 +242,7 @@ function CreateSignatureSeriesNfts(props) {
       await listItem( signetureseriesContract, tokenId, price, forAuction, endTime);//Putting item to sale
     } catch (e) {
       console.log(e);
-      setmodelmsg("Transaction 1 failed");
+      transactionFailed();
       return;
     } 
   }
@@ -204,7 +250,7 @@ function CreateSignatureSeriesNfts(props) {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner();
-      setmodelmsg("Transaction 2 in progress");
+      transaction2Progress();
     let  tradhubContract = new ethers.Contract(
         tradhubAddress,
         TradeHub.abi,
@@ -219,11 +265,11 @@ function CreateSignatureSeriesNfts(props) {
         endTime
       );
      let tx = await transaction.wait();
-      setmodelmsg("Transaction 2 Complete !!");
+     transaction2Complete();
       router.push('/getAllSegnatureSeriesNft')
     } catch (e) {
       console.log(e);
-      setmodelmsg("Transaction 2 failed");
+      transaction2failed();
     }
   };
   const [attributes, setInputFields] = useState([
@@ -263,7 +309,6 @@ function CreateSignatureSeriesNfts(props) {
   };
 
   const [open, setOpen] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -293,27 +338,12 @@ function CreateSignatureSeriesNfts(props) {
       title="Create SignetureSeries Assets"
       description="This is used to create Signetureseries Nfts"
     >
+       <Toast ref={toast} />
       <div
        
       >
         <div className="dark:bg-gray-800 kumbh text-center">
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              {alertMsg}
-            </Alert>
-          </Snackbar>
-          {model && (
-            <BuyAsset open={model} setOpen={setmodel} message={modelmsg} />
-          )}
+         
 
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
@@ -490,7 +520,7 @@ function CreateSignatureSeriesNfts(props) {
                       Add Properties
                     </Button>
 
-                    <Modal
+                    <Dialog
                       open={show}
                       onClose={handleClos}
                       aria-labelledby="modal-modal-title"
@@ -500,7 +530,7 @@ function CreateSignatureSeriesNfts(props) {
                         sx={style}
                         className="text-center bg-black border-[1px] bg-white dark:bg-[#13131a] dark:border-[#bf2180] border-[#eff1f6] p-5 add-properties"
                       >
-                        <Typography
+                        <div
                           id="modal-modal-title"
                           variant="h6"
                           component="h2"
@@ -515,8 +545,8 @@ function CreateSignatureSeriesNfts(props) {
                               ></i>
                             </div>
                           </div>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        </div>
+                        <div id="modal-modal-description" sx={{ mt: 2 }}>
                           <div className="text-gray-500 ">
                             Properties Show Up Underneath Your Item, are
                             Clickable, and Can be Filtered in Your
@@ -589,14 +619,14 @@ function CreateSignatureSeriesNfts(props) {
                               </div>
                             ))}
                           </form>
-                        </Typography>
+                        </div>
                         <div className="mt-5" onClick={handleSubmit}>
                           <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
 
                       </div>
-                    </Modal>
+                    </Dialog>
                   </div>
                   <div className="flex mt-5 font-bold">
                     <div style={{ alignItems: "initial" }}>

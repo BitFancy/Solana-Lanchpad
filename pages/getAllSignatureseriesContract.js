@@ -78,7 +78,7 @@ function GetAllSignatureseriesContract(props) {
                         key={1}
                         href={{
                           pathname: "/getAllSegnatureSeriesNft",
-                          query: { contractAddress: contract.contractAddress,storefrontId:props.router.query.storefrontId },
+                          query: { contractAddress: contract.contractAddress,storefrontId:props.router.query.storefrontId,redirectURL:props.router.query.redirectURL },
                         }}
                       >
                         <div

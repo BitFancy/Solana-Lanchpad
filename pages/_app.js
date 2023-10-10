@@ -6,15 +6,12 @@ import "primeicons/primeicons.css";
 import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
 import "@rainbow-me/rainbowkit/styles.css";
-import { Provider } from "react-redux";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import "../styles/demo/LoadingSpinner.css";
-// import 'react-toastify/dist/ReactToastify.css';
 import '../node_modules/react-toastify/dist/ReactToastify.css'
 
 
-import store from "../store";
 import {
   RainbowKitProvider,
   getDefaultWallets,
@@ -47,9 +44,9 @@ export default function MyApp({ Component, pageProps }) {
       <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider  chains={chains}>
       <LayoutProvider >
-          <Provider store={store}>
+         
           {Component.getLayout(<Component {...pageProps} />)}
-          </Provider>
+         
       </LayoutProvider>
 =      </RainbowKitProvider>
       </WagmiConfig>
@@ -61,9 +58,9 @@ export default function MyApp({ Component, pageProps }) {
       <RainbowKitProvider  chains={chains}>
       <LayoutProvider>
        
-          <Provider store={store}>
+         
             <Component {...pageProps} />
-          </Provider>
+          
       </LayoutProvider>
       </RainbowKitProvider>
 

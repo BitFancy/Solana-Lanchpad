@@ -78,11 +78,18 @@ import axios from "axios";
             </Link>
           </div>
           <div>
+          <Link 
+              href={{
+                pathname: "/buySubscription",
+                query: { storefrontId: props?.router?.query?.storefrontId },
+              }}
+            >
             <Button
               rounded
               style={{ border: "1px solid white" }}
               label="Upgrade"
             ></Button>
+            </Link>
           </div>
             </div>
           </div>

@@ -1,43 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Chart } from "primereact/chart";
+import React, { useState, useEffect } from "react";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-
  function Overview(props) {
-  const [chartData, setChartData] = useState({});
-  const { layoutConfig } = useContext(LayoutContext);
-  const [chartOptions, setChartOptions] = useState({});
   const [contractData, setContarctData] = useState('');
-
   useEffect(() => {
-  //   const documentStyle = getComputedStyle(document.documentElement);
-  //   const data = {
-  //     datasets: [
-  //       {
-  //         data: [300, 100],
-  //         backgroundColor: [
-  //           documentStyle.getPropertyValue("--blue-500"),
-  //           documentStyle.getPropertyValue("--black-500"),
-  //         ],
-  //         hoverBackgroundColor: [
-  //           documentStyle.getPropertyValue("--blue-400"),
-  //           documentStyle.getPropertyValue("--black-400"),
-  //         ],
-  //       },
-  //     ],
-  //   };
-  //   const options = {
-  //     cutout: "60%",
-  //   };
-
-  //   setChartData(data);
-  //   setChartOptions(options);
-    getcontractById();
+   getcontractById();
   }, []);
 
 
@@ -66,31 +37,17 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
             <div >
             <Sidemenu/>
             </div>
-            {/* <div style={{ margin: "0 auto" }}>
-              <div className="flex mt-5">
-                <Chart
-                  style={{ height: "100px", width: "100px" }}
-                  type="doughnut"
-                  data={chartData}
-                  options={chartOptions}
-                />
-                <Chart
-                  style={{ height: "100px", width: "100px" }}
-                  type="doughnut"
-                  data={chartData}
-                  options={chartOptions}
-                />
-                <Chart
-                  style={{ height: "100px", width: "100px" }}
-                  type="doughnut"
-                  data={chartData}
-                  options={chartOptions}
-                />
-              </div>
+                    <div className="flex gap-5 mt-5" style={{margin:'0 auto'}}>
+          <div style={{background:'#70F4D2',width:'400px',height:'400px'}}>
+            <div className="font-bold text-4xl ml-5 mt-5"> No Of contracts deployed</div>
+            <div className="font-bold text-4xl  mt-5 text-center">{contractData}</div>
+          </div>
+          <div style={{background:'#A099F4',width:'400px',height:'400px'}}>
+            <div className="font-bold text-4xl ml-5 mt-5">No of NFTs listed</div>
+            <div className="font-bold text-4xl  mt-5 text-center">{contractData}</div>
 
-            </div> */}
-
-          <div className="mt-5 ml-5">  No of contract: {contractData}</div>
+          </div>
+        </div>
           </div>
         
       

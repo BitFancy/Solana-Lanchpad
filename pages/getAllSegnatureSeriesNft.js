@@ -1,70 +1,64 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
 import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import Loader from "../Components/LoadingSpinner";
 import {  withRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
-import request, { gql } from "graphql-request";
+import axios from "axios";
+import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
 function GetAllSignatureSeriesSeriesNft(props) {
   console.log('props',props.router.query.redirectURL)
   const [assetsData, setAsseetsData] = useState([]);
-  const { layoutConfig } = useContext(LayoutContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [graphqlURL, setGraphqlURL] = useState("")
   const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
+
+  const [graphqlAPI, setgraphqlAPI] = useState("");
+  const getstorefrontdatabyId =async () => {
+    const token = localStorage.getItem("platform_token");
+    const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+    try {
+    const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      const finalString = data?.payload?.subgraphUrl?.slice(0,data?.payload?.subgraphUrl?.indexOf("/graphql"))
+      setgraphqlAPI(finalString)
+
+      console.log('data in alleturnulsol',finalString)
+    } catch (error) {
+        console.log("error",error);
+    }
+    };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
      setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
      if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
-      getSignetureSeriesAssets()
+      getSignetureSeriesAssets();
+      getstorefrontdatabyId();
      }
   }, [])
   
 
-  useEffect(() => {
-    setGraphqlURL(props.router.query.redirectURL);
-  }, [props.router.query.redirectURL]);
-
+  
   const getSignetureSeriesAssets = async () => {
     try {
-      setLoading(true)
-
-
-      setLoading(true)
-      const query = gql`
-      query Query($where:signatureSeriesAssetCreated_filter) {
-        signatureSeriesAssetCreateds(first:100){
-          id
-          transactionHash
-          blockNumber
-          tokenID
-          amount
-          creator
-          
-           }
-            }
-            `;
-      const result = await request(graphqlURL, query);
-      // const {
-      //   data: { signatureSeriesAssetCreateds },
-      // } = await axios.get("/api/assetsCreated")
-      setAsseetsData(result.fusionSeriesAssetCreateds);
-
-      console.log("assetCreateds>>>", signatureSeriesAssetCreateds);
+     const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
+      const {signatureSeriesAssetCreateds} = await getAllSignetureseriesNfts({endPoint: endPoint})
+      setAsseetsData(signatureSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       let tranasactionHashArray = signatureSeriesAssetCreateds?.map(
         (asset) => asset.transactionHash
       ) ?? [];
       const innerContractAddress = [];
-      console.log("tranasactionHashArray",tranasactionHashArray);
       if(tranasactionHashArray.length>0){
       await Promise?.all(
         tranasactionHashArray?.map(async (hash) => {
@@ -147,7 +141,7 @@ console.log("contractAddress>>>>",contractAddress);
                     <Link key={asset.tokenID} 
                     href={{
                       pathname: "/singleSignatureSeriesNFT",
-                      query: { contractAddress: contractAddress,data:JSON.stringify(asset)},
+                      query: { contractAddress: contractAddress,data:JSON.stringify(asset),storefrontId:props.router.query.storefrontId},
                     }}
                     >
                       <div

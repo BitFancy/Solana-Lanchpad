@@ -8,67 +8,76 @@ import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
 import { withRouter } from "next/router";
 import { ethers } from "ethers";
-import request, { gql } from "graphql-request";
-const graphqlAPI = 'https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/hgsggsa'
+import Homecomp from "../Components/HomeCompo";
+import axios from "axios";
+import { getAllFusionSeriesNfts } from "./api/fusionseriesAssets";
 function GetAllFusionSeriesNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
   const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
+  const [graphqlAPI, setgraphqlAPI] = useState(" ");
 
- 
+  const getstorefrontdatabyId =async () => {
+    const token = localStorage.getItem("platform_token");
+    const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+    try {
+    const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      const finalString = data?.payload?.subgraphUrl?.slice(0,data?.payload?.subgraphUrl?.indexOf("/graphql"))
+      setgraphqlAPI(finalString)
+    } catch (error) {
+        console.log("error",error);
+    }
+    };
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
      setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
      if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
       getallfusionSeriesAssets()
+      getstorefrontdatabyId();
      }
   }, [])
-
   const getallfusionSeriesAssets = async () => {
     try {
-      setLoading(true)
-        const query = gql`
-        query Query($where:FusionSeriesAssetCreated_filter) {
-          fusionSeriesAssetCreateds(first:100){
-            id
-            transactionHash
-            blockNumber
-            tokenID
-            amount
-            creator
-            
-             }
-              }
-              `;
-        const result = await request(graphqlAPI, query);
-        setAsseetsData(result.fusionSeriesAssetCreateds);
+      const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
+      const { fusionSeriesAssetCreateds } = await getAllFusionSeriesNfts({endPoint: endPoint})
+      setAsseetsData(fusionSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray = fusionSeriesAssetCreateds?.map(
+      let tranasactionHashArray =fusionSeriesAssetCreateds?.map(
         (asset) => asset.transactionHash
       ) ?? [];
       const innerContractAddress = [];
-      console.log("tranasactionHashArray",tranasactionHashArray);
       if(tranasactionHashArray.length>0){
+        setLoading(true);
       await Promise?.all(
         tranasactionHashArray?.map(async (hash) => {
+
           const gqlcontractAddress = await provider.getTransaction(hash);
           if (gqlcontractAddress.to == contractAddress) {
             innerContractAddress.push(
-              fusionSeriesAssetCreateds.find((asset) => asset.transactionHash === hash)
+              fusionSeriesAssetCreateds?.find((asset) => asset.transactionHash === hash)
+            
+
             );
           }
           setAsseetsData(innerContractAddress);
+
         })
       ).then(() => {
         console.log("innerContractAddress", innerContractAddress);
       });
+      setLoading(false);
     }
     } catch (error) {
       console.log("Error while fetching assets",error)
       setLoading(false)
     }
+    
   };
   const load = () => {
     setLoading2(true);
@@ -128,41 +137,7 @@ function GetAllFusionSeriesNft(props) {
                         query: { contractAddress: contractAddress ,data:JSON.stringify(asset),storefrontId:props.router.query.storefrontId },
                       }}
                     >
-                      <div
-                        className="col-12 lg:col-6 xl:col-3"
-                        style={{ width: "285px" }}
-                      >
-                        <div
-                          className="p-3 gap-5 back-contract mt-5"
-                          style={{
-                            marginBottom: "0px",
-                            width: "100%",
-                            height: "350px",
-                            borderRadius: "20px",
-                          }}
-                        >
-                          <div className="text-center">
-                            <img
-                              className="dash-img-size"
-                              style={{
-                                width: "200px",
-                                height: "200px",
-                                background: "#CFCDCD",
-                              }}
-                              src="fusionseries.png"
-                            ></img>
-                          </div>
-
-                          <div className="mt-5 " style={{ color: "black" }}>
-                            Token Id :{" "}
-                            <span style={{ color: "blue" }}>
-                              <>{asset.tokenID}</>
-                            </span>
-                          </div>
-                        
-                         
-                        </div>
-                      </div>
+                    <Homecomp uri={asset ? asset.metadataUri : ""} />
                     </Link>
                   );
                 })
