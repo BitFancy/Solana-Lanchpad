@@ -104,7 +104,7 @@ const Instagen = (props) => {
               param7: countdownTime,
               param8: maxSupply,
               param9: royltybps,
-              param10: "ipfs://bafkreiaymdyeg4agyobdw3xo56jrqo3z36pj3zkmxbnxgyx6gqxd7bxdda",
+              param10: "www.abc.com",
             },
             network: "maticmum",
             storefrontId: props?.router?.query?.storefrontId,
