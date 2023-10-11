@@ -64,6 +64,22 @@ function MarkeplaceDetailsForm(props) {
     } catch (error) {}
   }
 
+
+  async function onChangeThumbnailCover(e) {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setuploadImageCover(metaHashURI);
+    } catch (error) {
+      showErroruploadImage();
+    } finally {
+      setLoading(false);
+    }
+  }
   const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
   async function onChangeThumbnail(e) {

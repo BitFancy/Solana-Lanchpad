@@ -68,10 +68,23 @@ const Instagen = (props) => {
     );
   }, []);
 
+
   const getBlocchain=async()=>{
     const  payload  = await getStorefrontByID(props.router.query.storefrontId);
     setstorefrontData(payload)
   }
+
+
+  uploadBlobGetHash = async (file) => {
+    try {
+      const blobDataImage = new Blob([file]);
+      const metaHash = await client.storeBlob(blobDataImage);
+      return metaHash;
+    } catch (error) {
+      console.log("error while upload image", error);
+    }
+  };
+
   const instaGenContarctData = () => {
     const token = localStorage.getItem("platform_token");
     const validation = onClickButton();
@@ -91,11 +104,13 @@ const Instagen = (props) => {
               param7: countdownTime,
               param8: maxSupply,
               param9: royltybps,
-              param10: "www.abc.com",
+              param10: "ipfs://bafkreiaymdyeg4agyobdw3xo56jrqo3z36pj3zkmxbnxgyx6gqxd7bxdda",
             },
             network: "maticmum",
             storefrontId: props?.router?.query?.storefrontId,
             collectionName: contractName,
+            thumbnail:thumbnail,
+            coverImage:uploadImageCover
           },
           {
             headers: {

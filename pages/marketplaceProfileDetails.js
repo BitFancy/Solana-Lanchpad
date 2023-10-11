@@ -34,7 +34,7 @@ import axios from "axios";
   };
   return (
     <div>
-      <div className="text-center overview-donut-top-back">
+      <div className="text-center backstore1">
         <div key={1} className="text-center">
           <div className="flex ml-5 justify-content-between">
             <div className="flex" style={{marginTop:'45px'}}>

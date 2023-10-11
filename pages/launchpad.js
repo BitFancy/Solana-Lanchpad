@@ -57,12 +57,11 @@ export default function Launchpad() {
               className="text-center font-bold mt-16 text-white "
               style={{ top: "300px", position: "relative", fontSize: "50px" }}
             >
-              <div> Launching Your Favorite</div>
-              <div>NFTs in just few steps</div>
+              <div> Embark on Your NFT Journey</div>
+              <div>with Seamless Ease</div>
             </div>
           </div>
-        
-
+           
         </div>
       
         <div

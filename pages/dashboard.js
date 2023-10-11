@@ -108,8 +108,8 @@ function StorefrontDashboard(props) {
       <div>
         <Toast ref={toaste} />
 
-        <div className="overview-donut-top-back">
-          <div className="text-white text-3xl font-bold">Storefronts</div>
+        <div className=" backstore">
+          <div className="text-white text-3xl font-bold ml-5">Storefronts</div>
           <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
             <div className="text-white text-2xl">Testnet</div>
             <div>
@@ -159,7 +159,6 @@ function StorefrontDashboard(props) {
           </div>
         </div>
         <div>
-          <hr></hr>
           {storefrontData[0]?.network === "testnet" && (
             <div className="text-center">
               <div className="font-bold text-4xl p-5">
@@ -190,7 +189,7 @@ function StorefrontDashboard(props) {
                               src={
                                 storefront.image
                                   ? storefront.image
-                                  : "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png"
+                                  : "storefront.png"
                               }
                             ></img>
                           </div>
