@@ -30,7 +30,7 @@ jobs:
       - name: NextJS Build
         run: |
           npm ci
-          if [ "$GITHUB_REF_NAME" = main ]; then echo $DEV_ENV_FILE | base64 --decode > .env; fi
+          if [ "$GITHUB_REF_NAME" = main ]; then echo $DEV_ENV_FILE | base64 --decode > .env.local; fi
           npm run build
         env:
           DEV_ENV_FILE: ${{secrets.DEV_ENV_FILE}}
