@@ -52,8 +52,7 @@ const Instagen = (props) => {
 
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
- 
- 
+
   useEffect(() => {
     getBlocchain();
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
@@ -68,21 +67,9 @@ const Instagen = (props) => {
     );
   }, []);
 
-
-  const getBlocchain=async()=>{
-    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload)
-  }
-
-
-  uploadBlobGetHash = async (file) => {
-    try {
-      const blobDataImage = new Blob([file]);
-      const metaHash = await client.storeBlob(blobDataImage);
-      return metaHash;
-    } catch (error) {
-      console.log("error while upload image", error);
-    }
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
   };
 
   const instaGenContarctData = () => {
@@ -109,8 +96,8 @@ const Instagen = (props) => {
             network: "maticmum",
             storefrontId: props?.router?.query?.storefrontId,
             collectionName: contractName,
-            thumbnail:thumbnail,
-            coverImage:uploadImageCover
+            thumbnail: thumbnail,
+            coverImage: uploadImageCover,
           },
           {
             headers: {
@@ -127,8 +114,8 @@ const Instagen = (props) => {
         })
 
         .catch((error) => {
-         console.log('error',error)
-         showError();
+          console.log("error", error);
+          showError();
         })
         .finally(() => {
           setLoading(false);
@@ -221,12 +208,11 @@ const Instagen = (props) => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail:
-        "Error While deploying Instagen contract",
+      detail: "Error While deploying Instagen contract",
       life: 2000,
     });
   };
-  const  uploadBlobGetHash = async (file) => {
+  const uploadBlobGetHash = async (file) => {
     try {
       const blobDataImage = new Blob([file]);
       const metaHash = await client.storeBlob(blobDataImage);
@@ -264,7 +250,6 @@ const Instagen = (props) => {
     }
   };
 
-
   const onChangeZipFile = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
@@ -294,9 +279,7 @@ const Instagen = (props) => {
           <div className="mt-5 text-xl">Deploying storefront Webapp</div>
         </div>
       </Dialog>
-      <div
-      
-      >
+      <div>
         <div>
           <div
             className="flex justify-content-between p-3"
@@ -306,16 +289,19 @@ const Instagen = (props) => {
               Step 2 : Deploy InstaGen
             </div>
             <div className="mt-5">
-            
-              <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
-
+              <span className="blockchain-label">
+                {storefrontData?.payload?.blockchain}
+              </span>
             </div>
           </div>
 
           <div className="flex justify-content-center gap-5">
             <div
-              className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
-
+              className={`${
+                layoutConfig.colorScheme === "light"
+                  ? "back-color"
+                  : "back-color-black"
+              }  p-5 mt-5`}
               style={{ width: "50%" }}
             >
               <div className="p-heading">Enter InstaGen Name</div>
@@ -459,26 +445,26 @@ const Instagen = (props) => {
                 </div>
               </div>
               <div className="mt-5 p-heading">Upload Zip File</div>
-              <div className="mt-3"
-                  style={{
-                    border: "1px solid",
-                    padding: "15px",
-                    
+              <div
+                className="mt-3"
+                style={{
+                  border: "1px solid",
+                  padding: "15px",
+                }}
+              >
+                <FileUpload
+                  type="file"
+                  onSelect={(event) => {
+                    onChangeZipFile(event);
                   }}
-                >
-                  <FileUpload
-                    type="file"
-                    onSelect={(event) => {
-                      onChangeZipFile(event);
-                    }}
-                    uploadHandler={(e) =>
-                      console.log("File upload handler", e.files)
-                    }
-                    value={zipfile}
-                    accept="image/*"
-                    maxFileSize={1000000}
-                  />
-                </div>
+                  uploadHandler={(e) =>
+                    console.log("File upload handler", e.files)
+                  }
+                  value={zipfile}
+                  accept="image/*"
+                  maxFileSize={1000000}
+                />
+              </div>
               <div className="flex mt-5 justify-content-center">
                 <div>
                   <Button
@@ -492,7 +478,7 @@ const Instagen = (props) => {
                   />
                 </div>
               </div>
-             
+
               <Toast ref={toast} />
             </div>
           </div>
