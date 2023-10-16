@@ -141,8 +141,7 @@ export default function BuyNft() {
               ></Button>
             </div>
           </div>
-          <div className="p-5 subscribe-modal subscribe-modal2" style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
-}}>
+          <div   className= "disabledbutton p-5 subscribe-modal subscribe-modal2" style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",}}>
             <div className="font-bold text-6xl text-center mt-5">Pro</div>
             <div className="text-2xl mb-5 text-center">$99/Month</div>
             <div className="mt-5  plan-des " style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>

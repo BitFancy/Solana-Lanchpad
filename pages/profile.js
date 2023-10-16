@@ -689,14 +689,14 @@ function Profile() {
            
 
 
-            <Link 
+            {/* <Link 
               href={{
                 pathname: "/buySubscription",
                 
               }}
             >
               <Button label="Upgrade plan" rounded />
-            </Link>
+            </Link> */}
 
           </div>
 

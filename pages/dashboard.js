@@ -47,21 +47,22 @@ function StorefrontDashboard(props) {
   const getStorefrontData = () => {
     const token = localStorage.getItem("platform_token");
     axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront`, {
+      .get(`${BASE_URL_LAUNCH}api/v1.0/storefront/myStorefronts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(async (response) => {
+      .then(async (payload) => {
+        console.log('payload',payload)
         setLoading(true);
-        if (response?.data?.length > 0) {
+        if (payload?.data?.payload.length > 0) {
           setStorefrontData(
-            response.data.filter((sf) => sf.walletAddress === address)
+            payload?.data?.payload.filter((sf) => sf.walletAddress === address)
           );
-          setNetwork(response.data.filter((sf) => sf.network === "testnet"));
+          setNetwork(payload?.data?.payload.filter((sf) => sf.network === "testnet"));
           console.log(
             "net",
-            response.data.filter((sf) => sf.network === "testnet")
+            payload?.data?.payload.filter((sf) => sf.network === "testnet")
           );
         }
         setLoading(false);
@@ -135,7 +136,7 @@ function StorefrontDashboard(props) {
                 ></Button>
               </Link>
             </div>
-            <div>
+            {/* <div>
               {plan === "basic" && (
                 <Link 
                 href={{
@@ -155,7 +156,7 @@ function StorefrontDashboard(props) {
 
               </Link>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
         <div>

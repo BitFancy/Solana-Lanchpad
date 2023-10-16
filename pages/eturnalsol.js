@@ -47,7 +47,9 @@ class Eturnulsol extends React.Component {
     this.initialState = { ...copyState };
   }
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
+    const { payload } = await getStorefrontByID(
+      this.props.router.query.storefrontId
+    );
     this.setState({ storefrontData: payload });
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
@@ -56,7 +58,6 @@ class Eturnulsol extends React.Component {
     );
   }
 
-  
   showError() {
     this.toast.show({
       severity: "error",
@@ -78,7 +79,7 @@ class Eturnulsol extends React.Component {
     );
     return data;
   };
-  eturnulsolData = async() => {
+  eturnulsolData = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = this.onClickButton();
     if (valid) {
@@ -97,7 +98,7 @@ class Eturnulsol extends React.Component {
             life: 10000,
           });
         };
-       showSuccessPro();
+        showSuccessPro();
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
@@ -126,9 +127,8 @@ class Eturnulsol extends React.Component {
           }
         )
         .then(async (response) => {
-        
           setTimeout(() => {
-            this.setState({ loading: false ,visible:true});
+            this.setState({ loading: false, visible: true });
           }, 2000);
           this.setState({ eturnalsolResponse: response.data.contractAddress });
           this.setState({ storefrontId: response.data.storefrontId });
@@ -228,9 +228,7 @@ class Eturnulsol extends React.Component {
         title="Deploy Eturnalsol"
         description="This is use to show information of the deploy Eturnalsol contract"
       >
-        <div
-         
-        >
+        <div>
           <Dialog
             visible={this.state.visible}
             style={{ width: "30vw", height: "18vw" }}
@@ -250,7 +248,6 @@ class Eturnulsol extends React.Component {
                 Step 2 : Deploy EternalSoul
               </div>
               <div className="mt-5">
-              
                 <span className="blockchain-label">
                   {this.state.storefrontData?.blockchain}
                 </span>
@@ -258,8 +255,11 @@ class Eturnulsol extends React.Component {
             </div>
             <div className="flex justify-content-center gap-5">
               <div
-                className={`${this.context.layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  mt-5 p-5`} 
-
+                className={`${
+                  this.context.layoutConfig.colorScheme === "light"
+                    ? "back-color"
+                    : "back-color-black"
+                }  mt-5 p-5`}
                 style={{ width: "50%" }}
               >
                 <div className="text-center mt-5">
@@ -387,12 +387,17 @@ class Eturnulsol extends React.Component {
                             borderRadius: "10px",
                           }}
                         >
-                          <i
-                            onClick={() =>
-                              this.navigateTo("/launchSignatureseries")
-                            }
-                            className="pi pi-plus cursor-pointer"
-                          ></i>
+                          <Link
+                            href={{
+                              pathname: "/launchSignatureseries",
+                              query: {
+                                storefrontId:
+                                  this.props?.router?.query?.storefrontId,
+                              },
+                            }}
+                          >
+                            <i className="pi pi-plus cursor-pointer"></i>
+                          </Link>
                         </div>
                       </div>
                     </>

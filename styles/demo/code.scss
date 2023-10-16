@@ -192,6 +192,10 @@ background-clip: text;
    
 
 }
+.disabledbutton{
+    pointer-events: none;
+    opacity: 0.4;
+}
 
 .subscription-back-part-get-all {
     background-color: #5347E7;

@@ -49,9 +49,10 @@ class SignatureSeries extends React.Component {
     this.initialState = { ...copyState };
   }
 
-  
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(this.props.router.query.storefrontId);
+    const { payload } = await getStorefrontByID(
+      this.props.router.query.storefrontId
+    );
     this.setState({ storefrontData: payload });
     getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
       (response) => {
@@ -155,7 +156,7 @@ class SignatureSeries extends React.Component {
             life: 10000,
           });
         };
-       showSuccessPro();
+        showSuccessPro();
         setTimeout(() => {
           this.setState({ loading: false });
         }, 2000);
@@ -255,9 +256,7 @@ class SignatureSeries extends React.Component {
             <div className="mt-5 text-xl">Deploying storefront Webapp</div>
           </div>
         </Dialog>
-        <div
-         
-        >
+        <div>
           <div>
             <div
               className="flex justify-content-between p-3"
@@ -274,8 +273,11 @@ class SignatureSeries extends React.Component {
             </div>
             <div className="flex justify-content-center gap-5">
               <div
-                className={`${this.context.layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  mt-5 p-5`} 
-
+                className={`${
+                  this.context.layoutConfig.colorScheme === "light"
+                    ? "back-color"
+                    : "back-color-black"
+                }  mt-5 p-5`}
                 style={{ width: "50%" }}
               >
                 <div className="text-center mt-5">
@@ -406,12 +408,17 @@ class SignatureSeries extends React.Component {
                             borderRadius: "10px",
                           }}
                         >
-                          <i
-                            onClick={() =>
-                              this.navigateTo("/launchSignatureseries")
-                            }
-                            className="pi pi-plus cursor-pointer"
-                          ></i>
+                          <Link
+                            href={{
+                              pathname: "/launchSignatureseries",
+                              query: {
+                                storefrontId:
+                                  this.props?.router?.query?.storefrontId,
+                              },
+                            }}
+                          >
+                            <i className="pi pi-plus cursor-pointer"></i>
+                          </Link>
                         </div>
                       </div>
                     </>
