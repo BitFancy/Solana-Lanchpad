@@ -10,6 +10,7 @@ import LayoutDashbord from "../Components/LayoutDashbord";
 import axios from "axios";
 import { withRouter } from "next/router";
 import { Dialog } from "primereact/dialog";
+import { FileUpload } from "primereact/fileupload";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -63,7 +64,21 @@ function MarkeplaceDetailsForm(props) {
       return metaHash;
     } catch (error) {}
   }
-
+  async function onChangeThumbnailRelavent(e) {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setuploadImageRelavent(metaHashURI);
+    } catch (error) {
+      showErroruploadImage();
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function onChangeThumbnailCover(e) {
     const file = e.files[0];
@@ -80,7 +95,6 @@ function MarkeplaceDetailsForm(props) {
       setLoading(false);
     }
   }
-  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
 
   async function onChangeThumbnail(e) {
     const file = e.files[0];
@@ -218,6 +232,39 @@ function MarkeplaceDetailsForm(props) {
       });
   };
 
+  const getMetaHashURI = (metaHash) => `ipfs://${metaHash}`;
+
+  async function onChangeThumbnailProfile(e) {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setuploadImageProfile(metaHashURI);
+    } catch (error) {
+      showErroruploadImage();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onChangeThumbnailCover(e) {
+    const file = e.files[0];
+    const thumbnail = new File([file], file.name, {
+      type: file.type,
+    });
+    try {
+      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHashURI = getMetaHashURI(metaHash);
+      setuploadImageCover(metaHashURI);
+    } catch (error) {
+      showErroruploadImage();
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <LayoutDashbord
       title="Web App "
@@ -311,7 +358,7 @@ function MarkeplaceDetailsForm(props) {
               <div className="flex justify-content-between">
                 <div className="  mt-2" style={{ width: "45%" }}>
                   <InputText
-                    value={sftregion}
+                    value={webappData.region ? webappData.region : sftregion}
                     onChange={handleInputstfregion}
                     className="p-2 input-back w-full"
                   />
@@ -321,7 +368,7 @@ function MarkeplaceDetailsForm(props) {
                 </div>
                 <div className="  mt-2" style={{ width: "45%" }}>
                   <InputText
-                    value={sfttype}
+                    value={webappData.type ? webappData.type : sfttype}
                     onChange={handleInputstftype}
                     className="p-2 input-back w-full"
                   />
@@ -337,7 +384,9 @@ function MarkeplaceDetailsForm(props) {
               <div className="flex justify-content-between ">
                 <div className="  mt-2" style={{ width: "45%" }}>
                   <InputText
-                    value={sftcategory}
+                    value={
+                      webappData.category ? webappData.category : sftcategory
+                    }
                     onChange={handleInputstfcategory}
                     className="p-2 input-back w-full"
                   />
@@ -347,7 +396,7 @@ function MarkeplaceDetailsForm(props) {
                 </div>
                 <div className="  mt-2" style={{ width: "45%" }}>
                   <InputText
-                    value={stftag}
+                    value={webappData.tags ? webappData.tags : stftag}
                     onChange={handleInputstftag}
                     className="p-2 input-back w-full"
                   />
@@ -355,6 +404,78 @@ function MarkeplaceDetailsForm(props) {
                     {!stftag ? errors.stftagError : ""}
                   </p>
                 </div>
+              </div>
+
+              <div className="flex justify-content-between mt-5">
+                <div className="mt-5">Upload Profile Image:</div>
+                <div className="mt-5">Upload Cover Image:</div>
+              </div>
+              <div className="flex justify-content-between">
+                <div
+                  className="mt-3"
+                  style={{ padding: "20px", border: "1px solid" }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnailProfile(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={
+                      webappData.profileImage
+                        ? webappData.profileImage
+                        : uploadImageProfile
+                    }
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+
+                <div
+                  className="mt-3"
+                  style={{ padding: "20px", border: "1px solid" }}
+                >
+                  <FileUpload
+                    type="file"
+                    onSelect={(event) => {
+                      onChangeThumbnailCover(event);
+                    }}
+                    uploadHandler={(e) =>
+                      console.log("File upload handler", e.files)
+                    }
+                    value={
+                      webappData.coverImage
+                        ? webappData.coverImage
+                        : uploadImageCover
+                    }
+                    accept="image/*"
+                    maxFileSize={1000000}
+                  />
+                </div>
+              </div>
+              <div className="mt-5">Upload Relevent Image</div>
+              <div
+                className="mt-2"
+                style={{ padding: "20px", border: "1px solid" }}
+              >
+                <FileUpload
+                  type="file"
+                  onSelect={(event) => {
+                    onChangeThumbnailRelavent(event);
+                  }}
+                  uploadHandler={(e) =>
+                    console.log("File upload handler", e.files)
+                  }
+                  value={
+                    webappData.relevantImage
+                      ? webappData.relevantImage
+                      : uploadImageRelavent
+                  }
+                  accept="image/*"
+                  maxFileSize={1000000}
+                />
               </div>
 
               <div className="mt-5 text-center text-3xl font-bold">

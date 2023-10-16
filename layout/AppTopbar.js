@@ -101,23 +101,12 @@ function AppTopbar() {
             className="profile-drop bg-white p-3"
             style={{
               borderRadius: "10px",
-              marginTop: "200px",
+              marginTop: "165px",
               position: "absolute",
-              right: "60px",
+              right: "0px",
               border:'1px solid'
             }}
           >
-            {/* <div style={{ color: "black" }} className="flex gap-2">
-              <div>
-                <i className="pi pi-pencil"></i>
-              </div>
-              <Link style={{ color: "black" }} href="/addProfileDetails">
-                <div>
-                  <div className="font-bold">Create profile</div>
-                </div>
-              </Link>
-            </div> */}
-            {/* <div className="border-bottom-das"></div> */}
 
             <div  style={{ color: "black" }} className="flex gap-2 mt-2 ">
               <div>

@@ -322,7 +322,7 @@ const EternumPass = (props) => {
             <div style={{ width: "50%" }}
              className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
             >
-              <div className="p-heading">Enter EternumPass Name</div>
+              <div className="p-heading">Enter Eternum Pass Name</div>
               <div className="mt-3">
                 <InputText
                   className="p-2 input-back w-full "
@@ -334,7 +334,7 @@ const EternumPass = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5 p-heading">Enter EternumPass Symbol</div>
+              <div className="mt-5 p-heading">Enter Eternum Pass Symbol</div>
 
               <div className="  mt-3">
                 <InputText
@@ -347,7 +347,7 @@ const EternumPass = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5 p-heading">Enter Public SalePrice</div>
+              <div className="mt-5 p-heading">Sale Price</div>
 
               <div className="  mt-3">
                 <InputText
@@ -360,7 +360,7 @@ const EternumPass = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5">Enter Platform Fees Base Price</div>
+              <div className="mt-5">Platform Fee BasisPoint</div>
 
               <div className=" mt-3">
                 <InputText
@@ -378,7 +378,7 @@ const EternumPass = (props) => {
                 </p>
               </div>
               <div className="mt-5 p-heading">
-                Enter Subscription Price Per month
+              Subscription Price/month
               </div>
 
               <div className=" mt-3">
@@ -392,7 +392,7 @@ const EternumPass = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5 p-heading">Enter Royalty BPS</div>
+              <div className="mt-5 p-heading">Royalty BPS</div>
 
               <div className=" mt-3">
                 <InputText

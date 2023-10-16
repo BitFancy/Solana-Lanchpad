@@ -329,7 +329,7 @@ const Instagen = (props) => {
                 </p>
               </div>
 
-              <div className="mt-5 p-heading">Enter SalePrice</div>
+              <div className="mt-5 p-heading">Enter Sale Price</div>
 
               <div className="  mt-3">
                 <InputText
