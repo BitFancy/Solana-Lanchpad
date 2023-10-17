@@ -16,22 +16,13 @@ function StorefrontDashboard(props) {
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [loading4, setLoading4] = useState(false);
-  const [plan, setsetPlan] = useState(null);
   const [checked, setChecked] = useState(false);
   const [network, setNetwork] = useState([]);
-
-  const [marketpalceUrl, setmarketplaceUrl] = useState("");
-  useEffect(() => {
-    setmarketplaceUrl(props.router.query.newMarketplaceUrl);
-  }, [props.router.query.newMarketplaceUrl]);
   const toaste = useRef(null);
   const { address } = useAccount();
   console.log("redirectmarketplaceUrl", props.router.query.newMarketplaceUrl);
   useEffect(() => {
     getStorefrontData();
-    setsetPlan(
-      JSON.parse(localStorage.getItem("profiledetails"))?.plan ?? null
-    );
   }, []);
 
   const handleChange = (val) => {

@@ -17,16 +17,13 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 function AddStorefront() {
   const router = useRouter();
-  const [selecteBlockchaine, setselectedBlockchaine] = useState(null);
+  const [selecteBlockchaine, setselectedBlockchaine] = useState('polygon');
   const blockchain = [
-    { name: "polygon", value: "polygon" },
-    { name: "Ethereum", value: "ethereum" },
-    { name: "Arbitrum", value: "arbitrum" },
-    { name: "Optimism", value: "optimism" },
-    { name: "Base", value: "base" },
-   
-
-
+    { label: "polygon", value: "polygon" },
+    { label: "Ethereum", value: "ethereum" },
+    { label: "Arbitrum", value: "arbitrum" },
+    { label: "Optimism", value: "optimism" },
+    { label: "Base", value: "base" },
   ];
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -148,7 +145,7 @@ function AddStorefront() {
         })
         .catch((error) => {
           console.log(error);
-          showError();
+          // showError();
         })
         .finally(() => {
           setLoading(false);
@@ -258,11 +255,10 @@ function AddStorefront() {
               <div className="mt-3">
                 <Dropdown
                   value={selecteBlockchaine}
-                  onChange={(e) => setselectedBlockchaine(e.value)}
                   options={blockchain}
-                  optionLabel="name"
                   placeholder="Select Blockchain "
                   className="w-full "
+                  onChange={({ value }) => setselectedBlockchaine(value)}
                 />
               </div>
 

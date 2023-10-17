@@ -25,11 +25,6 @@ function Step1(props) {
   });
   const router = useRouter();
   useEffect(() => {
-    if (localStorage.getItem("tradhubAddress")) {
-      router.push({
-        path: "/launchSignatureseries"
-      });
-    }
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then((response)=>{
       setaccessMasterAddress(response[0]?.contractAddress);
     })

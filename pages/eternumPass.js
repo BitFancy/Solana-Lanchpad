@@ -311,7 +311,7 @@ const EternumPass = (props) => {
             style={{ borderBottom: "2px solid" }}
           >
             <div className=" p-5 font-bold text-3xl text-center p-heading">
-              Step 2 : Deploy EternumPass
+              Deploy EternumPass
             </div>
             <div className="mt-5">
               <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>

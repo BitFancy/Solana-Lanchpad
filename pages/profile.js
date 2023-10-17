@@ -173,7 +173,7 @@ function Profile() {
         profilePictureUrl: "https://unsplash.it/500",
         location: "delhi",
         bio: "test",
-        coverPictureUrl: "https://w.wallhaven.cc/full/l3/wallhaven-l3qpeq.jpg",
+        coverPictureUrl: "https://unsplash.it/500",
         plan: "basic",
       });
 
@@ -677,7 +677,13 @@ function Profile() {
               position: "absolute",
             }}
           >
-            <Button    onClick={authorize} label="Login" rounded />
+          {!profileDetails && <div>
+
+<Button    onClick={authorize} label="Login" rounded />  
+</div>
+ } 
+           
+
           </div>
           <div
             style={{

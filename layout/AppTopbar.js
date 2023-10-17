@@ -13,6 +13,8 @@ import { useAccount, useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter, withRouter } from "next/router";
 import axios from "axios";
+import { Toast } from "primereact/toast";
+
 function AppTopbar() {
   const {  isConnected } = useAccount();
   const { disconnect } = useDisconnect();
@@ -20,18 +22,41 @@ function AppTopbar() {
   const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
   const [getplan, setpaln] = useState('');
-  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  const [profiledetails, setprofiledetails] = useState('');
 
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  const toast = useRef(null);
+  const showSuccessPro = () => {
+    toast.current.show({
+      severity: "warn",
+      detail: 'Please connect to  your wallet frist',
+      life: 10000,
+    });
+  };
+  const showLogout = () => {
+    toast.current.show({
+      severity: "success",
+      detail: 'User Logout Successfully',
+      life: 10000,
+    });
+  };
   const router = useRouter();
   useEffect(() => {
     getPlan();
     if (!localStorage.getItem("wagmi.connected")) {
       router.push("/");
     }
+   
+
+    // if(! localStorage.getItem("profiledetails")){
+      
+    // }
   }, []);
   const logout=()=>{
     disconnect,
     localStorage.clear();
+    showLogout();
+
     router.push("/");
   }
   const getPlan=async()=>{
@@ -67,20 +92,18 @@ function AppTopbar() {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <Link
-          onClick={() =>
-            isConnected ? null : 'Please Connect to Your wallet'
-          }
-          href={
-            isConnected && !getplan ? "/buySubscription" : "/profile"
-          }
+         <Toast ref={toast} />
+        <a
+         onClick={() =>
+          isConnected ? null : showSuccessPro()}
+          href={isConnected && !getplan ? "/buySubscription" : "/profile" }
         >
-          <span className="font-bold text-white text-2xl">Launch</span>
-        </Link>
+          <span   className="font-bold text-white text-2xl">Launch</span>
+        </a>
 
         <Link
           onClick={() =>
-            isConnected ? null : alert("Please connect to Your wallet")
+            isConnected ? null : showSuccessPro()
           }
           href={isConnected ? "/dashboard" : ""}
         >
@@ -112,7 +135,10 @@ function AppTopbar() {
               <div>
                 <i className="pi pi-eye"></i>
               </div>
-              <Link style={{ color: "black" }} href="/profile">
+              <Link   onClick={() =>
+            isConnected ? null : showSuccessPro()
+          }
+          href={isConnected ? "/profile" : ""}  style={{ color: "black" }}>
                 <div>
                   <div className="font-bold">View profile</div>
                 </div>
@@ -121,19 +147,21 @@ function AppTopbar() {
             </div>
             <div className="border-bottom-das"></div>
 
-            <div onClick={logout} style={{ color: "black" }} className="flex gap-2 mt-2 p-heading">
-              <div>
-                <i className="pi pi-sign-out"></i>
-              </div>
-                <div className=" cursor-pointer">
-                  <div className="font-bold ">Logout</div>
-                </div>
+          {localStorage.getItem("profiledetails") &&
+          <div    onClick={logout} style={{ color: "black" }} className="flex gap-2 mt-2 p-heading">
+          <div>
+            <i className="pi pi-sign-out"></i>
+          </div>
+            <div className=" cursor-pointer">
+              <div className="font-bold ">Logout</div>
             </div>
+        </div>
+          } 
+           
           </div>
         )}
         <div>
           <AppConfig />
-          {/* <DarkTheme/> */}
         </div>
       </div>
     </div>

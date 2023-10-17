@@ -263,7 +263,7 @@ class SignatureSeries extends React.Component {
               style={{ borderBottom: "2px solid" }}
             >
               <div className=" p-5 font-bold text-3xl text-center text-black">
-                Step 2 : Deploy SignatureSeries
+               Deploy SignatureSeries
               </div>
               <div className="mt-5">
                 <span className="blockchain-label">

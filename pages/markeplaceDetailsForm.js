@@ -424,8 +424,8 @@ function MarkeplaceDetailsForm(props) {
                       console.log("File upload handler", e.files)
                     }
                     value={
-                      webappData.profileImage
-                        ? webappData.profileImage
+                      webappData.profileimage
+                        ? webappData.profileimage
                         : uploadImageProfile
                     }
                     accept="image/*"
@@ -441,13 +441,13 @@ function MarkeplaceDetailsForm(props) {
                     type="file"
                     onSelect={(event) => {
                       onChangeThumbnailCover(event);
-                    }}
+                  }}
                     uploadHandler={(e) =>
                       console.log("File upload handler", e.files)
                     }
                     value={
-                      webappData.coverImage
-                        ? webappData.coverImage
+                      webappData.Image
+                        ? webappData.Image
                         : uploadImageCover
                     }
                     accept="image/*"

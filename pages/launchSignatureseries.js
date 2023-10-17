@@ -1,13 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import LaunchContarctSidebar from "./launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import Layout2 from "../Components/Layout2";
 import { withRouter } from "next/router";
  function LaunchSignatureseries(props) {
   const [loading, setLoading] = useState(false);
-  const { layoutConfig } = useContext(LayoutContext);
   const load = () => {
     setLoading(true);
     setTimeout(() => {

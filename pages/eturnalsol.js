@@ -245,7 +245,7 @@ class Eturnulsol extends React.Component {
               style={{ borderBottom: "2px solid" }}
             >
               <div className=" p-5 font-bold text-3xl text-center text-black">
-                Step 2 : Deploy EternalSoul
+                Deploy EternalSoul
               </div>
               <div className="mt-5">
                 <span className="blockchain-label">
