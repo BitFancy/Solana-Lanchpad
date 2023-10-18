@@ -57,44 +57,7 @@ class UpdateMarketPlace extends React.Component {
   updateMarketplaceData = () => {
     const token = localStorage.getItem("platform_token");
    const valid= this.onClickButton();
-  //  if(valid){
-  //   axios
-  //   .post(
-  //     `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
-  //     {
-  //       contractName: "SignatureSeries",
-  //       constructorParams: {
-  //         param1: this.state.tradhubFees,
-  //         param2: this.state.contractAddress,
-  //         param3: "0x1B8683e1885B3ee93524cD58BC10Cf3Ed6af4298",
-  //         param4: "0xEFf4209584cc2cE0409a5FA06175002537b055DC",
-  //       },
-  //       network: "maticmum",
-  //     },
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     }
-  //   )
-  //   .then(async (response) => {
-  //     this.showSuccess();
-
-  //     setTimeout(() => {
-  //       this.setState({ loading: false });
-  //     }, 2000);
-  //     this.setState({
-  //       signatureseriesRespoanse: response.data.contractAddress,
-  //     });
-  //   })
-
-  //   .catch(() => {
-  //     this.showError();
-  //   })
-  //   .finally(() => {
-  //     this.setState({ loading: false });
-  //   });
-  //  }
+  
   this.setState({ visible: true });
 
    

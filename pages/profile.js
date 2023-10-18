@@ -94,26 +94,18 @@ function Profile() {
     walletAddress: "",
     coverPictureUrl: "",
   };
-
-  const [hasRole, setHasRole] = useState(true);
   const [visible, setVisible] = useState(false);
   const [profileData, setProfileData] = useState({ ...profile });
   const [updateProfile, setupdateProfile] = useState({ ...profile });
   const [profileDetails, setprofileDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modal, setmodal] = useState(false);
-  const handleClos = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [getplan, setpaln] = useState('');
-
-  const [show, setShow] = useState(false);
-
   const router = useRouter();
   const [twitt, settwitt] = useState(null);
   const [discordData, setdiscordData] = useState(null);
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
-  const [planVar, setPlanVar] = useState(null);
   async function uploadImage(e) {
     e.preventDefault();
     try {
@@ -320,7 +312,6 @@ function Profile() {
         } = res;
 
         console.log(res.data);
-        setPlanVar(res.data.payload.plan);
         setProfileData({
           ...profileData,
           name,

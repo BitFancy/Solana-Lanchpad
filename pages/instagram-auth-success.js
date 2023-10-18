@@ -37,9 +37,7 @@ function InstagramAuthSuccess() {
         const data = await response.json();
 
         if (data.access_token) {
-          // Fetch user data using the access token
           const user = await fetchUserData(data.access_token);
-
           setUserData(user);
         }
       }

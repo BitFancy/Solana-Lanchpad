@@ -11,7 +11,7 @@ function LaunchContarctSidebar(props) {
       <Link
         href={{
           pathname: "/launchSignatureseries",
-          query: { storefrontId: props?.router?.query?.storefrontId}
+          query: { storefrontId: props?.router?.query?.storefrontId },
         }}
         style={{ color: "white" }}
       >
@@ -25,7 +25,7 @@ function LaunchContarctSidebar(props) {
       <Link
         href={{
           pathname: "/launchFusionseries",
-          query: { storefrontId: props?.router?.query?.storefrontId},
+          query: { storefrontId: props?.router?.query?.storefrontId },
         }}
         style={{ color: "white" }}
       >
@@ -39,7 +39,7 @@ function LaunchContarctSidebar(props) {
       <Link
         href={{
           pathname: "/launcheturnulsol",
-          query: { storefrontId: props?.router?.query?.storefrontId},
+          query: { storefrontId: props?.router?.query?.storefrontId },
         }}
         style={{ color: "white" }}
       >
@@ -65,7 +65,7 @@ function LaunchContarctSidebar(props) {
       <Link
         href={{
           pathname: "/launcheteriumpass",
-          query: { storefrontId: props?.router?.query?.storefrontId},
+          query: { storefrontId: props?.router?.query?.storefrontId },
         }}
         style={{ color: "white" }}
       >
@@ -91,7 +91,7 @@ function LaunchContarctSidebar(props) {
       <Link
         href={{
           pathname: "/launchInstagen",
-          query: { storefrontId: props?.router?.query?.storefrontId},
+          query: { storefrontId: props?.router?.query?.storefrontId },
         }}
         style={{ color: "white" }}
       >
@@ -114,7 +114,6 @@ function LaunchContarctSidebar(props) {
           <div className="edition-note">Instagen</div>
         </div>
       </Link>
-   
     </div>
   );
 }

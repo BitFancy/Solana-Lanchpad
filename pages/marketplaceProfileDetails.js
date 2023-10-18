@@ -41,9 +41,7 @@ import axios from "axios";
             <div>
               <img
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                // src={data?.payload?.Image?data?.payload?.Image:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png'}
-               src={data?.payload?.Image}
-
+                src={data?.Image?data?.Image:'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png'}
               ></img>
             </div>
             <div className="ml-3">

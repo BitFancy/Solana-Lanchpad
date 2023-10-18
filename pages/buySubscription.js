@@ -1,20 +1,16 @@
 import { ethers } from "ethers";
 import { Button } from "primereact/button";
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import subscriptionAbi from "../artifacts/contracts/abi.json";
 import { Toast } from "primereact/toast";
 import { useContract, useSigner } from "wagmi";
 import axios from "axios";
 import Layout2 from "../Components/Layout2";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import { useRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 export default function BuyNft() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const { layoutConfig } = useContext(LayoutContext);
-  const [basicResponse, setbasitResponse] = useState();
-  const [proResponse, setproResponse] = useState();
   const { data: signerData } = useSigner();
   const router = useRouter();
   const flowSubscriptionAddress =
@@ -50,7 +46,6 @@ export default function BuyNft() {
       });
 
       tx.wait().then(async (transaction) => {
-        setproResponse(transaction);
         showSuccessPro();
         setTimeout(() => {
           setLoading1(false);
@@ -81,7 +76,6 @@ export default function BuyNft() {
         }
       )
       .then(async (response) => {
-        setbasitResponse(response);
         showSuccessBasic();
         setTimeout(() => {
           setLoading(false);

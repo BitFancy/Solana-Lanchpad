@@ -38,7 +38,6 @@ const EternumPass = (props) => {
   const [storefrontData, setstorefrontData] = useState("");
   const [zipfile, setZipFile] = useState("");
 
-
   const { layoutConfig } = useContext(LayoutContext);
   const [errors, setErros] = useState({
     contractNameError: "",
@@ -50,13 +49,12 @@ const EternumPass = (props) => {
   });
 
   const [submitClicked, setSubmitClicked] = useState(false);
- 
+
   const showError = () => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail:
-        "Error While deploying Eternumpass contract",
+      detail: "Error While deploying Eternumpass contract",
       life: 2000,
     });
   };
@@ -64,7 +62,7 @@ const EternumPass = (props) => {
     getBlocchain();
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setAccessMasterAddress(response[0]?.contractAddress,);
+        setAccessMasterAddress(response[0]?.contractAddress);
       }
     );
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
@@ -74,11 +72,10 @@ const EternumPass = (props) => {
     );
   }, []);
 
-
-  const getBlocchain=async()=>{
-    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload)
-  }
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
+  };
   const [eturnumpassResponse, setEturnumpassResponse] = useState();
 
   const getAllContarctData = async () => {
@@ -93,7 +90,7 @@ const EternumPass = (props) => {
     );
     return data;
   };
-  const eturnumpassContarctData = async() => {
+  const eturnumpassContarctData = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
@@ -107,11 +104,11 @@ const EternumPass = (props) => {
         const showSuccessPro = () => {
           toast.current.show({
             severity: "warn",
-            detail:  `Contract name' ${contractName}' is already exist please Enter another name`,
+            detail: `Contract name' ${contractName}' is already exist please Enter another name`,
             life: 10000,
           });
         };
-       showSuccessPro();
+        showSuccessPro();
         setTimeout(() => {
           setLoading(false);
         }, 2000);
@@ -146,7 +143,7 @@ const EternumPass = (props) => {
         .then(async (response) => {
           setTimeout(() => {
             setLoading(false);
-            setVisible(true)
+            setVisible(true);
           }, 2000);
           setEturnumpassResponse(response.data.contractAddress);
         })
@@ -154,7 +151,6 @@ const EternumPass = (props) => {
         .catch((error) => {
           console.log(error);
           showError();
-
         })
         .finally(() => {
           setLoading(false);
@@ -257,7 +253,6 @@ const EternumPass = (props) => {
     }
   };
 
-
   const onChangeZipFile = async (e) => {
     const file = e.files[0];
     const thumbnail = new File([file], file.name, {
@@ -290,9 +285,7 @@ const EternumPass = (props) => {
       title="Deploy Eternumpass"
       description="This is use to show information of the deploy Eternumpass contract"
     >
-      <div
-       
-      >
+      <div>
         <Toast ref={toast} />
 
         <Dialog
@@ -314,13 +307,20 @@ const EternumPass = (props) => {
               Deploy EternumPass
             </div>
             <div className="mt-5">
-              <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+              <span className="blockchain-label">
+                {storefrontData?.payload?.blockchain}
+              </span>
             </div>
           </div>
 
           <div className="flex justify-content-center gap-5 mt-5">
-            <div style={{ width: "50%" }}
-             className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
+            <div
+              style={{ width: "50%" }}
+              className={`${
+                layoutConfig.colorScheme === "light"
+                  ? "back-color"
+                  : "back-color-black"
+              }  p-5 mt-5`}
             >
               <div className="p-heading">Enter Eternum Pass Name</div>
               <div className="mt-3">
@@ -377,9 +377,7 @@ const EternumPass = (props) => {
                     : ""}
                 </p>
               </div>
-              <div className="mt-5 p-heading">
-              Subscription Price/month
-              </div>
+              <div className="mt-5 p-heading">Subscription Price/month</div>
 
               <div className=" mt-3">
                 <InputText
@@ -452,28 +450,27 @@ const EternumPass = (props) => {
                 </div>
               </div>
 
-
               <div className="mt-5 p-heading">Upload Zip File</div>
-              <div className="mt-3"
-                  style={{
-                    border: "1px solid",
-                    padding: "15px",
-                    
+              <div
+                className="mt-3"
+                style={{
+                  border: "1px solid",
+                  padding: "15px",
+                }}
+              >
+                <FileUpload
+                  type="file"
+                  onSelect={(event) => {
+                    onChangeZipFile(event);
                   }}
-                >
-                  <FileUpload
-                    type="file"
-                    onSelect={(event) => {
-                      onChangeZipFile(event);
-                    }}
-                    uploadHandler={(e) =>
-                      console.log("File upload handler", e.files)
-                    }
-                    value={zipfile}
-                    accept="image/*"
-                    maxFileSize={1000000}
-                  />
-                </div>
+                  uploadHandler={(e) =>
+                    console.log("File upload handler", e.files)
+                  }
+                  value={zipfile}
+                  accept="image/*"
+                  maxFileSize={1000000}
+                />
+              </div>
 
               <div className="flex mt-5 justify-content-center">
                 <div>

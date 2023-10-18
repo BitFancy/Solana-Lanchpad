@@ -9,41 +9,18 @@ import Loader from "../Components/LoadingSpinner";
 import {  withRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
-import axios from "axios";
 import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
 function GetAllSignatureSeriesSeriesNft(props) {
-  console.log('props',props.router.query.redirectURL)
   const [assetsData, setAsseetsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
-
-  const [graphqlAPI, setgraphqlAPI] = useState("");
-  const getstorefrontdatabyId =async () => {
-    const token = localStorage.getItem("platform_token");
-    const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-    try {
-    const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-      })
-      const finalString = data?.payload?.subgraphUrl?.slice(0,data?.payload?.subgraphUrl?.indexOf("/graphql"))
-      setgraphqlAPI(finalString)
-
-      console.log('data in alleturnulsol',finalString)
-    } catch (error) {
-        console.log("error",error);
-    }
-    };
-
+  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress) 
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
      setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
      if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
       getSignetureSeriesAssets();
-      getstorefrontdatabyId();
      }
   }, [])
   

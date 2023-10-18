@@ -22,8 +22,6 @@ function AppTopbar() {
   const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
   const [getplan, setpaln] = useState('');
-  const [profiledetails, setprofiledetails] = useState('');
-
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const toast = useRef(null);
   const showSuccessPro = () => {
@@ -46,11 +44,6 @@ function AppTopbar() {
     if (!localStorage.getItem("wagmi.connected")) {
       router.push("/");
     }
-   
-
-    // if(! localStorage.getItem("profiledetails")){
-      
-    // }
   }, []);
   const logout=()=>{
     disconnect,

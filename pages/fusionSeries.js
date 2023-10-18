@@ -6,7 +6,6 @@ import { Toast } from "primereact/toast";
 import Router, { withRouter } from "next/router";
 import Link from "next/link";
 import Layout2 from "../Components/Layout2";
-import { Dropdown } from "primereact/dropdown";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
 const YOUR_API_KEY =
@@ -262,7 +261,7 @@ class FusionSeries extends React.Component {
               style={{ borderBottom: "2px solid" }}
             >
               <div className=" p-5 font-bold text-3xl text-center text-black">
-                 Deploy FusionSeries
+                Deploy FusionSeries
               </div>
               <div className="mt-5">
                 <span className="blockchain-label">

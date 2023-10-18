@@ -41,14 +41,7 @@ function AddStorefront() {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
 
-  const showError = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Error While creating storefront",
-      life: 10000,
-    });
-  };
+  
 
   async function uploadBlobGetHash(file) {
     try {

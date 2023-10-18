@@ -9,35 +9,16 @@ import Loader from "../Components/LoadingSpinner";
 import { ethers } from "ethers";
 import { withRouter } from "next/router";
 import Homecomp from "../Components/HomeCompo";
-import axios from "axios";
 import { getAllEternulsolNfts } from "./api/eternulsolAssets";
 function GetAllEternalSoulNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [graphqlAPI, setgraphqlAPI] = useState("");
   const toast = useRef(null);
   useEffect(() => {
     getEturnulsolAssets();
-    getstorefrontdatabyId();
   }, []);
   const testCTA = props.router.query.contractAddress;
-  const getstorefrontdatabyId =async () => {
-    const token = localStorage.getItem("platform_token");
-    const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-    try {
-    const {data}= await axios.get(`${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-      })
-      const finalString = data?.payload?.subgraphUrl?.slice(0,data?.payload?.subgraphUrl?.indexOf("/graphql"))
-      setgraphqlAPI(finalString)
-      console.log('data in alleturnulsol',finalString)
-    } catch (error) {
-        console.log("error",error);
-    }
-    };
   const getEturnulsolAssets = async () => {
     const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
     const {assetIssueds} = await getAllEternulsolNfts({endPoint: endPoint})
@@ -47,6 +28,7 @@ function GetAllEternalSoulNft(props) {
       (asset) => asset.transactionHash
     );
     const innerContractAddress = [];
+    setLoading(true);
     await Promise.all(
       tranasactionHashArray?.map(async (hash) => {
         const contractAddress = await provider.getTransaction(hash);

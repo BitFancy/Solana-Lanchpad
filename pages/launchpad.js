@@ -30,7 +30,7 @@ export default function Launchpad() {
       setLoading5(false);
     }, 2000);
   };
- 
+
   const load7 = () => {
     setLoading7(true);
 
@@ -61,9 +61,8 @@ export default function Launchpad() {
               <div>with Seamless Ease</div>
             </div>
           </div>
-           
         </div>
-      
+
         <div
           className="flex "
           style={{ marginTop: "150px", padding: "70px", gap: "50px" }}
@@ -115,13 +114,10 @@ export default function Launchpad() {
               style={{ textAlign: "end" }}
             >
               <div>Explore Fusion Series, an ERC-1155 NFT</div>
-              <div>collection merging unique digital assets  </div>
+              <div>collection merging unique digital assets </div>
               <div>with rich metadata for an enhanced</div>
               <div>NFT experience </div>
             </div>
-             
-
- 
 
             <div className="mt-5" style={{ textAlign: "end" }}>
               <Link href="/fusionSeries">
@@ -145,11 +141,7 @@ export default function Launchpad() {
               <div>with unique, indivisible, and limited-edition </div>
               <div>digital assets, elevating your digital art</div>
               <div>portfolio rarity and exclusivity </div>
-           
             </div>
-           
-
- 
 
             <div className="mt-5">
               <Link href="/instagen">
@@ -170,11 +162,9 @@ export default function Launchpad() {
           </div>
         </div>
         <div className="flex  mt-5" style={{ padding: "70px", gap: "50px" }}>
-          
-            <div style={{ width: "50%" }}>
-              <img src="dynamicrealms.png"></img>
-            </div>
-          
+          <div style={{ width: "50%" }}>
+            <img src="dynamicrealms.png"></img>
+          </div>
 
           <div style={{ width: "50%" }}>
             <div
@@ -192,8 +182,7 @@ export default function Launchpad() {
               <div>Contract are Based on Conditions.</div>
             </div>
             <div className="mt-5" style={{ textAlign: "end" }}>
-            <div className="font-bold p-heading text-3xl">Coming soon...</div>
-
+              <div className="font-bold p-heading text-3xl">Coming soon...</div>
             </div>
           </div>
         </div>
@@ -201,7 +190,9 @@ export default function Launchpad() {
         <div className="flex   mt-5" style={{ padding: "70px", gap: "50px" }}>
           <div style={{ width: "50%" }}>
             <div>
-              <div className="signature-series-head p-heading">Eternum Pass</div>
+              <div className="signature-series-head p-heading">
+                Eternum Pass
+              </div>
               <div className="mt-5 text-3xl p-heading">
                 <div>Eternum pass offers a unique subscription model </div>
                 <div>through its NFTs, enabling users to access </div>
@@ -209,10 +200,6 @@ export default function Launchpad() {
                 <div>duration, benefiting content creators and</div>
                 <div>providers</div>
               </div>
-               
-
- 
- 
 
               <div className="mt-5">
                 <Link href="/eternumPass">
@@ -260,12 +247,8 @@ export default function Launchpad() {
               <div>seamlessly uniting physical assets with </div>
               <div>blockchain technology</div>
             </div>
-           
- 
-
 
             <div className="mt-5" style={{ textAlign: "end" }}>
-             
               <div className="font-bold p-heading text-3xl">Coming soon...</div>
             </div>
           </div>
@@ -278,8 +261,6 @@ export default function Launchpad() {
               <div>as a public verification of an individual</div>
               <div>credentials, affiliations, and commitments</div>
             </div>
-             
-
 
             <div className="mt-5">
               <Link href="/eturnalsol">
@@ -326,9 +307,6 @@ export default function Launchpad() {
               <div>finances, and manage all contracts within </div>
               <div>the storefront</div>
             </div>
-            
-
-
 
             <div className="mt-5" style={{ textAlign: "end" }}>
               <Button

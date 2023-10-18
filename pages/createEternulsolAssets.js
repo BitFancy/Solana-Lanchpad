@@ -36,7 +36,6 @@ function CreateEternulsolAssets(props) {
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [model, setmodel] = useState(false);
   const [addImage, setAddImage] = useState(false);
   const [previewMedia, setpreviewMedia] = useState("");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
@@ -192,7 +191,6 @@ function CreateEternulsolAssets(props) {
       console.log("error while eturnulsole nft creation", error);
     }
     transactionFailed();
-    setmodel(false);
   }
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },

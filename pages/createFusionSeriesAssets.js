@@ -46,8 +46,6 @@ const style = {
   const handleShow = () => setShow(true);
   const [tradhubAddress, setTradhubAddress] = useState("");
   const contractFusionSeriesAddress = props.router.query.contractAddress;
-
-  const [model, setmodel] = useState(false);
   const [addImage, setAddImage] = useState(false);
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
@@ -206,7 +204,6 @@ const style = {
       return;
     }
     showProgress()
-    setmodel(true);
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
     try {
@@ -216,7 +213,7 @@ const style = {
         await createItem(ipfsHash, url);
       });
     } catch (error) {
-      setmodelmsg("Transaction failed");
+      console.log(error)
     } finally {
     }
   }

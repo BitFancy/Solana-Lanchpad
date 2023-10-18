@@ -14,10 +14,9 @@ function Step1(props) {
   const [loading, setLoading] = useState(false);
   const [platformFee, setPlatformfee] = useState();
   const [contractName, setContractName] = useState("");
-  const [tradhubResponse, settradhubResponse] = useState();
   const { layoutConfig } = useContext(LayoutContext);
   const [visible, setVisible] = useState(false);
-  const [accessMasterAddress, setaccessMasterAddress] = useState('');
+  const [accessMasterAddress, setaccessMasterAddress] = useState("");
 
   const [errors, setErros] = useState({
     platformFeeErrors: "",
@@ -25,10 +24,12 @@ function Step1(props) {
   });
   const router = useRouter();
   useEffect(() => {
-    getAccessMasterByStorefrontID(props.router.query.storefrontId).then((response)=>{
-      setaccessMasterAddress(response[0]?.contractAddress);
-    })
-  },[]);
+    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setaccessMasterAddress(response[0]?.contractAddress);
+      }
+    );
+  }, []);
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
   const getAllContarctData = async () => {
@@ -45,8 +46,7 @@ function Step1(props) {
   };
 
   const tradHubContarctData = async () => {
-
-    const token = localStorage.getItem("platform_token");    
+    const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
       const getcontractName = await getAllContarctData();
@@ -59,11 +59,11 @@ function Step1(props) {
         const showSuccessPro = () => {
           toast.current.show({
             severity: "warn",
-            detail:  `Contract name' ${contractName}' is already exist please Enter another name`,
+            detail: `Contract name' ${contractName}' is already exist please Enter another name`,
             life: 10000,
           });
         };
-       showSuccessPro();
+        showSuccessPro();
         setTimeout(() => {
           setLoading(false);
         }, 2000);
@@ -94,10 +94,9 @@ function Step1(props) {
             setLoading(false);
             setVisible(true);
           }, 2000);
-          settradhubResponse(response.data.contractAddress);
           router.push({
             pathname: "/launchSignatureseries",
-            query: { storefrontId: props?.router?.query?.storefrontId},
+            query: { storefrontId: props?.router?.query?.storefrontId },
           });
         })
         .catch(() => {
@@ -105,7 +104,7 @@ function Step1(props) {
             toast.current.show({
               severity: "error",
               summary: "Error",
-              detail:`Tradhub with id ${props?.router?.query?.storefrontId}'  is already exist Please continue to deploy Next contract`,
+              detail: `Tradhub with id ${props?.router?.query?.storefrontId}'  is already exist Please continue to deploy Next contract`,
               life: 2000,
             });
           };
@@ -146,17 +145,14 @@ function Step1(props) {
         onHide={() => setVisible(false)}
       >
         <div className="text-center">
-        <div className="font-bold text-2xl">Congrats!</div>
-        <div className="mt-5 text-xl">
-          Your Tradhub Contract has been sucessfully 
-          <div className="text-xl mt-2">Deployed</div>
+          <div className="font-bold text-2xl">Congrats!</div>
+          <div className="mt-5 text-xl">
+            Your Tradhub Contract has been sucessfully
+            <div className="text-xl mt-2">Deployed</div>
+          </div>
         </div>
-        </div>
-       
       </Dialog>
-      <div
-      
-      >
+      <div>
         <div>
           <div className="font-bold p-3 mb-5 text-3xl text-black ml-5 p-heading p-5">
             Step1: Setup TradeHub
@@ -164,7 +160,11 @@ function Step1(props) {
           <div className="border-bottom-das"></div>
 
           <div
-            className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
+            className={`${
+              layoutConfig.colorScheme === "light"
+                ? "back-color"
+                : "back-color-black"
+            }  p-5 mt-5`}
             style={{ width: "60%", margin: "0 auto", height: "350px" }}
           >
             <div className="flex justify-content-between">
@@ -213,12 +213,11 @@ function Step1(props) {
             <div className="flex mt-5 justify-content-between"></div>
           </div>
 
-
-          <Link 
-              href={{
-                pathname: "/launchSignatureseries",
-                query: { storefrontId: props?.router?.query?.storefrontId },
-              }}
+          <Link
+            href={{
+              pathname: "/launchSignatureseries",
+              query: { storefrontId: props?.router?.query?.storefrontId },
+            }}
           >
             <div className="mt-5 text-center">
               <Button label="Continue"></Button>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { LayoutContext } from "./context/layoutcontext";
-const AppConfig = (props) => {
+const AppConfig = () => {
   const { layoutConfig, setLayoutConfig } = useContext(LayoutContext);
 
   const changeTheme = (theme, colorScheme) => {

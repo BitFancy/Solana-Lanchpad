@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import accessMasterAbi from "../artifacts/contracts/accessmaster/AccessMaster.sol/AccessMaster.json";
 import { InputText } from "primereact/inputtext";
 import { useAccount, useEnsName } from "wagmi";
@@ -6,7 +6,6 @@ import { Button } from "primereact/button";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { ethers } from "ethers";
-import { LayoutContext } from "../layout/context/layoutcontext";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import { getAccessMasterByStorefrontID } from "../utils/util";
@@ -17,7 +16,6 @@ const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [role, setRole] = useState("");
   const [accessMasterAddress, setAccessMasterAddress] = useState("");
-  const { layoutConfig } = useContext(LayoutContext);
   const [userAdddress, setuserAdddress] = useState('0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f');
 
   useEffect(() => {

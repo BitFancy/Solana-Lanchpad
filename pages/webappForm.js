@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import axios from "axios";
 import { LayoutContext } from "../layout/context/layoutcontext";
-import Router,{ useRouter, withRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
@@ -28,7 +28,7 @@ function WebappForm(props) {
   const [twitter, settwitter] = useState();
   const [discord, setdiscord] = useState();
   const [instagram, setinstagram] = useState();
-  const router=useRouter();
+  const router = useRouter();
   const [errors, setErros] = useState({
     stfNameError: "",
     stfdescriptionError: "",
@@ -39,20 +39,18 @@ function WebappForm(props) {
     twitterError: "",
     discordError: "",
     instagramError: "",
-    stfcategoryError:"",
-    stftagError:"",
-    stftypeError:"",
-    stfregionError:"",
+    stfcategoryError: "",
+    stftagError: "",
+    stftypeError: "",
+    stfregionError: "",
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImageProfile, setuploadImageProfile] = useState("");
   const [uploadImageCover, setuploadImageCover] = useState("");
   const [uploadImageRelavent, setuploadImageRelavent] = useState("");
   const { layoutConfig } = useContext(LayoutContext);
- 
-  const addMarketplaceDetails = async () => {
-    // Router.push({pathname:"/successNoteContract",query:{redirectURL:'http://3.144.253.205:8000/subgraphs/name/alka/iidd/graphql'}})
 
+  const addMarketplaceDetails = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
@@ -79,7 +77,7 @@ function WebappForm(props) {
             region: sftregion,
             type: sfttype,
             category: sftcategory,
-            tags: stftag
+            tags: stftag,
           },
           {
             headers: {
@@ -88,17 +86,24 @@ function WebappForm(props) {
           }
         )
         .then(async (response) => {
-          const str = response.data.payload.graphUrl
-          const marketplaceUrl=response.data.payload.storefrontUrl
-          const finalString =str.slice(0,str.indexOf("graphql"))
+          const str = response.data.payload.graphUrl;
+          const marketplaceUrl = response.data.payload.storefrontUrl;
+          const finalString = str.slice(0, str.indexOf("graphql"));
           showSuccess();
           setTimeout(() => {
             setLoading(false);
-            router.push({pathname: "/successNoteContract",query: { storefrontId: props?.router?.query?.storefrontId,redirectURL: finalString,newMarketplaceUrl:marketplaceUrl}})
+            router.push({
+              pathname: "/successNoteContract",
+              query: {
+                storefrontId: props?.router?.query?.storefrontId,
+                redirectURL: finalString,
+                newMarketplaceUrl: marketplaceUrl,
+              },
+            });
           }, 2000);
         })
         .catch((error) => {
-          console.log('error while deploying storefront',error)
+          console.log("error while deploying storefront", error);
         })
         .finally(() => {
           setLoading(false);
@@ -115,8 +120,6 @@ function WebappForm(props) {
   const handleInputstfHeadline = (e) => {
     setstfheadline(e.target.value);
   };
-
- 
 
   const handleInputtagline = (e) => {
     settagline(e.target.value);
@@ -141,19 +144,15 @@ function WebappForm(props) {
 
   const handleInputstfregion = (e) => {
     setsftRegion(e.target.value);
-
   };
   const handleInputstftype = (e) => {
     setStType(e.target.value);
-
   };
   const handleInputstftag = (e) => {
     setStfTag(e.target.value);
-
   };
   const handleInputstfcategory = (e) => {
     setStfCategory(e.target.value);
-
   };
   const showSuccess = () => {
     toast.current.show({
@@ -163,7 +162,6 @@ function WebappForm(props) {
       life: 1000,
     });
   };
-
 
   const onClickButton = () => {
     if (!stfName) {
@@ -197,7 +195,7 @@ function WebappForm(props) {
       stfName &&
       stfdescription &&
       stfheadline &&
-       tagline &&
+      tagline &&
       tagdescription &&
       email &&
       twitter &&
@@ -289,7 +287,7 @@ function WebappForm(props) {
   return (
     <div>
       <AppTopbar />
-      <div >
+      <div>
         <div className="font-bold text-3xl p-5 text-center">
           Make Your Marketplace Shine
         </div>
@@ -298,8 +296,11 @@ function WebappForm(props) {
         <hr></hr>
         <div className="flex">
           <div
-            className={`${layoutConfig.colorScheme === 'light' ? 'back-color' : 'back-color-black' }  p-5 mt-5`} 
-
+            className={`${
+              layoutConfig.colorScheme === "light"
+                ? "back-color"
+                : "back-color-black"
+            }  p-5 mt-5`}
             style={{ width: "80%", margin: "0 auto" }}
           >
             <div className="mt-5 text-center font-bold text-3xl">
@@ -349,54 +350,53 @@ function WebappForm(props) {
               <div>Type</div>
             </div>
             <div className="flex justify-content-between">
-            <div className="  mt-2" style={{width:'45%'}}>
-              <InputText
-                value={sftregion}
-                onChange={handleInputstfregion}
-                className="p-2 input-back w-full"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!sftregion ? errors.stfregionError : ""}
-              </p>
-            </div>
-            <div className="  mt-2" style={{width:'45%'}}>
-              <InputText
-                value={sfttype}
-                onChange={handleInputstftype}
-                className="p-2 input-back w-full"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!sfttype ? errors.stftypeError : ""}
-              </p>
-            </div>
+              <div className="  mt-2" style={{ width: "45%" }}>
+                <InputText
+                  value={sftregion}
+                  onChange={handleInputstfregion}
+                  className="p-2 input-back w-full"
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!sftregion ? errors.stfregionError : ""}
+                </p>
+              </div>
+              <div className="  mt-2" style={{ width: "45%" }}>
+                <InputText
+                  value={sfttype}
+                  onChange={handleInputstftype}
+                  className="p-2 input-back w-full"
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!sfttype ? errors.stftypeError : ""}
+                </p>
+              </div>
             </div>
             <div className="flex mt-5 justify-content-between">
               <div>Category</div>
               <div>tag</div>
             </div>
             <div className="flex justify-content-between ">
-            <div className="  mt-2" style={{width:'45%'}}>
-              <InputText
-                value={sftcategory}
-                onChange={handleInputstfcategory}
-                className="p-2 input-back w-full"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!sftcategory ? errors.stfcategoryError : ""}
-              </p>
+              <div className="  mt-2" style={{ width: "45%" }}>
+                <InputText
+                  value={sftcategory}
+                  onChange={handleInputstfcategory}
+                  className="p-2 input-back w-full"
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!sftcategory ? errors.stfcategoryError : ""}
+                </p>
+              </div>
+              <div className="  mt-2" style={{ width: "45%" }}>
+                <InputText
+                  value={stftag}
+                  onChange={handleInputstftag}
+                  className="p-2 input-back w-full"
+                />
+                <p style={{ textAlign: "left", color: "red" }}>
+                  {!stftag ? errors.stftagError : ""}
+                </p>
+              </div>
             </div>
-            <div className="  mt-2" style={{width:'45%'}}>
-              <InputText
-                value={stftag}
-                onChange={handleInputstftag}
-                className="p-2 input-back w-full"
-              />
-              <p style={{ textAlign: "left", color: "red" }}>
-                {!stftag ? errors.stftagError : ""}
-              </p>
-            </div>
-            </div>
-
 
             <div className="flex justify-content-between">
               <div className="mt-5">Upload Profile Image:</div>
@@ -440,13 +440,6 @@ function WebappForm(props) {
               </div>
             </div>
 
-            
-
-
-           
-
-
-           
             <div className="mt-5 text-center text-3xl font-bold">
               Personal information
             </div>
@@ -547,16 +540,7 @@ function WebappForm(props) {
                   className="buy-img"
                 ></Button>
               </div>
-              {/* <div className="mt-5 ">
-                <Link href="/successNoteContract">
-                  <Button
-                    className="buy-img"
-                    loading={loading2}
-                    onClick={load2}
-                    label="Continue"
-                  ></Button>
-                </Link>
-              </div> */}
+            
             </div>
           </div>
         </div>
@@ -564,4 +548,4 @@ function WebappForm(props) {
     </div>
   );
 }
-export default  withRouter(WebappForm)
+export default withRouter(WebappForm);
