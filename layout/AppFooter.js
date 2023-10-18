@@ -10,10 +10,9 @@ const AppFooter = () => {
   return (
     <div>
       <div
-        className="layout-footer mt-5"
+        className="layout-footer mt-5 p-5"
         style={{
           borderBottom: "1px solid #bcb2b2",
-          padding: "20px",
           borderTop: "1px solid #bcb2b2",
         }}
       >
@@ -39,7 +38,7 @@ const AppFooter = () => {
             <div>our Revolutionary App Store Explore.</div>
           </div>
         </div>
-        <div className="flex" style={{gap:'150px'}}>
+        <div className="flex gap-40" style={{gap:'150px'}}>
         <div className="p-heading">
           <div className="font-bold text-2xl ">Explore</div>
           <div className="mt-3 cursor-pointer">Signature Series</div>
@@ -65,8 +64,7 @@ const AppFooter = () => {
                 alt="Logo"
                 height="30"
                 width="30"
-                className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                className="mr-2 border-icon p-1"
               />
               </Link>
             </div>
@@ -83,8 +81,7 @@ const AppFooter = () => {
                 alt="Logo"
                 height="30"
                 width="30"
-                className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                className="mr-2 border-icon p-1"
               />
               </Link>
               
@@ -101,8 +98,7 @@ const AppFooter = () => {
                 alt="Logo"
                 height="30"
                 width="30"
-                className="mr-2 border-icon"
-                style={{padding:'4px'}}
+                className="mr-2 border-icon p-1"
               />
               </Link>
             </div>

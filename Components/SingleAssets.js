@@ -33,8 +33,7 @@ const Homecomp = ({ uri }) => {
           <div>
             <img
               alt="home-img"
-              className="dash-img-size"
-              style={{ width: "400px", height: "350px" }}
+              className="dash-img-size w-96 h-96"
               src={`https://cloudflare-ipfs.com/ipfs/${removePrefix(preuri)}`}
             ></img>
           </div>
@@ -43,10 +42,7 @@ const Homecomp = ({ uri }) => {
               <div className="font-bold text-xl">Asset Name: </div>
               <div className="text-xl"> {response.name}</div>
             </div>
-            <div className="flex mt-5 gap-5">
-              <div className=" text-xl">Owned by: </div>
-              <div className="text-xl"> {response?.walletAddress}</div>
-            </div>
+            
 
             <div className="flex mt-5 gap-5">
               <div className=" text-xl">Description:</div>

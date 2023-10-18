@@ -365,7 +365,7 @@ function CreateSignatureSeriesNfts(props) {
                   Signatureseries  &gt;  signatureseries 1
                   </div>
                 
-                  <div style={{width:'225px'}}>
+                  <div className="w-56">
                   <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
 
                   </div>
@@ -378,14 +378,13 @@ function CreateSignatureSeriesNfts(props) {
                       <input
                         required="required"
                         placeholder="Asset Name"
-                        className="w-full mt-3 p-3 assets-input-back "
+                        className="w-full mt-3 p-3 assets-input-back rounded border-none"
                         onChange={(e) =>
                           updateFormInput({
                             ...formInput,
                             name: e.target.value,
                           })
                         }
-                        style={{ borderRadius: "5px", border: "none" }}
                       />
                     </div>
 
@@ -397,14 +396,13 @@ function CreateSignatureSeriesNfts(props) {
                         <textarea
                           type="text"
                           placeholder="Asset Description"
-                          className="w-full assets-input-back p-3  mt-3"
+                          className="w-full assets-input-back p-3  mt-3 rounded border-none"
                           onChange={(e) =>
                             updateFormInput({
                               ...formInput,
                               description: e.target.value,
                             })
                           }
-                          style={{ borderRadius: "5px", border: "none" }}
                         />
                       </div>
                     </div>
@@ -420,7 +418,7 @@ function CreateSignatureSeriesNfts(props) {
                         value={formInput.royalties} // value * 100
                         suffix="%"
                         mode="decimal"
-                        className="mt-2 p-3 w-full assets-input-back "
+                        className="mt-2 p-3 w-full assets-input-back rounded border-none"
                         showButtons
                         onChange={(e) => {
                           updateFormInput({
@@ -428,7 +426,6 @@ function CreateSignatureSeriesNfts(props) {
                             royalties: e.target.value,
                           });
                         }}
-                        style={{ borderRadius: "5px", border: "none" }}
                       />
                     </div>
                   </div>
@@ -635,14 +632,13 @@ function CreateSignatureSeriesNfts(props) {
                   </div>
                   <input
                     placeholder="NFT description in details"
-                    className="mt-2 p-3 w-full assets-input-back  "
+                    className="mt-2 p-3 w-full assets-input-back  rounded border-none"
                     onChange={(e) =>
                       updateFormInput({
                         ...formInput,
                         alternettext: e.target.value,
                       })
                     }
-                    style={{ borderRadius: "5px", border: "none" }}
                   />
                 </div>
                 <div className="mt-5 flex justify-content-between font-bold">

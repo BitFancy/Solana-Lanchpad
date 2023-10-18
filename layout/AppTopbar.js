@@ -84,7 +84,7 @@ function AppTopbar() {
           widt={"true"}
           alt="logo"
         />
-        <img src="./myriadflow.png" style={{ height: "20px" }}></img>
+        <img src="./myriadflow.png" className="h-5"></img>
       </Link>
       <div
         ref={topbarmenuRef}

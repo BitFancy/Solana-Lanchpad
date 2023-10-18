@@ -33,8 +33,7 @@ const Homecomp = ({ uri }) => {
           <div>
             <img
               alt="home-img"
-              className="dash-img-size"
-              style={{ width: "400px", height: "350px" }}
+              className="dash-img-size h-96 w-96"
               src={`https://cloudflare-ipfs.com/ipfs/${removePrefix(preuri)}`}
             ></img>
           </div>

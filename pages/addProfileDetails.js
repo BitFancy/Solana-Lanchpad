@@ -81,7 +81,7 @@ export default function AddProfileDetails() {
           router.push('/profile')
           })
           .catch((error) => {
-            console.log('error while profile create',error)
+            console.log('error while profile creation',error)
             showError();
 
           }).finally(() => {

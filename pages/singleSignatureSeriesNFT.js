@@ -21,15 +21,20 @@ function SingleSignatureseriesNft(props) {
           </div>
           <div>
             <div className=" text-3xl mt-5 font-bold">
-              EternalSoul &gt; EternalSoul {contractData?.tokenID} &gt; Asset{" "}
+              Signatureseries &gt; Signatureseries {contractData?.tokenID} &gt; Asset{" "}
               {contractData?.tokenID}
             </div>
             <div className="border-bottom-das" style={{ width: "207%" }}></div>
-            <div>
+            <div className="flex">
               <SingleAssets
                 uri={contractData ? contractData.metaDataURI : ""}
               />
+              <div className="mt-5">Owned By :</div>
+            <div className="mt-5">
+              {contractData.creator}
             </div>
+            </div>
+            
           </div>
         </div>
       </div>

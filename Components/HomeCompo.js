@@ -27,17 +27,11 @@ const Homecomp = ({ uri }) => {
 
   return (
     <div
-    className="p-3 gap-5 back-contract mt-5"
-    style={{
-      marginBottom: "0px",
-      width: "100%",
-      height: "350px",
-      borderRadius: "20px",
-    }}
+    className="p-3 gap-5 back-contract mt-5 mb-0 w-full h-80 rounded-2xl"
   >      <img
         src={`https://cloudflare-ipfs.com/ipfs/${removePrefix(preuri)}`}
         alt="home-img"
-        className=" w-full object-fit rounded-lg mb-3  dash-img-size text-center" style={{height:'200px',width:'200px'}}
+        className=" w-full object-fit rounded-lg mb-3  dash-img-size text-center h-52 w-52"
       />
         <div className="flex justify-content-between font-bold">
         <div>Name</div>
@@ -45,8 +39,8 @@ const Homecomp = ({ uri }) => {
         </div>
         <div className="flex justify-content-between mt-3 font-bold">
 
-        <div style={{ color: "black" }}>{response.name}</div>
-        <div style={{ color: "black" }}>{response.description}</div>
+        <div className="text-black">{response.name}</div>
+        <div className="text-black"  >{response.description}</div>
       </div>
     
     </div>

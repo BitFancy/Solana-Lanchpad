@@ -113,8 +113,8 @@ export default function BuyNft() {
           </div>
           <div
              
-             className="subscribe-modal p-5 subscribe-modal2"
-            style={{ marginBottom: "0px",boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
+             className="subscribe-modal p-5 subscribe-modal2 mb-0"
+            style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
           }}
           >
             <div className="font-bold text-6xl text-center mt-5">Basic</div>

@@ -221,7 +221,7 @@ function AddStorefront() {
             style={{ width: "80%", margin: "0 auto" }}
           >
             <div style={{ width: "445px" }}>
-              <div style={{ padding: "20px", border: "1px solid" }}>
+              <div className="p-5" style={{ border: "1px solid" }}>
                 <FileUpload
                   type="file"
                   onSelect={(event) => {

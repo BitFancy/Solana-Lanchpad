@@ -20,13 +20,11 @@ function StorefrontDashboard(props) {
   const [network, setNetwork] = useState([]);
   const toaste = useRef(null);
   const { address } = useAccount();
-  console.log("redirectmarketplaceUrl", props.router.query.newMarketplaceUrl);
   useEffect(() => {
     getStorefrontData();
   }, []);
 
   const handleChange = (val) => {
-    console.log("value", val);
     setChecked(val);
     const networkData = [...network];
     if (val) {
@@ -44,17 +42,13 @@ function StorefrontDashboard(props) {
         },
       })
       .then(async (payload) => {
-        console.log('payload',payload)
         setLoading(true);
         if (payload?.data?.payload.length > 0) {
           setStorefrontData(
             payload?.data?.payload.filter((sf) => sf.walletAddress === address)
           );
           setNetwork(payload?.data?.payload.filter((sf) => sf.network === "testnet"));
-          console.log(
-            "net",
-            payload?.data?.payload.filter((sf) => sf.network === "testnet")
-          );
+         
         }
         setLoading(false);
       })
@@ -176,7 +170,7 @@ function StorefrontDashboard(props) {
                       <div className=" flex justify-content-between mt-5 align-items-center subscription-back-part ">
                         <div className="flex gap-5">
                           <div>
-                            <img
+                            <img 
                               style={{ width: "100px", height: "100px" }}
                               src={
                                 storefront.image

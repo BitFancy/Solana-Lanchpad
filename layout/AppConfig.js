@@ -53,7 +53,7 @@ const AppConfig = (props) => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            style={{cursor:'pointer'}}
+            className="cursor-pointer"
           >
             <path
               strokeLinecap="round"
@@ -70,7 +70,7 @@ const AppConfig = (props) => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            style={{cursor:'pointer'}}
+            className="cursor-pointer"
           >
             <path
               strokeLinecap="round"

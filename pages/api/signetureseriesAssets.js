@@ -12,6 +12,7 @@ export const getAllSignetureseriesNfts=async(props)=>{
         blockNumber
         tokenID
         metaDataURI
+        creator
         }
       }
     `
@@ -29,7 +30,6 @@ export const getAllSignetureseriesNfts=async(props)=>{
         data: graphqlQuery,
         headers: headers,
       });
-      console.log("Response",data);
       return data?.data;
       
     } catch (err) {

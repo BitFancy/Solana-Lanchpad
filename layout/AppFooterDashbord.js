@@ -9,15 +9,14 @@ const AppFooterDashboard = () => {
   const { layoutConfig } = useContext(LayoutContext);
   return (
     <div>
-      <div
+      <div 
         style={{
           borderBottom: "1px solid #bcb2b2",
-          padding: "20px",
           borderTop: "1px solid #bcb2b2",
         }}
         className={`${
           layoutConfig.colorScheme === "light" ? "white" : "dark"
-        } layout-footer  mt-5`}
+        } layout-footer  mt-5 p-5`}
 
       >
         <div>
@@ -69,8 +68,7 @@ const AppFooterDashboard = () => {
                 alt="Logo"
                 height="50"
                 width="50"
-                className="mr-2 border-icon"
-                style={{padding:'12px'}}
+                className="mr-2 border-icon p-3"
               />
               </Link>
             </div>
@@ -87,8 +85,7 @@ const AppFooterDashboard = () => {
                 alt="Logo"
                 height="50"
                 width="50"
-                className="mr-2 border-icon"
-                style={{padding:'12'}}
+                className="mr-2 border-icon p-3"
               />
               </Link>
               
@@ -105,8 +102,7 @@ const AppFooterDashboard = () => {
                 alt="Logo"
                 height="50"
                 width="50"
-                className="mr-2 border-icon"
-                style={{padding:'12px'}}
+                className="mr-2 border-icon p-3"
               />
               </Link>
             </div>
