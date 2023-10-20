@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -32,9 +32,9 @@ const style = {
   px: 4,
   pb: 3,
 };
- function CreateFusionSeriesNft(props) {
+function CreateFusionSeriesNft(props) {
   const msgs = useRef(null);
-  const router=useRouter();
+  const router = useRouter();
   const toast = useRef(null);
 
   const [previewMedia, setpreviewMedia] = useState("");
@@ -51,24 +51,24 @@ const style = {
   const [storefrontData, setstorefrontData] = useState("");
   const showProgress = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction in progress!",
       life: 30000,
     });
   };
   const transactionCompleate = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 1 Complete",
       life: 10000,
     });
   };
   const transactionFailed = () => {
     toast.current.show({
-      severity:'error',
-      summary: 'Error',
+      severity: "error",
+      summary: "Error",
       detail: "Transaction 1 failed",
       life: 10000,
     });
@@ -76,24 +76,24 @@ const style = {
 
   const transaction2Progress = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 2 in progress",
       life: 10000,
     });
   };
   const transaction2Complete = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 2 Complete !!",
       life: 10000,
     });
   };
   const transaction2failed = () => {
     toast.current.show({
-      severity:'error',
-      summary: 'Error',
+      severity: "error",
+      summary: "Error",
       detail: "Transaction 2 failed",
       life: 10000,
     });
@@ -113,22 +113,20 @@ const style = {
     quantity: 1,
     auctionTime: 2,
   });
- 
+
   useEffect(() => {
     getBlocchain();
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress(response[0]?.contractAddress)
+        setTradhubAddress(response[0]?.contractAddress);
       }
     );
-    
   }, []);
 
-  const getBlocchain=async()=>{
-    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload)
-  }
- 
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
+  };
 
   async function uploadBlobGetHash(file) {
     try {
@@ -150,7 +148,6 @@ const style = {
       setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
     } catch (error) {}
   }
-
 
   async function onChangeMediaType(e) {
     const file = e.target.files[0];
@@ -203,7 +200,7 @@ const style = {
     if (!mediaHash?.image) {
       return;
     }
-    showProgress()
+    showProgress();
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
     try {
@@ -213,14 +210,18 @@ const style = {
         await createItem(ipfsHash, url);
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
     }
   }
   async function createItem(ipfsHash, url) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const fusionSeriesContarct = new ethers.Contract(contractFusionSeriesAddress, FusionSeries.abi, signer)
+    const fusionSeriesContarct = new ethers.Contract(
+      contractFusionSeriesAddress,
+      FusionSeries.abi,
+      signer
+    );
     try {
       let price = ethers.utils.parseEther(formInput.price);
       let transaction = await fusionSeriesContarct.createAsset(
@@ -235,22 +236,27 @@ const style = {
       let value = event.args[3];
       let tokenId = value.toNumber();
       let forAuction = false;
-      let endTime=0;
-      await listItem(fusionSeriesContarct,tokenId, price, forAuction, endTime);
+      let endTime = 0;
+      await listItem(fusionSeriesContarct, tokenId, price, forAuction, endTime);
     } catch (e) {
       transactionFailed();
-      console.log(e)
+      console.log(e);
       return;
     }
   }
 
-  const listItem = async (fusionSeriesContarct,tokenId, price, forAuction, endTime) => {
-   
+  const listItem = async (
+    fusionSeriesContarct,
+    tokenId,
+    price,
+    forAuction,
+    endTime
+  ) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       transaction2Progress();
-    let  tradhubContract = new ethers.Contract(
+      let tradhubContract = new ethers.Contract(
         tradhubAddress,
         TradeHub.abi,
         signer
@@ -266,12 +272,14 @@ const style = {
       );
       await transaction.wait();
       transaction2Complete();
-      router.push({pathname:"/getAllFusionSeriesNft",query:{storefrontId:props.router.query.storefrontId}})
-
+      router.push({
+        pathname: "/getAllFusionSeriesNft",
+        query: { storefrontId: props.router.query.storefrontId },
+      });
     } catch (e) {
       transaction2failed();
-      console.log(e)
-    } 
+      console.log(e);
+    }
   };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
@@ -316,9 +324,6 @@ const style = {
     setOpen(false);
   };
 
-  
- 
-
   const [options1, setOptions] = useState([
     "Image",
     "Music",
@@ -336,17 +341,13 @@ const style = {
   const [categories, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
 
- 
-
   return (
     <LayoutDashbord
       title="Create FusionSeries Assets"
       description="This is used to create FusionSeries Nfts"
     >
-          <Toast ref={toast} />
-      <div
-       
-      >
+      <Toast ref={toast} />
+      <div>
         <div className="dark:bg-gray-800 kumbh text-center">
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
@@ -364,19 +365,22 @@ const style = {
               <div style={{ width: "700px" }}>
                 <div>
                   <div className="flex justify-content-between">
-                  <div className="font-bold text-4xl"  style={{ textAlign: "initial" }}>
-                  FusionSeries  &gt;  FusionSeries 1
-                  </div>
-                
-                  <div style={{width:'225px'}}>
-                 
-                <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+                    <div
+                      className="font-bold text-4xl"
+                      style={{ textAlign: "initial" }}
+                    >
+                      FusionSeries &gt; FusionSeries 1
+                    </div>
 
+                    <div style={{ width: "225px" }}>
+                      <span className="blockchain-label">
+                        {storefrontData?.payload?.blockchain}
+                      </span>
+                    </div>
                   </div>
-                  </div>
-                  <div style={{marginTop:'65px'}}>
+                  <div style={{ marginTop: "65px" }}>
                     <div className="font-bold" style={{ textAlign: "initial" }}>
-                    FusionSeries Assets Name
+                      FusionSeries Assets Name
                     </div>
                     <div>
                       <input
@@ -394,8 +398,11 @@ const style = {
                     </div>
 
                     <div className="mt-5">
-                      <div className="font-bold" style={{ textAlign: "initial" }}>
-                      FusionSeries Assets Description
+                      <div
+                        className="font-bold"
+                        style={{ textAlign: "initial" }}
+                      >
+                        FusionSeries Assets Description
                       </div>
                       <div>
                         <textarea
@@ -412,8 +419,11 @@ const style = {
                         />
                       </div>
                     </div>
-                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
-                    Quantity
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
+                      Quantity
                       <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
@@ -437,7 +447,10 @@ const style = {
                     </div>
                   </div>
                   <div className="flex">
-                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
                       Upload File
                     </div>
                   </div>
@@ -628,7 +641,6 @@ const style = {
                           <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
-
                       </div>
                     </Dialog>
                   </div>
@@ -650,11 +662,11 @@ const style = {
                   />
                 </div>
                 <div className="mt-5 flex justify-content-between font-bold">
-                  <div >Category</div>
-                  <div >Tags</div>
+                  <div>Category</div>
+                  <div>Tags</div>
                 </div>
                 <div className="flex justify-content-between">
-                  <div style={{width:'300px'}}>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -669,7 +681,7 @@ const style = {
                       className="assets-input-back mt-3"
                     />
                   </div>
-                  <div style={{width:'300px'}}>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -705,7 +717,7 @@ const style = {
                 {toggle && (
                   <div className="flex  justify-content-between">
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer" 
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
                       onClick={() => {
                         setAuctionToggle(false);
                         setToggleInput(!toggleinput);
@@ -788,12 +800,13 @@ const style = {
             </div>
 
             <div
-              className=" rounded-lg text-center p-3" style={{marginTop:'125px'}}
+              className=" rounded-lg text-center p-3"
+              style={{ marginTop: "125px" }}
             >
               <div className="font-bold">Preview</div>
-              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
-                            style={{ height: "500px", width: "300px", marginTop: "80px" }}
-
+              <div
+                className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
+                style={{ height: "500px", width: "300px", marginTop: "80px" }}
               >
                 {previewMedia ? (
                   mediaHash?.image && addImage == false ? (
@@ -826,4 +839,4 @@ const style = {
     </LayoutDashbord>
   );
 }
-export default withRouter(CreateFusionSeriesNft)
+export default withRouter(CreateFusionSeriesNft);

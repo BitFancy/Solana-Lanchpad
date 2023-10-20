@@ -47,8 +47,9 @@ function StorefrontDashboard(props) {
           setStorefrontData(
             payload?.data?.payload.filter((sf) => sf.walletAddress === address)
           );
-          setNetwork(payload?.data?.payload.filter((sf) => sf.network === "testnet"));
-         
+          setNetwork(
+            payload?.data?.payload.filter((sf) => sf.network === "testnet")
+          );
         }
         setLoading(false);
       })
@@ -170,7 +171,7 @@ function StorefrontDashboard(props) {
                       <div className=" flex justify-content-between mt-5 align-items-center subscription-back-part ">
                         <div className="flex gap-5">
                           <div>
-                            <img 
+                            <img
                               style={{ width: "100px", height: "100px" }}
                               src={
                                 storefront.image
@@ -217,19 +218,19 @@ function StorefrontDashboard(props) {
                         {storefront.deployed === true && (
                           <div>
                             <div>
-                            <Link
-                           target="_blank"
-                           href={{
-                             pathname: `https://${storefront.webappUrl}`,
-                           }}
-                            >
+                              <Link
+                                target="_blank"
+                                href={{
+                                  pathname: `https://${storefront.webappUrl}`,
+                                }}
+                              >
                                 <Button
                                   loading={loading3}
                                   onClick={load3}
                                   label="View"
                                   className=" buy-back-color"
                                 ></Button>
-                            </Link>
+                              </Link>
                             </div>
                             <div className="mt-5">
                               <Link

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
-import {  withRouter } from "next/router";
+import { withRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
 import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
@@ -15,45 +15,58 @@ function GetAllSignatureSeriesSeriesNft(props) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress) 
+  const [contractAddress, setContractAddress] = useState(
+    () => props?.router?.query?.contractAddress
+  );
   useEffect(() => {
-    const searchParams = new URLSearchParams(document.location.search)
-     setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
-     if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
+    const searchParams = new URLSearchParams(document.location.search);
+    setContractAddress(
+      props?.router?.query?.contractAddress ??
+        searchParams.get("contractAddress")
+    );
+    if (
+      props?.router?.query?.contractAddress ??
+      searchParams.get("contractAddress")
+    ) {
       getSignetureSeriesAssets();
-     }
-  }, [])
-  
+    }
+  }, []);
 
-  
   const getSignetureSeriesAssets = async () => {
     try {
-     const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
-      const {signatureSeriesAssetCreateds} = await getAllSignetureseriesNfts({endPoint: endPoint})
+      const endPoint = props?.router?.query?.redirectURL?.slice(
+        0,
+        props?.router?.query?.redirectURL?.indexOf("/graphql")
+      );
+      const { signatureSeriesAssetCreateds } = await getAllSignetureseriesNfts({
+        endPoint: endPoint,
+      });
       setAsseetsData(signatureSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray = signatureSeriesAssetCreateds?.map(
-        (asset) => asset.transactionHash
-      ) ?? [];
+      let tranasactionHashArray =
+        signatureSeriesAssetCreateds?.map((asset) => asset.transactionHash) ??
+        [];
       const innerContractAddress = [];
-      if(tranasactionHashArray.length>0){
-      await Promise?.all(
-        tranasactionHashArray?.map(async (hash) => {
-          const gqlcontractAddress = await provider.getTransaction(hash);
-          if (gqlcontractAddress.to == contractAddress) {
-            innerContractAddress.push(
-              signatureSeriesAssetCreateds.find((asset) => asset.transactionHash === hash)
-            );
-          }
-          setAsseetsData(innerContractAddress);
-        })
-      ).then(() => {
-        console.log("innerContractAddress", innerContractAddress);
-      });
-    }
+      if (tranasactionHashArray.length > 0) {
+        await Promise?.all(
+          tranasactionHashArray?.map(async (hash) => {
+            const gqlcontractAddress = await provider.getTransaction(hash);
+            if (gqlcontractAddress.to == contractAddress) {
+              innerContractAddress.push(
+                signatureSeriesAssetCreateds.find(
+                  (asset) => asset.transactionHash === hash
+                )
+              );
+            }
+            setAsseetsData(innerContractAddress);
+          })
+        ).then(() => {
+          console.log("innerContractAddress", innerContractAddress);
+        });
+      }
     } catch (error) {
-      console.log("Error while fetching assets",error)
-      setLoading(false)
+      console.log("Error while fetching assets", error);
+      setLoading(false);
     }
   };
 
@@ -65,19 +78,15 @@ function GetAllSignatureSeriesSeriesNft(props) {
     }, 2000);
   };
 
- 
-      
-console.log("contractAddress>>>>",contractAddress);
+  console.log("contractAddress>>>>", contractAddress);
   return (
     <LayoutDashbord
       title="Signatureseries NFts"
       description="Used to Show All Signatureseries NFTs Details"
     >
       <div>
-        <MarketplaceProfileDetails  id={props.router.query.storefrontId}/>
-        <div
-         className="flex"
-        >
+        <MarketplaceProfileDetails id={props.router.query.storefrontId} />
+        <div className="flex">
           <div>
             <Sidemenu />
           </div>
@@ -92,7 +101,10 @@ console.log("contractAddress>>>>",contractAddress);
                 <Link
                   href={{
                     pathname: "/createSignatureSeriesAssets",
-                    query: { contractAddress: contractAddress,storefrontId:props.router.query.storefrontId },
+                    query: {
+                      contractAddress: contractAddress,
+                      storefrontId: props.router.query.storefrontId,
+                    },
                   }}
                 >
                   <Button
@@ -110,25 +122,27 @@ console.log("contractAddress>>>>",contractAddress);
             ></div>
             <div
               className="grid cursor-pointer mt-5"
-              style={{ gap: "20px",  marginLeft: "30px" }}
+              style={{ gap: "20px", marginLeft: "30px" }}
             >
               {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {
                   return (
-                    <Link key={asset.tokenID} 
-                    href={{
-                      pathname: "/singleSignatureSeriesNFT",
-                      query: { contractAddress: contractAddress,data:JSON.stringify(asset),storefrontId:props.router.query.storefrontId},
-                    }}
+                    <Link
+                      key={asset.tokenID}
+                      href={{
+                        pathname: "/singleSignatureSeriesNFT",
+                        query: {
+                          contractAddress: contractAddress,
+                          data: JSON.stringify(asset),
+                          storefrontId: props.router.query.storefrontId,
+                        },
+                      }}
                     >
                       <div
                         className="col-12 lg:col-6 xl:col-3"
                         style={{ width: "285px" }}
-
                       >
-                      <Homecomp uri={asset ? asset.metaDataURI : ""} />
-
-                       
+                        <Homecomp uri={asset ? asset.metaDataURI : ""} />
                       </div>
                     </Link>
                   );

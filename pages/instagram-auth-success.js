@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 function InstagramAuthSuccess() {
   const [userData, setUserData] = useState(null);
@@ -14,23 +14,24 @@ function InstagramAuthSuccess() {
 
     const fetchUserAndSetData = async () => {
       const searchParams = new URLSearchParams(window.location.search);
-      const code = searchParams.get('code');
+      const code = searchParams.get("code");
 
       if (code) {
         // Exchange the code for an access token
-        const clientId = 593016509511308 ;
-        const redirectUri = 'https://launchpad.myriadflow.com/instagram-auth-success';
+        const clientId = 593016509511308;
+        const redirectUri =
+          "https://launchpad.myriadflow.com/instagram-auth-success";
         const tokenEndpoint = `https://api.instagram.com/oauth/access_token`;
 
         const formData = new FormData();
-        formData.append('client_id', clientId);
-        formData.append('client_secret', '31bc35c742bb3c9e9330ffa7c5914030');
-        formData.append('grant_type', 'authorization_code');
-        formData.append('redirect_uri', redirectUri);
-        formData.append('code', code);
+        formData.append("client_id", clientId);
+        formData.append("client_secret", "31bc35c742bb3c9e9330ffa7c5914030");
+        formData.append("grant_type", "authorization_code");
+        formData.append("redirect_uri", redirectUri);
+        formData.append("code", code);
 
         const response = await fetch(tokenEndpoint, {
-          method: 'POST',
+          method: "POST",
           body: formData,
         });
 

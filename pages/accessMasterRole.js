@@ -9,14 +9,16 @@ import { ethers } from "ethers";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import { getAccessMasterByStorefrontID } from "../utils/util";
- function AccessMasterRole(props) {
+function AccessMasterRole(props) {
   const { address } = useAccount();
   const { data: ensName } = useEnsName({ address });
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [role, setRole] = useState("");
   const [accessMasterAddress, setAccessMasterAddress] = useState("");
-  const [userAdddress, setuserAdddress] = useState('0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f');
+  const [userAdddress, setuserAdddress] = useState(
+    "0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f"
+  );
 
   useEffect(() => {
     getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
@@ -24,7 +26,6 @@ const [loading, setLoading] = useState(false);
         setAccessMasterAddress(response[0]?.contractAddress);
       }
     );
-   
   }, []);
   const revokeRoleData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -55,9 +56,9 @@ const [loading, setLoading] = useState(false);
 
     const grantrole = await accessmasterContarct.grantRole(
       await accessmasterContarct.FLOW_CREATOR_ROLE(),
-      '0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f'
+      "0x83AD8ddAdb013fbA80DE0d802FD4fB1a949AD79f"
     );
-    
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -69,25 +70,21 @@ const [loading, setLoading] = useState(false);
     setuserAdddress(e.target.value);
   };
 
-
-  
   return (
     <LayoutDashbord
       title="Access Master Role"
       description="Used to Show Access Master Role Information Details"
     >
       <div>
-        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
+        <MarketplaceProfileDetails id={props.router.query.storefrontId} />
 
-        <div
-          className="flex justify-content-between"
-        >
+        <div className="flex justify-content-between">
           <div>
             <Sidemenu />
           </div>
           <div className="w-full">
             <div className="flex justify-content-between">
-              <div  style={{ width: "80%", margin: "0 auto" }}>
+              <div style={{ width: "80%", margin: "0 auto" }}>
                 <div className="font-bold text-3xl mt-5">Manage Your Role</div>
                 <div className=" p-5 card card-role mt-5">
                   <div className="p-heading font-bold text-1xl">
@@ -165,4 +162,4 @@ const [loading, setLoading] = useState(false);
     </LayoutDashbord>
   );
 }
-export default withRouter(AccessMasterRole)
+export default withRouter(AccessMasterRole);

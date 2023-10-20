@@ -540,7 +540,6 @@ function WebappForm(props) {
                   className="buy-img"
                 ></Button>
               </div>
-            
             </div>
           </div>
         </div>

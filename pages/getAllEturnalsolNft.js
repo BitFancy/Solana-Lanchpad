@@ -20,8 +20,11 @@ function GetAllEternalSoulNft(props) {
   }, []);
   const testCTA = props.router.query.contractAddress;
   const getEturnulsolAssets = async () => {
-    const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
-    const {assetIssueds} = await getAllEternulsolNfts({endPoint: endPoint})
+    const endPoint = props?.router?.query?.redirectURL?.slice(
+      0,
+      props?.router?.query?.redirectURL?.indexOf("/graphql")
+    );
+    const { assetIssueds } = await getAllEternulsolNfts({ endPoint: endPoint });
     setAsseetsData(assetIssueds);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     let tranasactionHashArray = assetIssueds?.map(
@@ -37,7 +40,7 @@ function GetAllEternalSoulNft(props) {
             assetIssueds.find((asset) => asset.transactionHash === hash)
           );
         }
-         
+
         setAsseetsData(innerContractAddress);
       })
     ).then(() => {
@@ -101,7 +104,7 @@ function GetAllEternalSoulNft(props) {
                         query: {
                           contractAddress: contractAddress,
                           data: JSON.stringify(asset),
-                          storefrontId:props.router.query.storefrontId
+                          storefrontId: props.router.query.storefrontId,
                         },
                       }}
                     >

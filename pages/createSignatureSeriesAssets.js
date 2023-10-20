@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, withRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
@@ -32,7 +32,7 @@ const style = {
   pb: 3,
 };
 function CreateSignatureSeriesNfts(props) {
-  const router=useRouter();
+  const router = useRouter();
   const msgs = useRef(null);
   const [toggle, setToggle] = useState(false);
   const [toggleinput, setToggleInput] = useState(false);
@@ -54,28 +54,26 @@ function CreateSignatureSeriesNfts(props) {
     doctype: "",
   });
 
-
-
   const showProgress = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction in progress!",
       life: 30000,
     });
   };
   const transactionCompleate = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 1 Complete",
       life: 10000,
     });
   };
   const transactionFailed = () => {
     toast.current.show({
-      severity:'error',
-      summary: 'Error',
+      severity: "error",
+      summary: "Error",
       detail: "Transaction 1 failed",
       life: 10000,
     });
@@ -83,24 +81,24 @@ function CreateSignatureSeriesNfts(props) {
 
   const transaction2Progress = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 2 in progress",
       life: 10000,
     });
   };
   const transaction2Complete = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction 2 Complete !!",
       life: 10000,
     });
   };
   const transaction2failed = () => {
     toast.current.show({
-      severity:'error',
-      summary: 'Error',
+      severity: "error",
+      summary: "Error",
       detail: "Transaction 2 failed",
       life: 10000,
     });
@@ -198,65 +196,77 @@ function CreateSignatureSeriesNfts(props) {
         await createItem(ipfsHash, url);
       });
     } catch (error) {
-      transactionFailed()
+      transactionFailed();
     } finally {
     }
   }
-
 
   useEffect(() => {
     getBlocchain();
     getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setTradhubAddress(response[0]?.contractAddress)
+        setTradhubAddress(response[0]?.contractAddress);
       }
     );
-    
   }, []);
 
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
+  };
 
-  const getBlocchain=async()=>{
-    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload)
-  }
- 
- 
   async function createItem(ipfsHash, url) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const signetureseriesContract = new ethers.Contract(dynamicContractAddress, SignatureSeries.abi, signer)
+    const signetureseriesContract = new ethers.Contract(
+      dynamicContractAddress,
+      SignatureSeries.abi,
+      signer
+    );
     try {
       let transaction = await signetureseriesContract.createAsset(
         url,
         formInput.royalties * 100,
         { gasLimit: "2099999" }
-      ); 
+      );
       let tx = await transaction.wait();
-      transactionCompleate()
+      transactionCompleate();
       let event = tx.events[0];
       let value = event.args[2];
       let tokenId = value.toNumber();
       let price = ethers.utils.parseEther(formInput.price);
       let forAuction = false;
-      let endTime=0;
-      await listItem( signetureseriesContract, tokenId, price, forAuction, endTime);//Putting item to sale
+      let endTime = 0;
+      await listItem(
+        signetureseriesContract,
+        tokenId,
+        price,
+        forAuction,
+        endTime
+      ); //Putting item to sale
     } catch (e) {
       console.log(e);
       transactionFailed();
       return;
-    } 
+    }
   }
-  const listItem = async (signetureseriesContract, tokenId , price, forAuction,endTime) => {
+  const listItem = async (
+    signetureseriesContract,
+    tokenId,
+    price,
+    forAuction,
+    endTime
+  ) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       transaction2Progress();
-    let  tradhubContract = new ethers.Contract(
+      let tradhubContract = new ethers.Contract(
         tradhubAddress,
         TradeHub.abi,
         signer
       );
-  let  transaction = await tradhubContract.listItem(
+      let transaction = await tradhubContract.listItem(
         dynamicContractAddress,
         tokenId,
         price,
@@ -264,9 +274,9 @@ function CreateSignatureSeriesNfts(props) {
         forAuction,
         endTime
       );
-     let tx = await transaction.wait();
-     transaction2Complete();
-      router.push('/getAllSegnatureSeriesNft')
+      let tx = await transaction.wait();
+      transaction2Complete();
+      router.push("/getAllSegnatureSeriesNft");
     } catch (e) {
       console.log(e);
       transaction2failed();
@@ -278,7 +288,6 @@ function CreateSignatureSeriesNfts(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
   };
 
   const handleChangeInput = (id, event) => {
@@ -338,13 +347,9 @@ function CreateSignatureSeriesNfts(props) {
       title="Create SignetureSeries Assets"
       description="This is used to create Signetureseries Nfts"
     >
-       <Toast ref={toast} />
-      <div
-       
-      >
+      <Toast ref={toast} />
+      <div>
         <div className="dark:bg-gray-800 kumbh text-center">
-         
-
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
           </div>
@@ -361,16 +366,20 @@ function CreateSignatureSeriesNfts(props) {
               <div style={{ width: "700px" }}>
                 <div>
                   <div className="flex justify-content-between">
-                  <div className="font-bold text-4xl"  style={{ textAlign: "initial" }}>
-                  Signatureseries  &gt;  signatureseries 1
-                  </div>
-                
-                  <div className="w-56">
-                  <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
+                    <div
+                      className="font-bold text-4xl"
+                      style={{ textAlign: "initial" }}
+                    >
+                      Signatureseries &gt; signatureseries 1
+                    </div>
 
+                    <div className="w-56">
+                      <span className="blockchain-label">
+                        {storefrontData?.payload?.blockchain}
+                      </span>
+                    </div>
                   </div>
-                  </div>
-                  <div style={{marginTop:'65px'}}>
+                  <div style={{ marginTop: "65px" }}>
                     <div className="font-bold" style={{ textAlign: "initial" }}>
                       SignatureSeries Assets Name
                     </div>
@@ -389,7 +398,10 @@ function CreateSignatureSeriesNfts(props) {
                     </div>
 
                     <div className="mt-5">
-                      <div className="font-bold" style={{ textAlign: "initial" }}>
+                      <div
+                        className="font-bold"
+                        style={{ textAlign: "initial" }}
+                      >
                         SignatureSeries Assets Description
                       </div>
                       <div>
@@ -406,7 +418,10 @@ function CreateSignatureSeriesNfts(props) {
                         />
                       </div>
                     </div>
-                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
                       Royalties
                       <span className="text-gray-400 text-gray-500 ml-2">
                         *
@@ -430,7 +445,10 @@ function CreateSignatureSeriesNfts(props) {
                     </div>
                   </div>
                   <div className="flex">
-                    <div className="mt-5 font-bold" style={{ textAlign: "initial" }}>
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
                       Upload File
                     </div>
                   </div>
@@ -621,7 +639,6 @@ function CreateSignatureSeriesNfts(props) {
                           <Button className="buy-img">Save</Button>
                         </div>
                         <Messages ref={msgs} />
-
                       </div>
                     </Dialog>
                   </div>
@@ -642,11 +659,11 @@ function CreateSignatureSeriesNfts(props) {
                   />
                 </div>
                 <div className="mt-5 flex justify-content-between font-bold">
-                  <div >Category</div>
-                  <div >Tags</div>
+                  <div>Category</div>
+                  <div>Tags</div>
                 </div>
                 <div className="flex justify-content-between">
-                  <div style={{width:'300px'}}>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -661,7 +678,7 @@ function CreateSignatureSeriesNfts(props) {
                       className="assets-input-back mt-3"
                     />
                   </div>
-                  <div style={{width:'300px'}}>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -697,7 +714,7 @@ function CreateSignatureSeriesNfts(props) {
                 {toggle && (
                   <div className="flex  justify-content-between">
                     <div
-                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer" 
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
                       onClick={() => {
                         setAuctionToggle(false);
                         setToggleInput(!toggleinput);
@@ -780,12 +797,13 @@ function CreateSignatureSeriesNfts(props) {
             </div>
 
             <div
-              className=" rounded-lg text-center p-3" style={{marginTop:'125px'}}
+              className=" rounded-lg text-center p-3"
+              style={{ marginTop: "125px" }}
             >
               <div className="font-bold">Preview</div>
-              <div className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
-                            style={{ height: "500px", width: "300px", marginTop: "80px" }}
-
+              <div
+                className="flex text-black mt-3 cursor-pointer rounded-lg  p-2.5 m-auto border-2 border-indigo-600 ..."
+                style={{ height: "500px", width: "300px", marginTop: "80px" }}
               >
                 {previewMedia ? (
                   mediaHash?.image && addImage == false ? (

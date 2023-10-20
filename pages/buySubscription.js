@@ -51,10 +51,9 @@ export default function BuyNft() {
           setLoading1(false);
         }, 2000);
         router.push("/dashboard");
-
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading1(false);
     }
@@ -67,7 +66,7 @@ export default function BuyNft() {
       .post(
         `${BASE_URL_LAUNCH}api/v1.0/profile/subscribe`,
         {
-          plan: "basic"
+          plan: "basic",
         },
         {
           headers: {
@@ -82,39 +81,44 @@ export default function BuyNft() {
         }, 2000);
         router.push("/dashboard");
       })
-     
 
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
- 
   return (
     <Layout2 title="Buy Subscription" description="Used to Subscribe the NFTs">
-      <div >
+      <div>
         <div className="font-bold text-4xl p-5 text-black">
           Buy Subscription
         </div>
         <hr></hr>
         <Toast ref={toast} />
-        <div className="flex  justify-content-center gap-5 " style={{marginTop:'100px'}}>
-          <div style={{marginTop:'100px'}}>
-            <img style={{ width: "465px",height:'375px' }} src="./garden.png"></img>
+        <div
+          className="flex  justify-content-center gap-5 "
+          style={{ marginTop: "100px" }}
+        >
+          <div style={{ marginTop: "100px" }}>
+            <img
+              style={{ width: "465px", height: "375px" }}
+              src="./garden.png"
+            ></img>
           </div>
           <div
-             
-             className="subscribe-modal p-5 subscribe-modal2 mb-0"
-            style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",
-          }}
+            className="subscribe-modal p-5 subscribe-modal2 mb-0"
+            style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)" }}
           >
             <div className="font-bold text-6xl text-center mt-5">Basic</div>
             <div className=" mb-5 text-center text-2xl">$0/Month</div>
 
-            <div className="mt-5  plan-des" style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>
+            <div
+              className="mt-5  plan-des"
+              style={{ marginLeft: "70px", borderTop: "1px solid #aba2a2" }}
+            >
               <ul>
                 <li>2% platform Fee </li>
                 <li>Only 2 deployments</li>
@@ -124,21 +128,26 @@ export default function BuyNft() {
                 <li>Community Support</li>
               </ul>
             </div>
-            <div className=" text-center" style={{marginTop:'75px',}}>
+            <div className=" text-center" style={{ marginTop: "75px" }}>
               <Button
                 loading={loading}
                 onClick={buySubscription}
                 label="BUY BASIC PLAN"
                 className="buy-back-color"
                 rounded
-                
               ></Button>
             </div>
           </div>
-          <div   className= "disabledbutton p-5 subscribe-modal subscribe-modal2" style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)",}}>
+          <div
+            className="disabledbutton p-5 subscribe-modal subscribe-modal2"
+            style={{ boxShadow: "0px 50px 60px 0px rgba(83, 71, 231, 0.50)" }}
+          >
             <div className="font-bold text-6xl text-center mt-5">Pro</div>
             <div className="text-2xl mb-5 text-center">$99/Month</div>
-            <div className="mt-5  plan-des " style={{marginLeft:'70px',borderTop:'1px solid #aba2a2'}}>
+            <div
+              className="mt-5  plan-des "
+              style={{ marginLeft: "70px", borderTop: "1px solid #aba2a2" }}
+            >
               <ul>
                 <li>0% platform Fee</li>
                 <li>Unlimited Deployments</li>

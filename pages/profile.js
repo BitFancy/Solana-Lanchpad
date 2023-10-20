@@ -100,7 +100,7 @@ function Profile() {
   const [profileDetails, setprofileDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modal, setmodal] = useState(false);
-  const [getplan, setpaln] = useState('');
+  const [getplan, setpaln] = useState("");
   const router = useRouter();
   const [twitt, settwitt] = useState(null);
   const [discordData, setdiscordData] = useState(null);
@@ -123,20 +123,16 @@ function Profile() {
     }
   }
 
-
-  const getPlan=async()=>{
+  const getPlan = async () => {
     const token = localStorage.getItem("platform_token");
-    const { data } = await axios.get(
-      `${BASE_URL}api/v1.0/profile/subscribe`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`${BASE_URL}api/v1.0/profile/subscribe`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setpaln(data.payload.plan);
   };
-  
+
   async function uploadcover(e) {
     e.preventDefault();
     try {
@@ -410,9 +406,6 @@ function Profile() {
       title="Launchpad Profile Page"
       description="Use to show metamask Profile details of the users"
     >
-     
-      
-
       {loading && <Loader />}
 
       {visible ? (
@@ -661,20 +654,18 @@ function Profile() {
         )}
 
         <div className="flex justify-content-end">
-        <div
+          <div
             style={{
               marginTop: "23px",
               marginRight: "290px",
               position: "absolute",
             }}
           >
-          {!profileDetails && <div>
-
-<Button    onClick={authorize} label="Login" rounded />  
-</div>
- } 
-           
-
+            {!profileDetails && (
+              <div>
+                <Button onClick={authorize} label="Login" rounded />
+              </div>
+            )}
           </div>
           <div
             style={{
@@ -683,9 +674,6 @@ function Profile() {
               position: "absolute",
             }}
           >
-           
-
-
             {/* <Link 
               href={{
                 pathname: "/buySubscription",
@@ -694,7 +682,6 @@ function Profile() {
             >
               <Button label="Upgrade plan" rounded />
             </Link> */}
-
           </div>
 
           <div

@@ -38,76 +38,70 @@ const AppFooter = () => {
             <div>our Revolutionary App Store Explore.</div>
           </div>
         </div>
-        <div className="flex gap-40" style={{gap:'150px'}}>
-        <div className="p-heading">
-          <div className="font-bold text-2xl ">Explore</div>
-          <div className="mt-3 cursor-pointer">Signature Series</div>
-          <div className="mt-3 cursor-pointer">Fusion Series</div>
-          <div className="mt-3 cursor-pointer">Instagen</div>
-          <div className="mt-3 cursor-pointer">Eternum Pass</div>
-          <div className="mt-3 cursor-pointer">Phygital NFTs</div>
-          <div className="mt-3 cursor-pointer">Eternnal Soul</div>
-          <div className="mt-3 cursor-pointer">TradeHub</div>
-        </div>
-        <div className="p-heading">
-          <div className="font-bold text-2xl ">Contact Us</div>
+        <div className="flex gap-40" style={{ gap: "150px" }}>
+          <div className="p-heading">
+            <div className="font-bold text-2xl ">Explore</div>
+            <div className="mt-3 cursor-pointer">Signature Series</div>
+            <div className="mt-3 cursor-pointer">Fusion Series</div>
+            <div className="mt-3 cursor-pointer">Instagen</div>
+            <div className="mt-3 cursor-pointer">Eternum Pass</div>
+            <div className="mt-3 cursor-pointer">Phygital NFTs</div>
+            <div className="mt-3 cursor-pointer">Eternnal Soul</div>
+            <div className="mt-3 cursor-pointer">TradeHub</div>
+          </div>
+          <div className="p-heading">
+            <div className="font-bold text-2xl ">Contact Us</div>
 
-          <div className="flex gap-3 items-center mt-5">
-            <div className="mt-2">
-              <Link href='https://t.me/myriadFlow'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "teliblack"
-                    : "teliwhite"
-                }.svg`}
-                alt="Logo"
-                height="30"
-                width="30"
-                className="mr-2 border-icon p-1"
-              />
-              </Link>
-            </div>
+            <div className="flex gap-3 items-center mt-5">
+              <div className="mt-2">
+                <Link href="https://t.me/myriadFlow">
+                  <Image
+                    src={`./${
+                      layoutConfig.colorScheme === "light"
+                        ? "teliblack"
+                        : "teliwhite"
+                    }.svg`}
+                    alt="Logo"
+                    height="30"
+                    width="30"
+                    className="mr-2 border-icon p-1"
+                  />
+                </Link>
+              </div>
 
-            <div className="mt-2">
-             
-                <Link href='https://twitter.com/0xMyriadFlow'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "twiblack"
-                    : "tweewhite"
-                }.svg`}
-                alt="Logo"
-                height="30"
-                width="30"
-                className="mr-2 border-icon p-1"
-              />
-              </Link>
-              
-            </div>
-            <div className="mt-2">
-             
-                <Link href='https://discord.gg/38jktRtuY7'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "disblack"
-                    : "diswhite"
-                }.svg`}
-                alt="Logo"
-                height="30"
-                width="30"
-                className="mr-2 border-icon p-1"
-              />
-              </Link>
+              <div className="mt-2">
+                <Link href="https://twitter.com/0xMyriadFlow">
+                  <Image
+                    src={`./${
+                      layoutConfig.colorScheme === "light"
+                        ? "twiblack"
+                        : "tweewhite"
+                    }.svg`}
+                    alt="Logo"
+                    height="30"
+                    width="30"
+                    className="mr-2 border-icon p-1"
+                  />
+                </Link>
+              </div>
+              <div className="mt-2">
+                <Link href="https://discord.gg/38jktRtuY7">
+                  <Image
+                    src={`./${
+                      layoutConfig.colorScheme === "light"
+                        ? "disblack"
+                        : "diswhite"
+                    }.svg`}
+                    alt="Logo"
+                    height="30"
+                    width="30"
+                    className="mr-2 border-icon p-1"
+                  />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-        </div>
-      
-
-      
       </div>
       <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue  p-heading">
         <div className="font-bold text-2xl">

@@ -17,7 +17,7 @@ const YOUR_API_KEY =
 const client = new NFTStorage({ token: YOUR_API_KEY });
 function AddStorefront() {
   const router = useRouter();
-  const [selecteBlockchaine, setselectedBlockchaine] = useState('polygon');
+  const [selecteBlockchaine, setselectedBlockchaine] = useState("polygon");
   const blockchain = [
     { label: "polygon", value: "polygon" },
     { label: "Ethereum", value: "ethereum" },
@@ -40,8 +40,6 @@ function AddStorefront() {
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [uploadImage, setuploadImage] = useState("");
-
-  
 
   async function uploadBlobGetHash(file) {
     try {
@@ -84,7 +82,6 @@ function AddStorefront() {
   };
 
   const addStorefront = async () => {
-
     const token = localStorage.getItem("platform_token");
     const valid = onClickButton();
     if (valid) {
@@ -187,11 +184,10 @@ function AddStorefront() {
           <div className="text-center">
             <div className="font-bold mt-5 text-2xl">Well Done !</div>
             <div className="mt-5 text-xl">
-            <div>You have assumed the role of administrator.</div>
-            <div>The deployment of Flow access master</div>
-            <div>has been completed successfully.</div>
+              <div>You have assumed the role of administrator.</div>
+              <div>The deployment of Flow access master</div>
+              <div>has been completed successfully.</div>
             </div>
-          
           </div>
         </Dialog>
         <div>

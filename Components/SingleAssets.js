@@ -42,7 +42,6 @@ const Homecomp = ({ uri }) => {
               <div className="font-bold text-xl">Asset Name: </div>
               <div className="text-xl"> {response.name}</div>
             </div>
-            
 
             <div className="flex mt-5 gap-5">
               <div className=" text-xl">Description:</div>

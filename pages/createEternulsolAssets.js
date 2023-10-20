@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import EternalSoul from "../artifacts/contracts/eternalsoul/EternalSoul.sol/EternalSoul.json";
@@ -61,11 +61,11 @@ function CreateEternulsolAssets(props) {
   useEffect(() => {
     getBlocchain();
   }, []);
-  const getBlocchain=async()=>{
-    const  payload  = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload)
-  }
- 
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
+  };
+
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -87,28 +87,24 @@ function CreateEternulsolAssets(props) {
     } catch (error) {}
   }
 
-
   const showProgress = () => {
     toast.current.show({
-      severity:'success',
-      summary: 'Success',
+      severity: "success",
+      summary: "Success",
       detail: "Transaction in progress!",
       life: 30000,
     });
   };
- 
+
   const transactionFailed = () => {
     toast.current.show({
-      severity:'error',
-      summary: 'Error',
+      severity: "error",
+      summary: "Error",
       detail: "Transaction 1 failed",
       life: 10000,
     });
   };
 
- 
- 
- 
   async function onChangeMediaType(e) {
     const file = e.target.files[0];
     const { name, type } = file;
@@ -253,13 +249,10 @@ function CreateEternulsolAssets(props) {
       title="Create EternalSoul Assets"
       description="This is used to create EternalSoul Nfts"
     >
-                <Toast ref={toast} />
+      <Toast ref={toast} />
 
-      <div
-       
-      >
+      <div>
         <div className="dark:bg-gray-800 kumbh text-center">
-        
           <div className="effective-nft-color font-bold text-5xl">
             Effective Efficient Easy
           </div>
@@ -281,8 +274,9 @@ function CreateEternulsolAssets(props) {
                     </div>
 
                     <div className="w-56">
-                    <span className="blockchain-label">{storefrontData?.payload?.blockchain}</span>
-
+                      <span className="blockchain-label">
+                        {storefrontData?.payload?.blockchain}
+                      </span>
                     </div>
                   </div>
                   <div style={{ marginTop: "65px" }}>

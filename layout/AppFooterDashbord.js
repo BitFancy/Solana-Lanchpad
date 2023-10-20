@@ -9,7 +9,7 @@ const AppFooterDashboard = () => {
   const { layoutConfig } = useContext(LayoutContext);
   return (
     <div>
-      <div 
+      <div
         style={{
           borderBottom: "1px solid #bcb2b2",
           borderTop: "1px solid #bcb2b2",
@@ -17,7 +17,6 @@ const AppFooterDashboard = () => {
         className={`${
           layoutConfig.colorScheme === "light" ? "white" : "dark"
         } layout-footer  mt-5 p-5`}
-
       >
         <div>
           <div>
@@ -50,71 +49,61 @@ const AppFooterDashboard = () => {
           <div className="mt-3 cursor-pointer text-2xl">Phygital NFTs</div>
           <div className="mt-3 cursor-pointer text-2xl">Eternnal Soul</div>
           <div className="mt-3 cursor-pointer text-2xl">TradeHub</div>
-
-         
         </div>
         <div className="p-heading">
           <div className="font-bold text-3xl ">Contact Us</div>
 
           <div className="flex gap-3 items-center mt-5">
             <div className="mt-2">
-              <Link href='https://t.me/myriadFlow'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "teliblack"
-                    : "teliwhite"
-                }.svg`}
-                alt="Logo"
-                height="50"
-                width="50"
-                className="mr-2 border-icon p-3"
-              />
+              <Link href="https://t.me/myriadFlow">
+                <Image
+                  src={`./${
+                    layoutConfig.colorScheme === "light"
+                      ? "teliblack"
+                      : "teliwhite"
+                  }.svg`}
+                  alt="Logo"
+                  height="50"
+                  width="50"
+                  className="mr-2 border-icon p-3"
+                />
               </Link>
             </div>
 
             <div className="mt-2">
-             
-                <Link href='https://twitter.com/0xMyriadFlow'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "twiblack"
-                    : "tweewhite"
-                }.svg`}
-                alt="Logo"
-                height="50"
-                width="50"
-                className="mr-2 border-icon p-3"
-              />
+              <Link href="https://twitter.com/0xMyriadFlow">
+                <Image
+                  src={`./${
+                    layoutConfig.colorScheme === "light"
+                      ? "twiblack"
+                      : "tweewhite"
+                  }.svg`}
+                  alt="Logo"
+                  height="50"
+                  width="50"
+                  className="mr-2 border-icon p-3"
+                />
               </Link>
-              
             </div>
             <div className="mt-2">
-             
-                <Link href='https://discord.gg/38jktRtuY7'>
-              <Image
-                src={`./${
-                  layoutConfig.colorScheme === "light"
-                    ? "disblack"
-                    : "diswhite"
-                }.svg`}
-                alt="Logo"
-                height="50"
-                width="50"
-                className="mr-2 border-icon p-3"
-              />
+              <Link href="https://discord.gg/38jktRtuY7">
+                <Image
+                  src={`./${
+                    layoutConfig.colorScheme === "light"
+                      ? "disblack"
+                      : "diswhite"
+                  }.svg`}
+                  alt="Logo"
+                  height="50"
+                  width="50"
+                  className="mr-2 border-icon p-3"
+                />
               </Link>
             </div>
           </div>
         </div>
-      
-
-      
       </div>
-      <div 
-      
-       className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue  p-heading">
+      <div className="flex justify-content-center  flex flex-col  py-3 px-3  gradient-blue  p-heading">
         <div className="font-bold text-2xl">
           MyriadFlow | Copyright © {year} Lazarus Network Inc. All Rights
           Reserved.

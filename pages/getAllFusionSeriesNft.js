@@ -15,50 +15,59 @@ function GetAllFusionSeriesNft(props) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [contractAddress, setContractAddress] = useState(()=>props?.router?.query?.contractAddress)
+  const [contractAddress, setContractAddress] = useState(
+    () => props?.router?.query?.contractAddress
+  );
   useEffect(() => {
-    const searchParams = new URLSearchParams(document.location.search)
-     setContractAddress(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress'))
-     if(props?.router?.query?.contractAddress ?? searchParams.get('contractAddress')){
-      getallfusionSeriesAssets()
-     }
-  }, [])
+    const searchParams = new URLSearchParams(document.location.search);
+    setContractAddress(
+      props?.router?.query?.contractAddress ??
+        searchParams.get("contractAddress")
+    );
+    if (
+      props?.router?.query?.contractAddress ??
+      searchParams.get("contractAddress")
+    ) {
+      getallfusionSeriesAssets();
+    }
+  }, []);
   const getallfusionSeriesAssets = async () => {
     try {
-      const endPoint=props?.router?.query?.redirectURL?.slice(0,props?.router?.query?.redirectURL?.indexOf("/graphql"))
-      const { fusionSeriesAssetCreateds } = await getAllFusionSeriesNfts({endPoint: endPoint})
+      const endPoint = props?.router?.query?.redirectURL?.slice(
+        0,
+        props?.router?.query?.redirectURL?.indexOf("/graphql")
+      );
+      const { fusionSeriesAssetCreateds } = await getAllFusionSeriesNfts({
+        endPoint: endPoint,
+      });
       setAsseetsData(fusionSeriesAssetCreateds);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray =fusionSeriesAssetCreateds?.map(
-        (asset) => asset.transactionHash
-      ) ?? [];
+      let tranasactionHashArray =
+        fusionSeriesAssetCreateds?.map((asset) => asset.transactionHash) ?? [];
       const innerContractAddress = [];
-      if(tranasactionHashArray.length>0){
+      if (tranasactionHashArray.length > 0) {
         setLoading(true);
-      await Promise?.all(
-        tranasactionHashArray?.map(async (hash) => {
-
-          const gqlcontractAddress = await provider.getTransaction(hash);
-          if (gqlcontractAddress.to == contractAddress) {
-            innerContractAddress.push(
-              fusionSeriesAssetCreateds?.find((asset) => asset.transactionHash === hash)
-            
-
-            );
-          }
-          setAsseetsData(innerContractAddress);
-
-        })
-      ).then(() => {
-        console.log("innerContractAddress", innerContractAddress);
-      });
+        await Promise?.all(
+          tranasactionHashArray?.map(async (hash) => {
+            const gqlcontractAddress = await provider.getTransaction(hash);
+            if (gqlcontractAddress.to == contractAddress) {
+              innerContractAddress.push(
+                fusionSeriesAssetCreateds?.find(
+                  (asset) => asset.transactionHash === hash
+                )
+              );
+            }
+            setAsseetsData(innerContractAddress);
+          })
+        ).then(() => {
+          console.log("innerContractAddress", innerContractAddress);
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error while fetching assets", error);
       setLoading(false);
     }
-    } catch (error) {
-      console.log("Error while fetching assets",error)
-      setLoading(false)
-    }
-    
   };
   const load = () => {
     setLoading2(true);
@@ -74,10 +83,8 @@ function GetAllFusionSeriesNft(props) {
       description="Used to Show All FusionSeries NFTs Details"
     >
       <div>
-        <MarketplaceProfileDetails id={props.router.query.storefrontId}/>
-        <div
-         className="flex"
-        >
+        <MarketplaceProfileDetails id={props.router.query.storefrontId} />
+        <div className="flex">
           <div>
             <Sidemenu />
           </div>
@@ -91,7 +98,10 @@ function GetAllFusionSeriesNft(props) {
                 <Link
                   href={{
                     pathname: "/createFusionSeriesAssets",
-                    query: { contractAddress: contractAddress,storefrontId:props.router.query.storefrontId },
+                    query: {
+                      contractAddress: contractAddress,
+                      storefrontId: props.router.query.storefrontId,
+                    },
                   }}
                 >
                   <Button
@@ -103,7 +113,7 @@ function GetAllFusionSeriesNft(props) {
                 </Link>
               </div>
             </div>
-            <div className="border-bottom-das" style={{width:'224%'}}></div>
+            <div className="border-bottom-das" style={{ width: "224%" }}></div>
             <div
               className="grid cursor-pointer"
               style={{ gap: "20px", marginLeft: "30px" }}
@@ -115,10 +125,14 @@ function GetAllFusionSeriesNft(props) {
                       key={1}
                       href={{
                         pathname: "/singleFusionSeriesNFT",
-                        query: { contractAddress: contractAddress ,data:JSON.stringify(asset),storefrontId:props.router.query.storefrontId },
+                        query: {
+                          contractAddress: contractAddress,
+                          data: JSON.stringify(asset),
+                          storefrontId: props.router.query.storefrontId,
+                        },
                       }}
                     >
-                    <Homecomp uri={asset ? asset.metadataUri : ""} />
+                      <Homecomp uri={asset ? asset.metadataUri : ""} />
                     </Link>
                   );
                 })

@@ -13,18 +13,18 @@ const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 class UpdateMarketPlace extends React.Component {
   constructor(props) {
     super(props);
-  this.state = {   
-    submitClicked: false,
-    tradhubFees: "",
-    contractAddress: "",
-    visible:false,
-    errors: {
-      tradhubFeesError: "",
-      contractAddressError: "",
-    },
-  };
-}
- 
+    this.state = {
+      submitClicked: false,
+      tradhubFees: "",
+      contractAddress: "",
+      visible: false,
+      errors: {
+        tradhubFeesError: "",
+        contractAddressError: "",
+      },
+    };
+  }
+
   showSuccess() {
     this.toast.show({
       severity: "success",
@@ -41,8 +41,6 @@ class UpdateMarketPlace extends React.Component {
       life: 10000,
     });
   }
- 
- 
 
   handleInputFee = (e) => {
     this.setState({ tradhubFees: e.target.value, tradhubFeesError: "" });
@@ -56,11 +54,9 @@ class UpdateMarketPlace extends React.Component {
 
   updateMarketplaceData = () => {
     const token = localStorage.getItem("platform_token");
-   const valid= this.onClickButton();
-  
-  this.setState({ visible: true });
+    const valid = this.onClickButton();
 
-   
+    this.setState({ visible: true });
   };
 
   onClickButton = () => {
@@ -68,86 +64,94 @@ class UpdateMarketPlace extends React.Component {
       this.setState({
         tradhubFeesError: "Please Enter Marketplace Fees",
       });
-       return false;
+      return false;
     } else if (!this.state.contractAddress) {
       this.setState({
         contractAddressError: "Please Enter Marketplace Contract Address",
       });
       return false;
     } else if (this.state.tradhubFees && this.state.contractAddress) {
-      this.setState({submitClicked:true})
-      this.setState({loading:true})
+      this.setState({ submitClicked: true });
+      this.setState({ loading: true });
       return true;
     }
   };
-  static contextType = LayoutContext
+  static contextType = LayoutContext;
   render() {
     return (
       <LayoutDashbord
         title="Update Tradhub"
         description="Used to show updated tradhub information"
       >
-        <MarketplaceProfileDetails id={this.props.router.query.storefrontId}/>
-        <div  className={`${this.context.layoutConfig.colorScheme === 'light' ? 'buy-back-image-update-tradhub' : 'dark'} flex`} >
+        <MarketplaceProfileDetails id={this.props.router.query.storefrontId} />
+        <div
+          className={`${
+            this.context.layoutConfig.colorScheme === "light"
+              ? "buy-back-image-update-tradhub"
+              : "dark"
+          } flex`}
+        >
           <div>
             <Sidemenu />
             <Toast ref={(el) => (this.toast = el)} />
           </div>
           <div style={{ margin: "0 auto", width: "70%" }}>
-            <div className=" p-5 font-bold text-3xl mt-5">Manage Your TradeHub</div>
+            <div className=" p-5 font-bold text-3xl mt-5">
+              Manage Your TradeHub
+            </div>
             <Dialog
-          visible={this.state.visible}
-          style={{ width: "25vw", height: "15vw" }}
-          onHide={() => this.setState({ visible: false })}
-        >
-          <div className="text-center">
-            <div className="mt-3 text-xl">Your Tradehub is successfully updated</div>
-          </div>
-        </Dialog>
-              <div   key={1} className="mt-5 back-color-update p-5">
-                <div >
-                  <div >
-                    <div className="text-left p-heading">Enter new TradeHub fee</div>
-
-                    <InputText
-                      value={this.state.tradhubFees}
-                      className="p-2 mt-3 input-back w-full"
-                      type="number"
-                      onChange={this.handleInputFee}
-                    />
-                    <p style={{ textAlign: "left", color: "red" }}>
-                      {!this.state.tradhubFees
-                        ? this.state.tradhubFeesError
-                        : ""}
-                    </p>
-                  </div>
-                  <div>
-                    <div className="mt-5">Enter payout address</div>
-
-                    <InputText
-                      value={this.state.contractAddress}
-                      className="p-2 mt-3 input-back w-full"
-                      type="text"
-                      onChange={this.handleInputAddress}
-                    />
-                    <p style={{ textAlign: "left", color: "red" }}>
-                      {!this.state.contractAddress
-                        ? this.state.contractAddressError
-                        : ""}
-                    </p>
-                  </div>
-                 
+              visible={this.state.visible}
+              style={{ width: "25vw", height: "15vw" }}
+              onHide={() => this.setState({ visible: false })}
+            >
+              <div className="text-center">
+                <div className="mt-3 text-xl">
+                  Your Tradehub is successfully updated
                 </div>
               </div>
-          
-           
-            <div className="text-center"style={{marginTop:'80px'}}>
+            </Dialog>
+            <div key={1} className="mt-5 back-color-update p-5">
+              <div>
+                <div>
+                  <div className="text-left p-heading">
+                    Enter new TradeHub fee
+                  </div>
+
+                  <InputText
+                    value={this.state.tradhubFees}
+                    className="p-2 mt-3 input-back w-full"
+                    type="number"
+                    onChange={this.handleInputFee}
+                  />
+                  <p style={{ textAlign: "left", color: "red" }}>
+                    {!this.state.tradhubFees ? this.state.tradhubFeesError : ""}
+                  </p>
+                </div>
+                <div>
+                  <div className="mt-5">Enter payout address</div>
+
+                  <InputText
+                    value={this.state.contractAddress}
+                    className="p-2 mt-3 input-back w-full"
+                    type="text"
+                    onChange={this.handleInputAddress}
+                  />
+                  <p style={{ textAlign: "left", color: "red" }}>
+                    {!this.state.contractAddress
+                      ? this.state.contractAddressError
+                      : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center" style={{ marginTop: "80px" }}>
               <Button
                 label="Update"
-               rounded
+                rounded
                 onClick={this.updateMarketplaceData}
                 className="buy-img"
-                style={{width:'20%'}}
+                style={{ width: "20%" }}
               />
             </div>
           </div>

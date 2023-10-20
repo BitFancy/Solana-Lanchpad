@@ -441,14 +441,12 @@ function MarkeplaceDetailsForm(props) {
                     type="file"
                     onSelect={(event) => {
                       onChangeThumbnailCover(event);
-                  }}
+                    }}
                     uploadHandler={(e) =>
                       console.log("File upload handler", e.files)
                     }
                     value={
-                      webappData.Image
-                        ? webappData.Image
-                        : uploadImageCover
+                      webappData.Image ? webappData.Image : uploadImageCover
                     }
                     accept="image/*"
                     maxFileSize={1000000}

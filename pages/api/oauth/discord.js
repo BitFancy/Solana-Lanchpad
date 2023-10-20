@@ -1,10 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_MYRIADFLOW_DISCORD_CLIENT_ID;
 const REDIRECT_URL = process.env.NEXT_PUBLIC_MYRIADFLOW_DISCORD_REDIRECT_URI;
 const CLIENT_SECRET = process.env.NEXT_PUBLIC_MYRIADFLOW_DISCORD_CLIENT_SECRET;
-const API_ENDPOINT = 'https://discord.com/api/v10';
-
+const API_ENDPOINT = "https://discord.com/api/v10";
 
 function isAccessTokenValid(tokenData) {
   if (!tokenData || !tokenData.expires_in || !tokenData.token_time) {
@@ -20,25 +19,24 @@ function isAccessTokenValid(tokenData) {
   return currentTime < tokenExpirationTime;
 }
 
-
 export default async function handler(req, res) {
   const { code } = req.query;
 
   if (!code) {
-    return res.status(400).json({ error: 'No code provided.' });
+    return res.status(400).json({ error: "No code provided." });
   }
 
   const data = new URLSearchParams({
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    grant_type: 'authorization_code',
+    grant_type: "authorization_code",
     code: code,
     redirect_uri: REDIRECT_URL,
-    scope: 'identify'
+    scope: "identify",
   });
 
   const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
+    "Content-Type": "application/x-www-form-urlencoded",
   };
 
   try {
@@ -46,14 +44,11 @@ export default async function handler(req, res) {
       headers: headers,
     });
 
-
     response.data.token_time = Date.now();
 
-
     if (isAccessTokenValid(response.data)) {
-
       // res.status(200).json({ access_token: response.data });
-      
+
       // perform get user data api
       const userDataResponse = await axios.get(`${API_ENDPOINT}/users/@me`, {
         headers: {
@@ -63,34 +58,34 @@ export default async function handler(req, res) {
 
       // Set the cookie with the user data
       res.setHeader(
-        'Set-Cookie',
+        "Set-Cookie",
         `discordUserData=${JSON.stringify(userDataResponse.data)}; Path=/;`
       );
 
       res.redirect("/profile");
-  
-      // Send a response with the user data
-      res.status(200).json({ user: userDataResponse.data});
-    }
-    else {
 
+      // Send a response with the user data
+      res.status(200).json({ user: userDataResponse.data });
+    } else {
       const tokendata = new URLSearchParams({
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
-        grant_type: 'refresh_token',
+        grant_type: "refresh_token",
         refresh_token: response.data.refresh_token,
       });
 
-      const refreshToken = await axios.post(`${API_ENDPOINT}/oauth2/token`, tokendata, {
-        headers: headers,
-      });
+      const refreshToken = await axios.post(
+        `${API_ENDPOINT}/oauth2/token`,
+        tokendata,
+        {
+          headers: headers,
+        }
+      );
 
       res.status(200).json({ refresh_token: refreshToken.data });
-
     }
-
   } catch (error) {
-    console.error('Error exchanging code for access token:', error);
+    console.error("Error exchanging code for access token:", error);
     res.status(500).json({ error: error, code });
   }
 }

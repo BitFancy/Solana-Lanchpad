@@ -26,23 +26,21 @@ const Homecomp = ({ uri }) => {
   let preuri = image;
 
   return (
-    <div
-    className="p-3 gap-5 back-contract mt-5 mb-0 w-full h-80 rounded-2xl"
-  >      <img
+    <div className="p-3 gap-5 back-contract mt-5 mb-0 w-full h-80 rounded-2xl">
+      {" "}
+      <img
         src={`https://cloudflare-ipfs.com/ipfs/${removePrefix(preuri)}`}
         alt="home-img"
         className=" w-full object-fit rounded-lg mb-3  dash-img-size text-center h-52 w-52"
       />
-        <div className="flex justify-content-between font-bold">
+      <div className="flex justify-content-between font-bold">
         <div>Name</div>
         <div>Description</div>
-        </div>
-        <div className="flex justify-content-between mt-3 font-bold">
-
-        <div className="text-black">{response.name}</div>
-        <div className="text-black"  >{response.description}</div>
       </div>
-    
+      <div className="flex justify-content-between mt-3 font-bold">
+        <div className="text-black">{response.name}</div>
+        <div className="text-black">{response.description}</div>
+      </div>
     </div>
   );
 };
