@@ -44,14 +44,14 @@ const AppConfig = () => {
 
   return (
     <>
-      <div className="grid mt-2 gap-3">
+      <div className="grid gap-3">
         {layoutConfig.colorScheme === "light" ? (
           <svg
             onClick={() => changeTheme("md-dark-indigo", "dark")}
             color="#c4afaf"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 24 30"
             stroke="currentColor"
             className="cursor-pointer"
           >
@@ -68,7 +68,7 @@ const AppConfig = () => {
             onClick={() => changeTheme("md-light-deeppurple", "light")}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 24 30"
             stroke="currentColor"
             className="cursor-pointer"
           >

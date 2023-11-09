@@ -153,8 +153,8 @@ function AppTopbar() {
            
           </div>
         )}
-        <div>
-          <AppConfig />
+        <div className="w-1rem h-1rem">
+          <AppConfig className="w-1rem h-1rem"/>
         </div>
       </div>
     </div>
