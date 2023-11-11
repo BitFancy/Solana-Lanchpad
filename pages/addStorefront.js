@@ -19,11 +19,13 @@ function AddStorefront() {
   const router = useRouter();
   const [selecteBlockchaine, setselectedBlockchaine] = useState("polygon");
   const blockchain = [
-    { label: "polygon", value: "polygon" },
+    { label: "Polygon", value: "polygon" },
     { label: "Ethereum", value: "ethereum" },
     { label: "Arbitrum", value: "arbitrum" },
     { label: "Optimism", value: "optimism" },
     { label: "Base", value: "base" },
+    { label: "Polygon zkevm", value: "polygon_zkevm" },
+    { label: "Scroll", value: "scroll" },
   ];
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);

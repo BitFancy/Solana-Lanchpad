@@ -156,7 +156,7 @@ function StorefrontDashboard(props) {
           {storefrontData[0]?.network === "mainnet" && (
             <div className="text-center">
               <div className="font-bold text-4xl p-5">
-                Your storefronts in Testnet
+                Your storefronts in Mainnet
               </div>
             </div>
           )}
