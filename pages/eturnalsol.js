@@ -25,6 +25,7 @@ class Eturnulsol extends React.Component {
     this.showError = this.showError.bind(this);
 
     this.state = {
+      storefrontId: "",
       contractName: "",
       contractSymbol: "",
       eturnalsolResponse: "",
@@ -46,16 +47,24 @@ class Eturnulsol extends React.Component {
     delete copyState.storefrontData;
     this.initialState = { ...copyState };
   }
+
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(
-      this.props.router.query.storefrontId
-    );
+    // const myStoreID = this.props.router;
+    // console.log(myStoreID);
+    const urlParams = new URLSearchParams(window.location.search);
+    const storefrontId = urlParams.get("storefrontId");
+    console.log(storefrontId);
+    this.setState({ storefrontId: storefrontId });
+    const { payload } = await getStorefrontByID(storefrontId);
     this.setState({ storefrontData: payload });
-    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
-      (response) => {
-        this.setState({ accsessmasterAddress: response[0]?.contractAddress });
-      }
-    );
+    getAccessMasterByStorefrontID(storefrontId).then((response) => {
+      this.setState({ accsessmasterAddress: response[0]?.contractAddress });
+    });
+    // getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
+    //   (response) => {
+    //     this.setState({ accsessmasterAddress: response[0]?.contractAddress });
+    //   }
+    // );
   }
 
   showError() {
@@ -114,11 +123,18 @@ class Eturnulsol extends React.Component {
               param1: this.state.contractName,
               param2: this.state.contractSymbol,
               param3: "www.xyz.com",
-              param4: this.state.accsessmasterAddress,
+              param4: "Voucher-Domain",
+              param5: "1",
+              param6: "1000000000000000000",
+              param7: this.state.accsessmasterAddress,
             },
             network: "maticmum",
-            storefrontId: this.props?.router?.query?.storefrontId,
+            // storefrontId: this.props?.router?.query?.storefrontId,
+            storefrontId: this.state.storefrontId,
+
             collectionName: this.state.contractName,
+            thumbnail: this.state.thumbnail,
+            coverImage: this.state.uploadImageCover,
           },
           {
             headers: {
