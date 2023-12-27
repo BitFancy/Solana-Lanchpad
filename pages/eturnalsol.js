@@ -53,7 +53,6 @@ class Eturnulsol extends React.Component {
     // console.log(myStoreID);
     const urlParams = new URLSearchParams(window.location.search);
     const storefrontId = urlParams.get("storefrontId");
-    console.log(storefrontId);
     this.setState({ storefrontId: storefrontId });
     const { payload } = await getStorefrontByID(storefrontId);
     this.setState({ storefrontData: payload });
@@ -215,7 +214,7 @@ class Eturnulsol extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ thumbnail: metaHashURI });
     } catch (error) {
@@ -229,7 +228,7 @@ class Eturnulsol extends React.Component {
       type: file.type,
     });
     try {
-      const metaHash = await uploadBlobGetHash(thumbnail);
+      const metaHash = await this.uploadBlobGetHash(thumbnail);
       const metaHashURI = this.getMetaHashURI(metaHash);
       this.setState({ uploadImageCover: metaHashURI });
     } catch (error) {

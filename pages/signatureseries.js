@@ -26,6 +26,7 @@ class SignatureSeries extends React.Component {
 
     this.showError = this.showError.bind(this);
     this.state = {
+      storefrontId: "",
       contractName: "",
       contractSymbol: "",
       signatureseriesRespoanse: null,
@@ -50,20 +51,17 @@ class SignatureSeries extends React.Component {
   }
 
   async componentDidMount() {
-    const { payload } = await getStorefrontByID(
-      this.props.router.query.storefrontId
-    );
+    const urlParams = new URLSearchParams(window.location.search);
+    const storefrontId = urlParams.get("storefrontId");
+    this.setState({ storefrontId: storefrontId });
+    const { payload } = await getStorefrontByID(storefrontId);
     this.setState({ storefrontData: payload });
-    getAccessMasterByStorefrontID(this.props.router.query.storefrontId).then(
-      (response) => {
-        this.setState({ accsessmasterAddress: response[0]?.contractAddress });
-      }
-    );
-    getTradeHubByStorefrontID(this.props.router.query.storefrontId).then(
-      (response) => {
-        this.setState({ tradhubAddress: response[0]?.contractAddress });
-      }
-    );
+    getAccessMasterByStorefrontID(storefrontId).then((response) => {
+      this.setState({ accsessmasterAddress: response[0]?.contractAddress });
+    });
+    getTradeHubByStorefrontID(storefrontId).then((response) => {
+      this.setState({ tradhubAddress: response[0]?.contractAddress });
+    });
   }
 
   showError() {
@@ -171,11 +169,15 @@ class SignatureSeries extends React.Component {
             constructorParams: {
               param1: this.state.contractName,
               param2: this.state.contractSymbol,
-              param3: this.state.tradhubAddress,
-              param4: this.state.accsessmasterAddress,
+              param3: "Voucher-Domain",
+              param4: "1",
+              param5: "1000000000000000000",
+              param6: this.state.tradhubAddress,
+              param7: this.state.accsessmasterAddress,
             },
             network: "maticmum",
-            storefrontId: this.props?.router?.query?.storefrontId,
+            // storefrontId: this.props?.router?.query?.storefrontId,
+            storefrontId: this.state.storefrontId,
             collectionName: this.state.contractName,
             thumbnail: this.state.thumbnail,
             coverImage: this.state.uploadImageCover,
