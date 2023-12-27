@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { classNames } from "primereact/utils";
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { LayoutContext } from "./context/layoutcontext";
 import Image from "next/image";
 import AppConfig from "./AppConfig";
@@ -16,46 +11,46 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 
 function AppTopbar() {
-  const {  isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { layoutConfig, layoutState } = useContext(LayoutContext);
   const [toggle, setToggle] = useState(false);
   const topbarmenuRef = useRef(null);
-  const [getplan, setpaln] = useState('');
+  const [getplan, setpaln] = useState("");
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const toast = useRef(null);
   const showSuccessPro = () => {
     toast.current.show({
       severity: "warn",
-      detail: 'Please connect to  your wallet frist',
+      detail: "Please connect to  your wallet frist",
       life: 10000,
     });
   };
   const showLogout = () => {
     toast.current.show({
       severity: "success",
-      detail: 'User Logout Successfully',
+      detail: "User Logout Successfully",
       life: 10000,
     });
   };
   const router = useRouter();
   useEffect(() => {
-    getPlan();
+    // getPlan();
     if (!localStorage.getItem("wagmi.connected")) {
       router.push("/");
     }
   }, []);
-  const logout=()=>{
-    disconnect,
-    localStorage.clear();
+  const logout = () => {
+    disconnect, localStorage.clear();
     showLogout();
 
     router.push("/");
-  }
-  const getPlan=async()=>{
+  };
+  const getPlan = async () => {
     const token = localStorage.getItem("platform_token");
     const { data } = await axios.get(
-      `${BASE_URL_LAUNCH}api/v1.0/profile/subscribe`,
+      // `${BASE_URL_LAUNCH}api/v1.0/profile/subscribe`,
+      `https://testnet.gateway.myriadflow.com/profile/subscribe`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -64,7 +59,7 @@ function AppTopbar() {
     );
     setpaln(data.payload.plan);
   };
-  
+
   return (
     <div className="layout-topbar">
       <Link href="/launchpad" className="layout-topbar-logo">
@@ -77,7 +72,10 @@ function AppTopbar() {
           widt={"true"}
           alt="logo"
         />
-        <img src="./myriadflow.png" style={{width:'170px',height:'20px'}}></img>
+        <img
+          src="./myriadflow.png"
+          style={{ width: "170px", height: "20px" }}
+        ></img>
       </Link>
       <div
         ref={topbarmenuRef}
@@ -85,28 +83,23 @@ function AppTopbar() {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-         <Toast ref={toast} />
+        <Toast ref={toast} />
         <a
-         onClick={() =>
-          isConnected ? null : showSuccessPro()}
-          href={isConnected && !getplan ? "/buySubscription" : "/profile" }
+          onClick={() => (isConnected ? null : showSuccessPro())}
+          href={isConnected && !getplan ? "/buySubscription" : "/profile"}
         >
-          <span   className="font-bold text-white text-2xl">Launch</span>
+          <span className="font-bold text-white text-2xl">Launch</span>
         </a>
 
         <Link
-          onClick={() =>
-            isConnected ? null : showSuccessPro()
-          }
+          onClick={() => (isConnected ? null : showSuccessPro())}
           href={isConnected ? "/dashboard" : ""}
         >
           <span className="font-bold text-white text-2xl">Dashboard</span>
         </Link>
 
         <div>
-          <ConnectButton
-            className="connect-wallet"
-          />
+          <ConnectButton className="connect-wallet" />
         </div>
         <div onClick={() => setToggle(!toggle)}>
           <img className="cursor-pointer" src="/profile.png"></img>
@@ -120,41 +113,43 @@ function AppTopbar() {
               marginTop: "165px",
               position: "absolute",
               right: "0px",
-              border:'1px solid'
+              border: "1px solid",
             }}
           >
-
-            <div  style={{ color: "black" }} className="flex gap-2 mt-2 ">
+            <div style={{ color: "black" }} className="flex gap-2 mt-2 ">
               <div>
                 <i className="pi pi-eye"></i>
               </div>
-              <Link   onClick={() =>
-            isConnected ? null : showSuccessPro()
-          }
-          href={isConnected ? "/profile" : ""}  style={{ color: "black" }}>
+              <Link
+                onClick={() => (isConnected ? null : showSuccessPro())}
+                href={isConnected ? "/profile" : ""}
+                style={{ color: "black" }}
+              >
                 <div>
                   <div className="font-bold">View profile</div>
                 </div>
               </Link>
-
             </div>
             <div className="border-bottom-das"></div>
 
-          {localStorage.getItem("profiledetails") &&
-          <div    onClick={logout} style={{ color: "black" }} className="flex gap-2 mt-2 p-heading">
-          <div>
-            <i className="pi pi-sign-out"></i>
-          </div>
-            <div className=" cursor-pointer">
-              <div className="font-bold ">Logout</div>
-            </div>
-        </div>
-          } 
-           
+            {localStorage.getItem("profiledetails") && (
+              <div
+                onClick={logout}
+                style={{ color: "black" }}
+                className="flex gap-2 mt-2 p-heading"
+              >
+                <div>
+                  <i className="pi pi-sign-out"></i>
+                </div>
+                <div className=" cursor-pointer">
+                  <div className="font-bold ">Logout</div>
+                </div>
+              </div>
+            )}
           </div>
         )}
         <div className="w-1rem h-1rem">
-          <AppConfig className="w-1rem h-1rem"/>
+          <AppConfig className="w-1rem h-1rem" />
         </div>
       </div>
     </div>

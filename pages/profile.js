@@ -57,6 +57,8 @@ const getUserDataFromLocalStorage = () => {
 
 const client = new NFTStorage({ token: YOUR_API_KEY });
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+console.log(BASE_URL);
+// const BASE_URL = "https://testnet.gateway.myriadflow.com/";
 
 function Profile() {
   const { address } = useAccount();
@@ -192,55 +194,6 @@ function Profile() {
     }
   };
 
-  // const getRole = async () => {
-  //   const token = localStorage.getItem("platform_token");
-  //   const role_id = localStorage.getItem("platform_roleid");
-
-  //   const config1 = {
-  //     url: `${BASE_URL}/api/v1.0/roleId/${role_id}`,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-  //   let roledata;
-  //   try {
-  //     roledata = await axios(config1);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-
-  //   let web3 = new Web3(Web3.givenProvider);
-  //   let completemsg = roledata.data.payload.eula + roledata.data.payload.flowId;
-  //   const hexMsg = convertUtf8ToHex(completemsg);
-  //   const result = await web3.eth.personal.sign(hexMsg, wallet);
-
-  //   var signroledata = JSON.stringify({
-  //     flowId: roledata.data.payload.flowId,
-  //     signature: result,
-  //   });
-  //   //This is used to create a role/generate the flowid and signature
-  //   const config = {
-  //     url: `${BASE_URL}/api/v1.0/claimrole`,
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: signroledata,
-  //   };
-
-  //   try {
-  //     const response = await axios(config);
-  //     const msg = await response?.data?.message;
-  //     setHasRole(true);
-  //     return true;
-  //   } catch (e) {
-  //     console.log(e);
-  //     return false;
-  //   }
-  // };
-  //use to generate the hex msg and
   const authorize = async () => {
     // const mywallet = localStorage.getItem("platform_wallet")
     const { data } = await axios.get(
@@ -613,9 +566,6 @@ function Profile() {
                 shape="circle"
                 style={{ borderRadius: "50%", width: "200px", height: "200px" }}
               />
-              {/* <Image src={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/${removePrefix(
-                profilePictureUrl
-              )}`} alt="Image" width="200" style={{borderRadius:'50%', width: '200px', height: '200px' }}/> */}
             </div>
           </div>
         ) : (
@@ -673,16 +623,7 @@ function Profile() {
               marginRight: "145px",
               position: "absolute",
             }}
-          >
-            {/* <Link 
-              href={{
-                pathname: "/buySubscription",
-                
-              }}
-            >
-              <Button label="Upgrade plan" rounded />
-            </Link> */}
-          </div>
+          ></div>
 
           <div
             style={{
@@ -721,13 +662,6 @@ function Profile() {
             <AppConfig />
           </div>
 
-          {/* <div>
-            <Avatar
-              size="xlarge"
-              shape="circle"
-              style={{ borderRadius: "50%", width: "150px", height: "150px" }}
-            />
-          </div> */}
           <div style={{ marginTop: "-115px" }}>
             <form style={{ marginTop: "135px" }} onSubmit={updateData}>
               <div className="md-form mb-3">
