@@ -130,7 +130,7 @@ const EternumPass = (props) => {
               param8: accsessmasterAddress,
               param9: tradhubAddress,
             },
-            network: "maticmum",
+            network: "polygon",
             storefrontId: props.router.query.storefrontId,
             collectionName: contractName,
           },

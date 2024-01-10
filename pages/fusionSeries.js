@@ -132,7 +132,7 @@ class FusionSeries extends React.Component {
               param4: this.state.tradhubAddress,
               param5: this.state.accsessmasterAddress,
             },
-            network: "maticmum",
+            network: "polygon",
             storefrontId: this.props?.router?.query?.storefrontId,
             collectionName: this.state.contractName,
             thumbnail: this.state.thumbnail,

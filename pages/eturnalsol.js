@@ -127,7 +127,7 @@ class Eturnulsol extends React.Component {
               param6: "1000000000000000000",
               param7: this.state.accsessmasterAddress,
             },
-            network: "maticmum",
+            network: "polygon",
             // storefrontId: this.props?.router?.query?.storefrontId,
             storefrontId: this.state.storefrontId,
 

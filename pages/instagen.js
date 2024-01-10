@@ -93,7 +93,7 @@ const Instagen = (props) => {
               param9: royltybps,
               param10: "www.abc.com",
             },
-            network: "maticmum",
+            network: "polygon",
             storefrontId: props?.router?.query?.storefrontId,
             collectionName: contractName,
             thumbnail: thumbnail,
