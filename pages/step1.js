@@ -79,7 +79,7 @@ function Step1(props) {
               param2: contractName,
               param3: accessMasterAddress,
             },
-            network: "maticmum",
+            network: "polygon",
             storefrontId: props?.router?.query?.storefrontId,
             collectionName: contractName,
           },

@@ -175,7 +175,7 @@ class SignatureSeries extends React.Component {
               param6: this.state.tradhubAddress,
               param7: this.state.accsessmasterAddress,
             },
-            network: "maticmum",
+            network: "polygon",
             // storefrontId: this.props?.router?.query?.storefrontId,
             storefrontId: this.state.storefrontId,
             collectionName: this.state.contractName,
