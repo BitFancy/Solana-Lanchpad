@@ -8,7 +8,11 @@ import Link from "next/link";
 import Layout2 from "../Components/Layout2";
 import { LayoutContext } from "../layout/context/layoutcontext";
 import { Dialog } from "primereact/dialog";
-import { getAccessMasterByStorefrontID } from "../utils/util";
+import Loader from "../Components/LoadingSpinner";
+import {
+  getAccessMasterByStorefrontID,
+  getTradeHubByStorefrontID,
+} from "../utils/util";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function Step1(props) {
   const [loading, setLoading] = useState(false);
@@ -17,6 +21,8 @@ function Step1(props) {
   const { layoutConfig } = useContext(LayoutContext);
   const [visible, setVisible] = useState(false);
   const [accessMasterAddress, setaccessMasterAddress] = useState("");
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isDeploymentDone, setIsDeploymentDone] = useState(false);
 
   const [errors, setErros] = useState({
     platformFeeErrors: "",
@@ -24,12 +30,29 @@ function Step1(props) {
   });
   const router = useRouter();
   useEffect(() => {
-    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+    getTradeHubByStorefrontID(props.router.query.storefrontId).then(
       (response) => {
-        setaccessMasterAddress(response[0]?.contractAddress);
+        if (response.length !== 0) {
+          router.push({
+            pathname: "/launchSignatureseries",
+            query: { storefrontId: props?.router?.query?.storefrontId },
+          });
+        } else {
+          setIsPageLoading(false);
+        }
+        console.log("trade", response);
       }
     );
   }, []);
+  useEffect(() => {
+    getAccessMasterByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setaccessMasterAddress(response[0]?.contractAddress);
+        console.log("respones", response);
+      }
+    );
+  }, []);
+
   const [submitClicked, setSubmitClicked] = useState(false);
   const toast = useRef(null);
   const getAllContarctData = async () => {
@@ -42,6 +65,7 @@ function Step1(props) {
         },
       }
     );
+    // console.log(data);
     return data;
   };
 
@@ -59,7 +83,7 @@ function Step1(props) {
         const showSuccessPro = () => {
           toast.current.show({
             severity: "warn",
-            detail: `Contract name' ${contractName}' is already exist please Enter another name`,
+            detail: `TradeHub name' ${contractName}' already exists, please enter another name`,
             life: 10000,
           });
         };
@@ -90,6 +114,7 @@ function Step1(props) {
           }
         )
         .then(async (response) => {
+          console.log("TradeHubCreation", response);
           setTimeout(() => {
             setLoading(false);
             setVisible(true);
@@ -104,7 +129,9 @@ function Step1(props) {
             toast.current.show({
               severity: "error",
               summary: "Error",
-              detail: `Tradhub with id ${props?.router?.query?.storefrontId}'  is already exist Please continue to deploy Next contract`,
+              // detail: `Tradhub with id ${props?.router?.query?.storefrontId}'  is already exist Please continue to deploy Next contract`,
+              detail: `Error deploying TradeHub. Please Try again`,
+
               life: 2000,
             });
           };
@@ -128,7 +155,7 @@ function Step1(props) {
       setErros({ platformFeeErrors: "Please Enter Platform Fees" });
       return false;
     } else if (!contractName) {
-      setErros({ contractNameEror: "Please Enter Contarct Name" });
+      setErros({ contractNameEror: "Please Enter Contract Name" });
       return false;
     } else if (platformFee && contractName) {
       setSubmitClicked(true);
@@ -136,8 +163,18 @@ function Step1(props) {
       return true;
     }
   };
+
+  if (isPageLoading) {
+    return (
+      <>
+        <div>
+          <Loader />
+        </div>
+      </>
+    );
+  }
   return (
-    <Layout2 title="Tradhub Setup" description="First Deploy Tradhub">
+    <Layout2 title="Tradhub Setup" description="First Deploy Tradehub">
       <Toast ref={toast} />
       <Dialog
         visible={visible}
@@ -147,73 +184,83 @@ function Step1(props) {
         <div className="text-center">
           <div className="font-bold text-2xl">Congrats!</div>
           <div className="mt-5 text-xl">
-            Your Tradhub Contract has been sucessfully
+            Your Tradehub Contract has been sucessfully
             <div className="text-xl mt-2">Deployed</div>
           </div>
         </div>
       </Dialog>
+
       <div>
         <div>
-          <div className="font-bold p-3 mb-5 text-3xl text-black ml-5 p-heading p-5">
-            Step1: Setup TradeHub
+          <div className=" p-3 mb-5 text-black ml-5 p-5">
+            <p className="text-3xl font-bold">Step1: Setup TradeHub</p>
+            <p>
+              Set up your TradeHub Details. Kindly note that your tradehub name
+              is your<b> on-chain name</b>. It is <b>unique</b> and{" "}
+              <b> unchangeable</b>.
+            </p>
           </div>
+
           <div className="border-bottom-das"></div>
+          <form>
+            <div
+              className={`${
+                layoutConfig.colorScheme === "light"
+                  ? "back-color"
+                  : "back-color-black"
+              }  p-5 mt-5`}
+              style={{ width: "60%", margin: "0 auto", height: "350px" }}
+            >
+              <div className="flex justify-content-between">
+                <div style={{ width: "45%" }}>
+                  <div className=" p-heading">Enter TradeHub Name</div>
+                  <div className="mt-2">
+                    <InputText
+                      value={contractName}
+                      className="p-2 mt-2 input-back w-full"
+                      onChange={handleInputName}
+                      required
+                    />
 
-          <div
-            className={`${
-              layoutConfig.colorScheme === "light"
-                ? "back-color"
-                : "back-color-black"
-            }  p-5 mt-5`}
-            style={{ width: "60%", margin: "0 auto", height: "350px" }}
-          >
-            <div className="flex justify-content-between">
-              <div style={{ width: "45%" }}>
-                <div className=" p-heading">Enter TradeHub Name</div>
-                <div className="mt-2">
-                  <InputText
-                    value={contractName}
-                    className="p-2 mt-2 input-back w-full"
-                    onChange={handleInputName}
-                  />
+                    <p style={{ textAlign: "left", color: "red" }}>
+                      {!contractName ? errors.contractNameEror : ""}
+                    </p>
+                  </div>
+                </div>
 
-                  <p style={{ textAlign: "left", color: "red" }}>
-                    {!contractName ? errors.contractNameEror : ""}
-                  </p>
+                <div style={{ width: "45%" }}>
+                  <label className="p-heading block">Enter TradeHub Fees</label>
+                  <div className="mt-2">
+                    <InputText
+                      required
+                      type="number"
+                      className="p-2 mt-2 input-back  w-full"
+                      value={platformFee}
+                      onChange={handleInputFee}
+                    />
+
+                    <p style={{ textAlign: "left", color: "red" }}>
+                      {!platformFee ? errors.platformFeeErrors : ""}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              <div style={{ width: "45%" }}>
-                <div className="p-heading">Enter TradeHub Fees</div>
-                <div className="mt-2">
-                  <InputText
-                    type="number"
-                    className="p-2 mt-2 input-back  w-full"
-                    value={platformFee}
-                    onChange={handleInputFee}
-                  />
-
-                  <p style={{ textAlign: "left", color: "red" }}>
-                    {!platformFee ? errors.platformFeeErrors : ""}
-                  </p>
-                </div>
+              <div className="text-center">
+                <Button
+                  type="submit"
+                  label="Deploy Tradehub"
+                  onClick={tradHubContarctData}
+                  severity="Primary"
+                  className=" mt-7  buy-img deploy-tradhub-conttract"
+                  style={{ width: "30%" }}
+                  rounded
+                  loading={loading}
+                />
               </div>
+              <div className="flex mt-5 justify-content-between"></div>
             </div>
-            <div className="text-center">
-              <Button
-                label="Deploy Tradhub"
-                onClick={tradHubContarctData}
-                severity="Primary"
-                className=" mt-7  buy-img deploy-tradhub-conttract"
-                style={{ width: "30%" }}
-                rounded
-                loading={loading}
-              />
-            </div>
-            <div className="flex mt-5 justify-content-between"></div>
-          </div>
-
-          <Link
+          </form>
+          {/* <Link
             href={{
               pathname: "/launchSignatureseries",
               query: { storefrontId: props?.router?.query?.storefrontId },
@@ -222,7 +269,7 @@ function Step1(props) {
             <div className="mt-5 text-center">
               <Button label="Continue"></Button>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </Layout2>

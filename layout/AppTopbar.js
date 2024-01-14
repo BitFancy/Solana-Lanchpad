@@ -19,6 +19,7 @@ function AppTopbar() {
   const [getplan, setpaln] = useState("");
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const toast = useRef(null);
+  console.log("status", isConnected);
   const showSuccessPro = () => {
     toast.current.show({
       severity: "warn",
@@ -84,12 +85,12 @@ function AppTopbar() {
         })}
       >
         <Toast ref={toast} />
-        <a
+        {/* <a
           onClick={() => (isConnected ? null : showSuccessPro())}
           href={isConnected && !getplan ? "/buySubscription" : "/profile"}
         >
           <span className="font-bold text-white text-2xl">Launch</span>
-        </a>
+        </a> */}
 
         <Link
           onClick={() => (isConnected ? null : showSuccessPro())}
