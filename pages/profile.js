@@ -108,6 +108,7 @@ function Profile() {
   const [discordData, setdiscordData] = useState(null);
   const [instaData, setinstaData] = useState(null);
   const [fb, setfb] = useState(null);
+  const [userToken, setUserToken] = useState(null);
   async function uploadImage(e) {
     e.preventDefault();
     try {
@@ -127,12 +128,18 @@ function Profile() {
 
   const getPlan = async () => {
     const token = localStorage.getItem("platform_token");
-    const { data } = await axios.get(`${BASE_URL}api/v1.0/profile/subscribe`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setpaln(data.payload.plan);
+    if (token) {
+      setUserToken(token);
+      const { data } = await axios.get(
+        `${BASE_URL}api/v1.0/profile/subscribe`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setpaln(data.payload.plan);
+    }
   };
 
   async function uploadcover(e) {
@@ -594,7 +601,7 @@ function Profile() {
               <FaUserCircle
                 style={{
                   fontSize: "24px",
-                  // color: 'gray',
+
                   width: "200px",
                   height: "200px",
                 }}
@@ -607,37 +614,41 @@ function Profile() {
           <div
             style={{
               marginTop: "23px",
-              marginRight: "290px",
-              position: "absolute",
-            }}
-          >
-            {!profileDetails && (
-              <div>
-                <Button onClick={authorize} label="Login" rounded />
-              </div>
-            )}
-          </div>
-          <div
-            style={{
-              marginTop: "23px",
-              marginRight: "145px",
-              position: "absolute",
-            }}
-          ></div>
-
-          <div
-            style={{
-              marginTop: "23px",
               marginRight: "20px",
               position: "absolute",
             }}
           >
-            <Button
-              label="Edit Profile"
-              onClick={() => setmodal(true)}
-              rounded
-            />
+            {!profileDetails && (
+              <div
+                className="flex gap-4"
+                style={{
+                  alignItems: "center",
+                }}
+              >
+                <div className="text-lg">
+                  <em>Please log in to see your profile details</em>
+                </div>
+                <div>
+                  <Button onClick={authorize} label="Login" rounded />
+                </div>
+              </div>
+            )}
           </div>
+          {profileDetails && (
+            <div
+              style={{
+                marginTop: "23px",
+                marginRight: "20px",
+                position: "absolute",
+              }}
+            >
+              <Button
+                label="Edit Profile"
+                onClick={() => setmodal(true)}
+                rounded
+              />
+            </div>
+          )}
         </div>
 
         <Dialog

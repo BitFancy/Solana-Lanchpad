@@ -228,7 +228,9 @@ function AddStorefront() {
               </div>
             </div>
             <div className="w-full">
-              <div>StoreFront Name(must be unique)</div>
+              {/* <div>StoreFront Name(must be unique)</div>   */}
+              <div>StoreFront Name</div>
+
               <div>
                 <InputText
                   id="contractName"
