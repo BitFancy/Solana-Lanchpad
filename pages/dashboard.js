@@ -215,6 +215,24 @@ function StorefrontDashboard(props) {
                           </div>
                         )}
 
+                        <div>
+                          <Link
+                            href={{
+                              pathname: "/contracts/eternal-soul-collections",
+                              query: { storefrontId: storefront.id },
+                            }}
+                          >
+                            <div>
+                              <Button
+                                loading={loading1}
+                                onClick={load1}
+                                label="Storefront Details"
+                                className="buy-back-color"
+                              ></Button>
+                            </div>
+                          </Link>
+                        </div>
+
                         {storefront.deployed === true && (
                           <div>
                             <div>
