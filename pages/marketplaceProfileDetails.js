@@ -16,7 +16,7 @@ function MarketplaceProfileDetails(props) {
     const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
     try {
       const { data } = await axios.get(
-        `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.router.query.storefrontId}`,
+        `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${props.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,11 +56,11 @@ function MarketplaceProfileDetails(props) {
                   <div>{data?.name}</div>
                 </div>
                 <div className="flex text-white gap-2 mt-2">
-                  <div>Headline :</div>
+                  <b>Headline :</b>
                   <div>{data?.headline}</div>
                 </div>
                 <div className="flex text-white gap-2 mt-2">
-                  <div>Blockchain :</div>
+                  <b>Blockchain :</b>
                   <div>{data?.blockchain}</div>
                 </div>
               </div>
@@ -70,7 +70,7 @@ function MarketplaceProfileDetails(props) {
                 <Link
                   href={{
                     pathname: "/launchSignatureseries",
-                    query: { storefrontId: props?.router?.query?.storefrontId },
+                    query: { storefrontId: props.id },
                   }}
                 >
                   <Button
@@ -79,7 +79,7 @@ function MarketplaceProfileDetails(props) {
                     onClick={load2}
                     rounded
                     style={{ background: "white", color: "black" }}
-                    label="Launch"
+                    label="Launch a new collection"
                   ></Button>
                 </Link>
               </div>
@@ -106,4 +106,4 @@ function MarketplaceProfileDetails(props) {
     </div>
   );
 }
-export default withRouter(MarketplaceProfileDetails);
+export default MarketplaceProfileDetails;

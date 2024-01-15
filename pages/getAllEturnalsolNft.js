@@ -15,38 +15,40 @@ function GetAllEternalSoulNft(props) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  useEffect(() => {
-    getEturnulsolAssets();
-  }, []);
-  const testCTA = props.router.query.contractAddress;
-  const getEturnulsolAssets = async () => {
-    const endPoint = props?.router?.query?.redirectURL?.slice(
-      0,
-      props?.router?.query?.redirectURL?.indexOf("/graphql")
-    );
-    const { assetIssueds } = await getAllEternulsolNfts({ endPoint: endPoint });
-    setAsseetsData(assetIssueds);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    let tranasactionHashArray = assetIssueds?.map(
-      (asset) => asset.transactionHash
-    );
-    const innerContractAddress = [];
-    setLoading(true);
-    await Promise.all(
-      tranasactionHashArray?.map(async (hash) => {
-        const contractAddress = await provider.getTransaction(hash);
-        if (contractAddress.to == testCTA) {
-          innerContractAddress.push(
-            assetIssueds.find((asset) => asset.transactionHash === hash)
-          );
-        }
+  // useEffect(() => {
+  //   getEturnulsolAssets();
+  // }, [props.router]);
+  const contractAddress = props.router.query.contractAddress;
+  console.log(contractAddress);
+  // const getEturnulsolAssets = async () => {
+  //   const endPoint = props?.router?.query?.redirectURL?.slice(
+  //     0,
+  //     props?.router?.query?.redirectURL?.indexOf("/graphql")
+  //   );
+  //   const assetIssueds = await getAllEternulsolNfts({ endPoint: endPoint });
+  //   console.log(assetIssueds);
+  //   setAsseetsData(assetIssueds);
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   let tranasactionHashArray = assetIssueds?.map(
+  //     (asset) => asset.transactionHash
+  //   );
+  //   const innerContractAddress = [];
+  //   setLoading(true);
+  //   await Promise.all(
+  //     tranasactionHashArray?.map(async (hash) => {
+  //       const contractAddress = await provider.getTransaction(hash);
+  //       if (contractAddress.to == testCTA) {
+  //         innerContractAddress.push(
+  //           assetIssueds.find((asset) => asset.transactionHash === hash)
+  //         );
+  //       }
 
-        setAsseetsData(innerContractAddress);
-      })
-    ).then(() => {
-      console.log("innerContractAddress", innerContractAddress);
-    });
-  };
+  //       setAsseetsData(innerContractAddress);
+  //     })
+  //   ).then(() => {
+  //     console.log("innerContractAddress", innerContractAddress);
+  //   });
+  // };
   const load = () => {
     setLoading2(true);
 
@@ -54,7 +56,7 @@ function GetAllEternalSoulNft(props) {
       setLoading2(false);
     }, 2000);
   };
-  const contractAddress = props.router.query.contractAddress;
+  // const contractAddress = props.router.query.contractAddress;
 
   return (
     <LayoutDashbord
@@ -62,7 +64,7 @@ function GetAllEternalSoulNft(props) {
       description="Used to Show All EternalSoul NFTs Details"
     >
       <div>
-        <MarketplaceProfileDetails />
+        <MarketplaceProfileDetails id={props.router.query.storefrontId} />
         <div className="flex">
           <div>
             <Sidemenu />
@@ -70,7 +72,8 @@ function GetAllEternalSoulNft(props) {
           <div>
             <div className="flex ml-5 justify-content-around">
               <div className="font-bold mt-5 text-3xl text-black ">
-                EternalSoul &gt; EternalSoul 1
+                {props.router.query.collectionName}
+                {/* &gt; EternalSoul 1  */}
               </div>
 
               <div className="mt-5 ml-5">
@@ -121,7 +124,8 @@ function GetAllEternalSoulNft(props) {
                 <Loader />
               ) : (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any EternalSoul NFts.
+                  You haven&apos;t created any NFTs in{" "}
+                  {props.router.query.collectionName}.
                 </div>
               )}
             </div>

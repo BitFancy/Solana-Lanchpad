@@ -181,10 +181,10 @@ function CreateEternulsolAssets(props) {
     try {
       const tx = await eturnulsolContract.issue(url);
       tx.wait().then(async (transaction) => {
-        console.log("response while eturnulsole nft creation", transaction);
+        console.log("response while eternalsoul nft creation", transaction);
       });
     } catch (error) {
-      console.log("error while eturnulsole nft creation", error);
+      console.log("error while eternalsoul nft creation", error);
     }
     transactionFailed();
   }
