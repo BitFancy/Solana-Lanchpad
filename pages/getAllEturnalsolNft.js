@@ -1,4 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useQuery, gql } from "@apollo/client";
+// import { createClient, cacheExchange, fetchExchange } from "urql";
+// import { createClient, cacheExchange, fetchExchange } from '@urql/core'
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
@@ -7,19 +10,195 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
 import { ethers } from "ethers";
-import { withRouter } from "next/router";
+import { withRouter, useRouter } from "next/router";
 import Homecomp from "../Components/HomeCompo";
+import axios from "axios";
 import { getAllEternulsolNfts } from "./api/eternulsolAssets";
+
+// const client = new ApolloClient({
+//   uri: "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql",
+//   uri: "https://flyby-router-demo.herokuapp.com/",
+//   cache: new InMemoryCache(),
+// });
+
 function GetAllEternalSoulNft(props) {
   const [assetsData, setAsseetsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingg, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  const router = useRouter();
+
+  const GET_LOCATIONS = gql`
+    query GetLocations {
+      locations {
+        id
+        name
+        description
+        photo
+      }
+    }
+  `;
+
+  // const GET_ASSET = gql`
+  //   query assetIssueds {
+  //     assetIssueds(orderBy: id) {
+  //       id
+  //       transactionHash
+  //       blockNumber
+  //       tokenID
+  //       metaDataURI
+  //     }
+  //   }
+  // `;
+
+  const GET_ASSET = gql`
+    query assetIssueds {
+      assetIssueds(orderBy: id) {
+        id
+        transactionHash
+        blockNumber
+        tokenID
+        metaDataURI
+      }
+    }
+  `;
+  const { loading, error, data } = useQuery(GET_ASSET);
   // useEffect(() => {
-  //   getEturnulsolAssets();
-  // }, [props.router]);
-  const contractAddress = props.router.query.contractAddress;
-  console.log(contractAddress);
+  //   getGraphUrl();
+  // }, []);
+
+  // const APIURL =
+  //   "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql";
+  // const client = createClient({
+  //   url: APIURL,
+  //   exchanges: [cacheExchange, fetchExchange],
+  // });
+
+  console.log(data);
+  console.log(error);
+  console.log(loading);
+
+  const fetchthis = async () => {
+    // client
+    //   .query({
+    //     query: gql(tokensQuery),
+    //   })
+    //   .then((data) => console.log("Subgraph data: ", data))
+    //   .catch((err) => {
+    //     console.log("Error fetching data: ", err);
+    //   });
+  };
+
+  // const GET_ASSETS = gql`
+  //   query assetIssueds {
+  //     assetIssueds(orderBy: id) {
+  //       id
+  //       transactionHash
+  //       blockNumber
+  //       tokenID
+  //       metaDataURI
+  //     }
+  //   }
+  // `;
+
+  // const GET_LOCATIONS = gql`
+  //   query GetLocations {
+  //     locations {
+  //       id
+  //       name
+  //       description
+  //       photo
+  //     }
+  //   }
+  // `;
+  // const { loading, error, data } = useQuery(GET_ASSETS);
+  // const { loading, error, data } = useQuery(GET_ASSETS);
+
+  // console.log(data);
+  // useEffect(() => {
+  //   getGraphUrl();
+  // }, [router]);
+
+  const contractAddress = router.query.contractAddress;
+  const collectionName = router.query.collectionName;
+  const storefrontId = router.query.storefrontId;
+
+  const getGraphUrl = async () => {
+    const token = localStorage.getItem("platform_token");
+
+    axios
+      .get(
+        `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${storefrontId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        console.log(response.data.payload.subgraphUrl);
+        getAllEternulsolNfts();
+        // getAllEternulsolNfts(response.data.payload.subgraphUrl);
+      })
+      .catch((error) => {
+        console.log("error while storefront data", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getAllEternulsolNfts = async (subgraphUrl) => {
+    const token = localStorage.getItem("platform_token");
+
+    // console.log(props);
+    // const endPoint = subgraphUrl;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    // const AssetIssuedQuery = `{
+    //     assetIssueds(orderBy: id) {
+    //       id
+    //       transactionHash
+    //       blockNumber
+    //       tokenID
+    //       metaDataURI
+    //       }
+    //     }
+    //   `;
+
+    const AssetIssuedQuery = `{
+      assetIssueds(orderBy: id) {
+        id
+        transactionHash
+        blockNumber
+        tokenID
+        metaDataURI
+        }
+      }
+    `;
+    const graphqlQuery = {
+      operationName: "assetIssueds",
+      query: `query assetIssueds ${AssetIssuedQuery}`,
+      variables: {},
+    };
+
+    try {
+      const data = await axios({
+        url: "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql",
+        method: "post",
+        data: graphqlQuery,
+        headers: headers,
+      });
+      console.log("Response NFTs", data);
+      return data?.data;
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
   // const getEturnulsolAssets = async () => {
   //   const endPoint = props?.router?.query?.redirectURL?.slice(
   //     0,
@@ -80,7 +259,10 @@ function GetAllEternalSoulNft(props) {
                 <Link
                   href={{
                     pathname: "/createEternulsolAssets",
-                    query: { contractAddress: contractAddress },
+                    query: {
+                      contractAddress: contractAddress,
+                      collectionName: collectionName,
+                    },
                   }}
                 >
                   <Button
@@ -120,7 +302,7 @@ function GetAllEternalSoulNft(props) {
                     </Link>
                   );
                 })
-              ) : loading ? (
+              ) : loadingg ? (
                 <Loader />
               ) : (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">

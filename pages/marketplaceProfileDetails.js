@@ -10,7 +10,7 @@ function MarketplaceProfileDetails(props) {
   const toast = useRef(null);
   useEffect(() => {
     getstorefrontdatabyId();
-  }, []);
+  }, [props.id]);
   const getstorefrontdatabyId = async () => {
     const token = localStorage.getItem("platform_token");
     const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
