@@ -1,24 +1,27 @@
-import axios from "axios";
 import { request, gql } from "graphql-request";
 
-export const getAllEternalsolNfts = async (props) => {
-  // console.log(props);
-  // const { endPoint } = props;
+// pages/api/graphql.js
+import axios from "axios";
+
+export default async function handler(req, res) {
+  //   const { subgraphUrl } = req.query;
   const endPoint =
     "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql";
   const headers = {
     "Content-Type": "application/json",
   };
+
   const AllBuildingQuery = `{
-      assetIssueds(orderBy: id) {
+    assetIssueds(orderBy: id) {
         id
-        transactionHash
-        blockNumber
         tokenID
+        creator
+        blockNumber
+        blockTimestamp
         metaDataURI
-        }
       }
-    `;
+    }`;
+
   const graphqlQuery = {
     operationName: "assetIssueds",
     query: `query assetIssueds ${AllBuildingQuery}`,
@@ -26,15 +29,14 @@ export const getAllEternalsolNfts = async (props) => {
   };
 
   try {
-    const { data } = await axios({
+    const response = await axios({
       url: endPoint,
       method: "post",
       data: graphqlQuery,
       headers: headers,
     });
-    console.log("Response", data);
-    return data?.data;
+    res.status(200).json(response.data.data);
   } catch (err) {
-    console.log("error", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
+}

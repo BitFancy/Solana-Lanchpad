@@ -1,4 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+// import { useQuery, gql } from "@apollo/client";
+import { request, gql } from "graphql-request";
+
+// import { createClient, cacheExchange, fetchExchange } from "urql";
+// import { createClient, cacheExchange, fetchExchange } from '@urql/core'
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
@@ -7,48 +12,116 @@ import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
 import { ethers } from "ethers";
-import { withRouter } from "next/router";
+import { withRouter, useRouter } from "next/router";
 import Homecomp from "../Components/HomeCompo";
-import { getAllEternulsolNfts } from "./api/eternulsolAssets";
+import axios from "axios";
+import { getAllEternalsolNfts } from "./api/eternulsolAssets";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+
+// const client = new ApolloClient({
+//   uri: "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql",
+//   uri: "https://flyby-router-demo.herokuapp.com/",
+//   cache: new InMemoryCache(),
+// });
+
 function GetAllEternalSoulNft(props) {
-  const [assetsData, setAsseetsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  console.log(props);
+  // const [assetsData, setAsseetsData] = useState([]);
+  // const [assetsData, setAssetsData] = useState();
+  const [myAssets, setMyAssets] = useState([]);
+
+  const [loadingg, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  // useEffect(() => {
-  //   getEturnulsolAssets();
-  // }, [props.router]);
-  const contractAddress = props.router.query.contractAddress;
-  console.log(contractAddress);
-  // const getEturnulsolAssets = async () => {
-  //   const endPoint = props?.router?.query?.redirectURL?.slice(
-  //     0,
-  //     props?.router?.query?.redirectURL?.indexOf("/graphql")
-  //   );
-  //   const assetIssueds = await getAllEternulsolNfts({ endPoint: endPoint });
-  //   console.log(assetIssueds);
-  //   setAsseetsData(assetIssueds);
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   let tranasactionHashArray = assetIssueds?.map(
-  //     (asset) => asset.transactionHash
-  //   );
-  //   const innerContractAddress = [];
-  //   setLoading(true);
-  //   await Promise.all(
-  //     tranasactionHashArray?.map(async (hash) => {
-  //       const contractAddress = await provider.getTransaction(hash);
-  //       if (contractAddress.to == testCTA) {
-  //         innerContractAddress.push(
-  //           assetIssueds.find((asset) => asset.transactionHash === hash)
-  //         );
-  //       }
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  const router = useRouter();
+  const [data, setData] = useState();
 
-  //       setAsseetsData(innerContractAddress);
+  useEffect(() => {
+    getdata();
+  }, [data]);
+  const contractAddress = router.query.contractAddress;
+  const collectionName = router.query.collectionName;
+  const storefrontId = router.query.storefrontId;
+
+  async function getdata() {
+    const storefrontName = localStorage.getItem("selectedStorefront");
+    console.log(storefrontName);
+    const headers = {
+      "content-type": "application/json",
+    };
+    const requestBody = {
+      query: `
+        query assetIssueds {
+          assetIssueds(orderBy: tokenID) {     
+         metaDataURI
+         id
+         creator
+         
+          }
+        }
+      `,
+    };
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(requestBody),
+    };
+    const response = await fetch(
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/${storefrontName}`,
+      options
+    )
+      .then((res) => {
+        console.log();
+        return res.json();
+      })
+      .then((jsn) => {
+        console.log(jsn.data.assetIssueds);
+        fetchURIData(jsn.data.assetIssueds);
+      });
+  }
+
+  const fetchURIData = async (data) => {
+    try {
+      const responses = await Promise.all(
+        data.map(async (item) => {
+          const response = await axios.get(
+            `https://cloudflare-ipfs.com/ipfs/${item.metaDataURI.slice(7)}`
+          );
+          return response.data;
+        })
+      );
+      console.log(responses);
+      setMyAssets(responses);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  console.log(myAssets);
+  // const getGraphUrl = async () => {
+  //   const token = localStorage.getItem("platform_token");
+  //   axios
+  //     .get(
+  //       `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${storefrontId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     )
+  //     .then(async (response) => {
+  //       console.log(response.data.payload.subgraphUrl);
   //     })
-  //   ).then(() => {
-  //     console.log("innerContractAddress", innerContractAddress);
-  //   });
+  //     .catch((error) => {
+  //       console.log("error while storefront data", error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
   // };
+
   const load = () => {
     setLoading2(true);
 
@@ -57,7 +130,9 @@ function GetAllEternalSoulNft(props) {
     }, 2000);
   };
   // const contractAddress = props.router.query.contractAddress;
-
+  if (!myAssets) {
+    return null;
+  }
   return (
     <LayoutDashbord
       title="EternalSoul NFts"
@@ -80,7 +155,10 @@ function GetAllEternalSoulNft(props) {
                 <Link
                   href={{
                     pathname: "/createEternulsolAssets",
-                    query: { contractAddress: contractAddress },
+                    query: {
+                      contractAddress: contractAddress,
+                      collectionName: collectionName,
+                    },
                   }}
                 >
                   <Button
@@ -95,9 +173,40 @@ function GetAllEternalSoulNft(props) {
             <div className="border-bottom-das" style={{ width: "230%" }}></div>
             <div
               className="grid cursor-pointer"
-              style={{ gap: "20px", marginLeft: "30px" }}
+              style={{ gap: "40px", marginLeft: "60px", marginTop: "40px" }}
             >
-              {assetsData?.length > 0 ? (
+              {myAssets.length === 0 ? (
+                <div className="text-2xl pb-10 font-bold text-center mt-5">
+                  You haven&apos;t created any NFTs in{" "}
+                  {props.router.query.collectionName}.
+                </div>
+              ) : (
+                myAssets.map((asset) => (
+                  <div key={asset.name}>
+                    <img
+                      className="dash-img-size"
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        objectFit: "cover",
+                      }}
+                      alt={asset.tokenID}
+                      src={`https://ipfs.io/ipfs/${asset.image.slice(7)}`}
+                      loading="lazy"
+                    />
+                    <div>
+                      <b>{asset.name}</b>
+                    </div>
+
+                    <div className="text-bold">{asset.description}</div>
+                    <div className="text-bold">
+                      Issued to: <span>{asset.walletAddress}</span>
+                    </div>
+                  </div>
+                ))
+              )}
+
+              {/* {assetsData?.length > 0 ? (
                 assetsData.map((asset) => {
                   return (
                     <Link
@@ -120,14 +229,14 @@ function GetAllEternalSoulNft(props) {
                     </Link>
                   );
                 })
-              ) : loading ? (
+              ) : loadingg ? (
                 <Loader />
               ) : (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">
                   You haven&apos;t created any NFTs in{" "}
                   {props.router.query.collectionName}.
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <Toast ref={toast} />

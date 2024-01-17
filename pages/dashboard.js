@@ -11,6 +11,7 @@ import ReactSwitch from "react-switch";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function StorefrontDashboard(props) {
   const [storefrontData, setStorefrontData] = useState([]);
+  const [isDeploymentLoading, setIsDeploymentLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -18,6 +19,7 @@ function StorefrontDashboard(props) {
   const [loading4, setLoading4] = useState(false);
   const [checked, setChecked] = useState(false);
   const [network, setNetwork] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState();
   const toaste = useRef(null);
   const { address } = useAccount();
   useEffect(() => {
@@ -33,6 +35,55 @@ function StorefrontDashboard(props) {
       setStorefrontData(networkData.filter((sf) => sf.network === "testnet"));
     }
   };
+  const deployStorefrontGraph = (storefrontData) => {
+    const token = localStorage.getItem("platform_token");
+    console.log(storefrontData);
+    setIsDeploymentLoading(true);
+
+    axios
+      .post(
+        `${BASE_URL_LAUNCH}api/v1.0/storefront/deploy`,
+        {
+          name: storefrontData.name,
+          id: storefrontData.id,
+          tag: "v1",
+          headline: storefrontData.headline,
+          description: storefrontData.description,
+          profileImage: storefrontData.profileimage,
+          storefrontImage: "ipfs://",
+          personalTagline: "personalTagline",
+          personalDescription: "personalDescription",
+          relevantImage: "ipfs://",
+          mailId: "mailId",
+          twitter: "twitter",
+          discord: "discord",
+          instagram: "instagram",
+          region: "us01",
+          type: "marketplace",
+          category: "nft",
+          tags: "digital store",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        console.log("deployment", response);
+        if (response.status === 200) {
+          alert(response.data.message);
+          location.reload;
+        }
+      })
+      .catch((error) => {
+        alert("Error while deploying Storefront", error);
+      })
+      .finally(() => {
+        setIsDeploymentLoading(false);
+      });
+  };
+
   const getStorefrontData = () => {
     const token = localStorage.getItem("platform_token");
     axios
@@ -47,6 +98,7 @@ function StorefrontDashboard(props) {
           setStorefrontData(
             payload?.data?.payload.filter((sf) => sf.walletAddress === address)
           );
+
           setNetwork(
             payload?.data?.payload.filter((sf) => sf.network === "testnet")
           );
@@ -89,7 +141,7 @@ function StorefrontDashboard(props) {
       setLoading4(false);
     }, 2000);
   };
-
+  console.log(storefrontData);
   return (
     <LayoutDashbord>
       <div>
@@ -164,9 +216,9 @@ function StorefrontDashboard(props) {
           <div style={{ width: "85%", margin: "0 auto" }}>
             <hr></hr>
             {storefrontData?.length > 0 ? (
-              storefrontData.map((storefront) => {
+              storefrontData.map((storefront, index) => {
                 return (
-                  <div key={1}>
+                  <div key={storefront.id}>
                     {
                       <div className=" flex justify-content-between mt-5 align-items-center subscription-back-part ">
                         <div className="flex gap-5">
@@ -196,81 +248,121 @@ function StorefrontDashboard(props) {
                           </div>
                         </div>
                         {storefront.deployed === false && (
+                          // <div>
+                          //   <Link
+                          //     href={{
+                          //       pathname: "/step1",
+                          //       query: { storefrontId: storefront.id },
+                          //     }}
+                          //   >
+                          //     <div>
+                          //       <Button
+                          //         loading={loading1}
+                          //         onClick={load1}
+                          //         label="Setup"
+                          //         className=" buy-back-color"
+                          //       ></Button>
+                          //     </div>
+                          //   </Link>
+                          // </div>
+                          <div>
+                            {/* <Link
+                              href={{
+                                pathname: "/step1",
+                                query: { storefrontId: storefront.id },
+                              }}
+                            > */}
+                            <div>
+                              <Button
+                                loading={
+                                  isDeploymentLoading &&
+                                  index === selectedIndex &&
+                                  isDeploymentLoading
+                                }
+                                disabled={
+                                  isDeploymentLoading &&
+                                  index === selectedIndex &&
+                                  isDeploymentLoading
+                                }
+                                // onClick={load1}
+                                onClick={() => {
+                                  deployStorefrontGraph(storefront);
+                                  setSelectedIndex(index);
+                                }}
+                                // label="Deploy"
+                                label={
+                                  isDeploymentLoading && index === selectedIndex
+                                    ? "Deploying"
+                                    : "Deploy"
+                                }
+                                className=" buy-back-color"
+                              ></Button>
+                            </div>
+                            {/* </Link>  */}
+                          </div>
+                        )}
+
+                        {storefront.deployed === true && (
                           <div>
                             <Link
                               href={{
-                                pathname: "/step1",
+                                pathname: "/contracts/eternal-soul-collections",
                                 query: { storefrontId: storefront.id },
                               }}
                             >
                               <div>
                                 <Button
-                                  loading={loading1}
-                                  onClick={load1}
-                                  label="Setup"
-                                  className=" buy-back-color"
+                                  // loading={loading1}
+                                  // onClick={load1}
+                                  onClick={() => {
+                                    localStorage.setItem(
+                                      "selectedStorefront",
+                                      storefront.name
+                                    );
+                                  }}
+                                  label="Storefront Details"
+                                  className="buy-back-color"
                                 ></Button>
                               </div>
                             </Link>
                           </div>
-                        )}
-
-                        <div>
-                          <Link
-                            href={{
-                              pathname: "/contracts/eternal-soul-collections",
-                              query: { storefrontId: storefront.id },
-                            }}
-                          >
-                            <div>
-                              <Button
-                                loading={loading1}
-                                onClick={load1}
-                                label="Storefront Details"
-                                className="buy-back-color"
-                              ></Button>
-                            </div>
-                          </Link>
-                        </div>
-
-                        {storefront.deployed === true && (
-                          <div>
-                            <div>
-                              <Link
-                                target="_blank"
-                                href={{
-                                  pathname: `https://${storefront.webappUrl}`,
-                                }}
-                              >
-                                <Button
-                                  loading={loading3}
-                                  onClick={load3}
-                                  label="View"
-                                  className=" buy-back-color"
-                                ></Button>
-                              </Link>
-                            </div>
-                            <div className="mt-5">
-                              <Link
-                                href={{
-                                  pathname: "/overview",
-                                  query: {
-                                    storefrontId: storefront.id,
-                                    redirectURL: storefront.subgraphUrl,
-                                  },
-                                }}
-                              >
-                                <div>
-                                  <Button
-                                    loading={loading4}
-                                    onClick={load4}
-                                    label="Manage"
-                                    className="buy-back-color"
-                                  ></Button>
-                                </div>
-                              </Link>
-                            </div>
-                          </div>
+                          // <div>
+                          //   <div>
+                          //     <Link
+                          //       target="_blank"
+                          //       href={{
+                          //         pathname: `https://${storefront.webappUrl}`,
+                          //       }}
+                          //     >
+                          //       <Button
+                          //         loading={loading3}
+                          //         onClick={load3}
+                          //         label="View"
+                          //         className=" buy-back-color"
+                          //       ></Button>
+                          //     </Link>
+                          //   </div>
+                          //   <div className="mt-5">
+                          //     <Link
+                          //       href={{
+                          //         pathname: "/overview",
+                          //         query: {
+                          //           storefrontId: storefront.id,
+                          //           redirectURL: storefront.subgraphUrl,
+                          //         },
+                          //       }}
+                          //     >
+                          //       <div>
+                          //         <Button
+                          //           loading={loading4}
+                          //           onClick={load4}
+                          //           label="Manage"
+                          //           className="buy-back-color"
+                          //         ></Button>
+                          //       </div>
+                          //     </Link>
+                          //   </div>
+                          // </div>
                         )}
                       </div>
                     }

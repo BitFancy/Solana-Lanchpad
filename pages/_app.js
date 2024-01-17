@@ -1,5 +1,6 @@
 import React from "react";
 import { LayoutProvider } from "../layout/context/layoutcontext";
+// import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
@@ -15,6 +16,17 @@ import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { polygonMumbai } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { WagmiConfig, configureChains, createClient } from "wagmi";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+// const token = localStorage.getItem("platform_token");
+const client = new ApolloClient({
+  uri: "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql",
+  // uri: "https://flyby-router-demo.herokuapp.com/",
+  cache: new InMemoryCache(),
+  headers: {
+    // Authorization: `Bearer ${token}`,
+    // Add any other required headers
+  },
+});
 
 export default function MyApp({ Component, pageProps }) {
   const { chains, provider } = configureChains(
@@ -39,6 +51,7 @@ export default function MyApp({ Component, pageProps }) {
   });
   if (Component.getLayout) {
     return (
+      // <ApolloProvider client={client}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
           <LayoutProvider>
@@ -47,9 +60,11 @@ export default function MyApp({ Component, pageProps }) {
           ={" "}
         </RainbowKitProvider>
       </WagmiConfig>
+      // </ApolloProvider>
     );
   } else {
     return (
+      // <ApolloProvider client={client}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
           <LayoutProvider>
@@ -57,6 +72,7 @@ export default function MyApp({ Component, pageProps }) {
           </LayoutProvider>
         </RainbowKitProvider>
       </WagmiConfig>
+      // </ApolloProvider>
     );
   }
 }
