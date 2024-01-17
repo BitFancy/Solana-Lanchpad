@@ -102,7 +102,7 @@ function Sidemenu(props) {
           </Link>
         </div>
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
-          <Link
+          {/* <Link
             href={{
               pathname: "/getAlleturnalsolContract",
               query: {
@@ -117,7 +117,7 @@ function Sidemenu(props) {
             }
           >
             EternalSoul
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div

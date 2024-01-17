@@ -145,7 +145,7 @@ function GetAllEternalSoulNft(props) {
             <Sidemenu />
           </div>
           <div>
-            <div className="flex ml-5 justify-content-around">
+            <div className="flex px-4 justify-content-between">
               <div className="font-bold mt-5 text-3xl text-black ">
                 {props.router.query.collectionName}
                 {/* &gt; EternalSoul 1  */}
@@ -182,7 +182,7 @@ function GetAllEternalSoulNft(props) {
                 </div>
               ) : (
                 myAssets.map((asset) => (
-                  <div key={asset.name}>
+                  <div key={asset.id}>
                     <img
                       className="dash-img-size"
                       style={{
