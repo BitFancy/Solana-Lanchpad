@@ -287,7 +287,6 @@ function StorefrontDashboard(props) {
                                 // onClick={load1}
                                 onClick={() => {
                                   deployStorefrontGraph(storefront);
-
                                   setSelectedIndex(index);
                                 }}
                                 // label="Deploy"
@@ -315,6 +314,12 @@ function StorefrontDashboard(props) {
                                 <Button
                                   // loading={loading1}
                                   // onClick={load1}
+                                  onClick={() => {
+                                    localStorage.setItem(
+                                      "selectedStorefront",
+                                      storefront.name
+                                    );
+                                  }}
                                   label="Storefront Details"
                                   className="buy-back-color"
                                 ></Button>
