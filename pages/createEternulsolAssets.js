@@ -318,17 +318,17 @@ function CreateEternulsolAssets(props) {
                           type="text"
                           placeholder="Asset Description"
                           className="w-full assets-input-back p-3  mt-3 rounded border-none"
-                          onChange={(e) =>
+                          onChange={(e) => {
                             updateFormInput({
                               ...formInput,
                               description: e.target.value,
-                            })
-                          }
+                            });
+                          }}
                         />
                       </div>
                     </div>
                     <div className="mt-5 font-bold text-left">
-                      Issued to:
+                      Issue to:
                       <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
@@ -346,6 +346,7 @@ function CreateEternulsolAssets(props) {
                             ...formInput,
                             walletAddress: e.target.value,
                           });
+                          console.log("here", formInput);
                         }}
                       />
                     </div>

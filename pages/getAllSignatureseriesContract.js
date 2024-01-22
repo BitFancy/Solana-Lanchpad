@@ -44,7 +44,7 @@ function GetAllSignatureseriesContract(props) {
         setLoading(false);
       });
   };
-
+  console.log(contractData);
   return (
     <LayoutDashbord
       title="Signatureseries Contarct"
@@ -60,7 +60,7 @@ function GetAllSignatureseriesContract(props) {
           </div>
           <div>
             <div className="font-bold mt-5 ml-5  text-3xl text-black">
-              SignatureSeries
+              SignatureSeries Collections
             </div>
             <div className="border-bottom-das" style={{ width: "136%" }}></div>
 
@@ -90,24 +90,27 @@ function GetAllSignatureseriesContract(props) {
                           style={{ width: "285px" }}
                         >
                           <div
-                            className="back-contract gap-5 p-5"
+                            className="p-5"
                             style={{
-                              marginBottom: "0px",
-                              height: "300px",
+                              border: "1px solid",
                             }}
                           >
                             <div className="text-center">
                               <img
                                 className="dash-img-size"
-                                style={{ width: "200px", height: "200px" }}
-                                src="fusionseries.png"
-                              ></img>
+                                style={{
+                                  width: "200px",
+                                  height: "200px",
+                                  objectFit: "cover",
+                                }}
+                                src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                                  7
+                                )}`}
+                                loading="lazy"
+                              />
                             </div>
-                            <div className="mt-5">
-                              Contract Name :{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
+                            <div className="mt-3">
+                              <b>{contract.collectionName}</b>
                             </div>
                           </div>
                         </div>

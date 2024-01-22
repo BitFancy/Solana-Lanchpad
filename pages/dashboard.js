@@ -248,30 +248,7 @@ function StorefrontDashboard(props) {
                           </div>
                         </div>
                         {storefront.deployed === false && (
-                          // <div>
-                          //   <Link
-                          //     href={{
-                          //       pathname: "/step1",
-                          //       query: { storefrontId: storefront.id },
-                          //     }}
-                          //   >
-                          //     <div>
-                          //       <Button
-                          //         loading={loading1}
-                          //         onClick={load1}
-                          //         label="Setup"
-                          //         className=" buy-back-color"
-                          //       ></Button>
-                          //     </div>
-                          //   </Link>
-                          // </div>
                           <div>
-                            {/* <Link
-                              href={{
-                                pathname: "/step1",
-                                query: { storefrontId: storefront.id },
-                              }}
-                            > */}
                             <div>
                               <Button
                                 loading={
@@ -284,12 +261,10 @@ function StorefrontDashboard(props) {
                                   index === selectedIndex &&
                                   isDeploymentLoading
                                 }
-                                // onClick={load1}
                                 onClick={() => {
                                   deployStorefrontGraph(storefront);
                                   setSelectedIndex(index);
                                 }}
-                                // label="Deploy"
                                 label={
                                   isDeploymentLoading && index === selectedIndex
                                     ? "Deploying"
@@ -298,12 +273,35 @@ function StorefrontDashboard(props) {
                                 className=" buy-back-color"
                               ></Button>
                             </div>
-                            {/* </Link>  */}
                           </div>
                         )}
 
                         {storefront.deployed === true && (
                           <div>
+                            <Button
+                              loading={
+                                isDeploymentLoading &&
+                                index === selectedIndex &&
+                                isDeploymentLoading
+                              }
+                              disabled={
+                                isDeploymentLoading &&
+                                index === selectedIndex &&
+                                isDeploymentLoading
+                              }
+                              onClick={() => {
+                                deployStorefrontGraph(storefront);
+                                setSelectedIndex(index);
+                              }}
+                              label={
+                                isDeploymentLoading && index === selectedIndex
+                                  ? "Redeploying"
+                                  : "Redeploy"
+                              }
+                              className=" buy-back-color"
+                            ></Button>
+
+                            {/* ------------------  */}
                             <Link
                               href={{
                                 pathname: "/contracts/eternal-soul-collections",
