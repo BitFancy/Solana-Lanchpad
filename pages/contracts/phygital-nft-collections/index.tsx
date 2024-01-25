@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sidemenu from "../../sidemenu";
 import axios from "axios";
-import MarketplaceProfileDetails from "../../marketplaceProfileDetails";
-import Loader from "../../../Components/LoadingSpinner";
-import { Toast } from "primereact/toast";
 import LayoutDashbord from "../../../Components/LayoutDashbord";
+import MarketplaceProfileDetails from "../../marketplaceProfileDetails";
+import { useRouter } from "next/router";
+import Loader from "../../../Components/LoadingSpinner";
 import Link from "next/link";
-import { withRouter, useRouter } from "next/router";
+
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-function GetAllEturnalsolContract() {
+
+const PhygitalNFTCollections = () => {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const toast = useRef(null);
+
   useEffect(() => {
     getcontractById();
   }, [router]);
@@ -34,7 +35,7 @@ function GetAllEturnalsolContract() {
         setLoading(true);
         if (response?.data?.length > 0) {
           setContarctData(
-            response.data.filter((sf) => sf.contractName === "EternalSoul")
+            response.data.filter((sf) => sf.contractName === "PhygitalNFTs")
           );
           console.log(contractData);
         }
@@ -48,27 +49,28 @@ function GetAllEturnalsolContract() {
         setLoading(false);
       });
   };
+
   return (
     <LayoutDashbord
-      title="EternalSoul Contarct"
+      title=""
       description="Used to Show All EternalSoul Contarct Details"
     >
       <MarketplaceProfileDetails id={router.query.storefrontId} />
-      <Toast ref={toast} />
 
       <div className="flex">
         <div>
           <Sidemenu />
         </div>
         <div>
-          <div className="font-bold mt-5 text-3xl text-black ml-5">
-            EternalSoul Collections
+          <div className="font-bold mt-5 mb-4 text-3xl text-black ml-5">
+            Phygital NFT Collections
           </div>
-
           <div
             className="grid cursor-pointer"
             style={{ gap: "20px", marginLeft: "30px" }}
           >
+            {/* ----------------------  */}
+
             {contractData?.length > 0 ? (
               contractData
                 .filter((cd) => cd.contractName === "EternalSoul")
@@ -133,10 +135,13 @@ function GetAllEturnalsolContract() {
                 storefront.
               </div>
             )}
+
+            {/* ---------------  */}
           </div>
         </div>
       </div>
     </LayoutDashbord>
   );
-}
-export default GetAllEturnalsolContract;
+};
+
+export default PhygitalNFTCollections;

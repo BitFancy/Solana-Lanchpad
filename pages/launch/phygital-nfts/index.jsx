@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import LaunchContarctSidebar from "./launchContarctSidebar";
+import { useState } from "react";
+import Layout2 from "../../../Components/Layout2";
+import LaunchContarctSidebar from "../../launchContarctSidebar";
 import { Button } from "primereact/button";
 import Link from "next/link";
-import Layout2 from "../Components/Layout2";
-import { withRouter } from "next/router";
-function LaunchSignatureseries(props) {
+import { withRouter, useRouter } from "next/router";
+
+const LaunchPhygitalNFTs = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const load = () => {
     setLoading(true);
     setTimeout(() => {
@@ -13,25 +15,22 @@ function LaunchSignatureseries(props) {
     }, 2000);
   };
   return (
-    <Layout2
-      title="Deploy SignatureSeries"
-      description="This is used to show information of the deploy signatureSeries contract"
-    >
-      <div>
+    <div>
+      <Layout2 title="Launch Phygital NFts" description="">
         <div>
           <div className="flex justify-content-center">
             <div className="flex buy-img" style={{ marginTop: "100px" }}>
               <div>
                 <LaunchContarctSidebar />
               </div>
-
+              {/* ---  */}
               <div
                 className="bg-blue-100 p-5"
                 style={{ height: "435px", borderRadius: "10px" }}
               >
                 <div className="text-center" style={{ marginTop: "35px" }}>
                   <img
-                    src="image.png"
+                    src=""
                     style={{ width: "200px", height: "185px" }}
                     alt="garden"
                     className="buy-img"
@@ -41,19 +40,19 @@ function LaunchSignatureseries(props) {
                   <div className="flex gap-5 p-5" style={{ marginTop: "40px" }}>
                     <div style={{ color: "black" }}>
                       <div className="font-bold text-2xl">
-                        Launch SignatureSeries
+                        Launch Phygital NFTs
                       </div>
                       <div className="mt-2">
                         Deploy your own ERC-721 contract &
                       </div>
-                      <div>launch SignatureSeries of assets</div>
+                      <div>launch Phygital NFTs</div>
                     </div>
                     <div>
                       <Link
                         href={{
-                          pathname: "/signatureseries",
+                          pathname: "/launchPhygitalNFT",
                           query: {
-                            storefrontId: props?.router?.query?.storefrontId,
+                            storefrontId: router?.query?.storefrontId,
                           },
                         }}
                       >
@@ -71,11 +70,14 @@ function LaunchSignatureseries(props) {
                   </div>
                 </div>
               </div>
+
+              {/* ---------  */}
             </div>
           </div>
         </div>
-      </div>
-    </Layout2>
+      </Layout2>
+    </div>
   );
-}
-export default withRouter(LaunchSignatureseries);
+};
+
+export default LaunchPhygitalNFTs;

@@ -94,6 +94,7 @@ function StorefrontDashboard(props) {
       })
       .then(async (payload) => {
         setLoading(true);
+
         if (payload?.data?.payload.length > 0) {
           setStorefrontData(
             payload?.data?.payload.filter((sf) => sf.walletAddress === address)
@@ -147,33 +148,32 @@ function StorefrontDashboard(props) {
       <div>
         <Toast ref={toaste} />
 
-        <div className=" backstore">
-          <div className="text-white text-3xl font-bold ml-5">Storefronts</div>
-          <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">
+        <div className="backstore flex justify-content-between p-5">
+          {/* <div className="text-white text-3xl font-bold ml-5 ">  */}
+          <div className="mt-5 text-white text-3xl font-bold">Storefronts</div>
+          {/* </div>  */}
+          {/* <div className="flex mt-2 text-center justify-content-center gap-5 align-items-center">  */}
+          {/* <div>
             <div className="text-white text-2xl">Testnet</div>
-            <div>
-              <ReactSwitch checked={checked} onChange={handleChange} />
-            </div>
+          </div> */}
 
-            <div className="text-white text-2xl">Mainnet</div>
-          </div>
-          <div className="flex justify-content-end gap-5">
-            <div>
-              <Link href="/addStorefront">
-                <Button
-                  loading={loading2}
-                  className="buy-img"
-                  onClick={load2}
-                  rounded
-                  style={{
-                    background: "white",
-                    color: "black",
-                    padding: "10px 45px 10px 45px",
-                  }}
-                  label="Launch"
-                ></Button>
-              </Link>
-            </div>
+          {/* </div>   */}
+          <div className="mt-3">
+            <Link href="/addStorefront">
+              <Button
+                loading={loading2}
+                className="buy-img"
+                onClick={load2}
+                rounded
+                style={{
+                  background: "white",
+                  color: "black",
+                  padding: "10px 45px 10px 45px",
+                }}
+                label="Launch"
+              ></Button>
+            </Link>
+
             {/* <div>
               {plan === "basic" && (
                 <Link 
@@ -247,6 +247,29 @@ function StorefrontDashboard(props) {
                             </div>
                           </div>
                         </div>
+
+                        <Link
+                          href={{
+                            pathname: "/contracts/eternal-soul-collections",
+                            query: { storefrontId: storefront.id },
+                          }}
+                        >
+                          <div>
+                            <Button
+                              // loading={loading1}
+                              // onClick={load1}
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "selectedStorefront",
+                                  storefront.name
+                                );
+                              }}
+                              label="Manage"
+                              className="buy-back-color"
+                            ></Button>
+                          </div>
+                        </Link>
+
                         {storefront.deployed === false && (
                           <div>
                             <div>
@@ -272,95 +295,30 @@ function StorefrontDashboard(props) {
                                 }
                                 className=" buy-back-color"
                               ></Button>
+
+                              <Link
+                                href={{
+                                  pathname:
+                                    "/contracts/eternal-soul-collections",
+                                  query: { storefrontId: storefront.id },
+                                }}
+                              >
+                                <div>
+                                  <Button
+                                    onClick={() => {
+                                      localStorage.setItem(
+                                        "selectedStorefront",
+                                        storefront.name
+                                      );
+                                    }}
+                                    label="Manage"
+                                    className="buy-back-color"
+                                  ></Button>
+                                </div>
+                              </Link>
+                              {/* -------------------  */}
                             </div>
                           </div>
-                        )}
-
-                        {storefront.deployed === true && (
-                          <div>
-                            <Button
-                              loading={
-                                isDeploymentLoading &&
-                                index === selectedIndex &&
-                                isDeploymentLoading
-                              }
-                              disabled={
-                                isDeploymentLoading &&
-                                index === selectedIndex &&
-                                isDeploymentLoading
-                              }
-                              onClick={() => {
-                                deployStorefrontGraph(storefront);
-                                setSelectedIndex(index);
-                              }}
-                              label={
-                                isDeploymentLoading && index === selectedIndex
-                                  ? "Redeploying"
-                                  : "Redeploy"
-                              }
-                              className=" buy-back-color"
-                            ></Button>
-
-                            {/* ------------------  */}
-                            <Link
-                              href={{
-                                pathname: "/contracts/eternal-soul-collections",
-                                query: { storefrontId: storefront.id },
-                              }}
-                            >
-                              <div>
-                                <Button
-                                  // loading={loading1}
-                                  // onClick={load1}
-                                  onClick={() => {
-                                    localStorage.setItem(
-                                      "selectedStorefront",
-                                      storefront.name
-                                    );
-                                  }}
-                                  label="Storefront Details"
-                                  className="buy-back-color"
-                                ></Button>
-                              </div>
-                            </Link>
-                          </div>
-                          // <div>
-                          //   <div>
-                          //     <Link
-                          //       target="_blank"
-                          //       href={{
-                          //         pathname: `https://${storefront.webappUrl}`,
-                          //       }}
-                          //     >
-                          //       <Button
-                          //         loading={loading3}
-                          //         onClick={load3}
-                          //         label="View"
-                          //         className=" buy-back-color"
-                          //       ></Button>
-                          //     </Link>
-                          //   </div>
-                          //   <div className="mt-5">
-                          //     <Link
-                          //       href={{
-                          //         pathname: "/overview",
-                          //         query: {
-                          //           storefrontId: storefront.id,
-                          //           redirectURL: storefront.subgraphUrl,
-                          //         },
-                          //       }}
-                          //     >
-                          //       <div>
-                          //         <Button
-                          //           loading={loading4}
-                          //           onClick={load4}
-                          //           label="Manage"
-                          //           className="buy-back-color"
-                          //         ></Button>
-                          //       </div>
-                          //     </Link>
-                          //   </div>
-                          // </div>
                         )}
                       </div>
                     }
@@ -381,3 +339,88 @@ function StorefrontDashboard(props) {
   );
 }
 export default withRouter(StorefrontDashboard);
+
+// <div>
+//   <Button
+//     loading={
+//       isDeploymentLoading &&
+//       index === selectedIndex &&
+//       isDeploymentLoading
+//     }
+//     disabled={
+//       isDeploymentLoading &&
+//       index === selectedIndex &&
+//       isDeploymentLoading
+//     }
+//     onClick={() => {
+//       deployStorefrontGraph(storefront);
+//       setSelectedIndex(index);
+//     }}
+//     label={
+//       isDeploymentLoading && index === selectedIndex
+//         ? "Redeploying"
+//         : "Redeploy"
+//     }
+//     className=" buy-back-color"
+//   ></Button>
+
+//   {/* ------------------  */}
+//   <Link
+//     href={{
+//       pathname: "/contracts/eternal-soul-collections",
+//       query: { storefrontId: storefront.id },
+//     }}
+//   >
+//     <div>
+//       <Button
+//         // loading={loading1}
+//         // onClick={load1}
+//         onClick={() => {
+//           localStorage.setItem(
+//             "selectedStorefront",
+//             storefront.name
+//           );
+//         }}
+//         label="Manage"
+//         className="buy-back-color"
+//       ></Button>
+//     </div>
+//   </Link>
+// </div>
+// <div>
+//   <div>
+//     <Link
+//       target="_blank"
+//       href={{
+//         pathname: `https://${storefront.webappUrl}`,
+//       }}
+//     >
+//       <Button
+//         loading={loading3}
+//         onClick={load3}
+//         label="View"
+//         className=" buy-back-color"
+//       ></Button>
+//     </Link>
+//   </div>
+//   <div className="mt-5">
+//     <Link
+//       href={{
+//         pathname: "/overview",
+//         query: {
+//           storefrontId: storefront.id,
+//           redirectURL: storefront.subgraphUrl,
+//         },
+//       }}
+//     >
+//       <div>
+//         <Button
+//           loading={loading4}
+//           onClick={load4}
+//           label="Manage"
+//           className="buy-back-color"
+//         ></Button>
+//       </div>
+//     </Link>
+//   </div>
+// </div>

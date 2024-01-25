@@ -53,6 +53,25 @@ function Sidemenu(props) {
 
         <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
           <Link
+            href={{
+              pathname: "/contracts/phygital-nft-collections",
+              query: {
+                storefrontId: props.router.query.storefrontId,
+                // redirectURL: props.router.query.redirectURL,
+              },
+            }}
+            className={
+              router.pathname == "/contracts/phygital-nft-collections"
+                ? "active"
+                : "p-heading"
+            }
+          >
+            Phygital NFTs
+          </Link>
+        </div>
+
+        <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
+          <Link
             className={
               router.pathname == "/getAllSignatureseriesContract"
                 ? "active"

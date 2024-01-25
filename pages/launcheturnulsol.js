@@ -15,8 +15,8 @@ function LaunchEturnulsol(props) {
   };
   return (
     <Layout2
-      title="Deploy Eturnalsol"
-      description="This is use to show information of the deploy Eturnalsol contract"
+      title="Deploy Eternalsoul"
+      description="This is use to show information of the deploy Eternalsoul contract"
     >
       <div>
         <div>
