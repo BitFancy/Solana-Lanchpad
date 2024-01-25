@@ -34,7 +34,7 @@ const PhygitalNFTCollections = () => {
         setLoading(true);
         if (response?.data?.length > 0) {
           setContarctData(response.data);
-          console.log(contractData);
+          console.log("here", contractData);
         }
         setLoading(false);
       })
@@ -46,7 +46,7 @@ const PhygitalNFTCollections = () => {
         setLoading(false);
       });
   };
-
+  console.log("here", contractData);
   return (
     <LayoutDashbord
       title=""

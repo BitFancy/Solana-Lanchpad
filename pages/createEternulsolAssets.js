@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
-import EternalSoul from "../artifacts/contracts/eternalsoul/EternalSoul.sol/EternalSoul.json";
+import EternalSoulABI from "../artifacts/contracts/eternalsoul.json";
 import { Button } from "primereact/button";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
@@ -17,6 +17,7 @@ import { withRouter } from "next/router";
 import { getStorefrontByID } from "../utils/util";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 const style = {
   position: "absolute",
   top: "50%",
@@ -140,8 +141,9 @@ function CreateEternulsolAssets(props) {
     // e.preventDefault();
     // e.stopPropagation();
     console.log("yes");
-    // const { name, description, price, alternettext, auctionTime } = formInput;
-    // let assetData = {};
+    const { name, description, price, alternettext, auctionTime } = formInput;
+    console.log(formInput);
+    let assetData = {};
     // if (!name || !description || !price) {
     //   setOpen(true);
     //   return;
@@ -161,12 +163,14 @@ function CreateEternulsolAssets(props) {
     // }
     showProgress();
     const data = JSON.stringify({ ...formInput, ...mediaHash });
-    console.log("data");
+    console.log(data);
     const blobData = new Blob([data]);
+    console.log(blobData);
     try {
       client.storeBlob(blobData).then(async (metaHash) => {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
+        console.log(url);
         await createItem(ipfsHash, url);
       });
     } catch (error) {
@@ -179,24 +183,29 @@ function CreateEternulsolAssets(props) {
 
   // ------------------------
 
-  async function createItem(ipfsHash, url) {
+  async function createItem(url) {
     console.log(url);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    console.log(signer);
     const eturnulsolContract = new ethers.Contract(
       dynamicContractAddress,
-      EternalSoul.abi,
+      EternalSoulABI,
       signer
     );
+    // console.log("log", eturnulsolContract);
     try {
-      const tx = await eturnulsolContract.issue(url);
+      console.log(address);
+      // const gasLimit = 253378;
+      const tx = await eturnulsolContract.issue(address, url);
+      // const tx = await eturnulsolContract.issue(url, { gasLimit });
       tx.wait().then(async (transaction) => {
         console.log("response while eternalsoul nft creation", transaction);
       });
     } catch (error) {
       console.log("error while eternalsoul nft creation", error);
+      transactionFailed();
     }
-    // transactionFailed();
   }
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },

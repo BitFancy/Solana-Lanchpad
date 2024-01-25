@@ -250,8 +250,10 @@ class Eturnulsol extends React.Component {
             onHide={() => this.setState({ visible: false })}
           >
             <div className="text-center">
-              <div className="font-bold text-2xl">Step 3 of 3</div>
-              <div className="mt-5 text-xl">Deploying storefront Webapp</div>
+              {/* <div className="font-bold text-2xl">Step 3 of 3</div>  */}
+              <div className="mt-5 text-xl">
+                Deployed Eternalsoul Collection
+              </div>
             </div>
           </Dialog>
           <div>
