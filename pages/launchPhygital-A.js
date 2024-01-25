@@ -34,6 +34,8 @@ class PhygitalA extends React.Component {
       visible: false,
       loading2: false,
       accsessmasterAddress: "",
+      maxSupply: "",
+      royalty: "",
       tradhubAddress: "",
       loading4: false,
       thumbnail: "",
@@ -42,6 +44,8 @@ class PhygitalA extends React.Component {
       errors: {
         contractNameEror: "",
         symbolError: "",
+        royaltyError: "",
+        maxSupplyError: "",
       },
       storefrontData: {},
     };
@@ -165,15 +169,15 @@ class PhygitalA extends React.Component {
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
           {
-            contractName: "Phygital",
+            contractName: "PhygitalA",
             constructorParams: {
               param1: this.state.contractName,
               param2: this.state.contractSymbol,
-              param3: "Voucher-Domain",
-              param4: "1",
-              param5: "1000000000000000000",
-              param6: this.state.tradhubAddress,
-              param7: this.state.accsessmasterAddress,
+              param3: this.state.tradhubAddress,
+              param4: this.state.accsessmasterAddress,
+              param5: this.state.maxSupply,
+              param6: this.state.royalty, // royalty
+              param7: "www.xyz.com",
             },
             network: "polygon",
             // storefrontId: this.props?.router?.query?.storefrontId,
@@ -215,6 +219,12 @@ class PhygitalA extends React.Component {
   handleInputSymbol = (e) => {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
   };
+  handleRoyaltyInput = (e) => {
+    this.setState({ royalty: e.target.value, royaltyError: "" });
+  };
+  handleMaxSupplyInput = (e) => {
+    this.setState({ maxSupply: e.target.value, maxSupplyError: "" });
+  };
 
   navigateTo = (nav) => {
     Router.push(nav);
@@ -255,7 +265,7 @@ class PhygitalA extends React.Component {
         >
           <div className="text-center">
             <div className="font-bold text-2xl">Step 3 of 3</div>
-            <div className="mt-5 text-xl">Deploying storefront Webapp</div>
+            <div className="mt-5 text-xl">Deployed Phygital-A Collection</div>
           </div>
         </Dialog>
         <div>
@@ -331,15 +341,15 @@ class PhygitalA extends React.Component {
                         <div className="mt-5">
                           <div className="text-left">Maximum Supply</div>
                           <InputText
-                            value={this.state.contractSymbol}
-                            onChange={this.handleInputSymbol}
+                            value={this.state.maxSupply}
+                            onChange={this.handleMaxSupplyInput}
                             className="p-2 mt-3 input-back w-full "
                           />
-                          <p style={{ textAlign: "left", color: "red" }}>
+                          {/* <p style={{ textAlign: "left", color: "red" }}>
                             {!this.state.contractSymbol
                               ? this.state.symbolError
                               : ""}
-                          </p>
+                          </p> */}
                         </div>
                         {/* --------------   */}
                         {/* ------------------  */}
@@ -347,15 +357,15 @@ class PhygitalA extends React.Component {
                           <div className="text-left">Royalty</div>
 
                           <InputText
-                            value={this.state.contractSymbol}
-                            onChange={this.handleInputSymbol}
+                            value={this.state.royalty}
+                            onChange={this.handleRoyaltyInput}
                             className="p-2 mt-3 input-back w-full "
                           />
-                          <p style={{ textAlign: "left", color: "red" }}>
+                          {/* <p style={{ textAlign: "left", color: "red" }}>
                             {!this.state.contractSymbol
                               ? this.state.symbolError
                               : ""}
-                          </p>
+                          </p> */}
                         </div>
                         {/* --------------   */}
                         <div className="flex justify-content-between mt-5">

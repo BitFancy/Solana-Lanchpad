@@ -169,11 +169,8 @@ class PhygitalNFTs extends React.Component {
             constructorParams: {
               param1: this.state.contractName,
               param2: this.state.contractSymbol,
-              param3: "Voucher-Domain",
-              param4: "1",
-              param5: "1000000000000000000",
-              param6: this.state.tradhubAddress,
-              param7: this.state.accsessmasterAddress,
+              param3: this.state.tradhubAddress,
+              param4: this.state.accsessmasterAddress,
             },
             network: "polygon",
             // storefrontId: this.props?.router?.query?.storefrontId,
