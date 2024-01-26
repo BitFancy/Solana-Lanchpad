@@ -247,79 +247,49 @@ function StorefrontDashboard(props) {
                             </div>
                           </div>
                         </div>
-
-                        <Link
-                          href={{
-                            pathname: "/contracts/eternal-soul-collections",
-                            query: { storefrontId: storefront.id },
-                          }}
-                        >
-                          <div>
-                            <Button
-                              // loading={loading1}
-                              // onClick={load1}
-                              onClick={() => {
-                                localStorage.setItem(
-                                  "selectedStorefront",
-                                  storefront.name
-                                );
-                              }}
-                              label="Manage"
-                              className="buy-back-color"
-                            ></Button>
-                          </div>
-                        </Link>
-
-                        {storefront.deployed === false && (
-                          <div>
+                        <div className="flex gap-4">
+                          <Link
+                            href={{
+                              pathname: "/contracts/eternal-soul-collections",
+                              query: { storefrontId: storefront.id },
+                            }}
+                          >
                             <div>
                               <Button
-                                loading={
-                                  isDeploymentLoading &&
-                                  index === selectedIndex &&
-                                  isDeploymentLoading
-                                }
-                                disabled={
-                                  isDeploymentLoading &&
-                                  index === selectedIndex &&
-                                  isDeploymentLoading
-                                }
+                                // loading={loading1}
+                                // onClick={load1}
                                 onClick={() => {
-                                  deployStorefrontGraph(storefront);
-                                  setSelectedIndex(index);
+                                  localStorage.setItem(
+                                    "selectedStorefront",
+                                    storefront.name
+                                  );
                                 }}
-                                label={
-                                  isDeploymentLoading && index === selectedIndex
-                                    ? "Deploying"
-                                    : "Deploy"
-                                }
-                                className=" buy-back-color"
+                                label="Manage"
+                                className="buy-back-color"
                               ></Button>
-
-                              <Link
-                                href={{
-                                  pathname:
-                                    "/contracts/eternal-soul-collections",
-                                  query: { storefrontId: storefront.id },
-                                }}
-                              >
-                                <div>
-                                  <Button
-                                    onClick={() => {
-                                      localStorage.setItem(
-                                        "selectedStorefront",
-                                        storefront.name
-                                      );
-                                    }}
-                                    label="Manage"
-                                    className="buy-back-color"
-                                  ></Button>
-                                </div>
-                              </Link>
-                              {/* -------------------  */}
                             </div>
-                          </div>
-                        )}
+                          </Link>
+
+                          <Link
+                            href={`https://${storefront.webappUrl}`}
+                            target="_blank"
+                          >
+                            <div>
+                              <Button
+                                // loading={loading1}
+                                // onClick={load1}
+                                onClick={() => {
+                                  localStorage.setItem(
+                                    "selectedStorefront",
+                                    storefront.name
+                                  );
+                                }}
+                                label="View"
+                                className="buy-back-color"
+                              ></Button>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
                     }
                   </div>
@@ -424,3 +394,54 @@ export default withRouter(StorefrontDashboard);
 //     </Link>
 //   </div>
 // </div>
+
+// {storefront.deployed === false && (
+//   <div>
+//     <div>
+//       <Button
+//         loading={
+//           isDeploymentLoading &&
+//           index === selectedIndex &&
+//           isDeploymentLoading
+//         }
+//         disabled={
+//           isDeploymentLoading &&
+//           index === selectedIndex &&
+//           isDeploymentLoading
+//         }
+//         onClick={() => {
+//           deployStorefrontGraph(storefront);
+//           setSelectedIndex(index);
+//         }}
+//         label={
+//           isDeploymentLoading && index === selectedIndex
+//             ? "Deploying"
+//             : "Deploy"
+//         }
+//         className=" buy-back-color"
+//       ></Button>
+
+//       <Link
+//         href={{
+//           pathname:
+//             "/contracts/eternal-soul-collections",
+//           query: { storefrontId: storefront.id },
+//         }}
+//       >
+//         <div>
+//           <Button
+//             onClick={() => {
+//               localStorage.setItem(
+//                 "selectedStorefront",
+//                 storefront.name
+//               );
+//             }}
+//             label="Manage"
+//             className="buy-back-color"
+//           ></Button>
+//         </div>
+//       </Link>
+
+//     </div>
+//   </div>
+// )}

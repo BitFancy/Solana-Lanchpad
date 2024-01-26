@@ -18,6 +18,7 @@ import { ethers } from "ethers";
 import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
+import phygitalABI from "../artifacts/contracts/phygital.json";
 const style = {
   position: "absolute",
   top: "50%",
@@ -193,6 +194,7 @@ function CreatePhygitalNFTAsset(props) {
       client.storeBlob(blobData).then(async (metaHash) => {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
+        console.log(url);
         await createItem(ipfsHash, url);
       });
     } catch (error) {
@@ -220,14 +222,15 @@ function CreatePhygitalNFTAsset(props) {
     const signer = provider.getSigner();
     const PhygitalNFTContract = new ethers.Contract(
       dynamicContractAddress,
-      //   SignatureSeries.abi,
+      phygitalABI,
       signer
     );
     try {
-      let transaction = await signetureseriesContract.createAsset(
+      let transaction = await PhygitalNFTContract.createAsset(
         url,
         formInput.royalties * 100,
-        { gasLimit: "2099999" }
+        // { gasLimit: "2099999" }
+        "0x48656c6c6f00000000000000"
       );
       let tx = await transaction.wait();
       transactionCompleate();
@@ -251,7 +254,7 @@ function CreatePhygitalNFTAsset(props) {
     }
   }
   const listItem = async (
-    signetureseriesContract,
+    PhygitalNFTContract,
     tokenId,
     price,
     forAuction,
@@ -276,7 +279,7 @@ function CreatePhygitalNFTAsset(props) {
       );
       let tx = await transaction.wait();
       transaction2Complete();
-      router.push("/getAllSegnatureSeriesNft");
+      // router.push("/getAllSegnatureSeriesNft");
     } catch (e) {
       console.log(e);
       transaction2failed();
@@ -370,7 +373,7 @@ function CreatePhygitalNFTAsset(props) {
                       className="font-bold text-4xl"
                       style={{ textAlign: "initial" }}
                     >
-                      Phygital NFT &gt; Phygital NFT Collection Name
+                      Phygital NFT &gt; {router.query.collectionName}
                     </div>
 
                     <div className="w-56">

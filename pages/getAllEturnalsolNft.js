@@ -1,9 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-// import { useQuery, gql } from "@apollo/client";
 import { request, gql } from "graphql-request";
-
-// import { createClient, cacheExchange, fetchExchange } from "urql";
-// import { createClient, cacheExchange, fetchExchange } from '@urql/core'
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
@@ -184,38 +180,6 @@ function GetAllEternalSoulNft(props) {
                   </div>
                 ))
               )}
-
-              {/* {assetsData?.length > 0 ? (
-                assetsData.map((asset) => {
-                  return (
-                    <Link
-                      key={1}
-                      href={{
-                        pathname: "/singleEturnalsolNFT",
-                        query: {
-                          contractAddress: contractAddress,
-                          data: JSON.stringify(asset),
-                          storefrontId: props.router.query.storefrontId,
-                        },
-                      }}
-                    >
-                      <div
-                        className="col-12 lg:col-6 xl:col-3"
-                        style={{ width: "285px" }}
-                      >
-                        <Homecomp uri={asset ? asset.metaDataURI : ""} />
-                      </div>
-                    </Link>
-                  );
-                })
-              ) : loadingg ? (
-                <Loader />
-              ) : (
-                <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any NFTs in{" "}
-                  {props.router.query.collectionName}.
-                </div>
-              )} */}
             </div>
           </div>
           <Toast ref={toast} />

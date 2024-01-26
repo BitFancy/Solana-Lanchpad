@@ -845,7 +845,7 @@ function Profile() {
                   >
                     <div>
                       <Button
-                        label="Connect to social media"
+                        label="Connect social media"
                         onClick={() => setVisible(true)}
                         rounded
                       />

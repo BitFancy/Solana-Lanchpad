@@ -78,7 +78,7 @@ const PhygitalNFTCollections = () => {
                       style={{ color: "black" }}
                       key={contract.contractAddress}
                       href={{
-                        pathname: "/getAllEturnalsolNft",
+                        pathname: "/getAllPhygitalNFTs",
                         // pathname: "/nfts/eternal-soul",
 
                         query: {
@@ -155,7 +155,7 @@ const PhygitalNFTCollections = () => {
                       style={{ color: "black" }}
                       key={contract.contractAddress}
                       href={{
-                        pathname: "/getAllEturnalsolNft",
+                        pathname: "/getAllPhygitalNFTs",
                         // pathname: "/nfts/eternal-soul",
 
                         query: {
