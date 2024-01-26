@@ -255,7 +255,7 @@ class SignatureSeries extends React.Component {
         >
           <div className="text-center">
             <div className="font-bold text-2xl">Step 3 of 3</div>
-            <div className="mt-5 text-xl">Deploying storefront Webapp</div>
+            <div className="mt-5 text-xl">Deployed Collection</div>
           </div>
         </Dialog>
         <div>

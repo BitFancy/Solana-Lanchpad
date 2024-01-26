@@ -6,69 +6,75 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
-import { withRouter } from "next/router";
+import { withRouter, useRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
+import axios from "axios";
 import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
 function GetAllSignatureSeriesSeriesNft(props) {
-  const [assetsData, setAsseetsData] = useState([]);
+  // const [assetsData, setAsseetsData] = useState([]);
+  const [myAssets, setMyAssets] = useState();
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [contractAddress, setContractAddress] = useState(
-    () => props?.router?.query?.contractAddress
-  );
-  useEffect(() => {
-    const searchParams = new URLSearchParams(document.location.search);
-    setContractAddress(
-      props?.router?.query?.contractAddress ??
-        searchParams.get("contractAddress")
-    );
-    if (
-      props?.router?.query?.contractAddress ??
-      searchParams.get("contractAddress")
-    ) {
-      getSignetureSeriesAssets();
-    }
-  }, []);
+  const router = useRouter();
+  const contractAddress = router.query.contractAddress;
+  const collectionName = router.query.collectionName;
 
-  const getSignetureSeriesAssets = async () => {
-    try {
-      const endPoint = props?.router?.query?.redirectURL?.slice(
-        0,
-        props?.router?.query?.redirectURL?.indexOf("/graphql")
-      );
-      const { signatureSeriesAssetCreateds } = await getAllSignetureseriesNfts({
-        endPoint: endPoint,
-      });
-      setAsseetsData(signatureSeriesAssetCreateds);
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray =
-        signatureSeriesAssetCreateds?.map((asset) => asset.transactionHash) ??
-        [];
-      const innerContractAddress = [];
-      if (tranasactionHashArray.length > 0) {
-        await Promise?.all(
-          tranasactionHashArray?.map(async (hash) => {
-            const gqlcontractAddress = await provider.getTransaction(hash);
-            if (gqlcontractAddress.to == contractAddress) {
-              innerContractAddress.push(
-                signatureSeriesAssetCreateds.find(
-                  (asset) => asset.transactionHash === hash
-                )
-              );
-            }
-            setAsseetsData(innerContractAddress);
-          })
-        ).then(() => {
-          console.log("innerContractAddress", innerContractAddress);
-        });
-      }
-    } catch (error) {
-      console.log("Error while fetching assets", error);
-      setLoading(false);
-    }
-  };
+  // const [contractAddress, setContractAddress] = useState(
+  //   () => props?.router?.query?.contractAddress
+  // );
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(document.location.search);
+  //   setContractAddress(
+  //     props?.router?.query?.contractAddress ??
+  //       searchParams.get("contractAddress")
+  //   );
+  //   if (
+  //     props?.router?.query?.contractAddress ??
+  //     searchParams.get("contractAddress")
+  //   ) {
+  //     getSignetureSeriesAssets();
+  //   }
+  // }, []);
+
+  // const getSignetureSeriesAssets = async () => {
+  //   try {
+  //     const endPoint = props?.router?.query?.redirectURL?.slice(
+  //       0,
+  //       props?.router?.query?.redirectURL?.indexOf("/graphql")
+  //     );
+  //     const { signatureSeriesAssetCreateds } = await getAllSignetureseriesNfts({
+  //       endPoint: endPoint,
+  //     });
+  //     setAsseetsData(signatureSeriesAssetCreateds);
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     let tranasactionHashArray =
+  //       signatureSeriesAssetCreateds?.map((asset) => asset.transactionHash) ??
+  //       [];
+  //     const innerContractAddress = [];
+  //     if (tranasactionHashArray.length > 0) {
+  //       await Promise?.all(
+  //         tranasactionHashArray?.map(async (hash) => {
+  //           const gqlcontractAddress = await provider.getTransaction(hash);
+  //           if (gqlcontractAddress.to == contractAddress) {
+  //             innerContractAddress.push(
+  //               signatureSeriesAssetCreateds.find(
+  //                 (asset) => asset.transactionHash === hash
+  //               )
+  //             );
+  //           }
+  //           setAsseetsData(innerContractAddress);
+  //         })
+  //       ).then(() => {
+  //         console.log("innerContractAddress", innerContractAddress);
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("Error while fetching assets", error);
+  //     setLoading(false);
+  //   }
+  // };
 
   const load = () => {
     setLoading2(true);
@@ -77,6 +83,76 @@ function GetAllSignatureSeriesSeriesNft(props) {
       setLoading2(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    getdata();
+  }, [router]);
+  async function getdata() {
+    const storefrontName = localStorage.getItem("selectedStorefront");
+    const headers = {
+      "content-type": "application/json",
+    };
+    const requestBody = {
+      query: `
+        query signatureSeriesAssetCreateds {
+          signatureSeriesAssetCreateds(orderBy: tokenID) {
+         metaDataURI
+         id
+         creator
+          }
+        }
+      `,
+    };
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(requestBody),
+    };
+    const response = await fetch(
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
+      options
+    )
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((jsn) => {
+        console.log(jsn?.data?.signatureSeriesAssetCreateds);
+        if (!!jsn?.data?.signatureSeriesAssetCreateds) {
+          fetchURIData(jsn?.data?.signatureSeriesAssetCreateds);
+        }
+      });
+  }
+
+  const fetchURIData = async (data) => {
+    try {
+      const responses = await Promise?.all(
+        data?.map(async (item) => {
+          let metaDataURI = item.metaDataURI;
+          if (metaDataURI.startsWith("ipfs://")) {
+            metaDataURI = metaDataURI.substring("ipfs://".length);
+          }
+          const response = await axios.get(
+            `https://nftstorage.link/ipfs/${metaDataURI}`
+          );
+          return response.data;
+        })
+      );
+      console.log(responses);
+      setMyAssets(responses);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  if (!myAssets) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
 
   console.log("contractAddress>>>>", contractAddress);
   return (
@@ -94,7 +170,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
           <div>
             <div className="flex ml-5 justify-content-around gap-5">
               <div className="font-bold mt-5 text-3xl text-black ">
-                SignatureSeries &gt; SignatureSeries 1
+                SignatureSeries &gt; {collectionName}
               </div>
 
               <div className="mt-5 ml-5">
@@ -124,25 +200,50 @@ function GetAllSignatureSeriesSeriesNft(props) {
               className="grid cursor-pointer mt-5"
               style={{ gap: "20px", marginLeft: "30px" }}
             >
-              {assetsData?.length > 0 ? (
-                assetsData.map((asset) => {
+              {myAssets?.length > 0 ? (
+                myAssets.map((asset) => {
                   return (
                     <Link
+                      style={{ color: "black" }}
                       key={asset.tokenID}
-                      href={{
-                        pathname: "/singleSignatureSeriesNFT",
-                        query: {
-                          contractAddress: contractAddress,
-                          data: JSON.stringify(asset),
-                          storefrontId: props.router.query.storefrontId,
-                        },
-                      }}
+                      // href={{
+                      //   pathname: "/singleSignatureSeriesNFT",
+                      //   query: {
+                      //     contractAddress: contractAddress,
+                      //     data: JSON.stringify(asset),
+                      //     storefrontId: props.router.query.storefrontId,
+                      //   },
+                      // }}
+                      href={"#"}
                     >
                       <div
-                        className="col-12 lg:col-6 xl:col-3"
-                        style={{ width: "285px" }}
+                        // className="col-12 lg:col-6 xl:col-3 py-4 px-6"
+                        className="col-12 lg:col-6 xl:col-3   mt-5"
+                        style={{
+                          width: "240px",
+                          border: "1px solid",
+                          padding: "8px 10px",
+                        }}
                       >
-                        <Homecomp uri={asset ? asset.metaDataURI : ""} />
+                        <div className="text-center">
+                          <img
+                            className="dash-img-size"
+                            style={{
+                              width: "200px",
+                              height: "200px",
+                              objectFit: "cover",
+                            }}
+                            alt={asset.name}
+                            src={`https://ipfs.io/ipfs/${asset.image.slice(7)}`}
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="mt-2">
+                          <b>{asset.name}</b>
+                        </div>
+                        <div className="mt-1">
+                          <p>{asset.price} MATIC</p>
+                        </div>
                       </div>
                     </Link>
                   );

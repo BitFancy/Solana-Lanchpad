@@ -25,93 +25,92 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 // });
 
 function GetAllEternalSoulNft(props) {
-  console.log(props);
-  // const [assetsData, setAsseetsData] = useState([]);
-  // const [assetsData, setAssetsData] = useState();
-  const [myAssets, setMyAssets] = useState([]);
+  const [myAssets, setMyAssets] = useState();
 
   const [loadingg, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const router = useRouter();
-  const [data, setData] = useState();
-
-  // useEffect(() => {
-  //   getdata();
-  // }, [data]);
   const contractAddress = router.query.contractAddress;
   const collectionName = router.query.collectionName;
-  const storefrontId = router.query.storefrontId;
 
-  // async function getdata() {
-  //   const storefrontName = localStorage.getItem("selectedStorefront");
-  //   console.log(storefrontName);
-  //   const headers = {
-  //     "content-type": "application/json",
-  //   };
-  //   const requestBody = {
-  //     query: `
-  //       query assetIssueds {
-  //         assetIssueds(orderBy: tokenID) {
-  //        metaDataURI
-  //        id
-  //        creator
+  useEffect(() => {
+    getdata();
+  }, [router]);
+  async function getdata() {
+    const storefrontName = localStorage.getItem("selectedStorefront");
+    const headers = {
+      "content-type": "application/json",
+    };
+    const requestBody = {
+      query: `
+        query assetIssueds {
+          assetIssueds(orderBy: tokenID) {
+         metaDataURI
+         id
+         creator
+          }
+        }
+      `,
+    };
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(requestBody),
+    };
+    const response = await fetch(
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
+      options
+    )
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((jsn) => {
+        console.log(jsn?.data?.assetIssueds);
+        if (!!jsn?.data?.assetIssueds) {
+          fetchURIData(jsn?.data?.assetIssueds);
+        }
+      });
+  }
 
-  //         }
-  //       }
-  //     `,
-  //   };
-  //   const options = {
-  //     method: "POST",
-  //     headers,
-  //     body: JSON.stringify(requestBody),
-  //   };
-  //   const response = await fetch(
-  //     `https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/${storefrontName}`,
-  //     options
-  //   )
-  //     .then((res) => {
-  //       console.log();
-  //       return res.json();
-  //     })
-  //     .then((jsn) => {
-  //       console.log(jsn?.data?.assetIssueds);
-  //       fetchURIData(jsn?.data?.assetIssueds);
-  //     });
-  // }
+  const fetchURIData = async (data) => {
+    try {
+      const responses = await Promise?.all(
+        data?.map(async (item) => {
+          let metaDataURI = item.metaDataURI;
+          if (metaDataURI.startsWith("ipfs://")) {
+            metaDataURI = metaDataURI.substring("ipfs://".length);
+          }
+          const response = await axios.get(
+            `https://nftstorage.link/ipfs/${metaDataURI}`
+          );
+          return response.data;
+        })
+      );
+      console.log(responses);
+      setMyAssets(responses);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
 
-  // const fetchURIData = async (data) => {
-  //   try {
-  //     const responses = await Promise?.all(
-  //       data?.map(async (item) => {
-  //         const response = await axios.get(
-  //           `https://cloudflare-ipfs.com/ipfs/${item.metaDataURI.slice(7)}`
-  //         );
-  //         return response.data;
-  //       })
-  //     );
-  //     console.log(responses);
-  //     setMyAssets(responses);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     throw error;
-  //   }
-  // };
-
-  // console.log(myAssets);
-
-  // const load = () => {
-  //   setLoading2(true);
-
-  //   setTimeout(() => {
-  //     setLoading2(false);
-  //   }, 2000);
-  // };
+  const truncateHex = (hexString, length) => {
+    const prefix = hexString.slice(0, 4);
+    const suffix = hexString.slice(-length);
+    return `${prefix}...${suffix}`;
+  };
 
   if (!myAssets) {
-    return null;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
+  // console.log(myAssets);
   return (
     <LayoutDashbord
       title="EternalSoul NFts"
@@ -160,7 +159,7 @@ function GetAllEternalSoulNft(props) {
                   {props.router.query.collectionName}.
                 </div>
               ) : (
-                myAssets.map((asset) => (
+                myAssets?.map((asset) => (
                   <div key={asset.id}>
                     <img
                       className="dash-img-size"
@@ -179,7 +178,8 @@ function GetAllEternalSoulNft(props) {
 
                     <div className="text-bold">{asset.description}</div>
                     <div className="text-bold">
-                      Issued to: <span>{asset.walletAddress}</span>
+                      Issued to:{" "}
+                      <span>{truncateHex(asset.walletAddress, 6)}</span>
                     </div>
                   </div>
                 ))

@@ -81,7 +81,8 @@ function GetAllSignatureseriesContract(props) {
                           query: {
                             contractAddress: contract.contractAddress,
                             storefrontId: props.router.query.storefrontId,
-                            redirectURL: props.router.query.redirectURL,
+                            collectionName: contract.collectionName,
+                            // redirectURL: props.router.query.redirectURL,
                           },
                         }}
                       >

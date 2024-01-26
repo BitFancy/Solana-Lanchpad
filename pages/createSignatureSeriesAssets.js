@@ -276,7 +276,7 @@ function CreateSignatureSeriesNfts(props) {
       );
       let tx = await transaction.wait();
       transaction2Complete();
-      router.push("/getAllSegnatureSeriesNft");
+      // router.push("/getAllSegnatureSeriesNft");
     } catch (e) {
       console.log(e);
       transaction2failed();
