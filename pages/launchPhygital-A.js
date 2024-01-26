@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
+import { InputText, InputNumber } from "primereact/inputtext";
 import React from "react";
 import Router, { withRouter } from "next/router";
 import axios from "axios";
@@ -20,7 +20,7 @@ import {
   getTradeHubByStorefrontID,
 } from "../utils/util";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
-class SignatureSeries extends React.Component {
+class PhygitalA extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,11 +29,13 @@ class SignatureSeries extends React.Component {
       storefrontId: "",
       contractName: "",
       contractSymbol: "",
-      signatureseriesRespoanse: null,
+      PhygitalNFTsResponse: null,
       loading: false,
       visible: false,
       loading2: false,
       accsessmasterAddress: "",
+      maxSupply: "",
+      royalty: "",
       tradhubAddress: "",
       loading4: false,
       thumbnail: "",
@@ -42,6 +44,8 @@ class SignatureSeries extends React.Component {
       errors: {
         contractNameEror: "",
         symbolError: "",
+        royaltyError: "",
+        maxSupplyError: "",
       },
       storefrontData: {},
     };
@@ -68,7 +72,7 @@ class SignatureSeries extends React.Component {
     this.toast.show({
       severity: "error",
       summary: "Error",
-      detail: "Error While deploying signature series contract",
+      detail: "Error While deploying PhygitalA Collection contract",
       life: 10000,
     });
   }
@@ -135,7 +139,7 @@ class SignatureSeries extends React.Component {
     );
     return data;
   };
-  signatureSeriesdata = async () => {
+  PhygitalNFTsdata = async () => {
     const token = localStorage.getItem("platform_token");
     const valid = this.onClickButton();
     if (valid) {
@@ -165,15 +169,15 @@ class SignatureSeries extends React.Component {
         .post(
           `${BASE_URL_LAUNCH}api/v1.0/launchpad/contract`,
           {
-            contractName: "SignatureSeries",
+            contractName: "PhygitalA",
             constructorParams: {
               param1: this.state.contractName,
               param2: this.state.contractSymbol,
-              param3: "Voucher-Domain",
-              param4: "1",
-              param5: "1000000000000000000",
-              param6: this.state.tradhubAddress,
-              param7: this.state.accsessmasterAddress,
+              param3: this.state.tradhubAddress,
+              param4: this.state.accsessmasterAddress,
+              param5: this.state.maxSupply,
+              param6: this.state.royalty, // royalty
+              param7: "www.xyz.com",
             },
             network: "polygon",
             // storefrontId: this.props?.router?.query?.storefrontId,
@@ -195,7 +199,7 @@ class SignatureSeries extends React.Component {
 
           this.setState({
             ...this.initialState,
-            signatureseriesRespoanse: response.data.contractAddress,
+            PhygitalNFTsResponse: response.data.contractAddress,
           });
         })
 
@@ -215,23 +219,29 @@ class SignatureSeries extends React.Component {
   handleInputSymbol = (e) => {
     this.setState({ contractSymbol: e.target.value, symbolError: "" });
   };
+  handleRoyaltyInput = (e) => {
+    this.setState({ royalty: e.target.value, royaltyError: "" });
+  };
+  handleMaxSupplyInput = (e) => {
+    this.setState({ maxSupply: e.target.value, maxSupplyError: "" });
+  };
 
   navigateTo = (nav) => {
     Router.push(nav);
   };
   handleForm = () => {
-    this.setState({ signatureseriesRespoanse: null });
+    this.setState({ PhygitalNFTsResponse: null });
   };
 
   onClickButton = () => {
     if (!this.state.contractName) {
       this.setState({
-        contractNameEror: "Please Enter SignatureSeries Name",
+        contractNameEror: "Please Enter Phygital-A  Collection Name",
       });
       return false;
     } else if (!this.state.contractSymbol) {
       this.setState({
-        symbolError: "Please Enter SignatureSeries Symbol Descriptio",
+        symbolError: "Please Enter Phygital NFT Collection Symbol",
       });
       return false;
     } else if (this.state.contractName && this.state.contractSymbol) {
@@ -245,8 +255,8 @@ class SignatureSeries extends React.Component {
   render() {
     return (
       <Layout2
-        title="Deploy SignatureSeries"
-        description="This is use to show information of the deploy signatureSeries contract"
+        title="Deploy Phygital-A Collection"
+        description="This is use to show information of the deploy Phygital NFT contract"
       >
         <Dialog
           visible={this.state.visible}
@@ -255,7 +265,7 @@ class SignatureSeries extends React.Component {
         >
           <div className="text-center">
             <div className="font-bold text-2xl">Step 3 of 3</div>
-            <div className="mt-5 text-xl">Deployed Collection</div>
+            <div className="mt-5 text-xl">Deployed Phygital-A Collection</div>
           </div>
         </Dialog>
         <div>
@@ -265,13 +275,23 @@ class SignatureSeries extends React.Component {
               style={{ borderBottom: "2px solid" }}
             >
               <div className=" p-5 font-bold text-3xl text-center text-black">
-                Deploy SignatureSeries
+                Launch Phygital-A Collection
               </div>
               <div className="mt-5">
                 <span className="blockchain-label">
                   {this.state.storefrontData?.blockchain}
                 </span>
               </div>
+              <Link
+                href={{
+                  pathname: "launchPhygitalNFT",
+                  query: {
+                    storefrontId: this.props?.router?.query?.storefrontId,
+                  },
+                }}
+              >
+                <Button label="Launch Phygital collection" />
+              </Link>
             </div>
             <div className="flex justify-content-center gap-5">
               <div
@@ -283,12 +303,12 @@ class SignatureSeries extends React.Component {
                 style={{ width: "50%" }}
               >
                 <div className="text-center mt-5">
-                  {!this.state.signatureseriesRespoanse ? (
+                  {!this.state.PhygitalNFTsResponse ? (
                     <>
                       <div id="addr0" className=" mt-5">
                         <div>
                           <div className="text-left text-black">
-                            Enter SignatureSeries Name
+                            Enter Phygital-A Collection Name
                           </div>
                           <InputText
                             value={this.state.contractName}
@@ -303,7 +323,7 @@ class SignatureSeries extends React.Component {
                         </div>
                         <div className="mt-5">
                           <div className="text-left">
-                            Enter SignatureSeries Symbol
+                            Enter Phygital-A Collection Symbol
                           </div>
 
                           <InputText
@@ -317,6 +337,37 @@ class SignatureSeries extends React.Component {
                               : ""}
                           </p>
                         </div>
+                        {/* ------------------  */}
+                        <div className="mt-5">
+                          <div className="text-left">Maximum Supply</div>
+                          <InputText
+                            value={this.state.maxSupply}
+                            onChange={this.handleMaxSupplyInput}
+                            className="p-2 mt-3 input-back w-full "
+                          />
+                          {/* <p style={{ textAlign: "left", color: "red" }}>
+                            {!this.state.contractSymbol
+                              ? this.state.symbolError
+                              : ""}
+                          </p> */}
+                        </div>
+                        {/* --------------   */}
+                        {/* ------------------  */}
+                        <div className="mt-5">
+                          <div className="text-left">Royalty</div>
+
+                          <InputText
+                            value={this.state.royalty}
+                            onChange={this.handleRoyaltyInput}
+                            className="p-2 mt-3 input-back w-full "
+                          />
+                          {/* <p style={{ textAlign: "left", color: "red" }}>
+                            {!this.state.contractSymbol
+                              ? this.state.symbolError
+                              : ""}
+                          </p> */}
+                        </div>
+                        {/* --------------   */}
                         <div className="flex justify-content-between mt-5">
                           <div>Thumbnail</div>
                           <div>Cover Image</div>
@@ -369,8 +420,8 @@ class SignatureSeries extends React.Component {
                         style={{ marginTop: "60px" }}
                       >
                         <Button
-                          onClick={this.signatureSeriesdata}
-                          label="Deploy SignatureSeries"
+                          onClick={this.PhygitalNFTsdata}
+                          label="Deploy Phygital-A Collection"
                           severity="Primary"
                           rounded
                           loading={this.state.loading}
@@ -382,7 +433,7 @@ class SignatureSeries extends React.Component {
                     <>
                       <div className="flex justify-content-between">
                         <div className="font-bold">
-                          Add another SignatureSeries
+                          Add another Phygital-A Colection
                         </div>
                         <div className="font-bold text-left">
                           Choose another contract
@@ -412,7 +463,7 @@ class SignatureSeries extends React.Component {
                         >
                           <Link
                             href={{
-                              pathname: "/launchSignatureseries",
+                              pathname: "/launch/phygital-nfts",
                               query: {
                                 storefrontId:
                                   this.props?.router?.query?.storefrontId,
@@ -436,7 +487,7 @@ class SignatureSeries extends React.Component {
               <div className="text-center mt-5">
                 <Link
                   href={{
-                    pathname: "/launchSignatureseries",
+                    pathname: "/launch/phygital-nfts",
                     query: {
                       storefrontId: this.props?.router?.query?.storefrontId,
                     },
@@ -454,7 +505,7 @@ class SignatureSeries extends React.Component {
                 </Link>
               </div>
 
-              {this.state.signatureseriesRespoanse && (
+              {this.state.PhygitalNFTsResponse && (
                 <div className="text-center mt-5">
                   <Link
                     href={{
@@ -484,4 +535,4 @@ class SignatureSeries extends React.Component {
   }
 }
 
-export default withRouter(SignatureSeries);
+export default withRouter(PhygitalA);

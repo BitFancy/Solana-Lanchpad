@@ -1,9 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-// import { useQuery, gql } from "@apollo/client";
 import { request, gql } from "graphql-request";
-
-// import { createClient, cacheExchange, fetchExchange } from "urql";
-// import { createClient, cacheExchange, fetchExchange } from '@urql/core'
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
@@ -25,39 +21,31 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 // });
 
 function GetAllEternalSoulNft(props) {
-  console.log(props);
-  // const [assetsData, setAsseetsData] = useState([]);
-  // const [assetsData, setAssetsData] = useState();
-  const [myAssets, setMyAssets] = useState([]);
+  const [myAssets, setMyAssets] = useState();
 
   const [loadingg, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const router = useRouter();
-  const [data, setData] = useState();
+  const contractAddress = router.query.contractAddress;
+  const collectionName = router.query.collectionName;
 
   useEffect(() => {
     getdata();
-  }, [data]);
-  const contractAddress = router.query.contractAddress;
-  const collectionName = router.query.collectionName;
-  const storefrontId = router.query.storefrontId;
-
+  }, [router]);
   async function getdata() {
     const storefrontName = localStorage.getItem("selectedStorefront");
-    console.log(storefrontName);
     const headers = {
       "content-type": "application/json",
     };
     const requestBody = {
       query: `
         query assetIssueds {
-          assetIssueds(orderBy: tokenID) {     
+          assetIssueds(orderBy: tokenID) {
          metaDataURI
          id
          creator
-         
           }
         }
       `,
@@ -68,25 +56,31 @@ function GetAllEternalSoulNft(props) {
       body: JSON.stringify(requestBody),
     };
     const response = await fetch(
-      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/${storefrontName}`,
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
       options
     )
       .then((res) => {
-        console.log();
+        console.log(res);
         return res.json();
       })
       .then((jsn) => {
-        console.log(jsn.data.assetIssueds);
-        fetchURIData(jsn.data.assetIssueds);
+        console.log(jsn?.data?.assetIssueds);
+        if (!!jsn?.data?.assetIssueds) {
+          fetchURIData(jsn?.data?.assetIssueds);
+        }
       });
   }
 
   const fetchURIData = async (data) => {
     try {
-      const responses = await Promise.all(
-        data.map(async (item) => {
+      const responses = await Promise?.all(
+        data?.map(async (item) => {
+          let metaDataURI = item.metaDataURI;
+          if (metaDataURI.startsWith("ipfs://")) {
+            metaDataURI = metaDataURI.substring("ipfs://".length);
+          }
           const response = await axios.get(
-            `https://cloudflare-ipfs.com/ipfs/${item.metaDataURI.slice(7)}`
+            `https://nftstorage.link/ipfs/${metaDataURI}`
           );
           return response.data;
         })
@@ -99,40 +93,20 @@ function GetAllEternalSoulNft(props) {
     }
   };
 
-  console.log(myAssets);
-  // const getGraphUrl = async () => {
-  //   const token = localStorage.getItem("platform_token");
-  //   axios
-  //     .get(
-  //       `${BASE_URL_LAUNCH}api/v1.0/storefront/get_storefront_by_id?id=${storefrontId}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     .then(async (response) => {
-  //       console.log(response.data.payload.subgraphUrl);
-  //     })
-  //     .catch((error) => {
-  //       console.log("error while storefront data", error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
-  const load = () => {
-    setLoading2(true);
-
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
+  const truncateHex = (hexString, length) => {
+    const prefix = hexString.slice(0, 4);
+    const suffix = hexString.slice(-length);
+    return `${prefix}...${suffix}`;
   };
-  // const contractAddress = props.router.query.contractAddress;
+
   if (!myAssets) {
-    return null;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
+  // console.log(myAssets);
   return (
     <LayoutDashbord
       title="EternalSoul NFts"
@@ -164,7 +138,7 @@ function GetAllEternalSoulNft(props) {
                   <Button
                     className="buy-img"
                     loading={loading2}
-                    onClick={load}
+                    // onClick={load}
                     label="Create EternalSoul NFT"
                   ></Button>
                 </Link>
@@ -175,13 +149,13 @@ function GetAllEternalSoulNft(props) {
               className="grid cursor-pointer"
               style={{ gap: "40px", marginLeft: "60px", marginTop: "40px" }}
             >
-              {myAssets.length === 0 ? (
+              {!!myAssets && myAssets?.length === 0 ? (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">
                   You haven&apos;t created any NFTs in{" "}
                   {props.router.query.collectionName}.
                 </div>
               ) : (
-                myAssets.map((asset) => (
+                myAssets?.map((asset) => (
                   <div key={asset.id}>
                     <img
                       className="dash-img-size"
@@ -200,43 +174,12 @@ function GetAllEternalSoulNft(props) {
 
                     <div className="text-bold">{asset.description}</div>
                     <div className="text-bold">
-                      Issued to: <span>{asset.walletAddress}</span>
+                      Issued to:{" "}
+                      <span>{truncateHex(asset.walletAddress, 6)}</span>
                     </div>
                   </div>
                 ))
               )}
-
-              {/* {assetsData?.length > 0 ? (
-                assetsData.map((asset) => {
-                  return (
-                    <Link
-                      key={1}
-                      href={{
-                        pathname: "/singleEturnalsolNFT",
-                        query: {
-                          contractAddress: contractAddress,
-                          data: JSON.stringify(asset),
-                          storefrontId: props.router.query.storefrontId,
-                        },
-                      }}
-                    >
-                      <div
-                        className="col-12 lg:col-6 xl:col-3"
-                        style={{ width: "285px" }}
-                      >
-                        <Homecomp uri={asset ? asset.metaDataURI : ""} />
-                      </div>
-                    </Link>
-                  );
-                })
-              ) : loadingg ? (
-                <Loader />
-              ) : (
-                <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any NFTs in{" "}
-                  {props.router.query.collectionName}.
-                </div>
-              )} */}
             </div>
           </div>
           <Toast ref={toast} />

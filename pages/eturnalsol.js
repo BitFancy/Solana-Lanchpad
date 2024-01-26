@@ -240,7 +240,7 @@ class Eturnulsol extends React.Component {
   render() {
     return (
       <Layout2
-        title="Deploy Eturnalsol"
+        title="Deploy Eternalsoul"
         description="This is use to show information of the deploy Eturnalsol contract"
       >
         <div>
@@ -250,8 +250,10 @@ class Eturnulsol extends React.Component {
             onHide={() => this.setState({ visible: false })}
           >
             <div className="text-center">
-              <div className="font-bold text-2xl">Step 3 of 3</div>
-              <div className="mt-5 text-xl">Deploying storefront Webapp</div>
+              {/* <div className="font-bold text-2xl">Step 3 of 3</div>  */}
+              <div className="mt-5 text-xl">
+                Deployed Eternalsoul Collection
+              </div>
             </div>
           </Dialog>
           <div>
@@ -364,7 +366,7 @@ class Eturnulsol extends React.Component {
                       >
                         <Button
                           onClick={this.eturnulsolData}
-                          label="Deploy Eturnulsol"
+                          label="Deploy Eternalsoul"
                           severity="Primary"
                           rounded
                           loading={this.state.loading}
