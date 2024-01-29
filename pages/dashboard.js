@@ -226,8 +226,8 @@ function StorefrontDashboard(props) {
                             <img
                               style={{ width: "100px", height: "100px" }}
                               src={
-                                storefront.image
-                                  ? storefront.image
+                                storefront.Image
+                                  ? storefront.Image
                                   : "storefront.png"
                               }
                             ></img>
