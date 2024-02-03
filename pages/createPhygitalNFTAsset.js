@@ -226,11 +226,30 @@ function CreatePhygitalNFTAsset(props) {
       signer
     );
     try {
+      function generateRandomByteFormat(length) {
+        // Generate an array of random bytes
+        const byteArray = new Uint8Array(length);
+        window.crypto.getRandomValues(byteArray);
+
+        // Convert the array to a hexadecimal string
+        const hexString = Array.from(byteArray)
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("");
+
+        // Add '0x' prefix to the hexadecimal string
+        const byteFormat = `0x${hexString}`;
+
+        return byteFormat;
+      }
+
+      // Example: Generate a random byte format of length 12
+      const randomByteFormat = generateRandomByteFormat(12);
+
       let transaction = await PhygitalNFTContract.createAsset(
         url,
         formInput.royalties * 100,
         // { gasLimit: "2099999" }
-        "0x48656c6c6f00000000000000"
+        randomByteFormat
       );
       let tx = await transaction.wait();
       transactionCompleate();
@@ -240,13 +259,7 @@ function CreatePhygitalNFTAsset(props) {
       let price = ethers.utils.parseEther(formInput.price);
       let forAuction = false;
       let endTime = 0;
-      await listItem(
-        signetureseriesContract,
-        tokenId,
-        price,
-        forAuction,
-        endTime
-      ); //Putting item to sale
+      await listItem(PhygitalNFTContract, tokenId, price, forAuction, endTime); //Putting item to sale
     } catch (e) {
       console.log(e);
       transactionFailed();

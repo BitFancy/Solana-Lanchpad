@@ -81,29 +81,27 @@ function GetAllInstagenContract(props) {
                         }}
                       >
                         <div
-                          className="col-12 lg:col-6 xl:col-3   mt-5"
-                          style={{ width: "285px" }}
+                          className="p-5"
+                          style={{
+                            border: "1px solid",
+                          }}
                         >
-                          <div
-                            className="back-contract gap-5 p-5"
-                            style={{
-                              marginBottom: "0px",
-                              height: "300px",
-                            }}
-                          >
-                            <div className="text-center">
-                              <img
-                                className="dash-img-size"
-                                style={{ width: "200px", height: "200px" }}
-                                src="garden.png"
-                              ></img>
-                            </div>
-                            <div className="mt-5">
-                              Contract Name :{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
-                            </div>
+                          <div className="text-center">
+                            <img
+                              className="dash-img-size"
+                              style={{
+                                width: "200px",
+                                height: "200px",
+                                objectFit: "cover",
+                              }}
+                              src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                                7
+                              )}`}
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="mt-3">
+                            <b>{contract.collectionName}</b>
                           </div>
                         </div>
                       </Link>
