@@ -10,8 +10,11 @@ import { withRouter, useRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
 import axios from "axios";
+
+// Shilpa -> no idea about next line ?
 import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
-function GetAllSignatureSeriesSeriesNft(props) {
+
+function GetAllDropsNft(props) {
   // const [assetsData, setAsseetsData] = useState([]);
   const [myAssets, setMyAssets] = useState();
   const [loading, setLoading] = useState(true);
@@ -87,6 +90,10 @@ function GetAllSignatureSeriesSeriesNft(props) {
   useEffect(() => {
     getdata();
   }, [router]);
+
+  /**
+   * Shilpa -> No idea about this function
+   */
   async function getdata() {
     const storefrontName = localStorage.getItem("selectedStorefront");
     const headers = {
@@ -157,8 +164,8 @@ function GetAllSignatureSeriesSeriesNft(props) {
   console.log("contractAddress>>>>", contractAddress);
   return (
     <LayoutDashbord
-      title="Signatureseries NFts"
-      description="Used to Show All Signatureseries NFTs Details"
+      title="Drops NFts"
+      description="Used to Show All Drops NFTs Details"
     >
       <div>
         <MarketplaceProfileDetails id={props.router.query.storefrontId} />
@@ -170,13 +177,13 @@ function GetAllSignatureSeriesSeriesNft(props) {
           <div>
             <div className="flex ml-5 justify-content-around gap-5">
               <div className="font-bold mt-5 text-3xl text-black ">
-                SignatureSeries &gt; {collectionName}
+                Drops &gt; {collectionName}
               </div>
 
               <div className="mt-5 ml-5">
                 <Link
                   href={{
-                    pathname: "/createSignatureSeriesAssets",
+                    pathname: "/createDropsAssets",
                     query: {
                       contractAddress: contractAddress,
                       storefrontId: props.router.query.storefrontId,
@@ -187,7 +194,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
                     className="buy-img"
                     loading={loading2}
                     onClick={load}
-                    label="Create SignatureSeries NFT"
+                    label="Create Drops NFT"
                   ></Button>
                 </Link>
               </div>
@@ -255,7 +262,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
                   className="text-2xl pb-10 font-bold"
                   style={{ marginTop: "50px" }}
                 >
-                  You haven&apos;t created any SignatureSeries NFts Under this
+                  You haven&apos;t created any Drops NFts Under this
                   Contract.
                 </div>
               )}
@@ -269,4 +276,4 @@ function GetAllSignatureSeriesSeriesNft(props) {
   );
 }
 
-export default withRouter(GetAllSignatureSeriesSeriesNft);
+export default withRouter(GetAllDropsNft);

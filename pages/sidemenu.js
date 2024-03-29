@@ -139,6 +139,21 @@ function Sidemenu(props) {
             Instagen
           </Link>
         </div>
+        {/* ---------------------------------------- */}
+        <div className="text-2xl p-heading" style={{ marginTop: "30px" }}>
+          <Link
+            href={{
+              pathname: "/getAllDropsContract",
+              query: { storefrontId: props.router.query.storefrontId },
+            }}
+            className={
+              router.pathname == "/getAllDropsContract" ? "active" : "p-heading"
+            }
+          >
+            Drops
+          </Link>
+        </div>
+        {/* ------------------------------------------- */}
       </div>
       <div
         className="border-bottom-das"

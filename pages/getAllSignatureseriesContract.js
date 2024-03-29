@@ -8,14 +8,18 @@ import LayoutDashbord from "../Components/LayoutDashbord";
 import { withRouter } from "next/router";
 import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
 function GetAllSignatureseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useRef(null);
+
   useEffect(() => {
     getallsigseriesContract();
   }, []);
+
   console.log("props in sig con", props.router.query.redirectURL);
+  
   const getallsigseriesContract = () => {
     const token = localStorage.getItem("platform_token");
     axios

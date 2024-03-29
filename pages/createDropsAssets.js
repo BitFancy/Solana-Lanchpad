@@ -1,23 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter, withRouter } from "next/router";
 import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
-import EternalSoulABI from "../artifacts/contracts/eternalsoul.json";
-import { Button } from "primereact/button";
-import { useAccount } from "wagmi";
-import { ethers } from "ethers";
-import LayoutDashbord from "../Components/LayoutDashbord";
-import { Messages } from "primereact/messages";
 import Multiselect from "multiselect-react-dropdown";
-import Image from "next/image";
+import { Messages } from "primereact/messages";
+import { InputNumber } from "primereact/inputnumber";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
+// Shilpa -> No idea about next line
+import SignatureSeries from "../artifacts/contracts/signatureseries/SignatureSeries.sol/SignatureSeries.json";
+
+import TradeHub from "../artifacts/contracts/tradehub/TradeHub.sol/TradeHub.json";
 import { NFTStorage } from "nft.storage";
-import { withRouter } from "next/router";
-import { getStorefrontByID } from "../utils/util";
+import Image from "next/image";
+import { Button } from "primereact/button";
+import LayoutDashbord from "../Components/LayoutDashbord";
+import { ethers } from "ethers";
+import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 const style = {
   position: "absolute",
   top: "50%",
@@ -31,16 +33,19 @@ const style = {
   px: 4,
   pb: 3,
 };
-function CreateEternulsolAssets(props) {
+function CreateDropsNfts(props) {
+  const router = useRouter();
   const msgs = useRef(null);
-  const { address } = useAccount();
+  const [toggle, setToggle] = useState(false);
+  const [toggleinput, setToggleInput] = useState(false);
+  const [auctionToggle, setAuctionToggle] = useState(false);
   const [show, setShow] = useState(false);
   const handleClos = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [addImage, setAddImage] = useState(false);
-  const [previewMedia, setpreviewMedia] = useState("");
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const [tradhubAddress, setTradhubAddress] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
+  const dynamicContractAddress = props.router.query.contractAddress;
   const toast = useRef(null);
 
   const [mediaHash, setMediaHash] = useState({
@@ -50,25 +55,66 @@ function CreateEternulsolAssets(props) {
     animation_url: "",
     doctype: "",
   });
-  const dynamicContractAddress = props.router.query.contractAddress;
-  const collectionName = props.router.query.collectionName;
 
+  const showProgress = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Transaction in progress!",
+      life: 30000,
+    });
+  };
+  const transactionCompleate = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Transaction 1 Complete",
+      life: 10000,
+    });
+  };
+  const transactionFailed = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Transaction 1 failed",
+      life: 10000,
+    });
+  };
+
+  const transaction2Progress = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Transaction 2 in progress",
+      life: 10000,
+    });
+  };
+  const transaction2Complete = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Transaction 2 Complete !!",
+      life: 10000,
+    });
+  };
+  const transaction2failed = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Transaction 2 failed",
+      life: 10000,
+    });
+  };
+  const [previewMedia, setpreviewMedia] = useState("");
+  const [addImage, setAddImage] = useState(false);
   const [formInput, updateFormInput] = useState({
     price: 0,
     name: "",
     description: "",
     alternettext: "",
-    walletAddress: address,
+    royalties: 5,
     auctionTime: 2,
   });
-  useEffect(() => {
-    getBlocchain();
-  }, [props.router]);
-  const getBlocchain = async () => {
-    const payload = await getStorefrontByID(props.router.query.storefrontId);
-    setstorefrontData(payload);
-  };
-
   async function uploadBlobGetHash(file) {
     try {
       const blobDataImage = new Blob([file]);
@@ -89,24 +135,6 @@ function CreateEternulsolAssets(props) {
       setPreviewThumbnail(URL.createObjectURL(e.target.files[0]));
     } catch (error) {}
   }
-
-  const showProgress = () => {
-    toast.current.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Transaction in progress!",
-      life: 30000,
-    });
-  };
-
-  const transactionFailed = () => {
-    toast.current.show({
-      severity: "error",
-      summary: "Error",
-      detail: "Transaction 1 failed",
-      life: 10000,
-    });
-  };
 
   async function onChangeMediaType(e) {
     const file = e.target.files[0];
@@ -137,40 +165,36 @@ function CreateEternulsolAssets(props) {
       setpreviewMedia(URL.createObjectURL(e.target.files[0]));
     } catch (error) {}
   }
-  function createMarket() {
-    // e.preventDefault();
-    // e.stopPropagation();
-    console.log("yes");
+  function createMarket(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const { name, description, price, alternettext, auctionTime } = formInput;
-    console.log(formInput);
     let assetData = {};
-    // if (!name || !description || !price) {
-    //   setOpen(true);
-    //   return;
-    // }
-    // assetData = {
-    //   name,
-    //   description,
-    //   price,
-    //   alternettext,
-    //   attributes,
-    //   categories,
-    //   tags,
-    //   auctionTime,
-    // };
-    // if (!mediaHash?.image) {
-    //   return;
-    // }
+    if (!name || !description || !price) {
+      return;
+    }
+    assetData = {
+      name,
+      description,
+      price,
+      alternettext,
+      attributes,
+      categories,
+      tags,
+      auctionTime,
+    };
+
+    if (!mediaHash?.image) {
+      setOpen(true);
+      return;
+    }
     showProgress();
-    const data = JSON.stringify({ ...formInput, ...mediaHash });
-    console.log(data);
+    const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
-    console.log(blobData);
     try {
       client.storeBlob(blobData).then(async (metaHash) => {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
-        console.log(url);
         await createItem(ipfsHash, url);
       });
     } catch (error) {
@@ -179,34 +203,90 @@ function CreateEternulsolAssets(props) {
     }
   }
 
-  // ------------------------
+  useEffect(() => {
+    getBlocchain();
+    getTradeHubByStorefrontID(props.router.query.storefrontId).then(
+      (response) => {
+        setTradhubAddress(response[0]?.contractAddress);
+      }
+    );
+  }, []);
 
-  // ------------------------
+  const getBlocchain = async () => {
+    const payload = await getStorefrontByID(props.router.query.storefrontId);
+    setstorefrontData(payload);
+  };
 
-  async function createItem(url) {
-    console.log(url);
+  /**
+   * Shilpa -> No idea about createItem function
+   */
+  async function createItem(ipfsHash, url) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    console.log(signer);
-    const eturnulsolContract = new ethers.Contract(
+    const signetureseriesContract = new ethers.Contract(
       dynamicContractAddress,
-      EternalSoulABI,
+      SignatureSeries.abi,
       signer
     );
-    // console.log("log", eturnulsolContract);
     try {
-      console.log(address);
-      // const gasLimit = 253378;
-      const tx = await eturnulsolContract.issue(address, url);
-      // const tx = await eturnulsolContract.issue(url, { gasLimit });
-      tx.wait().then(async (transaction) => {
-        console.log("response while eternalsoul nft creation", transaction);
-      });
-    } catch (error) {
-      console.log("error while eternalsoul nft creation", error);
+      let transaction = await signetureseriesContract.createAsset(
+        url,
+        formInput.royalties * 100,
+        { gasLimit: "2099999" }
+      );
+      let tx = await transaction.wait();
+      transactionCompleate();
+      let event = tx.events[0];
+      let value = event.args[2];
+      let tokenId = value.toNumber();
+      let price = ethers.utils.parseEther(formInput.price);
+      let forAuction = false;
+      let endTime = 0;
+      await listItem(
+        signetureseriesContract,
+        tokenId,
+        price,
+        forAuction,
+        endTime
+      ); //Putting item to sale
+    } catch (e) {
+      console.log(e);
       transactionFailed();
+      return;
     }
   }
+  const listItem = async (
+    signetureseriesContract,
+    tokenId,
+    price,
+    forAuction,
+    endTime
+  ) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      transaction2Progress();
+      let tradhubContract = new ethers.Contract(
+        tradhubAddress,
+        TradeHub.abi,
+        signer
+      );
+      let transaction = await tradhubContract.listItem(
+        dynamicContractAddress,
+        tokenId,
+        price,
+        1,
+        forAuction,
+        endTime
+      );
+      let tx = await transaction.wait();
+      transaction2Complete();
+      // router.push("/getAllSegnatureSeriesNft");
+    } catch (e) {
+      console.log(e);
+      transaction2failed();
+    }
+  };
   const [attributes, setInputFields] = useState([
     { id: uuidv4(), display_type: "", trait_type: "", value: "" },
   ]);
@@ -243,10 +323,12 @@ function CreateEternulsolAssets(props) {
   };
 
   const [open, setOpen] = useState(false);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
+    setOpen(false);
   };
 
   const [options1, setOptions] = useState([
@@ -263,14 +345,14 @@ function CreateEternulsolAssets(props) {
     "document tags are integrated into text document and they are actually a set of directions which directs a browser what to do and what props to use.",
     "Others",
   ]);
-
+  const [categories, setCategory] = useState([]);
+  const [tags, setTags] = useState([]);
   return (
     <LayoutDashbord
-      title="Create EternalSoul Assets"
-      description="This is used to create EternalSoul Nfts"
+      title="Create SignetureSeries Assets"
+      description="This is used to create Signetureseries Nfts"
     >
       <Toast ref={toast} />
-
       <div>
         <div className="dark:bg-gray-800 kumbh text-center">
           <div className="effective-nft-color font-bold text-5xl">
@@ -286,12 +368,14 @@ function CreateEternulsolAssets(props) {
             style={{ gap: "50px" }}
           >
             <div className="p-5">
-              <div className="" style={{ width: "700px" }}>
+              <div style={{ width: "700px" }}>
                 <div>
                   <div className="flex justify-content-between">
-                    <div className="font-bold text-4xl text-left">
-                      {/* EternalSoul &gt; EternalSoul 1  */}
-                      {collectionName}
+                    <div
+                      className="font-bold text-4xl"
+                      style={{ textAlign: "initial" }}
+                    >
+                      drops &gt; drops 1
                     </div>
 
                     <div className="w-56">
@@ -301,8 +385,8 @@ function CreateEternulsolAssets(props) {
                     </div>
                   </div>
                   <div style={{ marginTop: "65px" }}>
-                    <div className="font-bold text-left">
-                      EternalSoul Assets Name
+                    <div className="font-bold" style={{ textAlign: "initial" }}>
+                      Drops Assets Name
                     </div>
                     <div>
                       <input
@@ -319,49 +403,59 @@ function CreateEternulsolAssets(props) {
                     </div>
 
                     <div className="mt-5">
-                      <div className="font-bold text-left">
-                        EternalSoul Assets Description
+                      <div
+                        className="font-bold"
+                        style={{ textAlign: "initial" }}
+                      >
+                        Drops Assets Description
                       </div>
                       <div>
                         <textarea
                           type="text"
                           placeholder="Asset Description"
                           className="w-full assets-input-back p-3  mt-3 rounded border-none"
-                          onChange={(e) => {
+                          onChange={(e) =>
                             updateFormInput({
                               ...formInput,
                               description: e.target.value,
-                            });
-                          }}
+                            })
+                          }
                         />
                       </div>
                     </div>
-                    <div className="mt-5 font-bold text-left">
-                      Issue to:
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
+                      Royalties
                       <span className="text-gray-400 text-gray-500 ml-2">
                         *
                       </span>
                     </div>
                     <div>
                       <input
-                        type="text"
-                        value={formInput.walletAddress} // value * 100
+                        type="number"
+                        value={formInput.royalties} // value * 100
                         suffix="%"
-                        // mode="decimal"
+                        mode="decimal"
                         className="mt-2 p-3 w-full assets-input-back rounded border-none"
                         showButtons
                         onChange={(e) => {
                           updateFormInput({
                             ...formInput,
-                            walletAddress: e.target.value,
+                            royalties: e.target.value,
                           });
-                          console.log("here", formInput);
                         }}
                       />
                     </div>
                   </div>
                   <div className="flex">
-                    <div className="mt-5 font-bold text-left">Upload File</div>
+                    <div
+                      className="mt-5 font-bold"
+                      style={{ textAlign: "initial" }}
+                    >
+                      Upload File
+                    </div>
                   </div>
                   <div className="flex gap-6 mt-3">
                     <div
@@ -554,7 +648,9 @@ function CreateEternulsolAssets(props) {
                     </Dialog>
                   </div>
                   <div className="flex mt-5 font-bold">
-                    <div className="text-left">NFT description in detail</div>
+                    <div style={{ alignItems: "initial" }}>
+                      NFT description in detail
+                    </div>
                   </div>
                   <input
                     placeholder="NFT description in details"
@@ -567,12 +663,12 @@ function CreateEternulsolAssets(props) {
                     }
                   />
                 </div>
-                {/* <div className="mt-5 flex justify-content-between font-bold">
+                <div className="mt-5 flex justify-content-between font-bold">
                   <div>Category</div>
                   <div>Tags</div>
-                </div> */}
+                </div>
                 <div className="flex justify-content-between">
-                  {/* <div style={{ width: "300px" }}>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -586,8 +682,8 @@ function CreateEternulsolAssets(props) {
                       showCheckbox
                       className="assets-input-back mt-3"
                     />
-                  </div> */}
-                  {/* <div style={{ width: "300px" }}>
+                  </div>
+                  <div style={{ width: "300px" }}>
                     <Multiselect
                       isObject={false}
                       onRemove={(event) => {
@@ -601,8 +697,96 @@ function CreateEternulsolAssets(props) {
                       showCheckbox
                       className="assets-input-back mt-3"
                     />
-                  </div> */}
+                  </div>
                 </div>
+
+                <div className="flex justify-content-between mt-5">
+                  <div className="text-left">
+                    <div className="font-bold text-3xl">Put on Marketplace</div>
+                    <div>
+                      Enter price to Allow Users Instantly Buy your NFT{" "}
+                    </div>
+                  </div>
+
+                  <input
+                    onClick={() => {
+                      setToggle(!toggle);
+                    }}
+                    type="checkbox"
+                    className="assets-input-back"
+                  />
+                </div>
+                {toggle && (
+                  <div className="flex  justify-content-between">
+                    <div
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
+                      onClick={() => {
+                        setAuctionToggle(false);
+                        setToggleInput(!toggleinput);
+                      }}
+                    >
+                      {" "}
+                      Direct Sale
+                    </div>
+                    <div
+                      className="flex mt-3 gap-6 border-[1px] border-[#d5d5d6] rounded-xl p-3 cursor-pointer"
+                      onClick={() => {
+                        setToggleInput(false);
+                        setAuctionToggle(!auctionToggle);
+                      }}
+                    >
+                      Auction
+                    </div>
+                  </div>
+                )}
+
+                {toggleinput && (
+                  <div className="flex mt-3 gap-6 ">
+                    <input
+                      type="number"
+                      className="w-full p-2 assets-input-back "
+                      placeholder="Asset Price in Matic"
+                      onChange={(e) =>
+                        updateFormInput({
+                          ...formInput,
+                          price: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )}
+
+                {auctionToggle && (
+                  <div className="flex mt-3 gap-6 ">
+                    <input
+                      type="number"
+                      className="w-full p-2 assets-input-back "
+                      placeholder="Asset Price in Matic"
+                      onChange={(e) =>
+                        updateFormInput({
+                          ...formInput,
+                          price: e.target.value,
+                        })
+                      }
+                    />
+
+                    <InputNumber
+                      className="w-full p-2 assets-input-back"
+                      placeholder="Auction Duration"
+                      inputId="expiry"
+                      suffix=" minutes"
+                      onValueChange={(e) =>
+                        updateFormInput({
+                          ...formInput,
+                          auctionTime: e.target.value,
+                        })
+                      }
+                      mode="decimal"
+                      min={0}
+                      max={100}
+                    />
+                  </div>
+                )}
 
                 <div className="flex justify-content-center p-5 mt-5">
                   <div>
@@ -610,7 +794,7 @@ function CreateEternulsolAssets(props) {
                       className="buy-img"
                       onClick={(e) => createMarket(e)}
                     >
-                      Create EternalSoul NFTs
+                      Create Drops NFTs
                     </Button>
                   </div>
                 </div>
@@ -657,4 +841,4 @@ function CreateEternulsolAssets(props) {
     </LayoutDashbord>
   );
 }
-export default withRouter(CreateEternulsolAssets);
+export default withRouter(CreateDropsNfts);

@@ -8,6 +8,7 @@ import LayoutDashbord from "../../../Components/LayoutDashbord";
 import Link from "next/link";
 import { withRouter, useRouter } from "next/router";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+
 function GetAllEturnalsolContract() {
   const [contractData, setContarctData] = useState([]);
   const [loading, setLoading] = useState(true);
