@@ -256,26 +256,31 @@ function CreateFusionSeriesNft(props) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       transaction2Progress();
+      console.log(tradhubAddress);
       let tradhubContract = new ethers.Contract(
         tradhubAddress,
         TradeHub.abi,
         signer
       );
+      console.log(
+        "txdata",
+        contractFusionSeriesAddress,
+        tokenId,
+        price,
+        1,
+        forAuction,
+        endTime
+      );
       let transaction = await tradhubContract.listItem(
         contractFusionSeriesAddress,
         tokenId,
         price,
-        formInput.quantity,
+        1,
         forAuction,
-        endTime,
-        { gasLimit: "2099999" }
+        endTime
       );
-      await transaction.wait();
-      transaction2Complete();
-      router.push({
-        pathname: "/getAllFusionSeriesNft",
-        query: { storefrontId: props.router.query.storefrontId },
-      });
+      console.log(transaction);
+      let tx = await transaction.wait();
     } catch (e) {
       transaction2failed();
       console.log(e);

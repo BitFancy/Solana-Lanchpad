@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidemenu from "./sidemenu";
-import axios from "axios";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import Loader from "../Components/LoadingSpinner";
+import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
-import Link from "next/link";
 import { withRouter } from "next/router";
+import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 function GetAllFusionseriesContract(props) {
   const [contractData, setContarctData] = useState([]);
@@ -36,6 +36,7 @@ function GetAllFusionseriesContract(props) {
         }
         setLoading(false);
       })
+
       .catch((error) => {
         console.log("error while get contract by id", error);
       })
@@ -60,10 +61,7 @@ function GetAllFusionseriesContract(props) {
             <div className="font-bold mt-5 ml-5  text-3xl text-black">
               Fusion Series
             </div>
-            <div
-              className="border-bottom-das"
-              style={{ width: "84%", position: "absolute" }}
-            ></div>
+            <div className="border-bottom-das" style={{ width: "136%" }}></div>
 
             <div
               className="grid cursor-pointer"
@@ -82,7 +80,7 @@ function GetAllFusionseriesContract(props) {
                           query: {
                             contractAddress: contract.contractAddress,
                             storefrontId: props.router.query.storefrontId,
-                            redirectURL: props.router.query.redirectURL,
+                            collectionName: contract.collectionName,
                           },
                         }}
                       >
@@ -91,24 +89,27 @@ function GetAllFusionseriesContract(props) {
                           style={{ width: "285px" }}
                         >
                           <div
-                            className="back-contract gap-5 p-5"
+                            className="p-5"
                             style={{
-                              marginBottom: "0px",
-                              height: "300px",
+                              border: "1px solid",
                             }}
                           >
                             <div className="text-center">
                               <img
                                 className="dash-img-size"
-                                style={{ width: "200px", height: "200px" }}
-                                src="garden.png"
-                              ></img>
+                                style={{
+                                  width: "200px",
+                                  height: "200px",
+                                  objectFit: "cover",
+                                }}
+                                src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                                  7
+                                )}`}
+                                loading="lazy"
+                              />
                             </div>
-                            <div className="mt-5">
-                              Contract Name :{" "}
-                              <span style={{ color: "blue" }}>
-                                <>{contract.contractName}</>
-                              </span>
+                            <div className="mt-3">
+                              <b>{contract.collectionName}</b>
                             </div>
                           </div>
                         </div>

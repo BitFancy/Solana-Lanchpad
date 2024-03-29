@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { request, gql } from "graphql-request";
 import Sidemenu from "./sidemenu";
 import MarketplaceProfileDetails from "./marketplaceProfileDetails";
 import { Button } from "primereact/button";
@@ -6,81 +7,110 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import LayoutDashbord from "../Components/LayoutDashbord";
 import Loader from "../Components/LoadingSpinner";
-import { withRouter } from "next/router";
 import { ethers } from "ethers";
+import { withRouter, useRouter } from "next/router";
 import Homecomp from "../Components/HomeCompo";
-import { getAllFusionSeriesNfts } from "./api/fusionseriesAssets";
-function GetAllFusionSeriesNft(props) {
-  const [assetsData, setAsseetsData] = useState([]);
-  const [loading, setLoading] = useState(true);
+import axios from "axios";
+import { getAllEternalsolNfts } from "./api/eternulsolAssets";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+
+// const client = new ApolloClient({
+//   uri: "https://mumbai.testgraph.myriadflow.com/subgraphs/name/v1/u123/graphql",
+//   uri: "https://flyby-router-demo.herokuapp.com/",
+//   cache: new InMemoryCache(),
+// });
+
+function GetAllEternalSoulNft(props) {
+  const [myAssets, setMyAssets] = useState();
+
+  const [loadingg, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const toast = useRef(null);
-  const [contractAddress, setContractAddress] = useState(
-    () => props?.router?.query?.contractAddress
-  );
+  const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
+  const router = useRouter();
+  const contractAddress = router.query.contractAddress;
+  const collectionName = router.query.collectionName;
+
   useEffect(() => {
-    const searchParams = new URLSearchParams(document.location.search);
-    setContractAddress(
-      props?.router?.query?.contractAddress ??
-        searchParams.get("contractAddress")
-    );
-    if (
-      props?.router?.query?.contractAddress ??
-      searchParams.get("contractAddress")
-    ) {
-      getallfusionSeriesAssets();
-    }
-  }, []);
-  const getallfusionSeriesAssets = async () => {
-    try {
-      const endPoint = props?.router?.query?.redirectURL?.slice(
-        0,
-        props?.router?.query?.redirectURL?.indexOf("/graphql")
-      );
-      const { fusionSeriesAssetCreateds } = await getAllFusionSeriesNfts({
-        endPoint: endPoint,
+    getdata();
+  }, [router]);
+  async function getdata() {
+    const storefrontName = localStorage.getItem("selectedStorefront");
+    const headers = {
+      "content-type": "application/json",
+    };
+    const requestBody = {
+      query: `
+        query fusionSeriesAssetCreateds {
+          fusionSeriesAssetCreateds(orderBy: tokenID) {
+            metadataUri
+            id
+            creator
+          }
+        }
+      `,
+    };
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(requestBody),
+    };
+    const response = await fetch(
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
+      options
+    )
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((jsn) => {
+        console.log(jsn?.data?.fusionSeriesAssetCreateds);
+        if (!!jsn?.data?.fusionSeriesAssetCreateds) {
+          fetchURIData(jsn?.data?.fusionSeriesAssetCreateds);
+        }
       });
-      setAsseetsData(fusionSeriesAssetCreateds);
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let tranasactionHashArray =
-        fusionSeriesAssetCreateds?.map((asset) => asset.transactionHash) ?? [];
-      const innerContractAddress = [];
-      if (tranasactionHashArray.length > 0) {
-        setLoading(true);
-        await Promise?.all(
-          tranasactionHashArray?.map(async (hash) => {
-            const gqlcontractAddress = await provider.getTransaction(hash);
-            if (gqlcontractAddress.to == contractAddress) {
-              innerContractAddress.push(
-                fusionSeriesAssetCreateds?.find(
-                  (asset) => asset.transactionHash === hash
-                )
-              );
-            }
-            setAsseetsData(innerContractAddress);
-          })
-        ).then(() => {
-          console.log("innerContractAddress", innerContractAddress);
-        });
-        setLoading(false);
-      }
+  }
+
+  const fetchURIData = async (data) => {
+    try {
+      const responses = await Promise?.all(
+        data?.map(async (item) => {
+          let metaDataURI = item.metadataUri;
+          if (metaDataURI.startsWith("ipfs://")) {
+            metaDataURI = metaDataURI.substring("ipfs://".length);
+          }
+          const response = await axios.get(
+            `https://nftstorage.link/ipfs/${metaDataURI}`
+          );
+          return response.data;
+        })
+      );
+      console.log(responses);
+      setMyAssets(responses);
     } catch (error) {
-      console.log("Error while fetching assets", error);
-      setLoading(false);
+      console.error("Error fetching data:", error);
+      throw error;
     }
   };
-  const load = () => {
-    setLoading2(true);
 
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
+  const truncateHex = (hexString, length) => {
+    const prefix = hexString.slice(0, 4);
+    const suffix = hexString.slice(-length);
+    return `${prefix}...${suffix}`;
   };
 
+  // if (!myAssets) {
+  //   return (
+  //     <>
+  //       <Loader />
+  //     </>
+  //   );
+  // }
+  // console.log(myAssets);
   return (
     <LayoutDashbord
-      title="FusionSeries NFts"
-      description="Used to Show All FusionSeries NFTs Details"
+      title="EternalSoul NFts"
+      description="Used to Show All EternalSoul NFTs Details"
     >
       <div>
         <MarketplaceProfileDetails id={props.router.query.storefrontId} />
@@ -89,9 +119,10 @@ function GetAllFusionSeriesNft(props) {
             <Sidemenu />
           </div>
           <div>
-            <div className="flex ml-5 justify-content-around">
+            <div className="flex px-4 justify-content-between">
               <div className="font-bold mt-5 text-3xl text-black ">
-                FusionSeries &gt; FusionSeries 1
+                {props.router.query.collectionName}
+                {/* &gt; EternalSoul 1  */}
               </div>
 
               <div className="mt-5 ml-5">
@@ -100,6 +131,7 @@ function GetAllFusionSeriesNft(props) {
                     pathname: "/createFusionSeriesAssets",
                     query: {
                       contractAddress: contractAddress,
+                      collectionName: collectionName,
                       storefrontId: props.router.query.storefrontId,
                     },
                   }}
@@ -107,50 +139,54 @@ function GetAllFusionSeriesNft(props) {
                   <Button
                     className="buy-img"
                     loading={loading2}
-                    onClick={load}
+                    // onClick={load}
                     label="Create FusionSeries NFT"
                   ></Button>
                 </Link>
               </div>
             </div>
-            <div className="border-bottom-das" style={{ width: "224%" }}></div>
+            <div className="border-bottom-das" style={{ width: "230%" }}></div>
             <div
               className="grid cursor-pointer"
-              style={{ gap: "20px", marginLeft: "30px" }}
+              style={{ gap: "40px", marginLeft: "60px", marginTop: "40px" }}
             >
-              {assetsData?.length > 0 ? (
-                assetsData.map((asset) => {
-                  return (
-                    <Link
-                      key={1}
-                      href={{
-                        pathname: "/singleFusionSeriesNFT",
-                        query: {
-                          contractAddress: contractAddress,
-                          data: JSON.stringify(asset),
-                          storefrontId: props.router.query.storefrontId,
-                        },
-                      }}
-                    >
-                      <Homecomp uri={asset ? asset.metadataUri : ""} />
-                    </Link>
-                  );
-                })
-              ) : loading ? (
-                <Loader />
-              ) : (
+              {!!myAssets && myAssets?.length === 0 ? (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any FusionSeries NFts.
+                  You haven&apos;t created any NFTs in{" "}
+                  {props.router.query.collectionName}.
                 </div>
+              ) : (
+                myAssets?.map((asset) => (
+                  <div key={asset.id}>
+                    <img
+                      className="dash-img-size"
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        objectFit: "cover",
+                      }}
+                      alt={asset.tokenID}
+                      src={`https://ipfs.io/ipfs/${asset.image.slice(7)}`}
+                      loading="lazy"
+                    />
+                    <div>
+                      <b>{asset.name}</b>
+                    </div>
+
+                    <div className="text-bold">{asset.description}</div>
+                    {/* <div className="text-bold">
+                      Issued to:{" "}
+                      <span>{truncateHex(asset.walletAddress, 6)}</span>
+                    </div> */}
+                  </div>
+                ))
               )}
             </div>
           </div>
-
           <Toast ref={toast} />
         </div>
       </div>
     </LayoutDashbord>
   );
 }
-
-export default withRouter(GetAllFusionSeriesNft);
+export default withRouter(GetAllEternalSoulNft);

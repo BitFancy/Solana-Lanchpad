@@ -76,13 +76,13 @@ function GetAllSignatureSeriesSeriesNft(props) {
   //   }
   // };
 
-  const load = () => {
-    setLoading2(true);
+  // const load = () => {
+  //   setLoading2(true);
 
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
+  //   setTimeout(() => {
+  //     setLoading2(false);
+  //   }, 2000);
+  // };
 
   useEffect(() => {
     getdata();
@@ -146,13 +146,13 @@ function GetAllSignatureSeriesSeriesNft(props) {
     }
   };
 
-  if (!myAssets) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  }
+  // if (!myAssets) {
+  //   return (
+  //     <>
+  //       <Loader />
+  //     </>
+  //   );
+  // }
 
   console.log("contractAddress>>>>", contractAddress);
   return (
@@ -186,7 +186,7 @@ function GetAllSignatureSeriesSeriesNft(props) {
                   <Button
                     className="buy-img"
                     loading={loading2}
-                    onClick={load}
+                    // onClick={load}
                     label="Create SignatureSeries NFT"
                   ></Button>
                 </Link>
@@ -248,8 +248,6 @@ function GetAllSignatureSeriesSeriesNft(props) {
                     </Link>
                   );
                 })
-              ) : loading ? (
-                <Loader />
               ) : (
                 <div
                   className="text-2xl pb-10 font-bold"
