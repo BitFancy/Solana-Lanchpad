@@ -168,21 +168,28 @@ function CreateDropsNfts(props) {
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
-    const { name, description, price, alternettext, auctionTime } = formInput;
+    const { name, description, 
+      // price, 
+      alternettext, auctionTime } = formInput;
     let assetData = {};
-    if (!name || !description || !price) {
+    if (!name || !description
+      //  || !price
+       ) {
       return;
     }
     assetData = {
       name,
       description,
-      price,
+      // price,
       alternettext,
       attributes,
       categories,
       tags,
       auctionTime,
     };
+
+    console.log("clicked")
+
 
     if (!mediaHash?.image) {
       setOpen(true);
@@ -236,19 +243,19 @@ function CreateDropsNfts(props) {
       );
       let tx = await transaction.wait();
       transactionCompleate();
-      let event = tx.events[0];
-      let value = event.args[2];
-      let tokenId = value.toNumber();
-      let price = ethers.utils.parseEther(formInput.price);
-      let forAuction = false;
-      let endTime = 0;
-      await listItem(
-        signetureseriesContract,
-        tokenId,
-        price,
-        forAuction,
-        endTime
-      ); //Putting item to sale
+      // let event = tx.events[0];
+      // let value = event.args[2];
+      // let tokenId = value.toNumber();
+      // let price = ethers.utils.parseEther(formInput.price);
+      // let forAuction = false;
+      // let endTime = 0;
+      // await listItem(
+      //   signetureseriesContract,
+      //   tokenId,
+      //   price,
+      //   forAuction,
+      //   endTime
+      // ); //Putting item to sale
     } catch (e) {
       console.log(e);
       transactionFailed();
@@ -700,7 +707,7 @@ function CreateDropsNfts(props) {
                   </div>
                 </div>
 
-                <div className="flex justify-content-between mt-5">
+                {/* <div className="flex justify-content-between mt-5">
                   <div className="text-left">
                     <div className="font-bold text-3xl">Put on Marketplace</div>
                     <div>
@@ -786,7 +793,7 @@ function CreateDropsNfts(props) {
                       max={100}
                     />
                   </div>
-                )}
+                )} */}
 
                 <div className="flex justify-content-center p-5 mt-5">
                   <div>
