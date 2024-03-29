@@ -10,7 +10,7 @@ import axios from "axios";
 const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 /**
- * Shilpa -> line 80, No idea from where this line(cd.contractName === "SignatureSeries") is coming from 
+ * Shilpa -> line 80, No idea from where this line(cd.contractName === "SignatureSeries") is coming from
  */
 
 function GetAllDropsContract(props) {
@@ -128,12 +128,10 @@ function GetAllDropsContract(props) {
                       </Link>
                     );
                   })
-              ) : loading ? (
-                <Loader />
               ) : (
                 <div className="text-2xl pb-10 font-bold text-center mt-5">
-                  You haven&apos;t created any Drops Contract Under
-                  this storefront.
+                  You haven&apos;t created any Drops Contract Under this
+                  storefront.
                 </div>
               )}
             </div>
