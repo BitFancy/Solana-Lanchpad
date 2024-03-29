@@ -79,13 +79,13 @@ function GetAllDropsNft(props) {
   //   }
   // };
 
-  const load = () => {
-    setLoading2(true);
+  // const load = () => {
+  //   setLoading2(true);
 
-    setTimeout(() => {
-      setLoading2(false);
-    }, 2000);
-  };
+  //   setTimeout(() => {
+  //     setLoading2(false);
+  //   }, 2000);
+  // };
 
   useEffect(() => {
     getdata();
@@ -153,13 +153,13 @@ function GetAllDropsNft(props) {
     }
   };
 
-  if (!myAssets) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  }
+  // if (!myAssets) {
+  //   return (
+  //     <>
+  //       <Loader />
+  //     </>
+  //   );
+  // }
 
   console.log("contractAddress>>>>", contractAddress);
   return (
@@ -192,8 +192,8 @@ function GetAllDropsNft(props) {
                 >
                   <Button
                     className="buy-img"
-                    loading={loading2}
-                    onClick={load}
+                    // loading={loading2}
+                    // onClick={load}
                     label="Create Drops NFT"
                   ></Button>
                 </Link>
@@ -255,15 +255,12 @@ function GetAllDropsNft(props) {
                     </Link>
                   );
                 })
-              ) : loading ? (
-                <Loader />
               ) : (
                 <div
                   className="text-2xl pb-10 font-bold"
                   style={{ marginTop: "50px" }}
                 >
-                  You haven&apos;t created any Drops NFts Under this
-                  Contract.
+                  You haven&apos;t created any Drops NFts Under this Contract.
                 </div>
               )}
             </div>
