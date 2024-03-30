@@ -40,7 +40,9 @@ function GetAllDropsContract(props) {
         setLoading(true);
         if (response?.data?.length > 0) {
           setContractData(
-            response.data.filter((sf) => sf.contractName === "SignatureSeries")
+            response.data.filter(
+              (sf) => sf.contractName === "SignatureSeries" && sf.drops === true
+            )
           );
         }
         setLoading(false);

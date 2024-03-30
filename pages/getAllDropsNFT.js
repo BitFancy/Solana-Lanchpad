@@ -10,6 +10,7 @@ import { withRouter, useRouter } from "next/router";
 import { ethers } from "ethers";
 import Homecomp from "../Components/HomeCompo";
 import axios from "axios";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 
 // Shilpa -> no idea about next line ?
 import { getAllSignetureseriesNfts } from "./api/signetureseriesAssets";
@@ -23,6 +24,7 @@ function GetAllDropsNft(props) {
   const router = useRouter();
   const contractAddress = router.query.contractAddress;
   const collectionName = router.query.collectionName;
+  const storefrontId = router.query.storefrontId;
 
   // const [contractAddress, setContractAddress] = useState(
   //   () => props?.router?.query?.contractAddress
@@ -96,37 +98,25 @@ function GetAllDropsNft(props) {
    */
   async function getdata() {
     const storefrontName = localStorage.getItem("selectedStorefront");
-    const headers = {
-      "content-type": "application/json",
-    };
-    const requestBody = {
-      query: `
-        query signatureSeriesAssetCreateds {
-          signatureSeriesAssetCreateds(orderBy: tokenID) {
-         metaDataURI
-         id
-         creator
-          }
-        }
-      `,
-    };
-    const options = {
-      method: "POST",
-      headers,
-      body: JSON.stringify(requestBody),
-    };
-    const response = await fetch(
-      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
-      options
-    )
-      .then((res) => {
-        console.log(res);
-        return res.json();
+    const token = localStorage.getItem("platform_token");
+    console.log("here", contractAddress);
+    if (contractAddress == undefined || storefrontId == undefined) {
+      console.log("returned");
+      return;
+    }
+    const response = axios
+      .get(`${BASE_URL_LAUNCH}api/v1.0/delegateAssetCreation`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          contractAddress: contractAddress,
+          storefrontId: storefrontId,
+        },
       })
-      .then((jsn) => {
-        console.log(jsn?.data?.signatureSeriesAssetCreateds);
-        if (!!jsn?.data?.signatureSeriesAssetCreateds) {
-          fetchURIData(jsn?.data?.signatureSeriesAssetCreateds);
+      .then((res) => {
+        if (!!res.data.payload) {
+          fetchURIData(res.data.payload);
         }
       });
   }
@@ -135,7 +125,7 @@ function GetAllDropsNft(props) {
     try {
       const responses = await Promise?.all(
         data?.map(async (item) => {
-          let metaDataURI = item.metaDataURI;
+          let metaDataURI = item.metaDataHash;
           if (metaDataURI.startsWith("ipfs://")) {
             metaDataURI = metaDataURI.substring("ipfs://".length);
           }

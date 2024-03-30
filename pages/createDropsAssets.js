@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Multiselect from "multiselect-react-dropdown";
 import { Messages } from "primereact/messages";
 import { InputNumber } from "primereact/inputnumber";
+import axios from "axios";
 const YOUR_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFFODE2RTA3RjBFYTg4MkI3Q0I0MDQ2QTg4NENDQ0Q0MjA4NEU3QTgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MzI0NTEzNDc3MywibmFtZSI6Im5mdCJ9.vP9_nN3dQHIkN9cVQH5KvCLNHRk3M2ZO4x2G99smofw";
 const client = new NFTStorage({ token: YOUR_API_KEY });
@@ -20,6 +21,7 @@ import { ethers } from "ethers";
 import { getStorefrontByID, getTradeHubByStorefrontID } from "../utils/util";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
+const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
 const style = {
   position: "absolute",
   top: "50%",
@@ -168,13 +170,19 @@ function CreateDropsNfts(props) {
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
-    const { name, description, 
-      // price, 
-      alternettext, auctionTime } = formInput;
+    const {
+      name,
+      description,
+      // price,
+      alternettext,
+      auctionTime,
+    } = formInput;
     let assetData = {};
-    if (!name || !description
+    if (
+      !name ||
+      !description
       //  || !price
-       ) {
+    ) {
       return;
     }
     assetData = {
@@ -188,21 +196,17 @@ function CreateDropsNfts(props) {
       auctionTime,
     };
 
-    console.log("clicked")
-
-
     if (!mediaHash?.image) {
       setOpen(true);
       return;
     }
-    showProgress();
     const data = JSON.stringify({ ...assetData, ...mediaHash });
     const blobData = new Blob([data]);
     try {
       client.storeBlob(blobData).then(async (metaHash) => {
         const ipfsHash = metaHash;
         const url = `ipfs://${metaHash}`;
-        await createItem(ipfsHash, url);
+        createItem(ipfsHash, url);
       });
     } catch (error) {
       transactionFailed();
@@ -228,34 +232,28 @@ function CreateDropsNfts(props) {
    * Shilpa -> No idea about createItem function
    */
   async function createItem(ipfsHash, url) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const signetureseriesContract = new ethers.Contract(
-      dynamicContractAddress,
-      SignatureSeries.abi,
-      signer
-    );
+    console.log("click");
+    const token = localStorage.getItem("platform_token");
     try {
-      let transaction = await signetureseriesContract.createAsset(
-        url,
-        formInput.royalties * 100,
-        { gasLimit: "2099999" }
-      );
-      let tx = await transaction.wait();
-      transactionCompleate();
-      // let event = tx.events[0];
-      // let value = event.args[2];
-      // let tokenId = value.toNumber();
-      // let price = ethers.utils.parseEther(formInput.price);
-      // let forAuction = false;
-      // let endTime = 0;
-      // await listItem(
-      //   signetureseriesContract,
-      //   tokenId,
-      //   price,
-      //   forAuction,
-      //   endTime
-      // ); //Putting item to sale
+      axios
+        .post(
+          `${BASE_URL_LAUNCH}api/v1.0/delegateAssetCreation/store`,
+          {
+            metaDataHash: url,
+            royaltyPercentBasisPoint: formInput.royalties * 100,
+            storefrontId: props.router.query.storefrontId,
+            contractAddress: dynamicContractAddress,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(async (response) => {
+          console.log(response.data);
+        });
+      console.log("ok done");
     } catch (e) {
       console.log(e);
       transactionFailed();
