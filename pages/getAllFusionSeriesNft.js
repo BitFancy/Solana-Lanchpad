@@ -166,7 +166,9 @@ function GetAllEternalSoulNft(props) {
                         objectFit: "cover",
                       }}
                       alt={asset.tokenID}
-                      src={`https://ipfs.io/ipfs/${asset.image.slice(7)}`}
+                      src={`https://nftstorage.link/ipfs/${asset.image.slice(
+                        7
+                      )}`}
                       loading="lazy"
                     />
                     <div>

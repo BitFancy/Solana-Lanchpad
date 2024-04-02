@@ -19,7 +19,7 @@ function GetAllSignatureseriesContract(props) {
   }, []);
 
   console.log("props in sig con", props.router.query.redirectURL);
-  
+
   const getallsigseriesContract = () => {
     const token = localStorage.getItem("platform_token");
     axios
@@ -108,7 +108,7 @@ function GetAllSignatureseriesContract(props) {
                                   height: "200px",
                                   objectFit: "cover",
                                 }}
-                                src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                                src={`https://nftstorage.link/ipfs/${contract.thumbnail.slice(
                                   7
                                 )}`}
                                 loading="lazy"

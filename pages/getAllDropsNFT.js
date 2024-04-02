@@ -98,25 +98,37 @@ function GetAllDropsNft(props) {
    */
   async function getdata() {
     const storefrontName = localStorage.getItem("selectedStorefront");
-    const token = localStorage.getItem("platform_token");
-    console.log("here", contractAddress);
-    if (contractAddress == undefined || storefrontId == undefined) {
-      console.log("returned");
-      return;
-    }
-    const response = axios
-      .get(`${BASE_URL_LAUNCH}api/v1.0/delegateAssetCreation`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          contractAddress: contractAddress,
-          storefrontId: storefrontId,
-        },
-      })
+    const headers = {
+      "content-type": "application/json",
+    };
+    const requestBody = {
+      query: `
+        query signatureSeriesAssetCreateds {
+          signatureSeriesAssetCreateds(orderBy: tokenID) {
+         metaDataURI
+         id
+         creator
+          }
+        }
+      `,
+    };
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(requestBody),
+    };
+    const response = await fetch(
+      `https://mumbai.testgraph.myriadflow.com/subgraphs/name/${storefrontName}/${contractAddress}`,
+      options
+    )
       .then((res) => {
-        if (!!res.data.payload) {
-          fetchURIData(res.data.payload);
+        console.log(res);
+        return res.json();
+      })
+      .then((jsn) => {
+        console.log(jsn?.data?.signatureSeriesAssetCreateds);
+        if (!!jsn?.data?.signatureSeriesAssetCreateds) {
+          fetchURIData(jsn?.data?.signatureSeriesAssetCreateds);
         }
       });
   }
@@ -125,7 +137,7 @@ function GetAllDropsNft(props) {
     try {
       const responses = await Promise?.all(
         data?.map(async (item) => {
-          let metaDataURI = item.metaDataHash;
+          let metaDataURI = item.metaDataURI;
           if (metaDataURI.startsWith("ipfs://")) {
             metaDataURI = metaDataURI.substring("ipfs://".length);
           }
@@ -231,7 +243,9 @@ function GetAllDropsNft(props) {
                               objectFit: "cover",
                             }}
                             alt={asset.name}
-                            src={`https://ipfs.io/ipfs/${asset.image.slice(7)}`}
+                            src={`https://nftstorage.link/ipfs/${asset.image.slice(
+                              7
+                            )}`}
                             loading="lazy"
                           />
                         </div>

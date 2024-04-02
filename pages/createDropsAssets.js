@@ -237,11 +237,10 @@ function CreateDropsNfts(props) {
     try {
       axios
         .post(
-          `${BASE_URL_LAUNCH}api/v1.0/delegateAssetCreation/store`,
+          `${BASE_URL_LAUNCH}api/v1.0/delegateAssetCreation/create`,
           {
             metaDataHash: url,
             royaltyPercentBasisPoint: formInput.royalties * 100,
-            storefrontId: props.router.query.storefrontId,
             contractAddress: dynamicContractAddress,
           },
           {

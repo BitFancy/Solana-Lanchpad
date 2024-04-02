@@ -94,7 +94,7 @@ function GetAllInstagenContract(props) {
                                 height: "200px",
                                 objectFit: "cover",
                               }}
-                              src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                              src={`https://nftstorage.link/ipfs/${contract.thumbnail.slice(
                                 7
                               )}`}
                               loading="lazy"

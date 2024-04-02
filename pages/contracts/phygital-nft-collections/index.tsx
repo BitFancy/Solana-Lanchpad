@@ -108,7 +108,7 @@ const PhygitalNFTCollections = () => {
                                 objectFit: "cover",
                               }}
                               alt={contract.collectionName}
-                              src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                              src={`https://nftstorage.link/ipfs/${contract.thumbnail.slice(
                                 7
                               )}`}
                               loading="lazy"
@@ -185,7 +185,7 @@ const PhygitalNFTCollections = () => {
                                 objectFit: "cover",
                               }}
                               alt={contract.collectionName}
-                              src={`https://ipfs.io/ipfs/${contract.thumbnail.slice(
+                              src={`https://nftstorage.link/ipfs/${contract.thumbnail.slice(
                                 7
                               )}`}
                               loading="lazy"
