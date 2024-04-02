@@ -417,7 +417,6 @@ function WebappForm(props) {
                   }
                   value={uploadImageProfile}
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
 
@@ -435,7 +434,6 @@ function WebappForm(props) {
                   }
                   value={uploadImageCover}
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
             </div>

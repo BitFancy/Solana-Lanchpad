@@ -420,7 +420,6 @@ const Instagen = (props) => {
                     }
                     value={thumbnail}
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
                 <div
@@ -440,7 +439,6 @@ const Instagen = (props) => {
                     }
                     value={uploadImageCover}
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
               </div>
@@ -462,7 +460,6 @@ const Instagen = (props) => {
                   }
                   value={zipfile}
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
               <div className="flex mt-5 justify-content-center">

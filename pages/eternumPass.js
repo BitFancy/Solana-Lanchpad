@@ -425,7 +425,6 @@ const EternumPass = (props) => {
                     }
                     value={thumbnail}
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
                 <div
@@ -445,7 +444,6 @@ const EternumPass = (props) => {
                     }
                     value={uploadImageCover}
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
               </div>
@@ -468,7 +466,6 @@ const EternumPass = (props) => {
                   }
                   value={zipfile}
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
 

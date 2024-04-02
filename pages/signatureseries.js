@@ -339,7 +339,6 @@ class SignatureSeries extends React.Component {
                               }
                               value={this.state.thumbnail}
                               accept="image/*"
-                              maxFileSize={1000000}
                             />
                           </div>
                           <div
@@ -359,7 +358,6 @@ class SignatureSeries extends React.Component {
                               }
                               value={this.state.uploadImageCover}
                               accept="image/*"
-                              maxFileSize={1000000}
                             />
                           </div>
                         </div>

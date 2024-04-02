@@ -223,7 +223,6 @@ function AddStorefront() {
                   }
                   value={uploadImage}
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
             </div>

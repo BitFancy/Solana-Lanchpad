@@ -429,7 +429,6 @@ function MarkeplaceDetailsForm(props) {
                         : uploadImageProfile
                     }
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
 
@@ -449,7 +448,6 @@ function MarkeplaceDetailsForm(props) {
                       webappData.Image ? webappData.Image : uploadImageCover
                     }
                     accept="image/*"
-                    maxFileSize={1000000}
                   />
                 </div>
               </div>
@@ -472,7 +470,6 @@ function MarkeplaceDetailsForm(props) {
                       : uploadImageRelavent
                   }
                   accept="image/*"
-                  maxFileSize={1000000}
                 />
               </div>
 
