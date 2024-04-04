@@ -47,6 +47,7 @@ function CreateDropsNfts(props) {
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [tradhubAddress, setTradhubAddress] = useState("");
   const [storefrontData, setstorefrontData] = useState("");
+  const [Minting, setMinting] = useState(false);
   const dynamicContractAddress = props.router.query.contractAddress;
   const toast = useRef(null);
 
@@ -170,6 +171,7 @@ function CreateDropsNfts(props) {
   function createMarket(e) {
     e.preventDefault();
     e.stopPropagation();
+    setMinting(true);
     const {
       name,
       description,
@@ -209,6 +211,7 @@ function CreateDropsNfts(props) {
         createItem(ipfsHash, url);
       });
     } catch (error) {
+      setMinting(false);
       transactionFailed();
     } finally {
     }
@@ -253,7 +256,12 @@ function CreateDropsNfts(props) {
           console.log(response.data);
         });
       console.log("ok done");
+      alert("NFT minted successfully!");
+      setMinting(false);
+      // Navigate to the previous page
+      router.back();
     } catch (e) {
+      setMinting(false);
       console.log(e);
       transactionFailed();
       return;
@@ -797,8 +805,9 @@ function CreateDropsNfts(props) {
                     <Button
                       className="buy-img"
                       onClick={(e) => createMarket(e)}
+                      disabled={Minting} // Disable button when loading is true
                     >
-                      Create Drops NFTs
+                      {Minting ? "Creating Drops NFTs..." : "Create Drops NFTs"}
                     </Button>
                   </div>
                 </div>
