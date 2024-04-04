@@ -30,6 +30,7 @@ function AddStorefront() {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const [contractName, setContarctName] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [description, setdescription] = useState();
   const [headline, setHeadline] = useState();
   const { layoutConfig } = useContext(LayoutContext);
@@ -112,6 +113,7 @@ function AddStorefront() {
           `${BASE_URL_LAUNCH}api/v1.0/storefront`,
           {
             name: contractName,
+            displayName: displayName,
             image: uploadImage,
             headline: headline,
             description: description,
@@ -146,6 +148,9 @@ function AddStorefront() {
   };
   const handleInputContractName = (e) => {
     setContarctName(e.target.value);
+  };
+  const handleInputDisplayName = (e) => {
+    setDisplayName(e.target.value);
   };
   const handleInputDescription = (e) => {
     setdescription(e.target.value);
@@ -238,7 +243,24 @@ function AddStorefront() {
                   className="p-2 mt-3 input-back w-full"
                 />
                 <p className="text-red-600 text-left mt-2">
-                  {!contractName ? errors.contractNameEror : ""}
+                  {!contractName ? errors.contractNameError : ""}
+                  {contractName && !/^[\w-]*$/.test(contractName)
+                    ? "Only underscores (_) or hyphens (-) are permitted."
+                    : ""}
+                </p>
+              </div>
+
+              <div className="mt-5">StoreFront Display Name</div>
+
+              <div>
+                <InputText
+                  id="displayName"
+                  onChange={handleInputDisplayName}
+                  value={displayName}
+                  className="p-2 mt-3 input-back w-full"
+                />
+                <p className="text-red-600 text-left mt-2">
+                  {!displayName ? errors.contractNameEror : ""}
                 </p>
               </div>
 
