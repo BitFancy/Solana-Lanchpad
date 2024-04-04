@@ -6,7 +6,7 @@ const nextConfig = {
   output: "standalone",
   images: {
     loader: "akamai",
-    domains: ["ipfs.io", "unsplash.com"],
+    domains: ["ipfs.io", "unsplash.com", "nftstorage.link"],
     path: "",
   },
 };

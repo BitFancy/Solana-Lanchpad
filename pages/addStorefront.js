@@ -160,8 +160,18 @@ function AddStorefront() {
   };
 
   const onClickButton = () => {
+    if (!/^[\w-]*$/.test(contractName)) {
+      setErros({
+        contractNameError:
+          "No Spaces. Only underscores (_) or hyphens (-) are permitted.",
+      });
+      return false;
+    }
     if (!contractName) {
-      setErros({ contractNameEror: "Please Enter Storefront Name" });
+      setErros({ contractNameError: "Please Enter Storefront Name" });
+      return false;
+    } else if (!displayName) {
+      setErros({ displayNameError: "Please Enter Storefront Display Name" });
       return false;
     } else if (!headline) {
       setErros({ headlineError: "Please Enter Headline" });
@@ -245,7 +255,7 @@ function AddStorefront() {
                 <p className="text-red-600 text-left mt-2">
                   {!contractName ? errors.contractNameError : ""}
                   {contractName && !/^[\w-]*$/.test(contractName)
-                    ? "Only underscores (_) or hyphens (-) are permitted."
+                    ? "No Spaces. Only underscores (_) or hyphens (-) are permitted."
                     : ""}
                 </p>
               </div>
@@ -260,7 +270,7 @@ function AddStorefront() {
                   className="p-2 mt-3 input-back w-full"
                 />
                 <p className="text-red-600 text-left mt-2">
-                  {!displayName ? errors.contractNameEror : ""}
+                  {!displayName ? errors.displayNameError : ""}
                 </p>
               </div>
 

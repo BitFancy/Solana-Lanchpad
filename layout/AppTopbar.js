@@ -19,7 +19,6 @@ function AppTopbar() {
   const [getplan, setpaln] = useState("");
   const BASE_URL_LAUNCH = process.env.NEXT_PUBLIC_BASE_URL_GATEWAY;
   const toast = useRef(null);
-  console.log("status", isConnected);
   const showSuccessPro = () => {
     toast.current.show({
       severity: "warn",
