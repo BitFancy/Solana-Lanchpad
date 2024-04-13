@@ -223,9 +223,8 @@ function CreateFusionSeriesNft(props) {
       signer
     );
     try {
-      let price = ethers.utils.parseEther(formInput.price);
       let transaction = await fusionSeriesContarct.createAsset(
-        price,
+        formInput.quantity,
         11111,
         url,
         { gasLimit: "2099999" }
