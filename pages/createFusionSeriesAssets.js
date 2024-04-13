@@ -236,7 +236,14 @@ function CreateFusionSeriesNft(props) {
       let tokenId = value.toNumber();
       let forAuction = false;
       let endTime = 0;
-      await listItem(fusionSeriesContarct, tokenId, price, forAuction, endTime);
+      await listItem(
+        fusionSeriesContarct,
+        tokenId,
+        price,
+        formInput.quantity,
+        forAuction,
+        endTime
+      );
     } catch (e) {
       transactionFailed();
       console.log(e);
@@ -248,6 +255,7 @@ function CreateFusionSeriesNft(props) {
     fusionSeriesContarct,
     tokenId,
     price,
+    quantity,
     forAuction,
     endTime
   ) => {
@@ -266,7 +274,7 @@ function CreateFusionSeriesNft(props) {
         contractFusionSeriesAddress,
         tokenId,
         price,
-        1,
+        quantity,
         forAuction,
         endTime
       );
